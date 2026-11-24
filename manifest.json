@@ -1,0 +1,21 @@
+{
+  "name": "TyO Assist — Guardia Clínica",
+  "short_name": "TyO Assist",
+  "description": "Asistente determinístico y NOM-004-SSA3-2012 para guardias de Traumatología y Ortopedia.",
+  "id": "./",
+  "lang": "es-MX",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f0f0e",
+  "theme_color": "#0f0f0e",
+  "categories": ["medical", "productivity"],
+  "icons": [
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "./icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
