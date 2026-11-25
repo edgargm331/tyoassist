@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v30 · Tema "Base44" (oscuro + claro)
+       TyO Assist v31 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -148,6 +148,9 @@
     }
     .hbtn .ic { width: 16px; height: 16px; }
     .hbtn-px { padding: 0 12px; font-size: 13px; font-weight: 600; }
+    .hbtn-px span { white-space: nowrap; max-width: 80px; overflow: hidden; text-overflow: ellipsis; }
+    .hbtn-px.has-ficha .ic { display: none; }
+    .hbtn-px.has-ficha { color: var(--gold); border-color: rgba(183, 134, 44, 0.45); }
     .hbtn-round { width: 34px; }
     .hbtn:active { transform: scale(0.95); }
 
@@ -737,6 +740,8 @@
     .modal-section { border-top: 1px solid var(--line); margin-top: 14px; padding-top: 16px; }
     .modal-section h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
     .modal-section .field { margin-top: 12px; }
+    .modal-section .grid-2 { margin-top: 12px; }
+    .modal-section .grid-2 > .field { margin-top: 0; }
     .cfg-help { font-size: 13px; color: var(--muted); line-height: 1.45; margin: 0 0 6px; }
     #selftest-output .alert { font-size: 12.5px; }
     .glossary-grid { display: grid; gap: 8px; margin-top: 12px; }
@@ -889,7 +894,7 @@
       </div>
       <div class="header-actions">
         <span class="hidden" id="net-badge" aria-hidden="true">● En línea</span>
-        <button class="hbtn hbtn-px" id="btn-new-patient" type="button" title="Nuevo paciente (reinicia datos clínicos)"><svg class="ic"><use href="#i-refresh"/></svg><span>Px</span></button>
+        <button class="hbtn hbtn-px" id="btn-new-patient" type="button" title="Ficha del paciente / nuevo paciente" aria-haspopup="dialog"><svg class="ic"><use href="#i-refresh"/></svg><span id="px-chip-label">Px</span></button>
         <button class="hbtn hbtn-round" id="btn-theme" type="button" title="Alternar tema" aria-label="Alternar tema"><svg class="ic"><use href="#i-sun"/></svg></button>
         <button class="hbtn hbtn-round" id="btn-settings" type="button" title="Ajustes" aria-label="Ajustes"><svg class="ic"><use href="#i-settings"/></svg></button>
       </div>
@@ -906,7 +911,7 @@
   </div>
   <main>
     <div id="ux-guide-banner" class="guide-banner no-print" data-mod="guide-banner">
-      <span><strong>Flujo rápido:</strong> 1) Calcula o ajusta paciente → 2) Aplica a Receta → 3) Envía a Nota y copia. Toca <strong>Px</strong> al cambiar de paciente.</span>
+      <span><strong>Flujo rápido:</strong> 1) Calcula o ajusta paciente → 2) Aplica a Receta → 3) Envía a Nota y copia. Toca <strong>Px</strong> para la ficha del paciente o para empezar uno nuevo.</span>
       <button type="button" class="guide-close" id="btn-close-guide" aria-label="Ocultar guía"><svg class="ic"><use href="#i-x"/></svg></button>
     </div>
     <div id="pwa-update-bar" class="alert ok hidden no-print update-bar">
@@ -941,7 +946,7 @@
             <span class="kpi-ico green"><svg class="ic"><use href="#i-stetho"/></svg></span>
             <svg class="kpi-watermark" aria-hidden="true"><use href="#i-stetho"/></svg>
             <span class="kpi-num" id="kpi-px-status">Px #1</span>
-            <span class="kpi-lbl" id="kpi-px-sub">Toca para ver / cambiar Px</span>
+            <span class="kpi-lbl" id="kpi-px-sub">Toca para capturar la ficha</span>
           </button>
         </div>
 
@@ -1748,7 +1753,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v30 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v31 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -1780,7 +1785,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes y Diagnóstico (v30 · Intuitiva)</h3>
+        <h3 id="cfg-title">Ajustes y Diagnóstico (v31 · Intuitiva)</h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -1854,11 +1859,106 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (31 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (34 pruebas)</h4>
         <div class="btn-row">
           <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (29)</button>
         </div>
         <div id="selftest-output"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL FICHA DEL PACIENTE (v31): solo en este teléfono, nunca se envía a la IA, se borra sola -->
+  <div class="modal-backdrop" id="modal-ficha">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="ficha-title">
+      <div class="modal-grab" aria-hidden="true"></div>
+      <div class="modal-head">
+        <h3 id="ficha-title">Ficha del paciente</h3>
+        <button type="button" class="icon-round" id="btn-close-ficha" aria-label="Cerrar ficha"><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+      <p class="modal-intro">Captura los datos una sola vez. Se guardan <strong>solo en este teléfono</strong>, <strong>nunca se envían a la IA</strong> y se borran solos.</p>
+      <div id="ficha-status"></div>
+
+      <div class="modal-section">
+        <h4>Identificación</h4>
+        <label class="field">Nombre (solo local)
+          <input type="text" id="ficha-nombre" placeholder="Nombre y apellidos" autocomplete="off" />
+        </label>
+        <div class="grid-2">
+          <label class="field">Edad
+            <input type="number" id="ficha-edad" inputmode="decimal" min="0" step="1" placeholder="45" />
+          </label>
+          <label class="field">Unidad
+            <span class="select-wrap"><select id="ficha-edad-unidad"><option value="a">años</option><option value="m">meses</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+          </label>
+        </div>
+        <div class="grid-2">
+          <label class="field">Sexo
+            <span class="select-wrap"><select id="ficha-sexo"><option value="">Sin capturar</option><option value="M">Masculino</option><option value="F">Femenino</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+          </label>
+          <label class="field">Cama / Exp.
+            <input type="text" id="ficha-folio" placeholder="Cama 14 / Exp. 004521" autocomplete="off" />
+          </label>
+        </div>
+        <label class="field">Servicio
+          <input type="text" id="ficha-servicio" placeholder="Urgencias / Piso TyO" autocomplete="off" />
+        </label>
+      </div>
+
+      <div class="modal-section">
+        <h4>Datos clínicos</h4>
+        <div class="grid-2">
+          <label class="field">Peso (kg)
+            <input type="number" id="ficha-peso" inputmode="decimal" step="0.1" placeholder="70" />
+          </label>
+          <label class="field">Talla (cm)
+            <input type="number" id="ficha-talla" inputmode="decimal" step="1" placeholder="170" />
+          </label>
+        </div>
+        <label class="field">Alergias
+          <span class="select-wrap"><select id="ficha-alergia-estado"><option value="">Sin preguntar</option><option value="niega">Niega alergias</option><option value="si">Sí, es alérgico</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+        </label>
+        <div id="ficha-alergia-detalle" class="hidden">
+          <label class="field">¿A qué?
+            <input type="text" id="ficha-alergias" placeholder="Ej. AINE, látex, sulfas" autocomplete="off" />
+          </label>
+          <div class="checks"><label class="check-pill danger-pill"><input type="checkbox" id="ficha-alergia-betalact" /> Betalactámicos (penicilina, cefalosporinas)</label></div>
+        </div>
+        <label class="field hidden" id="ficha-embarazo-field">Embarazo / lactancia
+          <span class="select-wrap"><select id="ficha-embarazo"><option value="">Sin preguntar</option><option value="no">No</option><option value="embarazo">Embarazo</option><option value="lactancia">Lactancia</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+        </label>
+        <div class="field">Comorbilidades
+          <div class="checks" id="ficha-comorb">
+            <label class="check-pill"><input type="checkbox" value="DM2" /> DM2</label>
+            <label class="check-pill"><input type="checkbox" value="HAS" /> HAS</label>
+            <label class="check-pill"><input type="checkbox" value="ERC" /> ERC</label>
+            <label class="check-pill"><input type="checkbox" value="Hepatopatía" /> Hepatopatía</label>
+            <label class="check-pill"><input type="checkbox" value="Gastritis/úlcera" /> Gastritis/úlcera</label>
+            <label class="check-pill"><input type="checkbox" value="Anticoagulado" /> Anticoagulado</label>
+            <label class="check-pill"><input type="checkbox" value="Obesidad" /> Obesidad</label>
+          </div>
+        </div>
+        <label class="field">Otras comorbilidades
+          <input type="text" id="ficha-comorb-otras" placeholder="Ej. EPOC, hipotiroidismo" autocomplete="off" />
+        </label>
+        <label class="field">Medicamentos actuales
+          <input type="text" id="ficha-meds" placeholder="Ej. metformina 850 mg c/12 h" autocomplete="off" />
+        </label>
+        <label class="field">Creatinina (mg/dL, opcional)
+          <input type="number" id="ficha-cr" inputmode="decimal" step="0.01" placeholder="0.9" />
+        </label>
+      </div>
+
+      <div class="modal-section">
+        <h4>Privacidad</h4>
+        <label class="field">Borrar la ficha automáticamente después de
+          <span class="select-wrap"><select id="ficha-ttl"><option value="12">12 horas</option><option value="24" selected>24 horas</option><option value="72">72 horas</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+        </label>
+        <p class="cfg-help" id="ficha-expira">Al guardar, la ficha se borrará sola en el tiempo elegido.</p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-primary" id="btn-ficha-guardar"><svg class="ic"><use href="#i-save"/></svg>Guardar ficha</button>
+          <button type="button" class="btn btn-danger btn-sm" id="btn-ficha-nuevo"><svg class="ic"><use href="#i-refresh"/></svg>Nuevo paciente</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1879,15 +1979,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v30 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v31 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "30",
-      versionLabel: "v30 Intuitiva",
+      version: "31",
+      versionLabel: "v31 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -4416,12 +4516,8 @@
 
         const model = localStorage.getItem("tyo_model") || "gemini-2.5-flash";
 
-        const safeParts = (parts || []).map((p) => {
-          if (p && typeof p.text === "string") {
-            return Object.assign({}, p, { text: sanitizePiiLfpdp(p.text).sanitized });
-          }
-          return p;
-        });
+        const fichaActual = (loadFicha() || {}).data || null;
+        const safeParts = buildSafeAiParts(parts, fichaActual);
 
         const genConfig = {
           temperature: typeof opts.temperature === "number" ? opts.temperature : 0.1
@@ -4434,7 +4530,7 @@
           generationConfig: genConfig
         };
         if (opts.systemInstruction) {
-          payloadBody.systemInstruction = { parts: [{ text: opts.systemInstruction }] };
+          payloadBody.systemInstruction = { parts: [{ text: redactFichaIdentifiers(opts.systemInstruction, fichaActual).text }] };
         }
 
         const reqSpec = resolveGeminiRequest(
@@ -5828,8 +5924,301 @@
           '<br><span style="color:var(--text-muted);">' + escapeHtml(breakdown) + "</span>";
       }
 
+      /* =======================================================
+         v31: FICHA DEL PACIENTE
+         Solo en este teléfono · nunca se envía a la IA · se borra sola (12/24/72 h)
+      ======================================================= */
+      const FICHA_STORAGE_KEY = "tyo_ficha_v1";
+      const FICHA_TTL_OPTIONS = [12, 24, 72];
+      const FICHA_COMORB = ["DM2", "HAS", "ERC", "Hepatopatía", "Gastritis/úlcera", "Anticoagulado", "Obesidad"];
+
+      function normalizeFicha(raw) {
+        const d = raw && typeof raw === "object" ? raw : {};
+        const str = (v, max) => String(v == null ? "" : v).replace(/\s+/g, " ").trim().slice(0, max);
+        const num = (v) => {
+          if (typeof v === "number") return Number.isFinite(v) ? v : NaN;
+          const s = String(v == null ? "" : v).replace(",", ".").trim();
+          if (!s) return "";
+          const x = Number(s);
+          return Number.isFinite(x) ? x : NaN;
+        };
+        const alergiaEstado = d.alergiaEstado === "niega" || d.alergiaEstado === "si" ? d.alergiaEstado : "";
+        const sexo = d.sexo === "M" || d.sexo === "F" ? d.sexo : "";
+        return {
+          nombre: str(d.nombre, 80),
+          edad: num(d.edad),
+          edadUnidad: d.edadUnidad === "m" ? "m" : "a",
+          sexo,
+          folio: str(d.folio, 40),
+          servicio: str(d.servicio, 60),
+          peso: num(d.peso),
+          talla: num(d.talla),
+          alergiaEstado,
+          alergias: alergiaEstado === "si" ? str(d.alergias, 120) : "",
+          alergiaBetalact: alergiaEstado === "si" && d.alergiaBetalact === true,
+          embarazo: sexo === "F" && ["no", "embarazo", "lactancia"].includes(d.embarazo) ? d.embarazo : "",
+          comorb: Array.isArray(d.comorb) ? FICHA_COMORB.filter((c) => d.comorb.includes(c)) : [],
+          comorbOtras: str(d.comorbOtras, 120),
+          meds: str(d.meds, 200),
+          cr: num(d.cr)
+        };
+      }
+
+      function validateFicha(f) {
+        const errors = [];
+        const bad = (v, lo, hi) => Number.isNaN(v) || (v !== "" && (v < lo || v > hi));
+        if (f.edadUnidad === "m" ? bad(f.edad, 0, 240) : bad(f.edad, 0, 120)) errors.push(f.edadUnidad === "m" ? "Edad: entre 0 y 240 meses." : "Edad: entre 0 y 120 años.");
+        if (bad(f.peso, 0.5, 300)) errors.push("Peso: entre 0.5 y 300 kg.");
+        if (bad(f.talla, 30, 250)) errors.push("Talla: entre 30 y 250 cm.");
+        if (bad(f.cr, 0.1, 20)) errors.push("Creatinina: entre 0.1 y 20 mg/dL.");
+        if (f.alergiaEstado === "si" && !f.alergias && !f.alergiaBetalact) errors.push("Alergias: escribe a qué es alérgico o marca betalactámicos.");
+        const faltanRx = [];
+        if (f.edad === "") faltanRx.push("edad");
+        if (f.peso === "") faltanRx.push("peso");
+        if (!f.alergiaEstado) faltanRx.push("alergias");
+        return { ok: errors.length === 0, errors, faltanRx };
+      }
+
+      function fichaHasData(f) {
+        return !!(f && (f.nombre || f.folio || f.edad !== "" || f.peso !== "" || f.sexo || f.alergiaEstado));
+      }
+
+      // "vigente" | "vencida" | "invalida"
+      function fichaRecordState(rec, nowMs) {
+        if (!rec || typeof rec !== "object" || !rec.data || !rec.savedAt) return "invalida";
+        const ttl = FICHA_TTL_OPTIONS.includes(Number(rec.ttlHours)) ? Number(rec.ttlHours) : 24;
+        return (nowMs - rec.savedAt) > ttl * 3600000 ? "vencida" : "vigente";
+      }
+
+      function loadFicha() {
+        let rec = null;
+        try { rec = JSON.parse(localStorage.getItem(FICHA_STORAGE_KEY) || "null"); } catch (_) { rec = null; }
+        const state = fichaRecordState(rec, Date.now());
+        if (state !== "vigente") {
+          if (rec !== null) localStorage.removeItem(FICHA_STORAGE_KEY);
+          return null;
+        }
+        const ttl = FICHA_TTL_OPTIONS.includes(Number(rec.ttlHours)) ? Number(rec.ttlHours) : 24;
+        return { data: normalizeFicha(rec.data), savedAt: rec.savedAt, ttlHours: ttl, expiresAt: rec.savedAt + ttl * 3600000 };
+      }
+
+      function saveFicha(data, ttlHours) {
+        const ttl = FICHA_TTL_OPTIONS.includes(Number(ttlHours)) ? Number(ttlHours) : 24;
+        localStorage.setItem(FICHA_STORAGE_KEY, JSON.stringify({ v: 1, savedAt: Date.now(), ttlHours: ttl, data }));
+      }
+
+      function clearFicha() {
+        localStorage.removeItem(FICHA_STORAGE_KEY);
+      }
+
+      function fichaInitials(nombre) {
+        return String(nombre || "").trim().split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w.charAt(0).toUpperCase()).join("");
+      }
+
+      function fichaSummary(f) {
+        const parts = [];
+        if (f.edad !== "" && Number.isFinite(f.edad)) parts.push(f.edad + (f.edadUnidad === "m" ? " m" : " a"));
+        if (f.sexo) parts.push(f.sexo);
+        if (f.peso !== "" && Number.isFinite(f.peso)) parts.push(f.peso + " kg");
+        if (f.alergiaEstado === "niega") parts.push("niega alergias");
+        if (f.alergiaEstado === "si") parts.push("ALÉRGICO");
+        return { initials: fichaInitials(f.nombre), line: parts.join(" · ") };
+      }
+
+      // Palabras del nombre que NO se borran solas (sí se borra el nombre completo): partículas y anatomía.
+      const FICHA_NAME_STOPWORDS = new Set(["del", "las", "los", "les", "san", "santa", "van", "von", "mac", "pie", "pies", "mano", "manos", "codo", "dedo", "brazo", "pierna", "rodilla", "cadera", "hombro", "tobillo", "muneca", "cuello", "espalda", "columna", "talon", "rotula"]);
+      const fichaFold = (s) => String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+      // Nombre (completo y por palabras de 3+ letras) y cama/expediente completo + números de 5+ dígitos.
+      function fichaIdentifierTokens(f) {
+        if (!f) return [];
+        const toks = [];
+        const nombre = String(f.nombre || "").trim();
+        if (nombre.replace(/[^\p{L}]/gu, "").length >= 3) toks.push(nombre);
+        nombre.split(/\s+/).forEach((w) => {
+          const clean = w.replace(/[^\p{L}\p{N}'-]/gu, "");
+          if (clean.replace(/[^\p{L}]/gu, "").length >= 3 && !FICHA_NAME_STOPWORDS.has(fichaFold(clean))) toks.push(clean);
+        });
+        const folio = String(f.folio || "").trim();
+        if (folio.length >= 2) toks.push(folio);
+        (folio.match(/\d{5,}/g) || []).forEach((x) => toks.push(x));
+        return [...new Set(toks.filter(Boolean))].sort((a, b) => b.length - a.length);
+      }
+
+      // Números cortos del folio (3-4 dígitos): solo se borran cuando van tras exp./folio/registro/NSS.
+      function fichaShortNumbers(f) {
+        const folio = String((f && f.folio) || "");
+        return [...new Set(folio.match(/\d{3,4}/g) || [])].filter((x) => !/\d{5,}/.test(x));
+      }
+
+      function accentInsensitivePattern(token) {
+        const groups = { a: "aáàäâ", e: "eéèëê", i: "iíìïî", o: "oóòöô", u: "uúùüû", n: "nñ", c: "cç" };
+        return Array.from(token.normalize("NFD").replace(/[̀-ͯ]/g, "")).map((ch) => {
+          const low = ch.toLowerCase();
+          if (groups[low]) return "[" + groups[low] + groups[low].toUpperCase() + "]";
+          if (/\s/.test(ch)) return "\\s+";
+          return ch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        }).join("");
+      }
+
+      function redactFichaIdentifiers(text, f) {
+        let out = String(text == null ? "" : text);
+        let count = 0;
+        fichaIdentifierTokens(f).forEach((tok) => {
+          const re = new RegExp("(?<![\\p{L}\\p{N}])" + accentInsensitivePattern(tok) + "(?![\\p{L}\\p{N}])", "giu");
+          out = out.replace(re, () => { count += 1; return "[DATO_PERSONAL_OMITIDO]"; });
+        });
+        fichaShortNumbers(f).forEach((num) => {
+          const re = new RegExp("((?:exp(?:ediente)?|folio|registro|nss|afiliaci[oó]n)\\.?\\s*(?:n[uú]m\\.?|no\\.?)?\\s*[:#]?\\s*)" + num + "(?!\\d)", "giu");
+          out = out.replace(re, (m, pre) => { count += 1; return pre + "[DATO_PERSONAL_OMITIDO]"; });
+        });
+        return { text: out, count };
+      }
+
+      // Lo que realmente se envía a la IA: filtro LFPDPPP + identificadores de la ficha.
+      function buildSafeAiParts(parts, ficha) {
+        return (parts || []).map((p) => {
+          if (p && typeof p.text === "string") {
+            const base = sanitizePiiLfpdp(p.text).sanitized;
+            return Object.assign({}, p, { text: redactFichaIdentifiers(base, ficha).text });
+          }
+          return p;
+        });
+      }
+
+      function readFichaForm() {
+        return normalizeFicha({
+          nombre: $("ficha-nombre").value,
+          edad: $("ficha-edad").value,
+          edadUnidad: $("ficha-edad-unidad").value,
+          sexo: $("ficha-sexo").value,
+          folio: $("ficha-folio").value,
+          servicio: $("ficha-servicio").value,
+          peso: $("ficha-peso").value,
+          talla: $("ficha-talla").value,
+          alergiaEstado: $("ficha-alergia-estado").value,
+          alergias: $("ficha-alergias").value,
+          alergiaBetalact: $("ficha-alergia-betalact").checked,
+          embarazo: $("ficha-embarazo").value,
+          comorb: Array.from(document.querySelectorAll("#ficha-comorb input:checked")).map((el) => el.value),
+          comorbOtras: $("ficha-comorb-otras").value,
+          meds: $("ficha-meds").value,
+          cr: $("ficha-cr").value
+        });
+      }
+
+      function fillFichaForm(f, ttlHours) {
+        const d = f || normalizeFicha({});
+        const val = (v) => (v === "" || Number.isNaN(v) ? "" : String(v));
+        $("ficha-nombre").value = d.nombre;
+        $("ficha-edad").value = val(d.edad);
+        $("ficha-edad-unidad").value = d.edadUnidad;
+        $("ficha-sexo").value = d.sexo;
+        $("ficha-folio").value = d.folio;
+        $("ficha-servicio").value = d.servicio;
+        $("ficha-peso").value = val(d.peso);
+        $("ficha-talla").value = val(d.talla);
+        $("ficha-alergia-estado").value = d.alergiaEstado;
+        $("ficha-alergias").value = d.alergias;
+        $("ficha-alergia-betalact").checked = d.alergiaBetalact;
+        $("ficha-embarazo").value = d.embarazo;
+        document.querySelectorAll("#ficha-comorb input").forEach((el) => { el.checked = d.comorb.includes(el.value); });
+        $("ficha-comorb-otras").value = d.comorbOtras;
+        $("ficha-meds").value = d.meds;
+        $("ficha-cr").value = val(d.cr);
+        $("ficha-ttl").value = String(FICHA_TTL_OPTIONS.includes(Number(ttlHours)) ? Number(ttlHours) : 24);
+        syncFichaConditionalFields();
+      }
+
+      function syncFichaConditionalFields() {
+        $("ficha-alergia-detalle").classList.toggle("hidden", $("ficha-alergia-estado").value !== "si");
+        $("ficha-embarazo-field").classList.toggle("hidden", $("ficha-sexo").value !== "F");
+      }
+
+      function describeFichaExpiry(rec) {
+        if (!rec) return "Al guardar, la ficha se borrará sola en el tiempo elegido.";
+        const d = new Date(rec.expiresAt);
+        const hh = String(d.getHours()).padStart(2, "0");
+        const mm = String(d.getMinutes()).padStart(2, "0");
+        const sameDay = d.toDateString() === new Date().toDateString();
+        return "Se borrará sola " + (sameDay ? "hoy" : "el " + d.getDate() + "/" + (d.getMonth() + 1)) + " a las " + hh + ":" + mm + ". Cada vez que la guardas se renueva el plazo.";
+      }
+
+      function updateFichaChip() {
+        const rec = loadFicha();
+        const lbl = $("px-chip-label");
+        const btn = $("btn-new-patient");
+        if (lbl && btn) {
+          if (rec && fichaHasData(rec.data)) {
+            const s = fichaSummary(rec.data);
+            const f = rec.data;
+            const edadTxt = f.edad !== "" && Number.isFinite(f.edad) ? f.edad + (f.edadUnidad === "m" ? "m" : "a") : "";
+            lbl.textContent = [s.initials || "Px", edadTxt].filter(Boolean).join(" · ");
+            btn.title = "Ficha del paciente" + (s.line ? ": " + s.line : "");
+            btn.classList.add("has-ficha");
+          } else {
+            lbl.textContent = "Px";
+            btn.title = "Ficha del paciente / nuevo paciente";
+            btn.classList.remove("has-ficha");
+          }
+        }
+        if (typeof refreshDashboardHubv18 === "function") refreshDashboardHubv18();
+      }
+
+      function openFichaModal() {
+        const rec = loadFicha();
+        fillFichaForm(rec ? rec.data : null, rec ? rec.ttlHours : 24);
+        $("ficha-expira").textContent = describeFichaExpiry(rec);
+        $("ficha-status").innerHTML = "";
+        updateFichaChip();
+        $("modal-ficha").classList.add("open");
+      }
+
+      function closeFichaModal() {
+        $("modal-ficha").classList.remove("open");
+      }
+
+      function initFichaPaciente() {
+        $("btn-new-patient").addEventListener("click", openFichaModal);
+        $("btn-close-ficha").addEventListener("click", closeFichaModal);
+        $("modal-ficha").addEventListener("click", (e) => { if (e.target === $("modal-ficha")) closeFichaModal(); });
+        $("ficha-alergia-estado").addEventListener("change", syncFichaConditionalFields);
+        $("ficha-sexo").addEventListener("change", syncFichaConditionalFields);
+
+        $("btn-ficha-guardar").addEventListener("click", () => {
+          const f = readFichaForm();
+          const v = validateFicha(f);
+          if (!v.ok) {
+            $("ficha-status").innerHTML = '<div class="alert danger"><strong>Revisa la ficha:</strong><br>• ' + v.errors.map(escapeHtml).join("<br>• ") + "</div>";
+            $("ficha-status").scrollIntoView({ block: "nearest" });
+            return;
+          }
+          if (!fichaHasData(f)) {
+            $("ficha-status").innerHTML = '<div class="alert warn">La ficha está vacía: captura al menos nombre, cama/exp., edad o peso.</div>';
+            return;
+          }
+          saveFicha(f, $("ficha-ttl").value);
+          updateFichaChip();
+          closeFichaModal();
+          showToast(v.faltanRx.length ? "✅ Ficha guardada en este teléfono. Para recetas faltan: " + v.faltanRx.join(", ") + "." : "✅ Ficha guardada solo en este teléfono.");
+        });
+
+        $("btn-ficha-nuevo").addEventListener("click", () => {
+          if (!resetAllPatientData(false)) return;
+          clearFicha();
+          fillFichaForm(null, 24);
+          updateFichaChip();
+          closeFichaModal();
+        });
+
+        // Al volver a la app se revisa si la ficha ya venció.
+        document.addEventListener("visibilitychange", () => { if (!document.hidden) updateFichaChip(); });
+        setInterval(updateFichaChip, 60000);
+        updateFichaChip();
+      }
+
       function resetAllPatientData(skipConfirm) {
-        if (!skipConfirm && !confirm("¿Iniciar NUEVO PACIENTE? Se limpiarán Calculadoras, Recetas, Laboratorios, Fotos y Borrador de Nota actual (tu configuración e historial se conservan).")) {
+        if (!skipConfirm && !confirm("¿Iniciar NUEVO PACIENTE? Se limpiarán la ficha del paciente, Calculadoras, Recetas, Laboratorios, Fotos y Borrador de Nota actual (tu configuración e historial se conservan).")) {
           return false;
         }
 
@@ -5925,7 +6314,7 @@
       window.addEventListener("afterprint", clearPrintSheet);
 
       function initFieldHardeningStep13() {
-        if ($("btn-new-patient")) $("btn-new-patient").addEventListener("click", () => resetAllPatientData(false));
+        // v31: «Px» abre la ficha del paciente; «Nuevo paciente» (dentro de la ficha) reinicia todo.
 
         const savedStockout = localStorage.getItem("tyo_desabasto_cefa");
         if (savedStockout === "1") { $("rx-desabasto").checked = true; renderProtocol(); }
@@ -6167,6 +6556,23 @@
         addTest("30. v30: foto del iPhone se reduce a 1600 px antes de enviarse (y una chica no se agranda)", fitA.width === 1600 && fitA.height === 1200 && fitA.scaled && fitB.width === 800 && !fitB.scaled, fitA.width + "×" + fitA.height + " / " + fitB.width + "×" + fitB.height);
         const descPuente = describeBridgeModels({ provider: "Cloudflare Workers AI (plan gratuito)", version: "29.2", models: { texto: ["@cf/google/gemma-4-26b-a4b-it"], radiografia: ["@cf/meta/llama-4-scout-17b-16e-instruct", "@cf/moonshotai/kimi-k2.5"] } });
         addTest("31. v30: «Probar conexión» muestra proveedor y modelos del Puente", /Workers AI/.test(descPuente) && /Notas: gemma-4-26b-a4b/.test(descPuente) && /Rx: llama-4-scout-17b-16e \+ kimi-k2\.5/.test(descPuente) && describeBridgeModels({}) === "", descPuente);
+
+        // 32-34. v31: ficha del paciente
+        const fvMal = validateFicha(normalizeFicha({ edad: "45", peso: "500", talla: "170", alergiaEstado: "niega" }));
+        const fvLact = validateFicha(normalizeFicha({ edad: "8", edadUnidad: "m", peso: "8", alergiaEstado: "si", alergiaBetalact: true }));
+        addTest("32. v31: ficha valida rangos (peso de 500 kg rechazado; lactante de 8 meses aceptado)", !fvMal.ok && fvMal.errors.some((e) => /Peso/.test(e)) && fvLact.ok && fvLact.faltanRx.length === 0, fvMal.errors.join(" ") || "sin errores");
+        const ahoraFicha = Date.now();
+        const vencida = fichaRecordState({ savedAt: ahoraFicha - 25 * 3600000, ttlHours: 24, data: {} }, ahoraFicha);
+        const vigente = fichaRecordState({ savedAt: ahoraFicha - 3600000, ttlHours: 24, data: {} }, ahoraFicha);
+        addTest("33. v31: ficha se borra sola al vencer (24 h)", vencida === "vencida" && vigente === "vigente", "25 h: " + vencida + " · 1 h: " + vigente);
+        const fichaDemo = normalizeFicha({ nombre: "José Pérez López", folio: "Exp. 004521" });
+        const partesIA = buildSafeAiParts([{ text: "Paciente Jose PEREZ lópez, Exp. 004521, cama 14, con dolor en rodilla. Pérez refiere caída." }], fichaDemo);
+        const enviado = JSON.stringify(partesIA);
+        const fichaDemo2 = normalizeFicha({ nombre: "María del Carmen Ruiz", folio: "Cama 120 / Exp. 7788" });
+        const enviado2 = redactFichaIdentifiers("Fractura del radio distal, TA 120/80, exp. 7788, Ruiz refiere dolor del pie.", fichaDemo2).text;
+        const ok34a = !/Jos[eé]|P[eé]rez|L[oó]pez|004521/i.test(enviado) && /dolor en rodilla/.test(enviado) && /cama 14/.test(enviado);
+        const ok34b = /Fractura del radio/.test(enviado2) && /TA 120\/80/.test(enviado2) && /del pie/.test(enviado2) && !/7788|Ruiz/.test(enviado2);
+        addTest("34. v31: nombre y expediente de la ficha nunca viajan a la IA (sin dañar «del radio» ni «TA 120/80»)", ok34a && ok34b, ok34b ? partesIA[0].text.slice(0, 90) : enviado2);
 
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
@@ -6461,7 +6867,7 @@
         ["rx-peso", "rx-edad", "rx-tfg"].forEach((id) => {
           $(id).addEventListener("input", () => { rxManualOverride = true; });
         });
-        $("btn-new-patient").addEventListener("click", () => { rxManualOverride = false; });
+        if ($("btn-ficha-nuevo")) $("btn-ficha-nuevo").addEventListener("click", () => { rxManualOverride = false; });
 
         const syncRenalToRxSilently = () => {
           if (rxManualOverride || lastRenalState.crcl === null) return;
@@ -6485,11 +6891,15 @@
 
         const folio = ($("nota-folio") && $("nota-folio").value.trim()) || "";
         const edadSexo = ($("nota-edadsexo") && $("nota-edadsexo").value.trim()) || "";
+        const fichaRec = loadFicha();
+        const ficha = fichaRec && fichaHasData(fichaRec.data) ? fichaRec.data : null;
         if ($("kpi-px-status")) {
-          $("kpi-px-status").textContent = folio ? folio.slice(0, 10) : "Px #1";
+          const fichaTag = ficha ? (fichaSummary(ficha).initials || ficha.folio.slice(0, 10) || "Ficha") : "";
+          $("kpi-px-status").textContent = fichaTag || (folio ? folio.slice(0, 10) : "Px #1");
         }
         if ($("kpi-px-sub")) {
-          $("kpi-px-sub").textContent = edadSexo ? edadSexo : "Toca para ver / cambiar Px";
+          const fichaLine = ficha ? (fichaSummary(ficha).line || "Ficha capturada") : "";
+          $("kpi-px-sub").textContent = fichaLine || edadSexo || "Toca para capturar la ficha";
         }
       }
 
@@ -6498,7 +6908,7 @@
           $("kpi-card-notas").addEventListener("click", () => switchTab("tab-hist"));
         }
         if ($("kpi-card-px")) {
-          $("kpi-card-px").addEventListener("click", () => switchTab("tab-notas"));
+          $("kpi-card-px").addEventListener("click", () => openFichaModal());
         }
         if ($("hero-banner-nota")) {
           $("hero-banner-nota").addEventListener("click", () => {
@@ -6874,6 +7284,7 @@
         ["Barra flotante", initNotaDockAutoHide],
         ["Presets renales", initIntuitivePresetsv22],
         ["Interfaz Base44 v27", initBase44UI],
+        ["Ficha del paciente v31", initFichaPaciente],
         ["Módulos v26", initModulesV26] /* siempre al final */
       ].forEach(([name, fn]) => runInit(name, fn));
 
