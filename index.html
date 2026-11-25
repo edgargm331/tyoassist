@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v31 · Tema "Base44" (oscuro + claro)
+       TyO Assist v32 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -1247,6 +1247,7 @@
 
       <div class="band band-alt">
         <div class="step-hdr no-print"><span class="step-check"><svg class="ic"><use href="#i-user"/></svg></span><h3>Datos del paciente</h3></div>
+        <div id="rx-ficha-banner" class="no-print"></div>
         <details class="acc acc-card no-print" id="rx-patient-drawer">
           <summary><span class="sum-text"><strong>Paciente</strong> <small id="rx-patient-summary">Paciente: sin datos · captura peso, edad y TFG</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
           <div class="acc-body">
@@ -1753,7 +1754,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v31 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v32 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -1785,7 +1786,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes y Diagnóstico (v31 · Intuitiva)</h3>
+        <h3 id="cfg-title">Ajustes y Diagnóstico (v32 · Intuitiva)</h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -1859,7 +1860,7 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (34 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (37 pruebas)</h4>
         <div class="btn-row">
           <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (29)</button>
         </div>
@@ -1876,7 +1877,7 @@
         <h3 id="ficha-title">Ficha del paciente</h3>
         <button type="button" class="icon-round" id="btn-close-ficha" aria-label="Cerrar ficha"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
-      <p class="modal-intro">Captura los datos una sola vez. Se guardan <strong>solo en este teléfono</strong>, <strong>nunca se envían a la IA</strong> y se borran solos.</p>
+      <p class="modal-intro">Captura los datos una sola vez: llenan solos <strong>Calculadoras, Recetas y la Nota</strong>. Se guardan <strong>solo en este teléfono</strong>, el <strong>nombre y la cama/expediente nunca se envían a la IA</strong> y se borran solos.</p>
       <div id="ficha-status"></div>
 
       <div class="modal-section">
@@ -1979,15 +1980,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v31 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v32 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "31",
-      versionLabel: "v31 Intuitiva",
+      version: "32",
+      versionLabel: "v32 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -3178,6 +3179,11 @@
         if (edad >= 65 && /(Ibuprofeno|Naproxeno|Meloxicam|Diclofenaco|Celecoxib)/.test(out)) {
           alerts.push('<div class="alert warn"><strong>AINE en ≥ 65 años:</strong> valora riesgo renal, GI y cardiovascular, y anticoagulación o plaquetopenia concomitante.</div>');
         }
+        // v32: cruce con la ficha del paciente (alergias, embarazo, anticoagulación)
+        try {
+          const recF = loadFicha();
+          if (recF && fichaHasData(recF.data)) alerts.unshift(...fichaRxAlerts(recF.data, out, alergia));
+        } catch (_) { /* la ficha aún no está lista al arrancar */ }
 
         $("rx-alerts").innerHTML = alerts.join("");
         $("rx-output").textContent = out;
@@ -3722,17 +3728,22 @@
         const unidad = valOrNR($("nota-unidad").value);
         const folio = valOrNR($("nota-folio").value);
         const edadSexo = valOrNR($("nota-edadsexo").value);
-
-        return [
+        // v32: nombre y alergias de la ficha. Este encabezado se arma en el teléfono y nunca se envía a la IA.
+        let fichaHdr = null;
+        try { const rec = loadFicha(); fichaHdr = rec && fichaHasData(rec.data) ? rec.data : null; } catch (_) { fichaHdr = null; }
+        const lines = [
           "============================================================",
           unidad.toUpperCase(),
           schema.titulo + " (NOM-004-SSA3-2012 · " + schema.numeral + ")",
           "------------------------------------------------------------",
-          "Fecha y hora de elaboración [5.10]: " + now,
-          "Paciente / Expediente / Cama [5.10]: " + folio,
-          "Edad y Sexo [5.10]: " + edadSexo,
-          "============================================================"
-        ].join("\n");
+          "Fecha y hora de elaboración [5.10]: " + now
+        ];
+        if (fichaHdr && fichaHdr.nombre) lines.push("Nombre del paciente [5.10]: " + fichaHdr.nombre);
+        lines.push("Paciente / Expediente / Cama [5.10]: " + folio);
+        lines.push("Edad y Sexo [5.10]: " + edadSexo);
+        if (fichaHdr && fichaHdr.alergiaEstado) lines.push("Alergias: " + fichaAllergyText(fichaHdr));
+        lines.push("============================================================");
+        return lines.join("\n");
       }
 
       function buildLocalFooter(tipo) {
@@ -6086,6 +6097,225 @@
         });
       }
 
+      /* =======================================================
+         v32: LA FICHA LLENA CALCULADORAS, RECETAS Y NOTA
+         Reglas: al guardar la ficha se sobrescriben los números; al abrir la app solo se llenan
+         los vacíos; una alergia o un riesgo marcado NUNCA se desmarca solo; < 18 años no llena
+         recetas ni Cockcroft-Gault (son para adultos).
+      ======================================================= */
+      function fichaAgeYears(f) {
+        if (!f || f.edad === "" || !Number.isFinite(f.edad)) return NaN;
+        return f.edadUnidad === "m" ? f.edad / 12 : f.edad;
+      }
+
+      function fichaEdadSexoText(f) {
+        if (!f || f.edad === "" || !Number.isFinite(f.edad)) return "";
+        const edad = f.edadUnidad === "m" ? f.edad + (f.edad === 1 ? " mes" : " meses") : f.edad + (f.edad === 1 ? " año" : " años");
+        const sexo = f.sexo === "F" ? "Femenino" : f.sexo === "M" ? "Masculino" : "";
+        return sexo ? sexo + ", " + edad : edad;
+      }
+
+      function fichaImc(f) {
+        if (!f || f.peso === "" || f.talla === "" || !Number.isFinite(f.peso) || !Number.isFinite(f.talla) || f.talla <= 0) return NaN;
+        return f.peso / Math.pow(f.talla / 100, 2);
+      }
+
+      function fichaAllergyText(f) {
+        if (!f || !f.alergiaEstado) return "[NO REFERIDO]";
+        if (f.alergiaEstado === "niega") return "Niega alergias";
+        const parts = [];
+        if (f.alergiaBetalact) parts.push("betalactámicos");
+        if (f.alergias) parts.push(f.alergias);
+        return parts.join(", ") || "Sí (sin especificar)";
+      }
+
+      const FICHA_TARGET_IDS = ["ren-edad", "ren-peso", "ren-cr", "ren-sexo", "lab-cr", "cap-age", "mess-age", "rx-edad", "rx-peso", "rx-alergia", "rx-gastritis", "rx-hepato", "rx-obesidad", "nota-folio", "nota-edadsexo"];
+
+      // Plan puro (sin tocar la pantalla): qué valor va en cada campo.
+      // cur = valores actuales {id: texto | booleano}; capItems = {valor: marcado}.
+      function planFichaApply(f, cur, overwrite, capItems) {
+        const set = {};
+        const caps = {};
+        const c = cur || {};
+        const empty = (id) => c[id] === undefined || c[id] === "" || c[id] === null;
+        const putVal = (id, v) => { if (v === "" || v === null || v === undefined) return; if (overwrite || empty(id)) set[id] = String(v); };
+        const putSel = (id, v, def) => { if (overwrite || empty(id) || c[id] === def) set[id] = String(v); };
+        const putFlag = (id, on) => { if (on && !c[id]) set[id] = true; }; // nunca desmarca
+        const age = fichaAgeYears(f);
+        const hasAge = Number.isFinite(age);
+        const adult = hasAge && age >= 18;
+        const pediatric = hasAge && age < 18;
+        const peso = f.peso !== "" && Number.isFinite(f.peso) ? f.peso : NaN;
+        const cr = f.cr !== "" && Number.isFinite(f.cr) ? f.cr : NaN;
+        const imc = fichaImc(f);
+        const comorb = f.comorb || [];
+        const giReasons = [];
+        if (comorb.includes("Gastritis/úlcera")) giReasons.push("gastritis/úlcera");
+        if (comorb.includes("Anticoagulado")) giReasons.push("anticoagulado");
+
+        if (adult) {
+          putVal("ren-edad", Math.round(age));
+          putVal("rx-edad", Math.round(age));
+          if (peso >= 30 && peso <= 250) { putVal("ren-peso", Math.round(peso * 2) / 2); putVal("rx-peso", Math.round(peso)); }
+          if (cr >= 0.2 && cr <= 20) putVal("ren-cr", cr);
+          if (f.sexo) putSel("ren-sexo", f.sexo, "");
+          putSel("cap-age", age >= 75 ? 3 : age >= 61 ? 2 : age >= 41 ? 1 : 0, "0");
+          putFlag("rx-alergia", !!f.alergiaBetalact);
+          putFlag("rx-gastritis", giReasons.length > 0);
+          putFlag("rx-hepato", comorb.includes("Hepatopatía"));
+          putFlag("rx-obesidad", imc > 40);
+          if (imc > 25 && !(capItems || {})["IMC > 25"]) caps["IMC > 25"] = true;
+          if (f.embarazo === "embarazo" && !(capItems || {})["Embarazo/Posparto"]) caps["Embarazo/Posparto"] = true;
+          if (/\bepoc\b/.test(fichaFold(f.comorbOtras || "")) && !(capItems || {})["EPOC"]) caps["EPOC"] = true;
+        }
+        if (hasAge) putSel("mess-age", age > 50 ? 2 : age >= 30 ? 1 : 0, "0");
+        if (cr >= 0.2 && cr <= 25) putVal("lab-cr", cr);
+        if (f.folio) putVal("nota-folio", f.folio);
+        const es = fichaEdadSexoText(f);
+        if (es) putVal("nota-edadsexo", es);
+        return { set, caps, adult, pediatric, age, imc, giReasons };
+      }
+
+      // Familias de fármacos que pueden salir en las recetas, con las palabras que las delatan en «alergias».
+      const FICHA_DRUG_FAMILIES = [
+        { name: "AINE", allergy: /\baine|antiinflamatori|ketorolac|ibuprofen|naproxen|diclofenac|celecoxib|etoricoxib|meloxicam|ketoprofen|aspirina|acetilsalicilic/, drugs: ["Ketorolaco", "Ibuprofeno", "Naproxeno", "Diclofenaco", "Celecoxib", "Etoricoxib", "Meloxicam", "Ketoprofeno", "Ácido acetilsalicílico"] },
+        { name: "Metamizol", allergy: /metamizol|dipirona|pirazolon/, drugs: ["Metamizol"] },
+        { name: "Paracetamol", allergy: /paracetamol|acetaminofen/, drugs: ["Paracetamol"] },
+        { name: "Opioides", allergy: /opioide|opiaceo|tramadol|morfina|buprenorfina|tapentadol|oxicodona|codeina|fentanil|nalbufina/, drugs: ["Tramadol", "Morfina", "Buprenorfina", "Tapentadol", "Oxicodona", "Codeína", "Fentanilo", "Nalbufina"] },
+        { name: "Betalactámicos", allergy: /penicilin|betalact|cefalospor|amoxicilin|ampicilin|dicloxacilin|cefazolin|cefalotin|ceftriaxon|cefuroxim|cefalexin|cefepim/, drugs: ["Penicilina", "Amoxicilina", "Ampicilina", "Dicloxacilina", "Cefazolina", "Cefalotina", "Ceftriaxona", "Cefuroxima", "Cefalexina", "Cefepime"] },
+        { name: "Sulfas", allergy: /sulfa|sulfonamid|trimetoprim/, drugs: ["Sulfametoxazol", "Trimetoprim"] },
+        { name: "Quinolonas", allergy: /quinolon|ciprofloxacin|levofloxacin|moxifloxacin/, drugs: ["Ciprofloxacino", "Levofloxacino", "Moxifloxacino"] },
+        { name: "Clindamicina", allergy: /clindamicin/, drugs: ["Clindamicina"] },
+        { name: "Vancomicina", allergy: /vancomicin/, drugs: ["Vancomicina"] },
+        { name: "Aminoglucósidos", allergy: /aminoglucosid|gentamicin|amikacin/, drugs: ["Gentamicina", "Amikacina"] },
+        { name: "Metronidazol", allergy: /metronidazol|nitroimidazol/, drugs: ["Metronidazol"] },
+        { name: "Aztreonam", allergy: /aztreonam/, drugs: ["Aztreonam"] },
+        { name: "Anticoagulantes", allergy: /heparin|enoxaparin|rivaroxaban|apixaban|fondaparinux/, drugs: ["Enoxaparina", "Heparina", "Rivaroxabán", "Apixabán", "Fondaparinux"] },
+        { name: "Metoclopramida", allergy: /metoclopramid/, drugs: ["Metoclopramida"] },
+        { name: "IBP", allergy: /omeprazol|pantoprazol|esomeprazol|\bibp\b|bomba de protones/, drugs: ["Omeprazol", "Pantoprazol", "Esomeprazol"] },
+        { name: "Gabapentinoides", allergy: /pregabalin|gabapentin/, drugs: ["Pregabalina", "Gabapentina"] },
+        { name: "Metocarbamol", allergy: /metocarbamol/, drugs: ["Metocarbamol"] },
+        { name: "Antitetánica", allergy: /toxoide|tetanic|antitoxina|equin/, drugs: ["Toxoide", "Inmunoglobulina", "Antitoxina"] }
+      ];
+      const FICHA_ALLERGY_FILLER = new Set(["alergia", "alergias", "alergico", "alergica", "medicamento", "medicamentos", "reaccion", "reacciones", "urticaria", "anafilaxia", "intolerancia", "severa", "leve", "refiere", "todos", "todas"]);
+
+      // Fármacos de la receta que chocan con las alergias de la ficha.
+      function fichaRxAllergyHits(f, outText) {
+        if (!f || f.alergiaEstado !== "si" || !outText) return [];
+        const allergyTxt = fichaFold([f.alergias, f.alergiaBetalact ? "betalactamicos" : ""].join(" "));
+        const outFold = fichaFold(outText);
+        const hits = [];
+        const seen = new Set();
+        const add = (drug, family) => { const k = fichaFold(drug); if (!seen.has(k)) { seen.add(k); hits.push({ drug, family }); } };
+        FICHA_DRUG_FAMILIES.forEach((fam) => {
+          if (!fam.allergy.test(allergyTxt)) return;
+          fam.drugs.forEach((d) => { if (new RegExp("(?<![a-z])" + fichaFold(d).replace(/\s+/g, "\\s+")).test(outFold)) add(d, fam.name); });
+        });
+        // Cualquier otra palabra de 6+ letras escrita en «alergias» que aparezca tal cual en la receta.
+        // (Las palabras que ya delatan una familia —p. ej. «betalactámicos», «AINE»— se revisan arriba por fármaco,
+        // porque la receta puede nombrarlas en su título: «PROFILAXIS (ALERGIA A BETALACTÁMICOS)».)
+        allergyTxt.split(/[^a-z0-9ñ]+/).filter((w) => w.length >= 6 && !FICHA_ALLERGY_FILLER.has(w) && !FICHA_DRUG_FAMILIES.some((fam) => fam.allergy.test(w))).forEach((w) => {
+          const m = new RegExp("(?<![a-z])" + w + "[a-z]*", "i").exec(outFold);
+          if (m) add(m[0].charAt(0).toUpperCase() + m[0].slice(1), "alergia escrita en la ficha");
+        });
+        return hits;
+      }
+
+      // Avisos que la ficha agrega a la receta generada.
+      function fichaRxAlerts(f, outText, alergiaMarcada) {
+        const alerts = [];
+        const hits = fichaRxAllergyHits(f, outText);
+        if (hits.length) {
+          alerts.push('<div class="alert danger"><strong>⛔ Alergia en la ficha:</strong> la indicación incluye ' + hits.map((h) => "<strong>" + escapeHtml(h.drug) + "</strong> (" + escapeHtml(h.family) + ")").join(", ") + " y la ficha registra alergia a " + escapeHtml(fichaAllergyText(f)) + ". Cambia el fármaco antes de copiar.</div>");
+        }
+        if (f.alergiaBetalact && !alergiaMarcada) {
+          alerts.push('<div class="alert danger"><strong>La ficha marca alergia a betalactámicos</strong> pero la casilla «Alergia betalactámicos» está desmarcada. Revísala.</div>');
+        }
+        if (f.embarazo === "embarazo") {
+          alerts.push('<div class="alert warn"><strong>Embarazo registrado en la ficha:</strong> estos protocolos no ajustan por embarazo. Verifica cada fármaco (evita AINE, sobre todo desde la semana 20, y anticoagulantes orales).</div>');
+        } else if (f.embarazo === "lactancia") {
+          alerts.push('<div class="alert warn"><strong>Lactancia registrada en la ficha:</strong> verifica la compatibilidad de cada fármaco con la lactancia.</div>');
+        }
+        if ((f.comorb || []).includes("Anticoagulado")) {
+          if (/(Enoxaparina|Heparina|Rivaroxab[aá]n|Apixab[aá]n|Fondaparinux)/.test(outText)) {
+            alerts.push('<div class="alert warn"><strong>Paciente anticoagulado (ficha):</strong> la indicación agrega otro anticoagulante. No dupliques anticoagulación; ajusta según su esquema actual.</div>');
+          }
+          if (/(Ketorolaco|Ibuprofeno|Naproxeno|Diclofenaco|Celecoxib|Meloxicam)/.test(outText)) {
+            alerts.push('<div class="alert warn"><strong>Paciente anticoagulado (ficha) + AINE:</strong> riesgo de sangrado. Considera evitar el AINE.</div>');
+          }
+        }
+        return alerts;
+      }
+
+      function readFichaTargets() {
+        const cur = {};
+        FICHA_TARGET_IDS.forEach((id) => {
+          const el = $(id);
+          if (!el) return;
+          cur[id] = el.type === "checkbox" ? el.checked : el.value;
+        });
+        const capItems = {};
+        document.querySelectorAll(".cap-item").forEach((el) => { capItems[el.value] = el.checked; });
+        return { cur, capItems };
+      }
+
+      // Aplica la ficha a la pantalla y recalcula. Devuelve qué secciones cambiaron.
+      function applyFichaToApp(f, overwrite) {
+        const { cur, capItems } = readFichaTargets();
+        const plan = planFichaApply(f, cur, overwrite, capItems);
+        const touched = new Set();
+        const section = (id) => id.startsWith("ren-") ? "Función renal" : id.startsWith("cap-") ? "Caprini" : id.startsWith("mess-") ? "MESS" : id.startsWith("rx-") ? "Recetas" : id.startsWith("nota-") ? "Nota" : "Laboratorio";
+        Object.keys(plan.set).forEach((id) => {
+          const el = $(id);
+          if (!el) return;
+          if (el.type === "checkbox") el.checked = plan.set[id] === true;
+          else el.value = plan.set[id];
+          touched.add(section(id));
+        });
+        Object.keys(plan.caps).forEach((val) => {
+          const el = Array.from(document.querySelectorAll(".cap-item")).find((x) => x.value === val);
+          if (el && !el.checked) { el.checked = true; touched.add("Caprini"); }
+        });
+        // Recalcular sin disparar el «editado a mano» de Recetas
+        try { calcRenal(); } catch (_) {}
+        try { calcCaprini(); } catch (_) {}
+        try { calcMess(); } catch (_) {}
+        if (plan.adult && lastRenalState.crcl !== null) {
+          const tfg = String(Math.round(lastRenalState.crcl));
+          if ((overwrite || !$("rx-tfg").value) && $("rx-tfg").value !== tfg) { $("rx-tfg").value = tfg; touched.add("Recetas"); }
+        }
+        try { renderProtocol(); } catch (_) {}
+        if (plan.set["nota-folio"] !== undefined || plan.set["nota-edadsexo"] !== undefined) {
+          try { scheduleNotaDraftSave(); } catch (_) {}
+          try { updateNotaPacienteSummary(); } catch (_) {}
+        }
+        renderRxFichaBanner();
+        return { sections: Array.from(touched), plan };
+      }
+
+      function renderRxFichaBanner() {
+        const box = $("rx-ficha-banner");
+        if (!box) return;
+        let rec = null;
+        try { rec = loadFicha(); } catch (_) { rec = null; }
+        if (!rec || !fichaHasData(rec.data)) { box.innerHTML = ""; return; }
+        const f = rec.data;
+        const age = fichaAgeYears(f);
+        const bits = [];
+        const s = fichaSummary(f);
+        if (s.initials) bits.push(s.initials);
+        if (Number.isFinite(age)) bits.push(fichaEdadSexoText(f));
+        if (f.peso !== "" && Number.isFinite(f.peso)) bits.push(f.peso + " kg");
+        if (f.cr !== "" && Number.isFinite(f.cr)) bits.push("Cr " + f.cr);
+        const html = ['<div class="alert ok"><strong>📋 Desde la ficha:</strong> ' + escapeHtml(bits.join(" · ") || "datos capturados") + " · Alergias: " + escapeHtml(fichaAllergyText(f)) + "</div>"];
+        if (f.alergiaEstado === "si") html.push('<div class="alert danger"><strong>Alérgico:</strong> ' + escapeHtml(fichaAllergyText(f)) + ". Revisa cada fármaco de la indicación.</div>");
+        if (Number.isFinite(age) && age < 18) html.push('<div class="alert danger"><strong>Paciente pediátrico (' + escapeHtml(fichaEdadSexoText(f)) + "):</strong> las recetas de esta app son solo para adultos; no se llenaron edad ni peso. Dosifica por peso con tu guía pediátrica.</div>");
+        const comorb = f.comorb || [];
+        if (comorb.includes("ERC") && (f.cr === "" || !Number.isFinite(f.cr))) html.push('<div class="alert warn"><strong>ERC sin creatinina:</strong> captura la Cr en la ficha para calcular la TFG.</div>');
+        if (comorb.includes("Anticoagulado") && Number.isFinite(age) && age >= 18) html.push('<div class="alert warn"><strong>Anticoagulado:</strong> se marcó «Riesgo GI» (sin AINE). Revisa interacciones y no dupliques anticoagulación.</div>');
+        box.innerHTML = html.join("");
+      }
+
       function readFichaForm() {
         return normalizeFicha({
           nombre: $("ficha-nombre").value,
@@ -6163,6 +6393,7 @@
           }
         }
         if (typeof refreshDashboardHubv18 === "function") refreshDashboardHubv18();
+        renderRxFichaBanner();
       }
 
       function openFichaModal() {
@@ -6198,9 +6429,11 @@
             return;
           }
           saveFicha(f, $("ficha-ttl").value);
+          const applied = applyFichaToApp(f, true);
           updateFichaChip();
           closeFichaModal();
-          showToast(v.faltanRx.length ? "✅ Ficha guardada en este teléfono. Para recetas faltan: " + v.faltanRx.join(", ") + "." : "✅ Ficha guardada solo en este teléfono.");
+          const llenado = applied.sections.length ? " Se llenó: " + applied.sections.join(", ") + "." : "";
+          showToast((v.faltanRx.length ? "✅ Ficha guardada. Para recetas faltan: " + v.faltanRx.join(", ") + "." : "✅ Ficha guardada solo en este teléfono.") + llenado);
         });
 
         $("btn-ficha-nuevo").addEventListener("click", () => {
@@ -6215,6 +6448,12 @@
         document.addEventListener("visibilitychange", () => { if (!document.hidden) updateFichaChip(); });
         setInterval(updateFichaChip, 60000);
         updateFichaChip();
+        // v32: al abrir la app, la ficha vigente llena solo los campos vacíos (después de que todo arrancó)
+        setTimeout(() => {
+          const rec = loadFicha();
+          if (rec && fichaHasData(rec.data)) applyFichaToApp(rec.data, false);
+          renderRxFichaBanner();
+        }, 0);
       }
 
       function resetAllPatientData(skipConfirm) {
@@ -6573,6 +6812,23 @@
         const ok34a = !/Jos[eé]|P[eé]rez|L[oó]pez|004521/i.test(enviado) && /dolor en rodilla/.test(enviado) && /cama 14/.test(enviado);
         const ok34b = /Fractura del radio/.test(enviado2) && /TA 120\/80/.test(enviado2) && /del pie/.test(enviado2) && !/7788|Ruiz/.test(enviado2);
         addTest("34. v31: nombre y expediente de la ficha nunca viajan a la IA (sin dañar «del radio» ni «TA 120/80»)", ok34a && ok34b, ok34b ? partesIA[0].text.slice(0, 90) : enviado2);
+
+        // 35-37. v32: la ficha llena la app
+        const fA = normalizeFicha({ edad: "70", sexo: "F", peso: "60", talla: "150", cr: "1", folio: "Cama 3", comorb: ["Hepatopatía", "Anticoagulado"], alergiaEstado: "si", alergiaBetalact: true });
+        const pA = planFichaApply(fA, {}, true, {});
+        const sA = pA.set;
+        const ok35 = sA["ren-edad"] === "70" && sA["ren-peso"] === "60" && sA["ren-cr"] === "1" && sA["ren-sexo"] === "F" && sA["cap-age"] === "2" && sA["mess-age"] === "2" && sA["rx-edad"] === "70" && sA["rx-peso"] === "60" && sA["rx-alergia"] === true && sA["rx-hepato"] === true && sA["rx-gastritis"] === true && sA["rx-obesidad"] === undefined && pA.caps["IMC > 25"] === true && sA["nota-edadsexo"] === "Femenino, 70 años" && sA["nota-folio"] === "Cama 3";
+        addTest("35. v32: la ficha llena Función renal, Caprini, MESS, Recetas y Nota", ok35, JSON.stringify(sA).slice(0, 110));
+        const pB = planFichaApply(normalizeFicha({ edad: "45", peso: "70", alergiaEstado: "niega" }), { "rx-alergia": true, "rx-hepato": true, "ren-peso": "80" }, false, {});
+        const pC = planFichaApply(normalizeFicha({ edad: "8", edadUnidad: "m", sexo: "F", peso: "8", alergiaEstado: "niega" }), {}, true, {});
+        const ok36 = !("rx-alergia" in pB.set) && !("rx-hepato" in pB.set) && !("ren-peso" in pB.set) && pB.set["ren-edad"] === "45" && pC.pediatric && !Object.keys(pC.set).some((k) => /^(ren|rx|cap)-/.test(k)) && pC.set["mess-age"] === "0" && pC.set["nota-edadsexo"] === "Femenino, 8 meses";
+        addTest("36. v32: nunca desmarca alergias, respeta lo capturado y no llena recetas de adulto en pediátricos", ok36, "adulto: " + JSON.stringify(pB.set) + " · lactante: " + JSON.stringify(pC.set));
+        const hits1 = fichaRxAllergyHits(normalizeFicha({ alergiaEstado: "si", alergias: "AINE, metamizol" }), "1. Ketorolaco 30 mg IV c/8 h\n2. Metamizol 1 g IV c/8 h\n3. Paracetamol 1 g IV c/8 h");
+        const hits2 = fichaRxAllergyHits(normalizeFicha({ alergiaEstado: "si", alergias: "látex" }), "Ketorolaco 30 mg IV");
+        const hits3 = fichaRxAllergyHits(normalizeFicha({ alergiaEstado: "si", alergias: "ondansetron" }), "Ondansetrón 8 mg IV");
+        const hits4 = fichaRxAllergyHits(normalizeFicha({ alergiaEstado: "si", alergiaBetalact: true }), "PROFILAXIS (ALERGIA A BETALACTÁMICOS)\n1. Clindamicina 900 mg IV");
+        const ok37 = hits1.map((h) => h.drug).join() === "Ketorolaco,Metamizol" && hits2.length === 0 && hits3.length === 1 && hits4.length === 0;
+        addTest("37. v32: la receta avisa si incluye un fármaco al que la ficha dice que es alérgico", ok37, hits1.map((h) => h.drug).join(", ") + " | látex: " + hits2.length + " | ondansetrón: " + hits3.length);
 
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
