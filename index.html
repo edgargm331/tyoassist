@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v32 · Tema "Base44" (oscuro + claro)
+       TyO Assist v33 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -150,6 +150,16 @@
     .hbtn-px { padding: 0 12px; font-size: 13px; font-weight: 600; }
     .hbtn-px span { white-space: nowrap; max-width: 80px; overflow: hidden; text-overflow: ellipsis; }
     .hbtn-px.has-ficha .ic { display: none; }
+    .ficha-lista { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+    .ficha-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px; border-radius: 14px; background: var(--inset); border: 1px solid var(--line); color: inherit; font: inherit; text-align: left; cursor: pointer; }
+    .ficha-row.active { border-color: rgba(183, 134, 44, 0.6); background: rgba(183, 134, 44, 0.10); cursor: default; }
+    .ficha-row .fr-ini { flex: none; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 14px; background: var(--card); border: 1px solid var(--line); }
+    .ficha-row.active .fr-ini { color: var(--gold); border-color: rgba(183, 134, 44, 0.6); }
+    .ficha-row .fr-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+    .ficha-row .fr-l1 { font-weight: 600; font-size: 14px; }
+    .ficha-row .fr-l2 { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ficha-row .fr-tag { flex: none; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; color: var(--gold); }
+    .ficha-lista-empty { font-size: 13px; color: var(--muted); padding: 4px 2px; }
     .hbtn-px.has-ficha { color: var(--gold); border-color: rgba(183, 134, 44, 0.45); }
     .hbtn-round { width: 34px; }
     .hbtn:active { transform: scale(0.95); }
@@ -1754,7 +1764,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v32 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v33 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -1786,7 +1796,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes y Diagnóstico (v32 · Intuitiva)</h3>
+        <h3 id="cfg-title">Ajustes y Diagnóstico (v33 · Intuitiva)</h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -1860,7 +1870,7 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (37 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (40 pruebas)</h4>
         <div class="btn-row">
           <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (29)</button>
         </div>
@@ -1878,6 +1888,14 @@
         <button type="button" class="icon-round" id="btn-close-ficha" aria-label="Cerrar ficha"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Captura los datos una sola vez: llenan solos <strong>Calculadoras, Recetas y la Nota</strong>. Se guardan <strong>solo en este teléfono</strong>, el <strong>nombre y la cama/expediente nunca se envían a la IA</strong> y se borran solos.</p>
+      <div class="modal-section" id="ficha-lista-section">
+        <h4>Pacientes de la guardia <span class="badge" id="ficha-lista-count">0</span></h4>
+        <div id="ficha-lista" class="ficha-lista"></div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-ficha-nuevo"><svg class="ic"><use href="#i-plus"/></svg>Nuevo paciente</button>
+          <button type="button" class="btn btn-danger btn-sm" id="btn-ficha-borrar-todos"><svg class="ic"><use href="#i-trash"/></svg>Borrar todos</button>
+        </div>
+      </div>
       <div id="ficha-status"></div>
 
       <div class="modal-section">
@@ -1958,7 +1976,7 @@
         <p class="cfg-help" id="ficha-expira">Al guardar, la ficha se borrará sola en el tiempo elegido.</p>
         <div class="btn-row">
           <button type="button" class="btn btn-primary" id="btn-ficha-guardar"><svg class="ic"><use href="#i-save"/></svg>Guardar ficha</button>
-          <button type="button" class="btn btn-danger btn-sm" id="btn-ficha-nuevo"><svg class="ic"><use href="#i-refresh"/></svg>Nuevo paciente</button>
+          <button type="button" class="btn btn-secondary btn-sm hidden" id="btn-ficha-quitar"><svg class="ic"><use href="#i-trash"/></svg>Quitar de la lista</button>
         </div>
       </div>
     </div>
@@ -1980,15 +1998,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v32 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v33 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "32",
-      versionLabel: "v32 Intuitiva",
+      version: "33",
+      versionLabel: "v33 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -4527,7 +4545,8 @@
 
         const model = localStorage.getItem("tyo_model") || "gemini-2.5-flash";
 
-        const fichaActual = (loadFicha() || {}).data || null;
+        let fichaActual = [];
+        try { fichaActual = listFichas().map((r) => r.data); } catch (_) { fichaActual = []; }
         const safeParts = buildSafeAiParts(parts, fichaActual);
 
         const genConfig = {
@@ -6001,25 +6020,152 @@
         return (nowMs - rec.savedAt) > ttl * 3600000 ? "vencida" : "vigente";
       }
 
-      function loadFicha() {
-        let rec = null;
-        try { rec = JSON.parse(localStorage.getItem(FICHA_STORAGE_KEY) || "null"); } catch (_) { rec = null; }
-        const state = fichaRecordState(rec, Date.now());
-        if (state !== "vigente") {
-          if (rec !== null) localStorage.removeItem(FICHA_STORAGE_KEY);
-          return null;
+      /* v33: LISTA DE PACIENTES DE LA GUARDIA
+         tyo_fichas_v2 = { v: 2, activeId, items: [{ id, savedAt, ttlHours, data, snap? }] }
+         Cada paciente vence por su cuenta. «snap» guarda su nota en progreso y sus laboratorios
+         mientras trabajas con otro paciente (vence con él). La ficha única de v31-v32 se migra sola. */
+      const FICHA_STORE_KEY = "tyo_fichas_v2";
+      const FICHA_MAX_PATIENTS = 20;
+
+      function fichaTtl(h) { return FICHA_TTL_OPTIONS.includes(Number(h)) ? Number(h) : 24; }
+      function fichaNewId() { return "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+
+      // Pura: lista v2 tal cual, o convierte la ficha única v1.
+      function migrateFichaStore(v1, v2) {
+        if (v2 && typeof v2 === "object" && Array.isArray(v2.items)) {
+          const items = v2.items.filter((it) => it && typeof it.id === "string" && it.data && it.savedAt).slice(0, FICHA_MAX_PATIENTS);
+          return { v: 2, activeId: items.some((it) => it.id === v2.activeId) ? v2.activeId : null, items };
         }
-        const ttl = FICHA_TTL_OPTIONS.includes(Number(rec.ttlHours)) ? Number(rec.ttlHours) : 24;
-        return { data: normalizeFicha(rec.data), savedAt: rec.savedAt, ttlHours: ttl, expiresAt: rec.savedAt + ttl * 3600000 };
+        if (v1 && typeof v1 === "object" && v1.data && v1.savedAt) {
+          const id = "p" + Number(v1.savedAt).toString(36);
+          return { v: 2, activeId: id, items: [{ id, savedAt: v1.savedAt, ttlHours: fichaTtl(v1.ttlHours), data: v1.data }] };
+        }
+        return { v: 2, activeId: null, items: [] };
       }
 
+      // Pura: quita a los pacientes vencidos.
+      function fichaStorePurge(store, nowMs) {
+        const items = store.items.filter((it) => fichaRecordState(it, nowMs) === "vigente");
+        return { v: 2, activeId: items.some((it) => it.id === store.activeId) ? store.activeId : null, items, removed: store.items.length - items.length };
+      }
+
+      function saveFichaStore(store) {
+        if (!store.items.length) { localStorage.removeItem(FICHA_STORE_KEY); return; }
+        localStorage.setItem(FICHA_STORE_KEY, JSON.stringify({ v: 2, activeId: store.activeId, items: store.items }));
+      }
+
+      function loadFichaStore() {
+        let v1 = null;
+        let v2 = null;
+        try { v2 = JSON.parse(localStorage.getItem(FICHA_STORE_KEY) || "null"); } catch (_) { v2 = null; }
+        const hasV1 = localStorage.getItem(FICHA_STORAGE_KEY) !== null;
+        if (!v2 && hasV1) { try { v1 = JSON.parse(localStorage.getItem(FICHA_STORAGE_KEY)); } catch (_) { v1 = null; } }
+        const store = fichaStorePurge(migrateFichaStore(v1, v2), Date.now());
+        if ((!v2 && v1) || store.removed) saveFichaStore(store);
+        if (hasV1) localStorage.removeItem(FICHA_STORAGE_KEY);
+        delete store.removed;
+        return store;
+      }
+
+      function fichaRecordView(it) {
+        const ttl = fichaTtl(it.ttlHours);
+        return { id: it.id, data: normalizeFicha(it.data), savedAt: it.savedAt, ttlHours: ttl, expiresAt: it.savedAt + ttl * 3600000 };
+      }
+
+      // Paciente activo (misma forma que en v31-v32, más su id).
+      function loadFicha() {
+        const store = loadFichaStore();
+        const it = store.items.find((x) => x.id === store.activeId);
+        return it ? fichaRecordView(it) : null;
+      }
+
+      function listFichas() {
+        const store = loadFichaStore();
+        return store.items.map((it) => Object.assign(fichaRecordView(it), { active: it.id === store.activeId }));
+      }
+
+      // Guarda al paciente activo; si no hay, lo agrega a la lista. Devuelve false si la lista está llena.
       function saveFicha(data, ttlHours) {
-        const ttl = FICHA_TTL_OPTIONS.includes(Number(ttlHours)) ? Number(ttlHours) : 24;
-        localStorage.setItem(FICHA_STORAGE_KEY, JSON.stringify({ v: 1, savedAt: Date.now(), ttlHours: ttl, data }));
+        const store = loadFichaStore();
+        let it = store.items.find((x) => x.id === store.activeId);
+        if (!it) {
+          if (store.items.length >= FICHA_MAX_PATIENTS) return false;
+          it = { id: fichaNewId() };
+          store.items.push(it);
+          store.activeId = it.id;
+        }
+        it.savedAt = Date.now();
+        it.ttlHours = fichaTtl(ttlHours);
+        it.data = data;
+        saveFichaStore(store);
+        return true;
       }
 
+      // Quita al paciente activo de la lista.
       function clearFicha() {
+        const store = loadFichaStore();
+        store.items = store.items.filter((x) => x.id !== store.activeId);
+        store.activeId = null;
+        saveFichaStore(store);
+      }
+
+      function clearAllFichas() {
+        localStorage.removeItem(FICHA_STORE_KEY);
         localStorage.removeItem(FICHA_STORAGE_KEY);
+      }
+
+      // Nota en progreso + laboratorios del paciente en pantalla.
+      function captureWorkSnapshot() {
+        const fields = {};
+        let hasDraft = false;
+        NOTA_DRAFT_FIELD_IDS.forEach((id) => { const el = $(id); if (!el) return; fields[id] = el.value; if (el.value && el.value.trim() && id !== "nota-folio" && id !== "nota-edadsexo") hasDraft = true; });
+        const preCares = Array.from(document.querySelectorAll(".pre-care:checked")).map((c) => c.value);
+        if (preCares.length) hasDraft = true;
+        const labs = {};
+        let hasLabs = false;
+        LAB_CORE_SPECS.forEach((spec) => { const v = $(spec.id) ? $(spec.id).value : ""; if (v !== "") { labs[spec.id] = v; hasLabs = true; } });
+        return { draft: hasDraft ? { tipo: $("nota-tipo").value, fields, preCares } : null, labs: hasLabs ? labs : null };
+      }
+
+      function snapshotHasData(snap) {
+        return !!(snap && (snap.draft || snap.labs));
+      }
+
+      function restoreWorkSnapshot(snap) {
+        if (!snap) return;
+        if (snap.draft) {
+          try {
+            localStorage.setItem(NOTA_DRAFT_STORAGE_KEY, JSON.stringify(Object.assign({ savedAt: Date.now() }, snap.draft)));
+            restoreNotaDraftLocal();
+          } catch (_) {}
+        }
+        if (snap.labs) {
+          Object.keys(snap.labs).forEach((id) => { if ($(id)) $(id).value = snap.labs[id]; });
+          try { checkCriticalLabs(); } catch (_) {}
+        }
+      }
+
+      // Cambia de paciente (targetId null = paciente nuevo, vacío). Guarda el trabajo del actual.
+      function switchFichaPatient(targetId) {
+        const store = loadFichaStore();
+        const current = store.items.find((x) => x.id === store.activeId);
+        const snap = captureWorkSnapshot();
+        if (current) {
+          current.snap = snapshotHasData(snap) ? snap : null;
+        } else if (snapshotHasData(snap) && !confirm("La nota o los laboratorios en pantalla no pertenecen a ningún paciente de la lista y se borrarán. ¿Continuar?")) {
+          return false;
+        }
+        store.activeId = targetId && store.items.some((x) => x.id === targetId) ? targetId : null;
+        saveFichaStore(store);
+        resetAllPatientData(true);
+        document.dispatchEvent(new Event("tyo-patient-change"));
+        const target = store.items.find((x) => x.id === store.activeId);
+        if (target) {
+          if (target.snap) restoreWorkSnapshot(target.snap);
+          applyFichaToApp(normalizeFicha(target.data), true);
+        }
+        updateFichaChip();
+        return true;
       }
 
       function fichaInitials(nombre) {
@@ -6073,6 +6219,13 @@
       }
 
       function redactFichaIdentifiers(text, f) {
+        if (Array.isArray(f)) {
+          // v33: todos los pacientes de la guardia
+          let acc = String(text == null ? "" : text);
+          let total = 0;
+          f.forEach((one) => { const r = redactFichaIdentifiers(acc, one); acc = r.text; total += r.count; });
+          return { text: acc, count: total };
+        }
         let out = String(text == null ? "" : text);
         let count = 0;
         fichaIdentifierTokens(f).forEach((tok) => {
@@ -6396,13 +6549,52 @@
         renderRxFichaBanner();
       }
 
-      function openFichaModal() {
+      function renderFichaList() {
+        const box = $("ficha-lista");
+        if (!box) return;
+        const list = listFichas();
+        $("ficha-lista-count").textContent = String(list.length);
+        $("btn-ficha-borrar-todos").classList.toggle("hidden", list.length === 0);
+        if (!list.length) {
+          box.innerHTML = '<p class="ficha-lista-empty">Aún no hay pacientes. Llena la ficha y guárdala para agregarlo a tu guardia.</p>';
+          return;
+        }
+        box.innerHTML = list.map((r) => {
+          const f = r.data;
+          const s = fichaSummary(f);
+          const l1 = [s.initials || "Px", fichaEdadSexoText(f)].filter(Boolean).join(" · ");
+          const d = new Date(r.expiresAt);
+          const borra = "se borra " + (d.toDateString() === new Date().toDateString() ? "" : d.getDate() + "/" + (d.getMonth() + 1) + " ") + String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+          const l2 = [f.folio, f.servicio, f.alergiaEstado === "si" ? "ALÉRGICO" : "", borra].filter(Boolean).join(" · ");
+          return '<button type="button" class="ficha-row' + (r.active ? " active" : "") + '" data-ficha-id="' + escapeHtml(r.id) + '"' + (r.active ? ' aria-current="true"' : "") + '>' +
+            '<span class="fr-ini">' + escapeHtml(s.initials || "Px") + "</span>" +
+            '<span class="fr-main"><span class="fr-l1">' + escapeHtml(l1) + '</span><span class="fr-l2">' + escapeHtml(l2) + "</span></span>" +
+            (r.active ? '<span class="fr-tag">ACTIVO</span>' : "") + "</button>";
+        }).join("");
+      }
+
+      function fichaFormDirty() {
+        const rec = loadFicha();
+        const base = rec ? rec.data : normalizeFicha({});
+        return JSON.stringify(readFichaForm()) !== JSON.stringify(base);
+      }
+
+      function refreshFichaModal() {
         const rec = loadFicha();
         fillFichaForm(rec ? rec.data : null, rec ? rec.ttlHours : 24);
+        $("ficha-title").textContent = rec ? "Ficha del paciente" : "Nuevo paciente";
+        $("btn-ficha-quitar").classList.toggle("hidden", !rec);
         $("ficha-expira").textContent = describeFichaExpiry(rec);
         $("ficha-status").innerHTML = "";
+        renderFichaList();
+      }
+
+      function openFichaModal() {
         updateFichaChip();
+        refreshFichaModal();
         $("modal-ficha").classList.add("open");
+        const sheet = $("modal-ficha").querySelector(".modal");
+        if (sheet) sheet.scrollTop = 0; // abrir siempre arriba, donde está la lista de la guardia
       }
 
       function closeFichaModal() {
@@ -6428,7 +6620,10 @@
             $("ficha-status").innerHTML = '<div class="alert warn">La ficha está vacía: captura al menos nombre, cama/exp., edad o peso.</div>';
             return;
           }
-          saveFicha(f, $("ficha-ttl").value);
+          if (!saveFicha(f, $("ficha-ttl").value)) {
+            $("ficha-status").innerHTML = '<div class="alert warn">Tu guardia ya tiene ' + FICHA_MAX_PATIENTS + " pacientes. Quita a alguno de la lista para agregar otro.</div>";
+            return;
+          }
           const applied = applyFichaToApp(f, true);
           updateFichaChip();
           closeFichaModal();
@@ -6436,12 +6631,53 @@
           showToast((v.faltanRx.length ? "✅ Ficha guardada. Para recetas faltan: " + v.faltanRx.join(", ") + "." : "✅ Ficha guardada solo en este teléfono.") + llenado);
         });
 
-        $("btn-ficha-nuevo").addEventListener("click", () => {
-          if (!resetAllPatientData(false)) return;
-          clearFicha();
-          fillFichaForm(null, 24);
-          updateFichaChip();
+        // v33: cambiar de paciente tocando la lista
+        $("ficha-lista").addEventListener("click", (e) => {
+          const row = e.target.closest(".ficha-row");
+          if (!row || row.classList.contains("active")) return;
+          if (fichaFormDirty() && !confirm("Hay cambios sin guardar en esta ficha. ¿Cambiar de paciente sin guardarlos?")) return;
+          if (!switchFichaPatient(row.dataset.fichaId)) return;
           closeFichaModal();
+          const rec = loadFicha();
+          if (rec) showToast("👤 Paciente activo: " + ([fichaSummary(rec.data).initials, fichaEdadSexoText(rec.data)].filter(Boolean).join(" · ") || "Px") + ". Se recuperó su nota.");
+        });
+
+        // v33: «Nuevo paciente» agrega uno más; los demás siguen en la lista
+        $("btn-ficha-nuevo").addEventListener("click", () => {
+          if (listFichas().length >= FICHA_MAX_PATIENTS) {
+            $("ficha-status").innerHTML = '<div class="alert warn">Tu guardia ya tiene ' + FICHA_MAX_PATIENTS + " pacientes. Quita a alguno de la lista para agregar otro.</div>";
+            return;
+          }
+          if (loadFicha() && fichaFormDirty() && !confirm("Hay cambios sin guardar en esta ficha. ¿Empezar un paciente nuevo sin guardarlos?")) return;
+          if (!switchFichaPatient(null)) return;
+          refreshFichaModal();
+          showToast(listFichas().length ? "➕ Nuevo paciente. Los demás siguen en tu lista." : "➕ Nuevo paciente.");
+          setTimeout(() => { try { $("ficha-nombre").focus(); } catch (_) {} }, 50);
+        });
+
+        $("btn-ficha-quitar").addEventListener("click", () => {
+          const rec = loadFicha();
+          if (!rec) return;
+          const quien = fichaSummary(rec.data).initials || "este paciente";
+          if (!confirm("¿Quitar a " + quien + " de la lista? Se borran su ficha, su nota en progreso y sus datos en pantalla.")) return;
+          clearFicha();
+          resetAllPatientData(true);
+          document.dispatchEvent(new Event("tyo-patient-change"));
+          updateFichaChip();
+          refreshFichaModal();
+          showToast("🗑️ Paciente quitado de la lista.");
+        });
+
+        $("btn-ficha-borrar-todos").addEventListener("click", () => {
+          const nList = listFichas().length;
+          if (!nList) return;
+          if (!confirm("¿Borrar a " + (nList === 1 ? "el paciente" : "los " + nList + " pacientes") + " de tu guardia? Se borran todas las fichas, sus notas en progreso y los datos en pantalla.")) return;
+          clearAllFichas();
+          resetAllPatientData(true);
+          document.dispatchEvent(new Event("tyo-patient-change"));
+          updateFichaChip();
+          refreshFichaModal();
+          showToast("🗑️ Lista de pacientes borrada.");
         });
 
         // Al volver a la app se revisa si la ficha ya venció.
@@ -6457,7 +6693,7 @@
       }
 
       function resetAllPatientData(skipConfirm) {
-        if (!skipConfirm && !confirm("¿Iniciar NUEVO PACIENTE? Se limpiarán la ficha del paciente, Calculadoras, Recetas, Laboratorios, Fotos y Borrador de Nota actual (tu configuración e historial se conservan).")) {
+        if (!skipConfirm && !confirm("¿Limpiar los datos en pantalla? Se limpiarán Calculadoras, Recetas, Laboratorios, Fotos y Borrador de Nota actual (tu configuración, historial y lista de pacientes se conservan).")) {
           return false;
         }
 
@@ -6572,11 +6808,14 @@
 
         if ($("btn-end-shift")) {
           $("btn-end-shift").addEventListener("click", () => {
-            if (!confirm("¿Cerrar guardia? Se purgarán el historial local y todos los datos del paciente actual (tu encabezado, proxy y métricas anónimas se conservan).")) {
+            if (!confirm("¿Cerrar guardia? Se purgarán el historial local, la lista de pacientes con sus fichas y los datos en pantalla (tu encabezado, proxy y métricas anónimas se conservan).")) {
               return;
             }
             localStorage.removeItem("tyo_history");
+            clearAllFichas();
             resetAllPatientData(true);
+            document.dispatchEvent(new Event("tyo-patient-change"));
+            updateFichaChip();
             renderHistory();
             showToast("🏁 Fin de guardia: historial y datos de pacientes purgados (LFPDPPP).");
           });
@@ -6829,6 +7068,29 @@
         const hits4 = fichaRxAllergyHits(normalizeFicha({ alergiaEstado: "si", alergiaBetalact: true }), "PROFILAXIS (ALERGIA A BETALACTÁMICOS)\n1. Clindamicina 900 mg IV");
         const ok37 = hits1.map((h) => h.drug).join() === "Ketorolaco,Metamizol" && hits2.length === 0 && hits3.length === 1 && hits4.length === 0;
         addTest("37. v32: la receta avisa si incluye un fármaco al que la ficha dice que es alérgico", ok37, hits1.map((h) => h.drug).join(", ") + " | látex: " + hits2.length + " | ondansetrón: " + hits3.length);
+
+        // 38-40. v33: lista de pacientes de la guardia
+        const ahora38 = Date.now();
+        const v1rec = { v: 1, savedAt: ahora38 - 3600000, ttlHours: 24, data: { nombre: "Ana Ruiz", edad: 30 } };
+        const mg1 = migrateFichaStore(v1rec, null);
+        const mg2 = migrateFichaStore(v1rec, { v: 2, activeId: "pX", items: [{ id: "pX", savedAt: ahora38, ttlHours: 24, data: { nombre: "B" } }, { id: "pY", savedAt: ahora38, ttlHours: 24, data: { nombre: "C" } }] });
+        const mg3 = migrateFichaStore("basura", null);
+        const ok38 = mg1.items.length === 1 && mg1.activeId === mg1.items[0].id && mg1.items[0].data.nombre === "Ana Ruiz" && mg2.items.length === 2 && mg2.activeId === "pX" && mg3.items.length === 0 && mg3.activeId === null;
+        addTest("38. v33: la ficha única de v31-v32 pasa sola a la lista de pacientes", ok38, "v1→" + mg1.items.length + " activo " + (mg1.activeId ? "sí" : "no") + " · v2→" + mg2.items.length);
+        const st39 = { v: 2, activeId: "pVieja", items: [
+          { id: "pVieja", savedAt: ahora38 - 25 * 3600000, ttlHours: 24, data: {} },
+          { id: "pNueva", savedAt: ahora38 - 3600000, ttlHours: 24, data: {} },
+          { id: "pLarga", savedAt: ahora38 - 48 * 3600000, ttlHours: 72, data: {} }
+        ] };
+        const pu39 = fichaStorePurge(st39, ahora38);
+        const pu39b = fichaStorePurge({ v: 2, activeId: "pNueva", items: st39.items }, ahora38);
+        const ok39 = pu39.items.map((x) => x.id).join() === "pNueva,pLarga" && pu39.activeId === null && pu39.removed === 1 && pu39b.activeId === "pNueva";
+        addTest("39. v33: cada paciente se borra solo al vencer su plazo (12/24/72 h)", ok39, "quedan: " + pu39.items.map((x) => x.id).join(", ") + " · activo: " + pu39.activeId);
+        const fA40 = normalizeFicha({ nombre: "José Pérez López", folio: "Exp. 004521" });
+        const fB40 = normalizeFicha({ nombre: "Ana Ruiz Soto", folio: "Cama 7 / Exp. 778899" });
+        const env40 = JSON.stringify(buildSafeAiParts([{ text: "Valoro a Ana Ruiz (exp. 778899) por esguince; en la cama de al lado José Pérez refiere dolor." }], [fA40, fB40]));
+        const ok40 = !/Ana|Ruiz|778899|Jos[eé]|P[eé]rez/i.test(env40) && /esguince/.test(env40) && /dolor/.test(env40);
+        addTest("40. v33: la IA no recibe el nombre de NINGÚN paciente de la lista", ok40, JSON.parse(env40)[0].text.slice(0, 100));
 
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
@@ -7123,7 +7385,7 @@
         ["rx-peso", "rx-edad", "rx-tfg"].forEach((id) => {
           $(id).addEventListener("input", () => { rxManualOverride = true; });
         });
-        if ($("btn-ficha-nuevo")) $("btn-ficha-nuevo").addEventListener("click", () => { rxManualOverride = false; });
+        document.addEventListener("tyo-patient-change", () => { rxManualOverride = false; });
 
         const syncRenalToRxSilently = () => {
           if (rxManualOverride || lastRenalState.crcl === null) return;
@@ -7154,8 +7416,11 @@
           $("kpi-px-status").textContent = fichaTag || (folio ? folio.slice(0, 10) : "Px #1");
         }
         if ($("kpi-px-sub")) {
-          const fichaLine = ficha ? (fichaSummary(ficha).line || "Ficha capturada") : "";
-          $("kpi-px-sub").textContent = fichaLine || edadSexo || "Toca para capturar la ficha";
+          let nGuardia = 0;
+          try { nGuardia = listFichas().length; } catch (_) { nGuardia = 0; }
+          const extra = nGuardia > 1 ? " · " + nGuardia + " en guardia" : "";
+          const fichaLine = ficha ? (fichaSummary(ficha).line || "Ficha capturada") + extra : "";
+          $("kpi-px-sub").textContent = fichaLine || (nGuardia ? nGuardia + " en guardia · toca para elegir" : "") || edadSexo || "Toca para capturar la ficha";
         }
       }
 
