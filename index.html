@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v33 · Tema "Base44" (oscuro + claro)
+       TyO Assist v34 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -159,6 +159,17 @@
     .ficha-row .fr-l1 { font-weight: 600; font-size: 14px; }
     .ficha-row .fr-l2 { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .ficha-row .fr-tag { flex: none; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; color: var(--gold); }
+    .rx-item { margin-top: 10px; border: 1px solid var(--line); border-radius: 14px; background: var(--inset); }
+    .rx-item > summary { list-style: none; cursor: pointer; display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; }
+    .rx-item > summary::-webkit-details-marker { display: none; }
+    .rx-item .rxi-text { flex: 1; min-width: 0; font-size: 14px; line-height: 1.45; }
+    .rx-item .rxi-text strong { display: block; font-weight: 700; }
+    .rx-item .rxi-sub { display: block; color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+    .rx-item .rxi-edit { flex: none; font-size: 12px; font-weight: 700; color: var(--gold); padding-top: 2px; }
+    .rx-item[open] .rxi-edit { color: var(--muted); }
+    .rx-item .rxi-body { padding: 0 14px 14px; }
+    .rx-item.rxi-missing { border-color: rgba(214, 69, 69, 0.55); }
+    .rx-receta-empty { font-size: 13px; color: var(--muted); padding: 6px 2px; }
     .ficha-lista-empty { font-size: 13px; color: var(--muted); padding: 4px 2px; }
     .hbtn-px.has-ficha { color: var(--gold); border-color: rgba(183, 134, 44, 0.45); }
     .hbtn-round { width: 34px; }
@@ -1381,6 +1392,48 @@
           <div class="ref-text" id="rx-refs"></div>
         </div>
       </div>
+
+      <!-- v34: RECETA DEL PACIENTE (art. 29 y 30 del Reglamento de Insumos para la Salud) -->
+      <div class="band band-alt" id="rx-receta-band">
+        <div class="step-hdr no-print"><span class="step-num">3</span><h3>Receta para el paciente</h3></div>
+        <div class="card" id="rx-receta-card">
+          <div class="card-head">
+            <h3 class="h-sm">Receta médica</h3>
+            <span class="tag">ART. 29–30 RIS</span>
+          </div>
+          <p class="cfg-help">Una sola dosis por medicamento: genérico, presentación, dosis, vía, frecuencia y duración. Toca un medicamento para cambiarlo.</p>
+          <div id="rx-receta-alerts"></div>
+          <div id="rx-receta-items"></div>
+          <label class="field">Agregar medicamento
+            <span class="select-wrap"><select id="rx-receta-add"><option value="">Elegir…</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+          </label>
+          <label class="field">Indicaciones y datos de alarma
+            <textarea id="rx-receta-indic" rows="4" placeholder="Medidas generales y cuándo acudir a Urgencias"></textarea>
+          </label>
+          <details class="acc acc-card no-print" id="rx-medico-box">
+            <summary><span class="sum-text"><strong>Tus datos (art. 29)</strong> <small id="rx-medico-summary">Se guardan una sola vez en este teléfono</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+            <div class="acc-body">
+              <label class="field">Nombre completo<input type="text" id="rx-med-nombre" placeholder="Dr. Nombre Apellido Apellido" autocomplete="off" /></label>
+              <div class="grid-2">
+                <label class="field">Cédula profesional<input type="text" id="rx-med-cedula" placeholder="12345678" autocomplete="off" /></label>
+                <label class="field">Institución que expidió el título<input type="text" id="rx-med-titulo" placeholder="UNAM" autocomplete="off" /></label>
+              </div>
+              <div class="grid-2">
+                <label class="field">Especialidad (opcional)<input type="text" id="rx-med-especialidad" placeholder="Traumatología y Ortopedia" autocomplete="off" /></label>
+                <label class="field">Cédula de especialidad<input type="text" id="rx-med-cedula-esp" placeholder="Si aplica" autocomplete="off" /></label>
+              </div>
+              <label class="field">Unidad / consultorio<input type="text" id="rx-med-unidad" placeholder="Hospital — Servicio" autocomplete="off" /></label>
+              <label class="field">Domicilio completo<input type="text" id="rx-med-domicilio" placeholder="Calle, número, colonia, C.P., ciudad" autocomplete="off" /></label>
+              <label class="field">Teléfono (opcional)<input type="text" id="rx-med-tel" inputmode="tel" placeholder="55 1234 5678" autocomplete="off" /></label>
+            </div>
+          </details>
+          <div class="output-box" id="rx-receta-output"></div>
+          <div class="btn-grid no-print">
+            <button type="button" class="btn btn-primary btn-lg" id="btn-receta-copy"><svg class="ic"><use href="#i-copy"/></svg>Copiar receta</button>
+            <button type="button" class="btn btn-secondary btn-lg hidden" id="btn-receta-reset"><svg class="ic"><use href="#i-refresh"/></svg>Restablecer</button>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- =========================================================
@@ -1764,7 +1817,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v33 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v34 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -1796,7 +1849,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes y Diagnóstico (v33 · Intuitiva)</h3>
+        <h3 id="cfg-title">Ajustes y Diagnóstico (v34 · Intuitiva)</h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -1870,7 +1923,7 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (40 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (43 pruebas)</h4>
         <div class="btn-row">
           <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (29)</button>
         </div>
@@ -1998,15 +2051,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v33 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v34 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "33",
-      versionLabel: "v33 Intuitiva",
+      version: "34",
+      versionLabel: "v34 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -2913,6 +2966,372 @@
         return Math.round((peso * 5) / 10) * 10;
       }
 
+      /* =======================================================
+         v34: RECETA DEL PACIENTE (Reglamento de Insumos para la Salud)
+         Art. 29: nombre, domicilio completo y cédula profesional impresos + fecha + firma.
+         Art. 30: dosis, presentación, vía, frecuencia y duración.
+         Solo funciones y «var» (sin zona muerta temporal: renderProtocol corre al arrancar).
+      ======================================================= */
+      var RX_CATALOG_CACHE = null;
+      function rxCatalog() {
+        if (RX_CATALOG_CACHE) return RX_CATALOG_CACHE;
+        const tab = (conc, mg) => ({ forma: "tabletas", conc, mg, unidad: "tableta" });
+        const cap = (conc, mg) => ({ forma: "cápsulas", conc, mg, unidad: "cápsula" });
+        RX_CATALOG_CACHE = {
+          paracetamol: { generico: "Paracetamol", pres: [tab("500 mg", 500)], via: "oral", max: 4000 },
+          ibuprofeno: { generico: "Ibuprofeno", pres: [tab("400 mg", 400), tab("600 mg", 600)], via: "oral", max: 2400, aine: true },
+          naproxeno: { generico: "Naproxeno", pres: [tab("250 mg", 250), tab("500 mg", 500)], via: "oral", max: 1500, aine: true },
+          celecoxib: { generico: "Celecoxib", pres: [cap("100 mg", 100), cap("200 mg", 200)], via: "oral", max: 400, aine: true },
+          meloxicam: { generico: "Meloxicam", pres: [tab("7.5 mg", 7.5), tab("15 mg", 15)], via: "oral", max: 15, aine: true },
+          ketorolaco: { generico: "Ketorolaco", pres: [tab("10 mg", 10)], via: "oral", max: 40, maxDias: 5, aine: true },
+          tramadol: { generico: "Tramadol", pres: [cap("50 mg", 50)], via: "oral", max: 400 },
+          omeprazol: { generico: "Omeprazol", pres: [cap("20 mg", 20)], via: "oral" },
+          metocarbamol: { generico: "Metocarbamol", pres: [tab("500 mg", 500), tab("750 mg", 750)], via: "oral" },
+          pregabalina: { generico: "Pregabalina", pres: [cap("75 mg", 75)], via: "oral", max: 600 },
+          cefalexina: { generico: "Cefalexina", pres: [cap("500 mg", 500)], via: "oral" },
+          dicloxacilina: { generico: "Dicloxacilina", pres: [cap("500 mg", 500)], via: "oral" },
+          clindamicina: { generico: "Clindamicina", pres: [cap("300 mg", 300)], via: "oral" },
+          ciprofloxacino: { generico: "Ciprofloxacino", pres: [tab("500 mg", 500)], via: "oral" },
+          enoxaparina: { generico: "Enoxaparina", pres: [{ forma: "solución inyectable en jeringa prellenada", conc: "40 mg/0.4 mL", mg: 40, unidad: "jeringa" }], via: "subcutánea" },
+          rivaroxaban: { generico: "Rivaroxabán", pres: [tab("10 mg", 10)], via: "oral" },
+          apixaban: { generico: "Apixabán", pres: [tab("2.5 mg", 2.5)], via: "oral" }
+        };
+        return RX_CATALOG_CACHE;
+      }
+
+      var RX_RECETA_STATE = null;
+      function recetaState() {
+        if (!RX_RECETA_STATE) RX_RECETA_STATE = { items: [], indic: "", edited: false, sig: "", stale: false, blocked: false, reason: "datos", open: new Set() };
+        return RX_RECETA_STATE;
+      }
+
+      function rxFreqOptions() { return [["6", "cada 6 horas"], ["8", "cada 8 horas"], ["12", "cada 12 horas"], ["24", "cada 24 horas"], ["24n", "una vez al día, por la noche"]]; }
+      function rxFreqText(f) { const o = rxFreqOptions().find((x) => x[0] === String(f)); return o ? o[1] : "cada " + f + " horas"; }
+      function rxTomasPorDia(f) { return String(f) === "24n" ? 1 : 24 / Number(f); }
+      function rxFmtMg(mg) { return mg >= 1000 && mg % 100 === 0 ? (mg / 1000) + " g" : (Math.round(mg * 100) / 100) + " mg"; }
+      function rxPlural(unidad, n) { return n === 1 ? unidad : unidad + "s"; }
+      function rxItem(key, presIdx, cant, freq, dias, prn, nota) { return { key, presIdx, cant, freq: String(freq), dias: dias === "" ? "" : Number(dias), prn: !!prn, nota: nota || "" }; }
+
+      // Pura: medicamentos de la receta según el protocolo de alta y el paciente (una sola dosis por fármaco).
+      function rxDefaultItems(proto, ctx) {
+        if (!ctx) return { items: [], indic: "", blocked: false, reason: "datos" };
+        if (proto !== "esguince" && proto !== "lumbalgia") return { items: [], indic: "", blocked: false, reason: "hospital" };
+        if (proto === "lumbalgia" && ctx.redflags > 0) return { items: [], indic: "", blocked: true, reason: "banderas" };
+        const items = [];
+        const paraMedia = ctx.hepato || ctx.peso < 50; // tope 2 g/día
+        items.push(rxItem("paracetamol", 0, paraMedia ? 1 : 2, 8, 5, false, ""));
+        if (ctx.tfg < 60) {
+          items.push(rxItem("tramadol", 0, 1, 8, 3, true, ""));
+        } else if (ctx.gastritis) {
+          items.push(rxItem("celecoxib", 1, 1, 12, 5, false, "con alimentos"));
+          items.push(rxItem("omeprazol", 0, 1, 24, 5, false, "en ayunas"));
+        } else if (proto === "esguince") {
+          items.push(rxItem("ibuprofeno", 0, 1, 8, 5, false, "con alimentos"));
+        } else {
+          items.push(rxItem("naproxeno", 1, 1, 12, 5, false, "con alimentos"));
+          items.push(rxItem("omeprazol", 0, 1, 24, 5, false, "en ayunas"));
+        }
+        let indic;
+        if (proto === "esguince") {
+          indic = "Vendaje funcional o tobillera; no usar yeso rígido por tiempo prolongado. Elevar la pierna por encima del corazón al descansar. Apoyar el pie poco a poco, según tolere, después de 48 a 72 horas, con ejercicios suaves de movilidad.\nAcudir a Urgencias de inmediato si: dedos fríos, pálidos o morados, hormigueo que aumenta, dolor que no se quita con el analgésico, o si al día 7 no puede dar 4 pasos.";
+        } else {
+          items.push(rxItem("metocarbamol", 0, 1, 8, 3, true, "puede causar somnolencia: no manejar ni operar maquinaria"));
+          if (ctx.radiculo) items.push(rxItem("pregabalina", 0, 1, "24n", "", false, ""));
+          indic = "Mantener actividad física ligera según tolere; evitar reposo absoluto en cama por más de 48 horas. Higiene de columna y calor local 15 a 20 minutos cada 8 horas.\nAcudir a Urgencias de inmediato si: pérdida de fuerza en las piernas o pie caído, adormecimiento en la zona genital o entre las piernas, dificultad para orinar o pérdida del control de la orina, o fiebre.";
+        }
+        return { items, indic, blocked: false, reason: "" };
+      }
+
+      // Pura: texto de un medicamento → { title, line, total, missing }.
+      function formatRxItem(it) {
+        const med = rxCatalog()[it.key];
+        if (!med) return { title: "", line: "", total: "", missing: ["medicamento"] };
+        const pr = med.pres[it.presIdx] || med.pres[0];
+        const cant = Number(it.cant);
+        const cantOk = it.cant !== "" && Number.isFinite(cant) && cant > 0;
+        const missing = [];
+        if (!cantOk) missing.push("dosis");
+        const diasOk = it.dias !== "" && Number.isFinite(Number(it.dias)) && Number(it.dias) > 0;
+        if (!diasOk) missing.push("duración");
+        const verbo = med.via === "subcutánea" ? "Aplicar" : "Tomar";
+        const dosisTxt = cantOk ? cant + " " + rxPlural(pr.unidad, cant) + (cant !== 1 ? " (" + rxFmtMg(pr.mg * cant) + ")" : "") : "[FALTA DOSIS]";
+        let line = verbo + " " + dosisTxt + " por vía " + med.via + " " + rxFreqText(it.freq) + (diasOk ? " durante " + Number(it.dias) + (Number(it.dias) === 1 ? " día" : " días") : " durante [FALTA DURACIÓN]");
+        if (it.prn) line += ", solo si hay " + (it.key === "metocarbamol" ? "espasmo muscular intenso" : "dolor intenso");
+        if (it.nota) line += ", " + it.nota;
+        line += ".";
+        let total = "";
+        if (diasOk && cantOk) {
+          const nTot = Math.ceil(cant * rxTomasPorDia(it.freq) * Number(it.dias));
+          total = "Surtir: " + nTot + " " + rxPlural(pr.unidad, nTot) + (it.prn ? " (máximo)" : "") + ".";
+        }
+        return { title: med.generico.toUpperCase() + " — " + pr.forma + " de " + pr.conc + ".", line, total, missing };
+      }
+
+      // Pura: requisitos y avisos de seguridad de la receta.
+      function recetaChecks(items, medico, ctx) {
+        const out = { faltanMedico: [], faltanItems: [], dosis: [], otros: [] };
+        if (!medico.nombre) out.faltanMedico.push("nombre");
+        if (!medico.cedula) out.faltanMedico.push("cédula profesional");
+        if (!medico.domicilio) out.faltanMedico.push("domicilio");
+        const aines = [];
+        items.forEach((it) => {
+          const med = rxCatalog()[it.key];
+          if (!med) return;
+          const fx = formatRxItem(it);
+          if (fx.missing.length) out.faltanItems.push(med.generico + " (" + fx.missing.join(", ") + ")");
+          const pr = med.pres[it.presIdx] || med.pres[0];
+          const diario = Number(it.cant) * pr.mg * rxTomasPorDia(it.freq);
+          let max = med.max;
+          if (it.key === "paracetamol" && ctx && (ctx.hepato || ctx.peso < 50)) max = 2000;
+          if (it.key === "tramadol" && ctx && ctx.edad > 75) max = 300;
+          if (max && Number.isFinite(diario) && diario > max) out.dosis.push(med.generico + ": " + rxFmtMg(diario) + "/día supera la dosis máxima habitual (" + rxFmtMg(max) + "/día)");
+          if (med.maxDias && Number(it.dias) > med.maxDias) out.dosis.push(med.generico + ": más de " + med.maxDias + " días de tratamiento");
+          if (med.aine) aines.push(med.generico);
+        });
+        if (aines.length > 1) out.otros.push("Dos AINE en la misma receta (" + aines.join(" y ") + "): deja solo uno.");
+        if (aines.length && ctx && ctx.tfg < 60) out.otros.push("AINE con TFG < 60 mL/min (" + aines.join(", ") + "): riesgo de daño renal.");
+        return out;
+      }
+
+      function readMedicoData() {
+        const g = (k) => (localStorage.getItem(k) || "").trim();
+        return { nombre: g("tyo_medico"), cedula: g("tyo_cedula"), titulo: g("tyo_titulo_inst"), especialidad: g("tyo_especialidad"), cedulaEsp: g("tyo_cedula_esp"), unidad: g("tyo_unidad"), domicilio: g("tyo_domicilio"), tel: g("tyo_telefono") };
+      }
+
+      function recetaFicha() {
+        try { const rec = loadFicha(); return rec && fichaHasData(rec.data) ? rec.data : null; } catch (_) { return null; }
+      }
+
+      function buildRecetaText() {
+        const st = recetaState();
+        const m = readMedicoData();
+        const f = recetaFicha();
+        const falta = (x) => "[FALTA: " + x + "]";
+        const hoy = new Date();
+        const fecha = String(hoy.getDate()).padStart(2, "0") + "/" + String(hoy.getMonth() + 1).padStart(2, "0") + "/" + hoy.getFullYear();
+        const L = [];
+        L.push("RECETA MÉDICA");
+        L.push((m.nombre || falta("nombre del médico")) + (m.especialidad ? " — " + m.especialidad : ""));
+        L.push("Céd. Prof. " + (m.cedula || falta("cédula")) + (m.cedulaEsp ? " · Céd. Esp. " + m.cedulaEsp : "") + (m.titulo ? " · Título: " + m.titulo : ""));
+        if (m.unidad) L.push(m.unidad);
+        L.push("Domicilio: " + (m.domicilio || falta("domicilio")) + (m.tel ? " · Tel. " + m.tel : ""));
+        L.push("————————————————————————————————————");
+        L.push("Fecha: " + fecha);
+        if (f) {
+          const bits = [fichaEdadSexoText(f)];
+          if (f.peso !== "" && Number.isFinite(f.peso)) bits.push(f.peso + " kg");
+          const b2 = bits.filter(Boolean);
+          L.push("Paciente: " + (f.nombre || falta("nombre del paciente")) + (b2.length ? " · " + b2.join(" · ") : ""));
+          L.push("Alergias: " + fichaAllergyText(f));
+        } else {
+          L.push("Paciente: " + falta("nombre del paciente (captura la ficha en Px)"));
+        }
+        L.push("————————————————————————————————————");
+        L.push("Rp.");
+        st.items.forEach((it, i) => {
+          const fx = formatRxItem(it);
+          L.push((i + 1) + ". " + fx.title);
+          L.push("   " + fx.line);
+          if (fx.total) L.push("   " + fx.total);
+        });
+        if (st.indic.trim()) {
+          L.push("");
+          L.push("INDICACIONES");
+          L.push(st.indic.trim());
+        }
+        L.push("————————————————————————————————————");
+        L.push("Firma: ______________________________");
+        return L.join("\n");
+      }
+
+      function rxCtxFromScreen() {
+        return { peso: parseFloat($("rx-peso").value), edad: parseFloat($("rx-edad").value), tfg: parseFloat($("rx-tfg").value), hepato: $("rx-hepato").checked, gastritis: $("rx-gastritis").checked };
+      }
+
+      function syncRecetaFromProtocol(proto, ctx) {
+        const st = recetaState();
+        const def = rxDefaultItems(proto, ctx);
+        const sig = JSON.stringify([proto, def.items, def.reason]);
+        st.blocked = def.blocked;
+        st.reason = def.reason;
+        if (!st.edited) {
+          st.items = def.items.map((x) => Object.assign({}, x));
+          st.indic = def.indic;
+          st.sig = sig;
+          st.stale = false;
+        } else {
+          st.stale = sig !== st.sig;
+        }
+        renderReceta();
+      }
+
+      function rxItemSummaryHtml(i, fx) {
+        return "<strong>" + (i + 1) + ". " + escapeHtml(fx.title) + "</strong>" + escapeHtml(fx.line) + (fx.total ? '<span class="rxi-sub">' + escapeHtml(fx.total) + "</span>" : "");
+      }
+
+      // keepItems = true: no redibuja la lista (para no perder el foco mientras editas)
+      function renderReceta(keepItems) {
+        const st = recetaState();
+        const box = $("rx-receta-items");
+        if (!box) return;
+        const cat = rxCatalog();
+        const showItems = !st.blocked;
+        if (keepItems) {
+          // solo avisos y receta (abajo)
+        } else if (!showItems) {
+          box.innerHTML = "";
+        } else if (!st.items.length) {
+          const msg = st.reason === "hospital"
+            ? "Este protocolo es de indicaciones hospitalarias. Para una receta de egreso, agrega los medicamentos abajo."
+            : st.reason === "datos"
+              ? "Captura peso, edad y TFG del paciente (o la ficha en Px) para armar la receta, o agrega medicamentos abajo."
+              : "Sin medicamentos. Agrégalos abajo.";
+          box.innerHTML = '<p class="rx-receta-empty">' + msg + "</p>";
+        } else {
+          box.innerHTML = st.items.map((it, i) => {
+            const med = cat[it.key];
+            const fx = formatRxItem(it);
+            const presOpts = med.pres.map((pr, pi) => '<option value="' + pi + '"' + (pi === Number(it.presIdx) ? " selected" : "") + ">" + escapeHtml(pr.forma + " de " + pr.conc) + "</option>").join("");
+            const freqOpts = rxFreqOptions().map(([v, l]) => '<option value="' + v + '"' + (v === String(it.freq) ? " selected" : "") + ">" + escapeHtml(l) + "</option>").join("");
+            const unidadLbl = med.pres[0].unidad.charAt(0).toUpperCase() + med.pres[0].unidad.slice(1) + "s por toma";
+            return '<details class="rx-item' + (fx.missing.length ? " rxi-missing" : "") + '" data-idx="' + i + '"' + (st.open.has(i) ? " open" : "") + ">" +
+              '<summary><span class="rxi-text">' + rxItemSummaryHtml(i, fx) + '</span><span class="rxi-edit">Editar</span></summary>' +
+              '<div class="rxi-body">' +
+                '<label class="field">Presentación<span class="select-wrap"><select data-f="presIdx">' + presOpts + '</select><svg class="ic"><use href="#i-chevron"/></svg></span></label>' +
+                '<div class="grid-2"><label class="field">' + escapeHtml(unidadLbl) + '<input type="number" data-f="cant" inputmode="decimal" min="0.5" step="0.5" value="' + escapeHtml(String(it.cant)) + '" /></label>' +
+                '<label class="field">Días<input type="number" data-f="dias" inputmode="numeric" min="1" step="1" value="' + escapeHtml(it.dias === "" ? "" : String(it.dias)) + '" placeholder="Obligatorio" /></label></div>' +
+                '<label class="field">Frecuencia<span class="select-wrap"><select data-f="freq">' + freqOpts + '</select><svg class="ic"><use href="#i-chevron"/></svg></span></label>' +
+                '<div class="checks"><label class="check-pill"><input type="checkbox" data-f="prn"' + (it.prn ? " checked" : "") + " /> Solo si hay " + (it.key === "metocarbamol" ? "espasmo" : "dolor") + "</label></div>" +
+                '<label class="field">Indicación adicional<input type="text" data-f="nota" value="' + escapeHtml(it.nota) + '" placeholder="con alimentos, en ayunas…" /></label>' +
+                '<div class="btn-row"><button type="button" class="btn btn-secondary btn-sm" data-act="quitar"><svg class="ic"><use href="#i-trash"/></svg>Quitar</button></div>' +
+              "</div></details>";
+          }).join("");
+        }
+
+        if (document.activeElement !== $("rx-receta-indic")) $("rx-receta-indic").value = st.indic;
+
+        const ctx = rxCtxFromScreen();
+        const m = readMedicoData();
+        const chk = recetaChecks(st.items, m, ctx);
+        const alerts = [];
+        if (st.blocked) alerts.push('<div class="alert danger"><strong>⛔ Sin receta de alta:</strong> hay banderas rojas de lumbalgia. El paciente requiere valoración urgente.</div>');
+        const f = recetaFicha();
+        const hasItems = showItems && st.items.length > 0;
+        if (hasItems && f) {
+          const txt = st.items.map((it) => { const fx = formatRxItem(it); return fx.title + " " + fx.line; }).join("\n");
+          try { alerts.push(...fichaRxAlerts(f, txt, $("rx-alergia").checked)); } catch (_) {}
+          if (Number.isFinite(fichaAgeYears(f)) && fichaAgeYears(f) < 18) alerts.push('<div class="alert danger"><strong>Paciente pediátrico:</strong> estas dosis son de adulto. Dosifica por peso con tu guía pediátrica.</div>');
+        }
+        chk.dosis.forEach((d) => alerts.push('<div class="alert danger"><strong>Revisa la dosis:</strong> ' + escapeHtml(d) + ".</div>"));
+        chk.otros.forEach((d) => alerts.push('<div class="alert warn">' + escapeHtml(d) + "</div>"));
+        if (hasItems && chk.faltanItems.length) alerts.push('<div class="alert warn"><strong>Completa (art. 30):</strong> ' + escapeHtml(chk.faltanItems.join("; ")) + ".</div>");
+        if (hasItems && chk.faltanMedico.length) alerts.push('<div class="alert warn"><strong>Faltan tus datos (art. 29):</strong> ' + escapeHtml(chk.faltanMedico.join(", ")) + ". Captúralos en «Tus datos».</div>");
+        if (hasItems && (!f || !f.nombre)) alerts.push('<div class="alert warn"><strong>Falta el nombre del paciente:</strong> captúralo en la ficha (Px).</div>');
+        if (st.stale) alerts.push('<div class="alert warn"><strong>Cambiaron el protocolo o los datos del paciente.</strong> Tu receta tiene cambios tuyos y no se actualizó; toca «Restablecer» para rehacerla.</div>');
+        $("rx-receta-alerts").innerHTML = alerts.join("");
+
+        $("rx-receta-output").textContent = hasItems ? buildRecetaText() : "";
+        $("btn-receta-copy").disabled = !hasItems;
+        $("btn-receta-reset").classList.toggle("hidden", !st.edited);
+        const ms = $("rx-medico-summary");
+        if (ms) ms.textContent = m.nombre && m.cedula && m.domicilio ? m.nombre + " · Céd. " + m.cedula : "Faltan: " + chk.faltanMedico.join(", ");
+      }
+
+      function initRecetaPaciente() {
+        const cat = rxCatalog();
+        $("rx-receta-add").innerHTML = '<option value="">Elegir…</option>' + Object.keys(cat).map((k) => '<option value="' + k + '">' + escapeHtml(cat[k].generico + " — " + cat[k].pres.map((pr) => pr.conc).join(" / ")) + "</option>").join("");
+        const fieldMap = [["rx-med-nombre", "tyo_medico"], ["rx-med-cedula", "tyo_cedula"], ["rx-med-titulo", "tyo_titulo_inst"], ["rx-med-especialidad", "tyo_especialidad"], ["rx-med-cedula-esp", "tyo_cedula_esp"], ["rx-med-unidad", "tyo_unidad"], ["rx-med-domicilio", "tyo_domicilio"], ["rx-med-tel", "tyo_telefono"]];
+        const twins = { tyo_medico: "nota-medico", tyo_cedula: "nota-cedula", tyo_unidad: "nota-unidad" };
+        fieldMap.forEach(([id, key]) => {
+          $(id).value = localStorage.getItem(key) || "";
+          $(id).addEventListener("input", () => {
+            localStorage.setItem(key, $(id).value);
+            if (twins[key] && $(twins[key])) $(twins[key]).value = $(id).value;
+            renderReceta();
+          });
+        });
+
+        const box = $("rx-receta-items");
+        box.addEventListener("toggle", (e) => {
+          const d = e.target;
+          if (!d.classList || !d.classList.contains("rx-item")) return;
+          const i = Number(d.dataset.idx);
+          if (d.open) recetaState().open.add(i); else recetaState().open.delete(i);
+        }, true);
+        const onEdit = (e) => {
+          const el = e.target;
+          const fName = el.dataset && el.dataset.f;
+          const det = el.closest && el.closest(".rx-item");
+          if (!fName || !det) return;
+          const st = recetaState();
+          const idx = Number(det.dataset.idx);
+          const it = st.items[idx];
+          if (!it) return;
+          if (fName === "prn") it.prn = el.checked;
+          else if (fName === "presIdx") it.presIdx = Number(el.value);
+          else if (fName === "cant") it.cant = el.value === "" ? "" : Number(el.value);
+          else if (fName === "dias") it.dias = el.value === "" ? "" : Number(el.value);
+          else if (fName === "freq") it.freq = el.value;
+          else if (fName === "nota") it.nota = el.value;
+          st.edited = true;
+          // Actualiza el texto del medicamento, la receta y los avisos sin redibujar la lista
+          const fx = formatRxItem(it);
+          const txtEl = det.querySelector(".rxi-text");
+          if (txtEl) txtEl.innerHTML = rxItemSummaryHtml(idx, fx);
+          det.classList.toggle("rxi-missing", fx.missing.length > 0);
+          renderReceta(true);
+        };
+        box.addEventListener("input", onEdit);
+        box.addEventListener("change", onEdit);
+        box.addEventListener("click", (e) => {
+          const b = e.target.closest && e.target.closest('[data-act="quitar"]');
+          if (!b) return;
+          const st = recetaState();
+          st.items.splice(Number(b.closest(".rx-item").dataset.idx), 1);
+          st.open = new Set();
+          st.edited = true;
+          renderReceta();
+        });
+
+        $("rx-receta-add").addEventListener("change", () => {
+          const k = $("rx-receta-add").value;
+          if (!k || !cat[k]) return;
+          const st = recetaState();
+          st.items.push(rxItem(k, 0, 1, 8, "", false, ""));
+          st.open = new Set([st.items.length - 1]);
+          st.edited = true;
+          st.blocked = false;
+          $("rx-receta-add").value = "";
+          renderReceta();
+        });
+        $("rx-receta-indic").addEventListener("input", () => {
+          const st = recetaState();
+          st.indic = $("rx-receta-indic").value;
+          st.edited = true;
+          $("rx-receta-output").textContent = st.items.length && !st.blocked ? buildRecetaText() : "";
+          $("btn-receta-reset").classList.remove("hidden");
+        });
+        $("btn-receta-reset").addEventListener("click", () => {
+          const st = recetaState();
+          st.edited = false;
+          st.open = new Set();
+          renderProtocol();
+          showToast("Receta rehecha desde el protocolo.");
+        });
+        $("btn-receta-copy").addEventListener("click", () => {
+          const st = recetaState();
+          if (!st.items.length || st.blocked) return;
+          const chk = recetaChecks(st.items, readMedicoData(), rxCtxFromScreen());
+          const pend = [];
+          if (chk.faltanItems.length) pend.push("duración o dosis");
+          if (chk.faltanMedico.length) pend.push("tus datos");
+          Promise.resolve(copyText(buildRecetaText())).then(() => {
+            showToast(pend.length ? "📋 Receta copiada. Ojo: falta " + pend.join(" y ") + "." : "📋 Receta copiada.");
+          });
+        });
+        renderReceta();
+      }
+
       function renderProtocol() {
         const proto = $("rx-protocol").value;
         const peso = parseFloat($("rx-peso").value);
@@ -2940,6 +3359,7 @@
           const rxDet = $("rx-patient-summary") && $("rx-patient-summary").closest("details");
           if (rxDet) rxDet.open = true;
           if (typeof syncRxFracturiumUI === "function") syncRxFracturiumUI(proto, peso, edad, tfg, alergia, gastritis, hepato, desabasto);
+          try { syncRecetaFromProtocol(null, null); } catch (_) {}
           return;
         }
 
@@ -3207,6 +3627,13 @@
         $("rx-output").textContent = out;
         $("rx-refs").textContent = refs ? refs + " Dosis sujetas a verificación del médico tratante según la guía institucional vigente." : refs;
         if (typeof syncRxFracturiumUI === "function") syncRxFracturiumUI(proto, peso, edad, tfg, alergia, gastritis, hepato, desabasto);
+        try {
+          syncRecetaFromProtocol(proto, {
+            peso, edad, tfg, hepato, gastritis,
+            radiculo: !!($("rx-radiculo") && $("rx-radiculo").checked),
+            redflags: document.querySelectorAll(".rx-redflag:checked").length
+          });
+        } catch (_) { /* la receta aún no está lista al arrancar */ }
       }
 
       [
@@ -3562,7 +3989,12 @@
         $("nota-adscrito").value = localStorage.getItem("tyo_adscrito") || "";
 
         [["nota-unidad", "tyo_unidad"], ["nota-medico", "tyo_medico"], ["nota-cedula", "tyo_cedula"], ["nota-adscrito", "tyo_adscrito"]].forEach(([id, key]) => {
-          $(id).addEventListener("input", () => localStorage.setItem(key, $(id).value));
+          $(id).addEventListener("input", () => {
+            localStorage.setItem(key, $(id).value);
+            // v34: mismos datos en la receta
+            const twin = { tyo_unidad: "rx-med-unidad", tyo_medico: "rx-med-nombre", tyo_cedula: "rx-med-cedula" }[key];
+            if (twin && $(twin)) { $(twin).value = $(id).value; try { renderReceta(); } catch (_) {} }
+          });
         });
       }
 
@@ -6547,6 +6979,7 @@
         }
         if (typeof refreshDashboardHubv18 === "function") refreshDashboardHubv18();
         renderRxFichaBanner();
+        try { renderReceta(); } catch (_) {}
       }
 
       function renderFichaList() {
@@ -6734,6 +7167,7 @@
         $("rx-obesidad").checked = false;
         $("rx-radiculo").checked = false;
         document.querySelectorAll(".rx-redflag").forEach((el) => (el.checked = false));
+        try { recetaState().edited = false; recetaState().open.clear(); } catch (_) {}
         renderProtocol();
 
         if (audioRecorder && audioRecorder.state === "recording") stopAudioRecording(true);
@@ -7091,6 +7525,24 @@
         const env40 = JSON.stringify(buildSafeAiParts([{ text: "Valoro a Ana Ruiz (exp. 778899) por esguince; en la cama de al lado José Pérez refiere dolor." }], [fA40, fB40]));
         const ok40 = !/Ana|Ruiz|778899|Jos[eé]|P[eé]rez/i.test(env40) && /esguince/.test(env40) && /dolor/.test(env40);
         addTest("40. v33: la IA no recibe el nombre de NINGÚN paciente de la lista", ok40, JSON.parse(env40)[0].text.slice(0, 100));
+
+        // 41-43. v34: receta del paciente
+        const base41 = { peso: 70, edad: 45, tfg: 100, hepato: false, gastritis: false, radiculo: false, redflags: 0 };
+        const d41a = rxDefaultItems("esguince", base41).items.map((x) => x.key + ":" + x.cant).join();
+        const d41b = rxDefaultItems("esguince", Object.assign({}, base41, { tfg: 45 })).items;
+        const d41c = rxDefaultItems("lumbalgia", Object.assign({}, base41, { gastritis: true, radiculo: true })).items;
+        const d41d = rxDefaultItems("lumbalgia", Object.assign({}, base41, { redflags: 1 }));
+        const d41e = rxDefaultItems("profilaxis", base41);
+        const ok41 = d41a === "paracetamol:2,ibuprofeno:1" && d41b[1].key === "tramadol" && d41b[1].prn && d41c.map((x) => x.key).join() === "paracetamol,celecoxib,omeprazol,metocarbamol,pregabalina" && d41c[4].dias === "" && d41d.blocked && d41d.items.length === 0 && d41e.reason === "hospital";
+        addTest("41. v34: la receta de alta toma una sola dosis por fármaco según el paciente", ok41, d41a + " | TFG 45: " + d41b.map((x) => x.key).join(",") + " | banderas: " + d41d.blocked);
+        const fx42 = formatRxItem(rxItem("paracetamol", 0, 2, 8, 5, false, ""));
+        const fx42b = formatRxItem(rxItem("enoxaparina", 0, 1, 24, 10, false, ""));
+        const fx42c = formatRxItem(rxItem("pregabalina", 0, 1, "24n", "", false, ""));
+        const ok42 = fx42.title === "PARACETAMOL — tabletas de 500 mg." && fx42.line === "Tomar 2 tabletas (1 g) por vía oral cada 8 horas durante 5 días." && fx42.total === "Surtir: 30 tabletas." && /^Aplicar 1 jeringa por vía subcutánea cada 24 horas durante 10 días\.$/.test(fx42b.line) && fx42c.missing.join() === "duración" && /FALTA DURACIÓN/.test(fx42c.line);
+        addTest("42. v34: cada renglón trae presentación, dosis, vía, frecuencia, duración y cuánto surtir (art. 30)", ok42, fx42.line + " " + fx42.total);
+        const ck43 = recetaChecks([rxItem("paracetamol", 0, 3, 6, 5, false, ""), rxItem("ibuprofeno", 0, 1, 8, 5, false, ""), rxItem("naproxeno", 1, 1, 12, 5, false, ""), rxItem("pregabalina", 0, 1, "24n", "", false, "")], { nombre: "Dr. X", cedula: "123", domicilio: "" }, { peso: 70, edad: 45, tfg: 100 });
+        const ok43 = ck43.faltanMedico.join() === "domicilio" && ck43.dosis.some((d) => /Paracetamol: 6 g\/día/.test(d)) && ck43.otros.some((d) => /Dos AINE/.test(d)) && ck43.faltanItems.some((d) => /Pregabalina \(duración\)/.test(d));
+        addTest("43. v34: la receta avisa dosis máxima, dos AINE, falta de duración y datos del médico (art. 29)", ok43, [ck43.faltanMedico.join(), ck43.dosis.join(" "), ck43.otros.join(" ")].join(" | ").slice(0, 120));
 
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
@@ -7806,6 +8258,7 @@
         ["Presets renales", initIntuitivePresetsv22],
         ["Interfaz Base44 v27", initBase44UI],
         ["Ficha del paciente v31", initFichaPaciente],
+        ["Receta del paciente v34", initRecetaPaciente],
         ["Módulos v26", initModulesV26] /* siempre al final */
       ].forEach(([name, fn]) => runInit(name, fn));
 
