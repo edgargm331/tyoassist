@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import worker from "../src/index.js";
+import worker from "./index.js";
 
 const TOKEN = "token-de-prueba-0123456789";
 const APP = "https://tyoassistx.edgargm331.workers.dev";

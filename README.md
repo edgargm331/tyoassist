@@ -23,7 +23,7 @@ El token es una contraseña entre la app y el puente. Debe tener **al menos 16 c
 
 1. Entra a [dash.cloudflare.com](https://dash.cloudflare.com) con la misma cuenta donde publicas la app.
 2. Ve a **Workers & Pages → Create → Create Worker**. Ponle de nombre `tyo-assist-puente` y toca **Deploy**.
-3. Toca **Edit code**, borra todo el código de ejemplo y pega el contenido completo de `src/index.js`. Toca **Deploy**.
+3. Toca **Edit code**, borra todo el código de ejemplo y pega el contenido completo de `index.js`. Toca **Deploy**.
 4. En el Worker, ve a **Settings → Bindings → Add → Workers AI**. Nombre de la variable: `AI` (en mayúsculas). Guarda.
 5. En **Settings → Variables and Secrets**, agrega:
    - `APP_ACCESS_TOKEN`, tipo **Secret**, con tu token del paso 1.
@@ -41,6 +41,16 @@ npm test                                    # 27 pruebas automáticas
 ```
 
 `wrangler.toml` ya trae el enlace `AI`, los modelos y `ALLOWED_ORIGINS`. Cambia `ALLOWED_ORIGINS` si tu app vive en otra dirección.
+
+## Paso 2C. Con GitHub y despliegue automático de Cloudflare
+
+Esta versión no usa carpetas: todos los archivos van en la raíz del repositorio, porque GitHub en el iPhone no sube carpetas.
+
+1. En el iPhone abre el zip en la app Archivos (se descomprime solo).
+2. En tu repositorio de GitHub toca **Add file → Upload files** y elige los 5 archivos: `index.js`, `wrangler.toml`, `package.json`, `puente.test.js` y `README.md`. Los que ya existan con el mismo nombre se reemplazan.
+3. Toca **Commit changes**. Cloudflare vuelve a desplegar solo; en el registro de compilación debe aparecer «Success» al final.
+4. El enlace `AI` se crea solo desde `wrangler.toml`. El token **no**: agrégalo una vez en el panel de Cloudflare, en el Worker → **Settings → Variables and Secrets**, como `APP_ACCESS_TOKEN` de tipo **Secret**. Se conserva entre despliegues.
+5. Si tu app no está en `https://tyoassistx.edgargm331.workers.dev`, edita esa línea de `wrangler.toml` en GitHub con la dirección correcta, o déjala vacía (`ALLOWED_ORIGINS = ""`).
 
 ## Paso 3. Conecta la app
 

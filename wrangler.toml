@@ -1,5 +1,5 @@
 name = "tyo-assist-puente"
-main = "src/index.js"
+main = "index.js"
 compatibility_date = "2026-06-01"
 
 # Workers AI (plan gratuito). No necesita clave: el Worker lo usa a través de este enlace.
