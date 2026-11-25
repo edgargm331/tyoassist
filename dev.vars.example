@@ -1,3 +1,0 @@
-# Solo para pruebas locales con "npm run dev". Copia este archivo como .dev.vars.
-# NO lo subas a GitHub ni compartas el token por chat.
-APP_ACCESS_TOKEN=escribe_aqui_un_token_largo_de_al_menos_16_caracteres
