@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v34 · Tema "Base44" (oscuro + claro)
+       TyO Assist v35 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -1403,6 +1403,9 @@
           </div>
           <p class="cfg-help">Una sola dosis por medicamento: genérico, presentación, dosis, vía, frecuencia y duración. Toca un medicamento para cambiarlo.</p>
           <div id="rx-receta-alerts"></div>
+          <label class="field">Diagnóstico
+            <input type="text" id="rx-receta-diag" placeholder="Ej. Esguince de tobillo agudo grado I–II" autocomplete="off" />
+          </label>
           <div id="rx-receta-items"></div>
           <label class="field">Agregar medicamento
             <span class="select-wrap"><select id="rx-receta-add"><option value="">Elegir…</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
@@ -1413,24 +1416,35 @@
           <details class="acc acc-card no-print" id="rx-medico-box">
             <summary><span class="sum-text"><strong>Tus datos (art. 29)</strong> <small id="rx-medico-summary">Se guardan una sola vez en este teléfono</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
             <div class="acc-body">
-              <label class="field">Nombre completo<input type="text" id="rx-med-nombre" placeholder="Dr. Nombre Apellido Apellido" autocomplete="off" /></label>
+              <label class="field">Nombre como va en la receta<input type="text" id="rx-med-nombre" placeholder="Dr. Nombre Apellido Apellido" autocomplete="off" /></label>
+              <label class="field">Título profesional<input type="text" id="rx-med-titulo-prof" placeholder="Médico Cirujano y Partero" autocomplete="off" /></label>
               <div class="grid-2">
                 <label class="field">Cédula profesional<input type="text" id="rx-med-cedula" placeholder="12345678" autocomplete="off" /></label>
-                <label class="field">Institución que expidió el título<input type="text" id="rx-med-titulo" placeholder="UNAM" autocomplete="off" /></label>
+                <label class="field">Institución que expidió el título<input type="text" id="rx-med-titulo" placeholder="Universidad Michoacana de San Nicolás de Hidalgo" autocomplete="off" /></label>
               </div>
               <div class="grid-2">
                 <label class="field">Especialidad (opcional)<input type="text" id="rx-med-especialidad" placeholder="Traumatología y Ortopedia" autocomplete="off" /></label>
                 <label class="field">Cédula de especialidad<input type="text" id="rx-med-cedula-esp" placeholder="Si aplica" autocomplete="off" /></label>
               </div>
-              <label class="field">Unidad / consultorio<input type="text" id="rx-med-unidad" placeholder="Hospital — Servicio" autocomplete="off" /></label>
+              <label class="field">Unidad / consultorio (pie de la receta)<input type="text" id="rx-med-unidad" placeholder="Hospital Biomédica" autocomplete="off" /></label>
               <label class="field">Domicilio completo<input type="text" id="rx-med-domicilio" placeholder="Calle, número, colonia, C.P., ciudad" autocomplete="off" /></label>
-              <label class="field">Teléfono (opcional)<input type="text" id="rx-med-tel" inputmode="tel" placeholder="55 1234 5678" autocomplete="off" /></label>
+              <label class="field">Teléfono (opcional)<input type="text" id="rx-med-tel" inputmode="tel" placeholder="445 140 3256" autocomplete="off" /></label>
+              <label class="field">Tamaño del PDF
+                <span class="select-wrap"><select id="rx-pdf-formato"><option value="auto">Automático: media carta; carta si no cabe</option><option value="media">Siempre media carta horizontal</option><option value="carta">Siempre carta vertical</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+              </label>
+              <div class="checks"><label class="check-pill"><input type="checkbox" id="rx-pdf-imagenes" /> Escudo, marca de agua y dibujo en el PDF</label></div>
+              <p class="cfg-help">La firma se deja en blanco: el art. 29 pide firma autógrafa (con pluma).</p>
             </div>
           </details>
           <div class="output-box" id="rx-receta-output"></div>
           <div class="btn-grid no-print">
-            <button type="button" class="btn btn-primary btn-lg" id="btn-receta-copy"><svg class="ic"><use href="#i-copy"/></svg>Copiar receta</button>
+            <button type="button" class="btn btn-primary btn-lg" id="btn-receta-pdf"><svg class="ic"><use href="#i-file"/></svg>Receta en PDF</button>
+            <button type="button" class="btn btn-secondary btn-lg" id="btn-receta-copy"><svg class="ic"><use href="#i-copy"/></svg>Copiar texto</button>
             <button type="button" class="btn btn-secondary btn-lg hidden" id="btn-receta-reset"><svg class="ic"><use href="#i-refresh"/></svg>Restablecer</button>
+          </div>
+          <div class="btn-row no-print hidden" id="rx-receta-pdf-ready">
+            <button type="button" class="btn btn-primary btn-sm" id="btn-receta-pdf-share"><svg class="ic"><use href="#i-send"/></svg>Compartir PDF</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-receta-pdf-open"><svg class="ic"><use href="#i-file"/></svg>Abrir PDF</button>
           </div>
         </div>
       </div>
@@ -1817,7 +1831,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v34 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v35 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -1849,7 +1863,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes y Diagnóstico (v34 · Intuitiva)</h3>
+        <h3 id="cfg-title">Ajustes y Diagnóstico (v35 · Intuitiva)</h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -1923,7 +1937,7 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (43 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (46 pruebas)</h4>
         <div class="btn-row">
           <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (29)</button>
         </div>
@@ -2051,15 +2065,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v34 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v35 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "34",
-      versionLabel: "v34 Intuitiva",
+      version: "35",
+      versionLabel: "v35 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -3001,7 +3015,7 @@
 
       var RX_RECETA_STATE = null;
       function recetaState() {
-        if (!RX_RECETA_STATE) RX_RECETA_STATE = { items: [], indic: "", edited: false, sig: "", stale: false, blocked: false, reason: "datos", open: new Set() };
+        if (!RX_RECETA_STATE) RX_RECETA_STATE = { items: [], indic: "", diag: "", diagEdited: false, edited: false, sig: "", stale: false, blocked: false, reason: "datos", open: new Set() };
         return RX_RECETA_STATE;
       }
 
@@ -3039,7 +3053,7 @@
           if (ctx.radiculo) items.push(rxItem("pregabalina", 0, 1, "24n", "", false, ""));
           indic = "Mantener actividad física ligera según tolere; evitar reposo absoluto en cama por más de 48 horas. Higiene de columna y calor local 15 a 20 minutos cada 8 horas.\nAcudir a Urgencias de inmediato si: pérdida de fuerza en las piernas o pie caído, adormecimiento en la zona genital o entre las piernas, dificultad para orinar o pérdida del control de la orina, o fiebre.";
         }
-        return { items, indic, blocked: false, reason: "" };
+        return { items, indic, blocked: false, reason: "", diag: proto === "esguince" ? "Esguince de tobillo agudo grado I–II" : "Lumbalgia mecánica aguda" };
       }
 
       // Pura: texto de un medicamento → { title, line, total, missing }.
@@ -3064,7 +3078,7 @@
           const nTot = Math.ceil(cant * rxTomasPorDia(it.freq) * Number(it.dias));
           total = "Surtir: " + nTot + " " + rxPlural(pr.unidad, nTot) + (it.prn ? " (máximo)" : "") + ".";
         }
-        return { title: med.generico.toUpperCase() + " — " + pr.forma + " de " + pr.conc + ".", line, total, missing };
+        return { title: med.generico.toUpperCase() + " — " + pr.forma + " de " + pr.conc + ".", line, total, missing, generico: med.generico, presentacion: pr.forma + " de " + pr.conc };
       }
 
       // Pura: requisitos y avisos de seguridad de la receta.
@@ -3095,7 +3109,7 @@
 
       function readMedicoData() {
         const g = (k) => (localStorage.getItem(k) || "").trim();
-        return { nombre: g("tyo_medico"), cedula: g("tyo_cedula"), titulo: g("tyo_titulo_inst"), especialidad: g("tyo_especialidad"), cedulaEsp: g("tyo_cedula_esp"), unidad: g("tyo_unidad"), domicilio: g("tyo_domicilio"), tel: g("tyo_telefono") };
+        return { nombre: g("tyo_medico"), cedula: g("tyo_cedula"), tituloProf: g("tyo_titulo_prof"), titulo: g("tyo_titulo_inst"), especialidad: g("tyo_especialidad"), cedulaEsp: g("tyo_cedula_esp"), unidad: g("tyo_unidad"), domicilio: g("tyo_domicilio"), tel: g("tyo_telefono") };
       }
 
       function recetaFicha() {
@@ -3112,7 +3126,7 @@
         const L = [];
         L.push("RECETA MÉDICA");
         L.push((m.nombre || falta("nombre del médico")) + (m.especialidad ? " — " + m.especialidad : ""));
-        L.push("Céd. Prof. " + (m.cedula || falta("cédula")) + (m.cedulaEsp ? " · Céd. Esp. " + m.cedulaEsp : "") + (m.titulo ? " · Título: " + m.titulo : ""));
+        L.push("Céd. Prof. " + (m.cedula || falta("cédula")) + (m.cedulaEsp ? " · Céd. Esp. " + m.cedulaEsp : "") + (m.tituloProf || m.titulo ? " · " + [m.tituloProf, m.titulo].filter(Boolean).join(", ") : ""));
         if (m.unidad) L.push(m.unidad);
         L.push("Domicilio: " + (m.domicilio || falta("domicilio")) + (m.tel ? " · Tel. " + m.tel : ""));
         L.push("————————————————————————————————————");
@@ -3120,12 +3134,14 @@
         if (f) {
           const bits = [fichaEdadSexoText(f)];
           if (f.peso !== "" && Number.isFinite(f.peso)) bits.push(f.peso + " kg");
+          if (f.talla !== "" && Number.isFinite(f.talla)) bits.push(f.talla + " cm");
           const b2 = bits.filter(Boolean);
           L.push("Paciente: " + (f.nombre || falta("nombre del paciente")) + (b2.length ? " · " + b2.join(" · ") : ""));
           L.push("Alergias: " + fichaAllergyText(f));
         } else {
           L.push("Paciente: " + falta("nombre del paciente (captura la ficha en Px)"));
         }
+        if (st.diag) L.push("Diagnóstico: " + st.diag);
         L.push("————————————————————————————————————");
         L.push("Rp.");
         st.items.forEach((it, i) => {
@@ -3154,6 +3170,7 @@
         const sig = JSON.stringify([proto, def.items, def.reason]);
         st.blocked = def.blocked;
         st.reason = def.reason;
+        if (!st.diagEdited) st.diag = def.diag || "";
         if (!st.edited) {
           st.items = def.items.map((x) => Object.assign({}, x));
           st.indic = def.indic;
@@ -3209,6 +3226,7 @@
         }
 
         if (document.activeElement !== $("rx-receta-indic")) $("rx-receta-indic").value = st.indic;
+        if ($("rx-receta-diag") && document.activeElement !== $("rx-receta-diag")) $("rx-receta-diag").value = st.diag || "";
 
         const ctx = rxCtxFromScreen();
         const m = readMedicoData();
@@ -3232,6 +3250,8 @@
 
         $("rx-receta-output").textContent = hasItems ? buildRecetaText() : "";
         $("btn-receta-copy").disabled = !hasItems;
+        if ($("btn-receta-pdf")) $("btn-receta-pdf").disabled = !hasItems;
+        if (hasItems && !RECETA_PDF_READY) { try { prepareRecetaPdf().catch(() => {}); } catch (_) {} }
         $("btn-receta-reset").classList.toggle("hidden", !st.edited);
         const ms = $("rx-medico-summary");
         if (ms) ms.textContent = m.nombre && m.cedula && m.domicilio ? m.nombre + " · Céd. " + m.cedula : "Faltan: " + chk.faltanMedico.join(", ");
@@ -3240,7 +3260,7 @@
       function initRecetaPaciente() {
         const cat = rxCatalog();
         $("rx-receta-add").innerHTML = '<option value="">Elegir…</option>' + Object.keys(cat).map((k) => '<option value="' + k + '">' + escapeHtml(cat[k].generico + " — " + cat[k].pres.map((pr) => pr.conc).join(" / ")) + "</option>").join("");
-        const fieldMap = [["rx-med-nombre", "tyo_medico"], ["rx-med-cedula", "tyo_cedula"], ["rx-med-titulo", "tyo_titulo_inst"], ["rx-med-especialidad", "tyo_especialidad"], ["rx-med-cedula-esp", "tyo_cedula_esp"], ["rx-med-unidad", "tyo_unidad"], ["rx-med-domicilio", "tyo_domicilio"], ["rx-med-tel", "tyo_telefono"]];
+        const fieldMap = [["rx-med-nombre", "tyo_medico"], ["rx-med-titulo-prof", "tyo_titulo_prof"], ["rx-med-cedula", "tyo_cedula"], ["rx-med-titulo", "tyo_titulo_inst"], ["rx-med-especialidad", "tyo_especialidad"], ["rx-med-cedula-esp", "tyo_cedula_esp"], ["rx-med-unidad", "tyo_unidad"], ["rx-med-domicilio", "tyo_domicilio"], ["rx-med-tel", "tyo_telefono"]];
         const twins = { tyo_medico: "nota-medico", tyo_cedula: "nota-cedula", tyo_unidad: "nota-unidad" };
         fieldMap.forEach(([id, key]) => {
           $(id).value = localStorage.getItem(key) || "";
@@ -3311,9 +3331,34 @@
           $("rx-receta-output").textContent = st.items.length && !st.blocked ? buildRecetaText() : "";
           $("btn-receta-reset").classList.remove("hidden");
         });
+        // v35: diagnóstico, opciones y botones del PDF
+        $("rx-receta-diag").addEventListener("input", () => {
+          const st = recetaState();
+          st.diag = $("rx-receta-diag").value;
+          st.diagEdited = true;
+          renderReceta(true);
+        });
+        $("rx-pdf-formato").value = localStorage.getItem("tyo_receta_formato") || "auto";
+        $("rx-pdf-formato").addEventListener("change", () => localStorage.setItem("tyo_receta_formato", $("rx-pdf-formato").value));
+        $("rx-pdf-imagenes").checked = localStorage.getItem("tyo_receta_imagenes") !== "0";
+        $("rx-pdf-imagenes").addEventListener("change", () => localStorage.setItem("tyo_receta_imagenes", $("rx-pdf-imagenes").checked ? "1" : "0"));
+        $("btn-receta-pdf").addEventListener("click", () => { onRecetaPdfClick(); });
+        $("btn-receta-pdf-share").addEventListener("click", () => {
+          if (!RECETA_PDF_LAST) return;
+          shareRecetaPdf(RECETA_PDF_LAST.blob, RECETA_PDF_LAST.name);
+        });
+        $("btn-receta-pdf-open").addEventListener("click", () => {
+          if (!RECETA_PDF_LAST) return;
+          const url = URL.createObjectURL(RECETA_PDF_LAST.blob);
+          const w = window.open(url, "_blank");
+          if (!w) downloadRecetaBlob(RECETA_PDF_LAST.blob, RECETA_PDF_LAST.name);
+          setTimeout(() => URL.revokeObjectURL(url), 120000);
+        });
+
         $("btn-receta-reset").addEventListener("click", () => {
           const st = recetaState();
           st.edited = false;
+          st.diagEdited = false;
           st.open = new Set();
           renderProtocol();
           showToast("Receta rehecha desde el protocolo.");
@@ -3330,6 +3375,418 @@
           });
         });
         renderReceta();
+      }
+
+      /* =======================================================
+         v35: RECETA EN PDF (diseño de la receta del Dr., media carta horizontal)
+         Se genera en el teléfono con jsPDF (archivo local, sin internet).
+         La firma se deja en blanco: el art. 29 RIS pide firma autógrafa.
+         Solo funciones y «var» (sin zona muerta temporal).
+      ======================================================= */
+      var RECETA_PDF_READY = null;   // { jsPDF, imgs } cuando ya cargó
+      var RECETA_PDF_PROMISE = null;
+      var RECETA_PDF_LAST = null;    // { blob, name } para «Compartir» si el primer intento no pudo
+
+      function pdfColors() { return { NAVY: [20, 34, 79], INK: [24, 24, 28], RED: [158, 22, 22], GRAY: [96, 96, 104] }; }
+
+      // Deja solo caracteres que las fuentes estándar del PDF saben dibujar (WinAnsi).
+      function pdfSafeText(s) {
+        const map = { "≥": ">=", "≤": "<=", "→": "->", "←": "<-", "✓": "", "✔": "", "⚠": "", "⛔": "", " ": " ", " ": " ", " ": " " };
+        const extra = "€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ";
+        let out = "";
+        for (const ch of String(s == null ? "" : s)) {
+          if (map[ch] !== undefined) { out += map[ch]; continue; }
+          const c = ch.codePointAt(0);
+          if (c === 10 || (c >= 32 && c <= 126) || (c >= 160 && c <= 255) || extra.includes(ch)) out += ch;
+        }
+        return out.replace(/[ \t]{2,}/g, " ");
+      }
+
+      function recetaPdfFileName(ficha, date) {
+        const d = date || new Date();
+        const ymd = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+        const ini = ficha && ficha.nombre ? fichaInitials(ficha.nombre) : "";
+        return "Receta_" + (ini || "paciente") + "_" + ymd + ".pdf";
+      }
+
+      // Pura: reparte bloques (alturas en pt) en hojas; la última deja lugar para la firma.
+      function paginateRecetaBlocks(hs, g) {
+        const pages = [[]];
+        let y = g.firstStart;
+        hs.forEach((h, i) => {
+          const cur = pages[pages.length - 1];
+          if (y + h > g.normalBottom && cur.length) { pages.push([]); y = g.contStart; }
+          pages[pages.length - 1].push(i);
+          y += h;
+        });
+        if (y > g.lastBottom) {
+          const last = pages[pages.length - 1];
+          const moved = [];
+          let yy = y;
+          while (last.length > 1 && yy > g.lastBottom) { const j = last.pop(); moved.unshift(j); yy -= hs[j]; }
+          pages.push(yy > g.lastBottom ? [] : moved);
+          if (yy > g.lastBottom && moved.length) { last.push(...moved); }
+        }
+        return pages;
+      }
+
+      function pdfGeom(formato) {
+        if (formato === "carta") {
+          return { formato: "carta", W: 612, H: 792, firstStart: 182, contStart: 130, normalBottom: 732, lastBottom: 640, compact: false,
+            ruleY: 741.5, foot1: 754.5, foot2: 768, sigY: 690, sigLabelY: 702, sketch: [500, 652, 66, 85.1], marca: [181, 300, 250, 268] };
+        }
+        return { formato: "media", W: 612, H: 396, firstStart: 180, contStart: 130, normalBottom: 340, lastBottom: 300, compact: true,
+          ruleY: 350, foot1: 362, foot2: 374.5, sigY: 326, sigLabelY: 337, sketch: [528, 295, 40, 51.6], marca: [216, 138, 180, 193] };
+      }
+
+      function pdfStyle(compact) {
+        return compact
+          ? { tSize: 10, tLh: 12.5, iSize: 9.5, iLh: 11, sSize: 8.5, sLh: 10, gap: 4, hSize: 9, hLh: 12, pSize: 8.5, pLh: 10 }
+          : { tSize: 10.5, tLh: 13, iSize: 10, iLh: 11.5, sSize: 9, sLh: 11, gap: 6, hSize: 9.5, hLh: 14, pSize: 9, pLh: 10.5 };
+      }
+
+      function loadJsPdfLib() {
+        if (window.jspdf && window.jspdf.jsPDF) return Promise.resolve(window.jspdf.jsPDF);
+        return new Promise((resolve, reject) => {
+          const s = document.createElement("script");
+          s.src = "jspdf.umd.min.js";
+          s.async = true;
+          s.onload = () => (window.jspdf && window.jspdf.jsPDF ? resolve(window.jspdf.jsPDF) : reject(new Error("el generador de PDF no cargó")));
+          s.onerror = () => reject(new Error("no se encontró jspdf.umd.min.js"));
+          document.head.appendChild(s);
+        });
+      }
+
+      function prepareRecetaPdf() {
+        if (RECETA_PDF_READY) return Promise.resolve(RECETA_PDF_READY);
+        if (RECETA_PDF_PROMISE) return RECETA_PDF_PROMISE;
+        const get = (u) => fetch(u).then((r) => { if (!r.ok) throw new Error(u); return r.arrayBuffer(); }).then((b) => new Uint8Array(b)).catch(() => null);
+        RECETA_PDF_PROMISE = Promise.all([loadJsPdfLib(), get("receta-escudo.jpg"), get("receta-marca.jpg"), get("receta-esquina.jpg")])
+          .then(([jsPDF, escudo, marca, esquina]) => { RECETA_PDF_READY = { jsPDF, imgs: { escudo, marca, esquina } }; return RECETA_PDF_READY; })
+          .catch((e) => { RECETA_PDF_PROMISE = null; throw e; });
+        return RECETA_PDF_PROMISE;
+      }
+
+      function recetaPdfData() {
+        const st = recetaState();
+        const m = readMedicoData();
+        const f = recetaFicha();
+        const hoy = new Date();
+        const num = (v) => v !== "" && v !== undefined && Number.isFinite(v);
+        let edad = "";
+        if (f && num(f.edad)) edad = f.edad + (f.edadUnidad === "m" ? (f.edad === 1 ? " mes" : " meses") : (f.edad === 1 ? " año" : " años"));
+        return {
+          medico: m,
+          paciente: {
+            nombre: f ? f.nombre : "",
+            edad,
+            peso: f && num(f.peso) ? f.peso + " kg" : "",
+            talla: f && num(f.talla) ? f.talla + " cm" : "",
+            alergias: f && f.alergiaEstado ? fichaAllergyText(f) : "",
+            alergico: !!(f && f.alergiaEstado === "si")
+          },
+          fecha: String(hoy.getDate()).padStart(2, "0") + "/" + String(hoy.getMonth() + 1).padStart(2, "0") + "/" + hoy.getFullYear(),
+          diagnostico: st.diag || "",
+          items: st.items.map((it) => formatRxItem(it)),
+          indic: st.indic || "",
+          imagenes: localStorage.getItem("tyo_receta_imagenes") !== "0",
+          formato: localStorage.getItem("tyo_receta_formato") || "auto",
+          fileName: recetaPdfFileName(f, hoy)
+        };
+      }
+
+      function pdfFit(doc, text, maxW, size, minSize) {
+        let s = size;
+        doc.setFontSize(s);
+        while (s > minSize && doc.getTextWidth(text) > maxW) { s -= 0.25; doc.setFontSize(s); }
+        return doc.getTextWidth(text) <= maxW;
+      }
+
+      // Bloques de medicamentos (y alergias largas arriba) con su altura.
+      function buildRecetaMedBlocks(doc, d, x0, x1, S) {
+        const C = pdfColors();
+        const blocks = [];
+        const width = x1 - x0;
+        if (d._alergiaLarga) {
+          doc.setFont("times", "bold"); doc.setFontSize(S.iSize);
+          const lines = doc.splitTextToSize(pdfSafeText("ALERGIAS: " + d.paciente.alergias), width);
+          blocks.push({ h: lines.length * S.iLh + S.gap, draw: (y) => { doc.setFont("times", "bold"); doc.setFontSize(S.iSize); doc.setTextColor(...C.RED); lines.forEach((l, k) => doc.text(l, x0, y + k * S.iLh)); } });
+        }
+        d.items.forEach((fx, i) => {
+          const indent = 13;
+          doc.setFont("times", "normal"); doc.setFontSize(S.iSize);
+          const ins = doc.splitTextToSize(pdfSafeText(fx.line), width - indent);
+          // Renglón del fármaco en un solo trazo (las fuentes no van incrustadas: mezclar estilos se desalinea en algunos visores)
+          doc.setFont("times", "bold"); doc.setFontSize(S.tSize);
+          const titulo = doc.splitTextToSize(pdfSafeText(fx.generico.toUpperCase() + " — " + fx.presentacion), width - indent);
+          const titleH = S.tLh * titulo.length;
+          const h = titleH + ins.length * S.iLh + (fx.total ? S.sLh : 0) + S.gap;
+          blocks.push({ h, draw: (y) => {
+            doc.setTextColor(...C.INK);
+            doc.setFont("times", "bold"); doc.setFontSize(S.tSize);
+            doc.text((i + 1) + ".", x0, y);
+            titulo.forEach((l, k) => doc.text(l, x0 + indent, y + k * S.tLh));
+            doc.setFont("times", "normal"); doc.setFontSize(S.iSize);
+            ins.forEach((l, k) => doc.text(l, x0 + indent, y + titleH + k * S.iLh));
+            if (fx.total) {
+              doc.setFont("times", "italic"); doc.setFontSize(S.sSize); doc.setTextColor(...C.GRAY);
+              doc.text(pdfSafeText(fx.total), x0 + indent, y + titleH + ins.length * S.iLh);
+            }
+          } });
+        });
+        return blocks;
+      }
+
+      // Bloques de indicaciones; «Acudir a Urgencias de inmediato si:» va como subtítulo en negritas.
+      function buildRecetaIndicBlocks(doc, d, x0, x1, S) {
+        const C = pdfColors();
+        const blocks = [];
+        const indic = String(d.indic || "").trim();
+        if (!indic) return blocks;
+        const width = x1 - x0;
+        doc.setFont("times", "normal"); doc.setFontSize(S.pSize);
+        const rows = [];
+        indic.split(/\n+/).forEach((para, pi) => {
+          let rest = para.trim();
+          const m = rest.match(/^(acudir a urgencias[^:]*:)\s*/i);
+          if (m) { rows.push({ text: pdfSafeText(m[1]), bold: true, gapBefore: pi > 0 }); rest = rest.slice(m[0].length); }
+          doc.setFont("times", "normal"); doc.setFontSize(S.pSize);
+          doc.splitTextToSize(pdfSafeText(rest), width).forEach((l, li) => rows.push({ text: l, bold: false, gapBefore: !m && li === 0 && pi > 0 }));
+        });
+        rows.forEach((r, k) => {
+          const heading = k === 0;
+          const extra = r.gapBefore ? 2 : 0;
+          blocks.push({ h: (heading ? S.hLh : 0) + extra + S.pLh, draw: (y) => {
+            let yy = y + extra;
+            if (heading) {
+              doc.setFont("times", "bold"); doc.setFontSize(S.hSize); doc.setTextColor(...C.NAVY);
+              doc.text("Indicaciones", x0, yy);
+              yy += S.hLh;
+            }
+            doc.setFont("times", r.bold ? "bold" : "normal"); doc.setFontSize(S.pSize); doc.setTextColor(...C.INK);
+            doc.text(r.text, x0, yy);
+          } });
+        });
+        return blocks;
+      }
+
+      function drawRecetaFrame(doc, d, g, imgs, page, pages) {
+        const C = pdfColors();
+        const m = d.medico;
+        const L = 40, R = 572;
+        if (imgs && imgs.marca) doc.addImage(imgs.marca, "JPEG", g.marca[0], g.marca[1], g.marca[2], g.marca[3], "marca", "FAST");
+        const conEscudo = !!(imgs && imgs.escudo);
+        if (conEscudo) doc.addImage(imgs.escudo, "JPEG", 40, 32, 50, 53.8, "escudo", "FAST");
+        const tx = conEscudo ? 102 : 40;
+        const maxW = R - tx;
+        doc.setTextColor(...C.NAVY);
+        const nombre = pdfSafeText(m.nombre || "");
+        doc.setFont("times", "bold"); pdfFit(doc, nombre, maxW, 19, 12); doc.text(nombre, tx, 54);
+        const l2 = pdfSafeText([m.tituloProf, m.titulo].filter(Boolean).join(" · "));
+        doc.setFont("times", "italic"); pdfFit(doc, l2, maxW, 9.5, 7); if (l2) doc.text(l2, tx, 68);
+        let l3 = m.cedula ? "Cédula Profesional: " + m.cedula : "";
+        if (m.especialidad) l3 += (l3 ? "   ·   " : "") + m.especialidad + (m.cedulaEsp ? " · Cédula de Especialidad: " + m.cedulaEsp : "");
+        l3 = pdfSafeText(l3);
+        doc.setFont("times", "normal"); pdfFit(doc, l3, maxW, 9.5, 7); if (l3) doc.text(l3, tx, 81);
+        doc.setDrawColor(...C.NAVY);
+        doc.setLineWidth(2); doc.line(L, 95.5, R, 95.5);
+        doc.setLineWidth(0.75); doc.line(L, 99.5, R, 99.5);
+        // Pie
+        doc.setLineWidth(1.5); doc.line(L, g.ruleY, R, g.ruleY);
+        const unidad = pdfSafeText(m.unidad || "");
+        doc.setFont("times", "bold"); pdfFit(doc, unidad, R - L, 10.5, 7); if (unidad) doc.text(unidad, g.W / 2, g.foot1, { align: "center" });
+        const dom = pdfSafeText([m.domicilio, m.tel ? "Teléfono: " + m.tel : ""].filter(Boolean).join("  ·  "));
+        doc.setFont("times", "normal"); pdfFit(doc, dom, R - L, 9.5, 6.5); if (dom) doc.text(dom, g.W / 2, g.foot2, { align: "center" });
+        if (pages > 1) {
+          doc.setFont("times", "italic"); doc.setFontSize(7.5); doc.setTextColor(...C.GRAY);
+          doc.text("Hoja " + (page + 1) + " de " + pages, R, g.H - 12, { align: "right" });
+        }
+      }
+
+      // Renglón con etiqueta, línea y valor. Devuelve false si el valor no cupo.
+      function pdfField(doc, label, value, xLabel, xEnd, y, opt) {
+        const C = pdfColors();
+        doc.setFont("times", "normal"); doc.setFontSize(10.5); doc.setTextColor(...C.NAVY);
+        doc.text(label, xLabel, y);
+        const lx = xLabel + doc.getTextWidth(label) + 4;
+        doc.setDrawColor(...C.NAVY); doc.setLineWidth(0.6); doc.line(lx, y + 2.5, xEnd, y + 2.5);
+        const v = pdfSafeText(value || "");
+        if (!v) return true;
+        doc.setFont("times", opt && opt.bold ? "bold" : "normal");
+        doc.setTextColor(...((opt && opt.color) || C.INK));
+        const fits = pdfFit(doc, v, xEnd - lx - 4, 10.5, 6.5);
+        if (!fits && opt && opt.allowOverflow === false) return false;
+        doc.text(v, lx + 2, y);
+        return fits;
+      }
+
+      // cols = [{ blocks, idxs }] (una o dos columnas que empiezan a la misma altura)
+      function drawRecetaPdfPage(doc, d, g, imgs, page, pages, cols) {
+        const C = pdfColors();
+        drawRecetaFrame(doc, d, g, imgs, page, pages);
+        const p = d.paciente;
+        let y0;
+        if (page === 0) {
+          pdfField(doc, "Paciente:", p.nombre, 40, 370, 119.5);
+          pdfField(doc, "Fecha:", d.fecha, 392, 572, 119.5);
+          pdfField(doc, "Edad:", p.edad, 40, 115, 138.5);
+          pdfField(doc, "Peso:", p.peso, 129.5, 202.5, 138.5);
+          pdfField(doc, "Talla:", p.talla, 217, 292, 138.5);
+          pdfField(doc, "Alergias:", d._alergiaLarga ? "VER ABAJO" : p.alergias, 305.5, 572, 138.5, { bold: p.alergico, color: p.alergico ? C.RED : C.INK });
+          pdfField(doc, "Diagnóstico:", d.diagnostico, 40, 572, 157.5);
+          doc.setTextColor(...C.NAVY);
+          doc.setFont("times", "normal"); doc.setFontSize(44); doc.text("R", 40, 199);
+          const rw = doc.getTextWidth("R");
+          doc.setFontSize(22); doc.text("x", 40 + rw - 2, 207);
+          y0 = g.firstStart;
+        } else {
+          doc.setFont("times", "normal"); doc.setFontSize(9.5); doc.setTextColor(...C.NAVY);
+          doc.text(pdfSafeText("Paciente: " + (p.nombre || "") + "   ·   Fecha: " + d.fecha + "   ·   Continuación"), 40, 117);
+          y0 = g.contStart;
+        }
+        cols.forEach((col) => {
+          let y = y0;
+          col.idxs.forEach((i) => { col.blocks[i].draw(y); y += col.blocks[i].h; });
+        });
+        if (page === pages - 1) {
+          if (imgs && imgs.esquina) doc.addImage(imgs.esquina, "JPEG", g.sketch[0], g.sketch[1], g.sketch[2], g.sketch[3], "esquina", "FAST");
+          doc.setDrawColor(...C.NAVY); doc.setLineWidth(0.8);
+          doc.line(g.W / 2 - 76, g.sigY, g.W / 2 + 76, g.sigY);
+          doc.setFont("times", "normal"); doc.setFontSize(10.5); doc.setTextColor(...C.NAVY);
+          doc.text("Firma del Médico", g.W / 2, g.sigLabelY, { align: "center" });
+        }
+      }
+
+      function buildRecetaPdfDoc(jsPDF, d, imgsAll) {
+        const imgs = d.imagenes ? imgsAll : null;
+        // ¿Las alergias caben en su renglón?
+        const probe = new jsPDF({ unit: "pt", format: [396, 612], orientation: "landscape" });
+        probe.setFont("times", "normal"); probe.setFontSize(10.5);
+        const alLbl = probe.getTextWidth("Alergias:") + 4;
+        probe.setFont("times", d.paciente.alergico ? "bold" : "normal");
+        d._alergiaLarga = !!d.paciente.alergias && !pdfFit(probe, pdfSafeText(d.paciente.alergias), 572 - (305.5 + alLbl) - 4, 10.5, 6.5);
+        const X0 = 98, X1 = 568;
+        const newDoc = (g) => {
+          const doc = new jsPDF({ unit: "pt", format: [g.W, g.H].sort((a, b) => a - b), orientation: g.W > g.H ? "landscape" : "portrait" });
+          doc.setProperties({ title: "Receta médica", creator: "TyO Assist" });
+          return doc;
+        };
+        const sum = (bs) => bs.reduce((a, b) => a + b.h, 0);
+        const single = (formato) => {
+          const g = pdfGeom(formato);
+          const doc = newDoc(g);
+          const S = pdfStyle(g.compact);
+          const blocks = buildRecetaMedBlocks(doc, d, X0, X1, S).concat(buildRecetaIndicBlocks(doc, d, X0, X1, S));
+          const pages = paginateRecetaBlocks(blocks.map((b) => b.h), g);
+          return { doc, g, layout: "una columna", pages: pages.map((idxs) => [{ blocks, idxs }]) };
+        };
+        const twoCols = () => {
+          const g = pdfGeom("media");
+          const doc = newDoc(g);
+          const S = pdfStyle(true);
+          const room = g.lastBottom - g.firstStart;
+          // La columna de medicamentos lo más ancha posible, siempre que las indicaciones quepan a la derecha
+          for (const mid of [380, 370, 360, 350, 340]) {
+            const med = buildRecetaMedBlocks(doc, d, X0, mid - 6, S);
+            const ind = buildRecetaIndicBlocks(doc, d, mid + 8, X1, S);
+            if (!ind.length) return null;
+            if (sum(med) <= room && sum(ind) <= room) {
+              return { doc, g, layout: "dos columnas", pages: [[{ blocks: med, idxs: med.map((_, i) => i) }, { blocks: ind, idxs: ind.map((_, i) => i) }]] };
+            }
+          }
+          return null;
+        };
+        let lay;
+        if (d.formato === "carta") lay = single("carta");
+        else {
+          lay = single("media");
+          if (lay.pages.length > 1) {
+            const two = twoCols();
+            if (two) lay = two;
+            else if (d.formato !== "media") {
+              const alt = single("carta");
+              if (alt.pages.length < lay.pages.length) lay = alt;
+            }
+          }
+        }
+        lay.pages.forEach((cols, pi) => {
+          if (pi > 0) lay.doc.addPage([lay.g.W, lay.g.H].sort((a, b) => a - b), lay.g.W > lay.g.H ? "landscape" : "portrait");
+          drawRecetaPdfPage(lay.doc, d, lay.g, imgs, pi, lay.pages.length, cols);
+        });
+        return { doc: lay.doc, formato: lay.g.formato, hojas: lay.pages.length, layout: lay.layout };
+      }
+
+      function downloadRecetaBlob(blob, name) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url; a.download = name; a.rel = "noopener";
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 60000);
+      }
+
+      function isMobileShareTarget() {
+        const ua = navigator.userAgent || "";
+        return /iPhone|iPad|iPod|Android/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      }
+
+      function showRecetaPdfReady(show) {
+        const box = $("rx-receta-pdf-ready");
+        if (box) box.classList.toggle("hidden", !show);
+      }
+
+      function shareRecetaPdf(blob, name) {
+        const file = new File([blob], name, { type: "application/pdf" });
+        if (isMobileShareTarget() && navigator.canShare && navigator.share) {
+          let ok = false;
+          try { ok = navigator.canShare({ files: [file] }); } catch (_) { ok = false; }
+          if (ok) {
+            return navigator.share({ files: [file], title: "Receta médica" })
+              .then(() => { showRecetaPdfReady(false); return "compartido"; })
+              .catch((err) => {
+                if (err && err.name === "AbortError") return "cancelado";
+                showRecetaPdfReady(true);
+                showToast("📄 PDF listo: toca «Compartir PDF».");
+                return "pendiente";
+              });
+          }
+        }
+        downloadRecetaBlob(blob, name);
+        showRecetaPdfReady(false);
+        return Promise.resolve("descargado");
+      }
+
+      async function onRecetaPdfClick() {
+        const st = recetaState();
+        if (!st.items.length || st.blocked) return;
+        const chk = recetaChecks(st.items, readMedicoData(), rxCtxFromScreen());
+        const falta = [];
+        if (chk.faltanMedico.length) falta.push("tus datos: " + chk.faltanMedico.join(", "));
+        if (chk.faltanItems.length) falta.push("duración o dosis de " + chk.faltanItems.map((x) => x.split(" (")[0]).join(", "));
+        if (falta.length && !confirm("Falta " + falta.join("; ") + ".\n¿Generar el PDF de todos modos? (Lo que falte queda en blanco para escribirlo a mano.)")) return;
+        // Alergia de la ficha contra los fármacos de la receta
+        const fA = recetaFicha();
+        if (fA) {
+          const txtA = st.items.map((it) => { const fx = formatRxItem(it); return fx.title + " " + fx.line; }).join("\n");
+          const hitsA = fichaRxAllergyHits(fA, txtA);
+          if (hitsA.length && !confirm("⛔ La receta incluye " + hitsA.map((h) => h.drug).join(", ") + " y la ficha registra alergia a " + fichaAllergyText(fA) + ".\n¿Generar el PDF de todos modos?")) return;
+        }
+        let ready = RECETA_PDF_READY;
+        if (!ready) {
+          showToast("Preparando el PDF…");
+          try { ready = await prepareRecetaPdf(); } catch (e) { showToast("No se pudo preparar el PDF: " + (e && e.message ? e.message : e)); return; }
+        }
+        let out;
+        try {
+          out = buildRecetaPdfDoc(ready.jsPDF, recetaPdfData(), ready.imgs);
+        } catch (e) {
+          showToast("No se pudo generar el PDF: " + (e && e.message ? e.message : e));
+          return;
+        }
+        const d = recetaPdfData();
+        const blob = out.doc.output("blob");
+        RECETA_PDF_LAST = { blob, name: d.fileName };
+        const res = await shareRecetaPdf(blob, d.fileName);
+        if (res === "descargado") showToast("📄 Receta en PDF (" + (out.formato === "carta" ? "carta" : "media carta") + (out.hojas > 1 ? ", " + out.hojas + " hojas" : "") + "): " + d.fileName);
       }
 
       function renderProtocol() {
@@ -7167,7 +7624,7 @@
         $("rx-obesidad").checked = false;
         $("rx-radiculo").checked = false;
         document.querySelectorAll(".rx-redflag").forEach((el) => (el.checked = false));
-        try { recetaState().edited = false; recetaState().open.clear(); } catch (_) {}
+        try { recetaState().edited = false; recetaState().diagEdited = false; recetaState().open.clear(); RECETA_PDF_LAST = null; showRecetaPdfReady(false); } catch (_) {}
         renderProtocol();
 
         if (audioRecorder && audioRecorder.state === "recording") stopAudioRecording(true);
@@ -7543,6 +8000,21 @@
         const ck43 = recetaChecks([rxItem("paracetamol", 0, 3, 6, 5, false, ""), rxItem("ibuprofeno", 0, 1, 8, 5, false, ""), rxItem("naproxeno", 1, 1, 12, 5, false, ""), rxItem("pregabalina", 0, 1, "24n", "", false, "")], { nombre: "Dr. X", cedula: "123", domicilio: "" }, { peso: 70, edad: 45, tfg: 100 });
         const ok43 = ck43.faltanMedico.join() === "domicilio" && ck43.dosis.some((d) => /Paracetamol: 6 g\/día/.test(d)) && ck43.otros.some((d) => /Dos AINE/.test(d)) && ck43.faltanItems.some((d) => /Pregabalina \(duración\)/.test(d));
         addTest("43. v34: la receta avisa dosis máxima, dos AINE, falta de duración y datos del médico (art. 29)", ok43, [ck43.faltanMedico.join(), ck43.dosis.join(" "), ck43.otros.join(" ")].join(" | ").slice(0, 120));
+
+        // 44-46. v35: receta en PDF
+        const g44 = { firstStart: 182, contStart: 130, normalBottom: 337, lastBottom: 286 };
+        const pg1 = paginateRecetaBlocks([30, 30, 30], g44);
+        const pg2 = paginateRecetaBlocks([30, 30, 30, 30, 30, 30], g44);
+        const pg3 = paginateRecetaBlocks([30, 30, 30, 30, 30], g44);
+        const ok44 = pg1.length === 1 && pg2.length === 2 && pg2[0].length === 5 && JSON.stringify(pg3) === "[[0,1,2],[3,4]]";
+        addTest("44. v35: el PDF reparte la receta en hojas y deja lugar para la firma", ok44, JSON.stringify(pg1) + " " + JSON.stringify(pg2) + " " + JSON.stringify(pg3));
+        const s45 = pdfSafeText("TFG ≥ 60 → AINE ✓ · Pérez — 1.5 g ⛔️");
+        const ok45 = s45 === "TFG >= 60 -> AINE · Pérez — 1.5 g " || s45 === "TFG >= 60 -> AINE · Pérez — 1.5 g";
+        addTest("45. v35: el texto del PDF solo lleva letras que la fuente puede dibujar (acentos sí)", ok45, JSON.stringify(s45));
+        const n46 = recetaPdfFileName(normalizeFicha({ nombre: "José Pérez López" }), new Date(2026, 10, 25));
+        const n46b = recetaPdfFileName(null, new Date(2026, 0, 5));
+        const ok46 = n46 === "Receta_JP_2026-11-25.pdf" && n46b === "Receta_paciente_2026-01-05.pdf";
+        addTest("46. v35: el archivo PDF se nombra con iniciales y fecha (sin el nombre completo)", ok46, n46 + " · " + n46b);
 
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
