@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v27 · Tema "Base44" (oscuro + claro)
+       TyO Assist v30 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -1674,7 +1674,7 @@
             <h3><svg class="ic gold"><use href="#i-scan"/></svg>Análisis de imagen</h3>
             <span class="tag tag-gold" id="vision-mode-badge">Lab JSON → Alertas JS</span>
           </div>
-          <div class="hint-box"><svg class="ic gold"><use href="#i-shield"/></svg><span>Recorta nombre, expediente o CURP <strong>antes</strong> de subir la foto.</span></div>
+          <div class="hint-box"><svg class="ic gold"><use href="#i-shield"/></svg><span>Recorta nombre, expediente o CURP <strong>antes</strong> de subir la foto. En las radiografías suelen ir en la franja de abajo.</span></div>
           <div class="step-hdr step-hdr-sm"><span class="step-num">1</span><h3>Elige estudio y sube la foto</h3></div>
           <label class="field">Tipo de foto
             <span class="select-wrap"><select id="vision-mode">
@@ -1748,7 +1748,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v27 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v30 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -1780,7 +1780,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes y Diagnóstico (v27 · Intuitiva)</h3>
+        <h3 id="cfg-title">Ajustes y Diagnóstico (v30 · Intuitiva)</h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -1816,15 +1816,15 @@
           </label>
         </div>
         <div id="cfg-direct-fields" class="hidden">
-          <div class="alert warn"><strong>Aviso:</strong> en modo directo la API Key se guarda en este navegador. Para uso en hospital migra al Puente Backend.</div>
+          <div class="alert warn"><strong>Aviso:</strong> en modo directo la API Key se guarda en este navegador y, con una clave gratuita de Google, tus envíos pueden usarse para mejorar sus productos. Úsalo solo para pruebas sin datos de pacientes; en guardia usa el Puente.</div>
           <label class="field">Google AI Studio API Key (solo pruebas)
             <input type="password" id="cfg-apikey" placeholder="AIza..." autocomplete="off" />
           </label>
         </div>
-        <label class="field">Modelo Gemini
+        <p class="cfg-help" id="cfg-model-proxy-note">El modelo de IA lo elige tu Puente. Toca «Probar conexión» para ver cuáles usa.</p>
+        <label class="field hidden" id="cfg-model-field">Modelo (solo modo directo de pruebas)
           <span class="select-wrap"><select id="cfg-model">
-            <option value="gemini-2.5-flash">gemini-2.5-flash (recomendado)</option>
-            <option value="gemini-2.0-flash">gemini-2.0-flash</option>
+            <option value="gemini-2.5-flash">gemini-2.5-flash</option>
           </select><svg class="ic"><use href="#i-chevron"/></svg></span>
         </label>
         <div id="cfg-conn-status"></div>
@@ -1854,7 +1854,7 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (29 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (31 pruebas)</h4>
         <div class="btn-row">
           <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (29)</button>
         </div>
@@ -1879,15 +1879,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v27 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v30 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "27",
-      versionLabel: "v27 Intuitiva",
+      version: "30",
+      versionLabel: "v30 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -2361,6 +2361,9 @@
         $("cfg-proxy-fields").classList.toggle("hidden", !isProxy);
         $("cfg-direct-fields").classList.toggle("hidden", isProxy);
         $("btn-test-proxy").classList.toggle("hidden", !isProxy);
+        // v30: en modo Puente el modelo lo decide el servidor; el selector solo aplica al modo directo de pruebas
+        if ($("cfg-model-field")) $("cfg-model-field").classList.toggle("hidden", isProxy);
+        if ($("cfg-model-proxy-note")) $("cfg-model-proxy-note").classList.toggle("hidden", !isProxy);
       }
 
       function getSavedConnectionMode() {
@@ -2410,6 +2413,24 @@
         showToast(mode === "proxy" ? "🔒 Configuración de Puente Backend guardada." : "Configuración directa guardada.");
       });
 
+      // v30: resume en una línea el proveedor y los modelos que informa el Puente (si los informa)
+      function shortModelName(id) {
+        return String(id || "").split("/").pop().replace(/-(instruct|it)$/i, "");
+      }
+      function describeBridgeModels(data) {
+        if (!data || typeof data !== "object") return "";
+        const parts = [];
+        if (data.provider) parts.push(String(data.provider) + (data.version ? " · puente v" + data.version : ""));
+        const m = data.models && typeof data.models === "object" ? data.models : null;
+        if (m) {
+          const labels = { texto: "Notas", imagen: "Fotos", radiografia: "Rx", audio: "Audio" };
+          Object.keys(labels).forEach((k) => {
+            if (Array.isArray(m[k]) && m[k].length) parts.push(labels[k] + ": " + m[k].map(shortModelName).join(" + "));
+          });
+        }
+        return parts.join(" · ");
+      }
+
       $("btn-test-proxy").addEventListener("click", async () => {
         const check = validateProxyUrl($("cfg-proxy-url").value);
         const statusBox = $("cfg-conn-status");
@@ -2437,10 +2458,11 @@
             throw new Error("El servidor respondió, pero no coincide con tyo-assist-proxy.");
           }
           if (!data.keyConfigured) {
-            statusBox.innerHTML = '<div class="alert warn"><strong>Puente activo</strong>, pero falta configurar el secreto <code>GEMINI_API_KEY</code> en Cloudflare/Vercel.</div>';
+            statusBox.innerHTML = '<div class="alert warn"><strong>Puente activo</strong>, pero le falta la conexión con la IA: en Cloudflare agrega el enlace de Workers AI llamado <code>AI</code> (o la clave del proveedor que use tu puente).</div>';
           } else {
             const prot = data.tokenProtected ? "con token activo" : "sin token (recomendado activar APP_ACCESS_TOKEN)";
-            statusBox.innerHTML = '<div class="alert ok"><strong>✅ Puente Backend listo:</strong> Conexión HTTPS verificada, API Key oculta en servidor y ' + escapeHtml(prot) + ".</div>";
+            const infoPuente = describeBridgeModels(data);
+            statusBox.innerHTML = '<div class="alert ok"><strong>✅ Puente Backend listo:</strong> Conexión HTTPS verificada, API Key oculta en servidor y ' + escapeHtml(prot) + "." + (infoPuente ? "<br><small>" + escapeHtml(infoPuente) + "</small>" : "") + "</div>";
           }
         } catch (e) {
           const msg = e && e.name === "AbortError" ? "Tiempo de espera agotado (15 s)." : e.message;
@@ -3780,7 +3802,7 @@
         if (auditMeta.mode === "ai") {
           if (auditMeta.piiFindings && auditMeta.piiFindings.length > 0) {
             const piiTxt = auditMeta.piiFindings.map((f) => f.label + " (×" + f.count + ")").join(" · ");
-            html.push('<div class="alert warn"><strong>🔐 Filtro LFPDPPP activado:</strong> Se redactaron automáticamente datos personales antes de enviar a Gemini: ' + escapeHtml(piiTxt) + ".</div>");
+            html.push('<div class="alert warn"><strong>🔐 Filtro LFPDPPP activado:</strong> Se redactaron automáticamente datos personales antes de enviar a la IA: ' + escapeHtml(piiTxt) + ".</div>");
           } else {
             html.push('<div class="alert ok"><strong>🔐 Filtro LFPDPPP verificado:</strong> 0 datos personales detectados en el envío a API.</div>');
           }
@@ -4583,7 +4605,7 @@
         const btnAi = $("btn-format-ai");
         btnAi.disabled = true;
         setBtnLabel(btnAi, "sparkles", "Auditando…");
-        $("nota-output").value = "Estructurando " + schema.titulo + " en formato JSON blindado con Gemini...";
+        $("nota-output").value = "Estructurando " + schema.titulo + " en formato JSON blindado con IA...";
 
         try {
           const rawJson = await callGemini([{ text: userPrompt }], {
@@ -5096,6 +5118,56 @@
         showToast(allRedFlags.length > 0 ? ("🚨 Rx analizada: " + allRedFlags.length + " alerta(s) radiográfica(s) a corroborar.") : "Descripción radiográfica sistemática generada y auditada.");
       }
 
+      /* v30: reducción de fotos antes de enviarlas a la IA */
+      function fitWithin(width, height, maxSide) {
+        const w = Math.max(1, Math.round(Number(width) || 0));
+        const h = Math.max(1, Math.round(Number(height) || 0));
+        const m = Math.max(1, Math.round(Number(maxSide) || 1));
+        const scale = Math.min(1, m / Math.max(w, h));
+        return { width: Math.max(1, Math.round(w * scale)), height: Math.max(1, Math.round(h * scale)), scaled: scale < 1 };
+      }
+
+      function readFileAsBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(String(reader.result).split(",")[1] || "");
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      }
+
+      async function prepareImageForAI(file, maxSide, quality) {
+        const original = async () => ({ base64: await readFileAsBase64(file), mime: file.type || "image/jpeg", reduced: false });
+        let url = "";
+        try {
+          url = URL.createObjectURL(file);
+          const img = await new Promise((resolve, reject) => {
+            const el = new Image();
+            el.onload = () => resolve(el);
+            el.onerror = () => reject(new Error("No se pudo leer la imagen"));
+            el.src = url;
+          });
+          const size = fitWithin(img.naturalWidth, img.naturalHeight, maxSide);
+          const smallEnough = !size.scaled && file.size <= 1500000 && /^image\/(jpeg|png|webp)$/i.test(file.type || "");
+          if (smallEnough) return await original();
+          const canvas = document.createElement("canvas");
+          canvas.width = size.width;
+          canvas.height = size.height;
+          const ctx = canvas.getContext("2d");
+          ctx.fillStyle = "#000";
+          ctx.fillRect(0, 0, size.width, size.height);
+          ctx.drawImage(img, 0, 0, size.width, size.height);
+          const dataUrl = canvas.toDataURL("image/jpeg", quality || 0.85);
+          const base64 = dataUrl.split(",")[1] || "";
+          if (!base64) return await original();
+          return { base64, mime: "image/jpeg", reduced: true, width: size.width, height: size.height };
+        } catch (_) {
+          return await original();
+        } finally {
+          if (url) URL.revokeObjectURL(url);
+        }
+      }
+
       $("btn-vision-run").addEventListener("click", async () => {
         const file = $("vision-file").files[0];
         if (!file) { showToast("Selecciona una imagen primero."); return; }
@@ -5108,16 +5180,13 @@
         btnRun.disabled = true;
         setBtnLabel(btnRun, "search", mode === "lab" ? "Extrayendo datos…" : "Analizando Rx…");
         $("vision-alerts").innerHTML = "";
-        $("vision-output").textContent = "Analizando imagen con Gemini...";
+        $("vision-output").textContent = "Preparando y analizando imagen con IA...";
 
         try {
-          const base64 = await new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result.split(",")[1]);
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-          });
-          const imgPart = { inline_data: { mime_type: file.type || "image/jpeg", data: base64 } };
+          // v30: la foto se reduce en el teléfono (máx. 2000 px laboratorio · 1600 px Rx) antes de enviarse:
+          // llega más rápido, pesa menos y evita el límite de tamaño del Puente.
+          const prepared = await prepareImageForAI(file, mode === "lab" ? 2000 : 1600, 0.85);
+          const imgPart = { inline_data: { mime_type: prepared.mime, data: prepared.base64 } };
 
           if (mode === "lab") {
             const systemInstruction = [
@@ -5825,7 +5894,7 @@
         if ($("vision-pii-confirm")) $("vision-pii-confirm").checked = false;
         if ($("vision-rx-context")) $("vision-rx-context").value = "";
         $("vision-alerts").innerHTML = "";
-        $("vision-output").textContent = 'Sube una imagen recortada sin datos personales y presiona "Analizar Imagen con Gemini".';
+        $("vision-output").textContent = 'Sube una imagen recortada sin datos personales y presiona "Analizar imagen".';
 
         showToast("🔄 Datos del paciente reiniciados. Listo para nuevo paciente.");
         return true;
@@ -6091,6 +6160,13 @@
           pickRecorderMode({ audioOn: false, aiReady: true, speech: false })
         ].join(",");
         addTest("29. v27: micrófono elige Audio IA, dictado web o teclado", recModes === "audio,dictado,config,teclado", recModes);
+
+        // 30-31. v30: fotos reducidas y modelos informados por el Puente
+        const fitA = fitWithin(4032, 3024, 1600);
+        const fitB = fitWithin(800, 600, 1600);
+        addTest("30. v30: foto del iPhone se reduce a 1600 px antes de enviarse (y una chica no se agranda)", fitA.width === 1600 && fitA.height === 1200 && fitA.scaled && fitB.width === 800 && !fitB.scaled, fitA.width + "×" + fitA.height + " / " + fitB.width + "×" + fitB.height);
+        const descPuente = describeBridgeModels({ provider: "Cloudflare Workers AI (plan gratuito)", version: "29.2", models: { texto: ["@cf/google/gemma-4-26b-a4b-it"], radiografia: ["@cf/meta/llama-4-scout-17b-16e-instruct", "@cf/moonshotai/kimi-k2.5"] } });
+        addTest("31. v30: «Probar conexión» muestra proveedor y modelos del Puente", /Workers AI/.test(descPuente) && /Notas: gemma-4-26b-a4b/.test(descPuente) && /Rx: llama-4-scout-17b-16e \+ kimi-k2\.5/.test(descPuente) && describeBridgeModels({}) === "", descPuente);
 
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
