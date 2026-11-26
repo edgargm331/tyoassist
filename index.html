@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v37 · Tema "Base44" (oscuro + claro)
+       TyO Assist v38 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -886,6 +886,34 @@
       .page-title { font-size: 36px; }
     }
 
+
+    /* ---------- v38: historia clínica guiada (NOM-004 6.1) ---------- */
+    .hc-guide { margin-top: 14px; }
+    .hc-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 2px 2px 0; }
+    .hc-head .mini-label { margin-bottom: 4px; color: var(--gold-text); }
+    .hc-head .badge { flex: none; }
+    .hc-sub { font-size: 13px; color: var(--muted); line-height: 1.4; }
+    .hc-ficha { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; padding: 12px 14px; border-radius: 16px; background: var(--tint-1); border: 1px solid var(--line); font-size: 13.5px; line-height: 1.45; color: var(--text-2); }
+    .hc-ficha strong { color: var(--text); }
+    .hc-ficha .btn, .hc-ro-row .btn { flex: none; }
+    .hc-group { margin: 20px 2px 0; font-size: 11.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .hc-sec { margin-top: 10px; scroll-margin-top: 84px; }
+    .hc-sec > summary small.hc-prog { font-variant-numeric: tabular-nums; }
+    .hc-sec > summary small.hc-prog.done { color: var(--ok-ink); font-weight: 650; }
+    .hc-field > label { font-size: 14px; font-weight: 600; color: var(--text-2); }
+    .hc-chips { margin: 0; gap: 6px; }
+    .hc-chips .chip { font-size: 13.5px; padding: 0 12px; }
+    .chip.is-on { background: var(--gold-soft); border-color: var(--gold-line); }
+    .chip.is-on .chip-plus { font-size: 14px; font-weight: 700; }
+    textarea.hc-ta { min-height: 92px; }
+    .hc-ro { font-size: 13.5px; line-height: 1.45; color: var(--muted); }
+    .hc-ro strong { color: var(--text-2); font-weight: 650; }
+    .hc-ro-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .hc-lock { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--muted); }
+    .hc-lock .ic { width: 15px; height: 15px; flex: none; }
+    .hc-warn { font-size: 13px; font-weight: 600; color: var(--danger-ink); }
+    .hc-armar { width: 100%; margin-top: 16px; }
+
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
     @media print {
@@ -1592,6 +1620,7 @@
         <div class="step-hdr"><span class="step-check"><svg class="ic"><use href="#i-check"/></svg></span><h3>Elige el tipo de nota</h3></div>
         <div class="pill-scroll" id="nota-type-pills">
           <button type="button" class="pill active" data-ntipo="Ingreso">Ingreso</button>
+          <button type="button" class="pill" data-ntipo="Historia clínica">Historia clínica</button>
           <button type="button" class="pill" data-ntipo="Evolución">Evolución</button>
           <button type="button" class="pill" data-ntipo="Preoperatoria">Preop</button>
           <button type="button" class="pill" data-ntipo="Postquirúrgica">Postqx</button>
@@ -1601,8 +1630,9 @@
           <option value="Ingreso">1. Nota de Ingreso (Num. 8.1 / 7.1)</option>
           <option value="Evolución">2. Nota de Evolución (Num. 8.3 → 6.2)</option>
           <option value="Preoperatoria">3. Nota Preoperatoria (Num. 8.5)</option>
-          <option value="Postquirúrgica">4. Nota Postquirúrgica (Num. 8.7)</option>
-          <option value="Alta">5. Nota de Egreso / Alta (Num. 8.8)</option>
+          <option value="Postquirúrgica">4. Nota Postquirúrgica (Num. 8.8)</option>
+          <option value="Alta">5. Nota de Egreso / Alta (Num. 8.9)</option>
+          <option value="Historia clínica">6. Historia clínica (Num. 6.1)</option>
         </select>
         <p class="format-line" id="nota-format-line">Formato seleccionado: <strong>Ingreso</strong> · Num. 8.1 / 7.1</p>
       </div>
@@ -1657,6 +1687,9 @@
           </div>
         </div>
 
+        <!-- v38: Historia clínica guiada (NOM-004 6.1) -->
+        <div class="hc-guide no-print hidden" id="hc-guide"><div class="hc-head"><div><div class="mini-label">Historia clínica · NOM-004 6.1</div><p class="hc-sub">Llena por apartados con frases rápidas. Lo que quede vacío sale como [NO REFERIDO].</p></div><span class="badge" id="hc-total">0</span></div><div class="hc-ficha" id="hc-ficha-resumen"></div><div class="hc-group">6.1.1 Interrogatorio</div><details class="acc acc-card hc-sec" name="hc-sec" data-hc="ident" id="hc-sec-ident"><summary><span class="sum-text"><strong>Identificación</strong> <small class="hc-prog" data-prog="ident"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="grid-2"><label class="field">Interrogatorio<span class="select-wrap"><select id="hc-informante" data-hc-req="ident"><option value="">Elegir…</option><option>Directo</option><option>Indirecto (familiar o acompañante)</option><option>Mixto</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Mano dominante<span class="select-wrap"><select id="hc-mano" data-hc-req="ident"><option value="">Elegir…</option><option>Diestro</option><option>Zurdo</option><option>Ambidiestro</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Ocupación<input type="text" id="hc-ocupacion" data-hc-req="ident" placeholder="Albañil, estudiante…" /></label><label class="field">Escolaridad<span class="select-wrap"><select id="hc-escolaridad" data-hc-req="ident"><option value="">Elegir…</option><option>Ninguna</option><option>Primaria</option><option>Secundaria</option><option>Bachillerato</option><option>Licenciatura</option><option>Posgrado</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Estado civil<span class="select-wrap"><select id="hc-civil" data-hc-req="ident"><option value="">Elegir…</option><option>Soltero(a)</option><option>Casado(a)</option><option>Unión libre</option><option>Divorciado(a)</option><option>Viudo(a)</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Originario y residente de<input type="text" id="hc-origen" data-hc-req="ident" placeholder="Ciudad, estado" /></label></div><label class="field">Grupo étnico o lengua indígena (si aplica)<input type="text" id="hc-etnia" placeholder="No aplica" /></label><p class="hc-lock"><svg class="ic gold"><use href="#i-shield"/></svg>La identificación se queda en este teléfono: nunca se envía a la IA.</p></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="ahf" id="hc-sec-ahf"><summary><span class="sum-text"><strong>Heredofamiliares</strong> <small class="hc-prog" data-prog="ahf"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="field hc-field"><label for="hc-ahf">Antecedentes heredofamiliares</label><div class="chips hc-chips" data-hc-for="hc-ahf"></div><textarea id="hc-ahf" class="hc-ta" data-hc-req="ahf" placeholder="Madre con diabetes mellitus tipo 2…"></textarea></div></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="apnp" id="hc-sec-apnp"><summary><span class="sum-text"><strong>Personales no patológicos</strong> <small class="hc-prog" data-prog="apnp"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="grid-2"><label class="field">Tabaquismo<span class="select-wrap"><select id="hc-tabaco" data-hc-req="apnp"><option value="">Elegir…</option><option>Negado</option><option>Activo</option><option>Exfumador</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Alcoholismo<span class="select-wrap"><select id="hc-alcohol" data-hc-req="apnp"><option value="">Elegir…</option><option>Negado</option><option>Ocasional o social</option><option>Frecuente (semanal)</option><option>Diario</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label></div><div class="grid-2 hidden" id="hc-tabaco-det"><label class="field">Cigarrillos al día<input type="number" id="hc-cig" placeholder="10" min="0" max="200" inputmode="numeric" /></label><label class="field">Años fumando<input type="number" id="hc-cig-anios" placeholder="15" min="0" max="90" inputmode="numeric" /></label></div><p class="hc-ro hidden" id="hc-it"></p><div class="hidden" id="hc-alcohol-det-box"><label class="field">Detalle de alcohol<input type="text" id="hc-alcohol-det" placeholder="Cerveza los fines de semana, hasta la embriaguez" /></label></div><div class="grid-2"><label class="field">Otras sustancias<span class="select-wrap"><select id="hc-sustancias" data-hc-req="apnp"><option value="">Elegir…</option><option>Negadas</option><option>Positivas</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Vacuna antitetánica<span class="select-wrap"><select id="hc-tetanos" data-hc-req="apnp"><option value="">Elegir…</option><option>Esquema o refuerzo vigente (menos de 5 años)</option><option>Último refuerzo hace 5 a 10 años</option><option>Último refuerzo hace más de 10 años</option><option>Incompleta o sin vacunar</option><option>Se desconoce</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label></div><div class="hidden" id="hc-sustancias-det-box"><label class="field">¿Cuáles y con qué frecuencia?<input type="text" id="hc-sustancias-det" placeholder="Cannabis ocasional" /></label></div><label class="field">Otros (actividad física, deporte, vivienda)<input type="text" id="hc-apnp" placeholder="Futbol los fines de semana" /></label></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="app" id="hc-sec-app"><summary><span class="sum-text"><strong>Personales patológicos</strong> <small class="hc-prog" data-prog="app"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="field hc-field"><label for="hc-cronicos">Crónico-degenerativos</label><div class="chips hc-chips" data-hc-for="hc-cronicos"></div><textarea id="hc-cronicos" class="hc-ta" data-hc-req="app" placeholder="Diabetes mellitus tipo 2 de 10 años, en tratamiento con metformina…"></textarea></div><div class="field hc-field"><label for="hc-quirurgicos">Quirúrgicos</label><div class="chips hc-chips" data-hc-for="hc-quirurgicos"></div><input type="text" id="hc-quirurgicos" data-hc-req="app" placeholder="Apendicectomía en 2015" /></div><div class="field hc-field"><label for="hc-traumaticos">Traumáticos</label><div class="chips hc-chips" data-hc-for="hc-traumaticos"></div><input type="text" id="hc-traumaticos" data-hc-req="app" placeholder="Fractura de radio distal izquierdo en 2019, manejo conservador" /></div><div class="field hc-field"><label for="hc-transfusionales">Transfusionales</label><div class="chips hc-chips" data-hc-for="hc-transfusionales"></div><input type="text" id="hc-transfusionales" data-hc-req="app" placeholder="Negados" /></div><div class="field hc-field"><label for="hc-hosp">Hospitalizaciones previas</label><div class="chips hc-chips" data-hc-for="hc-hosp"></div><input type="text" id="hc-hosp" data-hc-req="app" placeholder="Negadas" /></div><div class="field hc-field"><label for="hc-meds">Medicamentos actuales</label><div class="chips hc-chips" data-hc-for="hc-meds"></div><input type="text" id="hc-meds" data-hc-req="app" placeholder="Metformina 850 mg cada 12 horas" /></div><div class="hc-ro-row"><p class="hc-ro" id="hc-alergias-ro"></p><button type="button" class="btn btn-secondary btn-sm hc-open-ficha"><svg class="ic gold"><use href="#i-user"/></svg>Ficha</button></div></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="go" id="hc-sec-go"><summary><span class="sum-text"><strong>Gineco-obstétricos</strong> <small class="hc-prog" data-prog="go"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="grid-2"><label class="field">Menarca (años)<input type="number" id="hc-menarca" data-hc-req="go" placeholder="12" min="7" max="20" inputmode="numeric" /></label><label class="field">Fecha de última menstruación<input type="date" id="hc-fum" data-hc-req="go" placeholder="" /></label></div><label class="field">Gestas, partos, cesáreas y abortos<input type="text" id="hc-gpca" data-hc-req="go" placeholder="Gestas 2, partos 1, cesáreas 1, abortos 0" /></label><div class="grid-2"><label class="field">Planificación familiar<input type="text" id="hc-mpf" data-hc-req="go" placeholder="Ninguno, DIU, hormonal…" /></label><label class="field">Posibilidad de embarazo<span class="select-wrap"><select id="hc-embarazo" data-hc-req="go"><option value="">Elegir…</option><option>No</option><option>Sí (embarazo referido)</option><option>En lactancia</option><option>Se desconoce</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label></div><p class="hc-warn hidden" id="hc-embarazo-warn">Considera prueba de embarazo antes de radiografías y revisa los medicamentos.</p></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="pa" id="hc-sec-pa"><summary><span class="sum-text"><strong>Padecimiento actual</strong> <small class="hc-prog" data-prog="pa"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="hc-ro-row"><p class="hc-ro" id="hc-pa-ro"></p><button type="button" class="btn btn-secondary btn-sm" id="btn-hc-ir-dictado"><svg class="ic gold"><use href="#i-mic"/></svg>Dictar</button></div><div class="field hc-field"><label for="hc-trat-previos">Tratamientos previos (convencionales, alternativos o tradicionales)</label><div class="chips hc-chips" data-hc-for="hc-trat-previos"></div><input type="text" id="hc-trat-previos" data-hc-req="pa" placeholder="Paracetamol por automedicación; valoración por huesero" /></div></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="ipas" id="hc-sec-ipas"><summary><span class="sum-text"><strong>Aparatos y sistemas</strong> <small class="hc-prog" data-prog="ipas"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="field hc-field"><label for="hc-ipas">Interrogatorio por aparatos y sistemas</label><div class="chips hc-chips" data-hc-for="hc-ipas"></div><textarea id="hc-ipas" class="hc-ta" data-hc-req="ipas" placeholder="Cardiovascular: niega dolor torácico…"></textarea></div></div></details><div class="hc-group">6.1.2 Exploración física</div><details class="acc acc-card hc-sec" name="hc-sec" data-hc="ef" id="hc-sec-ef"><summary><span class="sum-text"><strong>Exploración física</strong> <small class="hc-prog" data-prog="ef"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="hc-ro-row"><p class="hc-ro" id="hc-somato-ro"></p><button type="button" class="btn btn-secondary btn-sm" id="btn-hc-vitales"><svg class="ic gold"><use href="#i-activity"/></svg>Signos</button></div><div class="field hc-field"><label for="hc-habitus">Habitus exterior</label><div class="chips hc-chips" data-hc-for="hc-habitus"></div><textarea id="hc-habitus" class="hc-ta" data-hc-req="ef" placeholder="Consciente, orientado, cooperador, facies álgica…"></textarea></div><div class="field hc-field"><label for="hc-cabeza">Cabeza</label><div class="chips hc-chips" data-hc-for="hc-cabeza"></div><input type="text" id="hc-cabeza" data-hc-req="ef" placeholder="Normocéfalo, pupilas isocóricas…" /></div><div class="field hc-field"><label for="hc-cuello">Cuello</label><div class="chips hc-chips" data-hc-for="hc-cuello"></div><input type="text" id="hc-cuello" data-hc-req="ef" placeholder="Cilíndrico, sin adenomegalias…" /></div><div class="field hc-field"><label for="hc-torax">Tórax</label><div class="chips hc-chips" data-hc-for="hc-torax"></div><input type="text" id="hc-torax" data-hc-req="ef" placeholder="Campos pulmonares bien ventilados…" /></div><div class="field hc-field"><label for="hc-abdomen">Abdomen</label><div class="chips hc-chips" data-hc-for="hc-abdomen"></div><input type="text" id="hc-abdomen" data-hc-req="ef" placeholder="Blando, depresible, no doloroso…" /></div><div class="field hc-field"><label for="hc-columna">Columna vertebral (si aplica)</label><div class="chips hc-chips" data-hc-for="hc-columna"></div><input type="text" id="hc-columna" placeholder="Sin dolor a la palpación de apófisis espinosas…" /></div><div class="field hc-field"><label for="hc-miembros">Miembros (exploración traumatológica)</label><div class="chips hc-chips" data-hc-for="hc-miembros"></div><textarea id="hc-miembros" class="hc-ta" data-hc-req="ef" placeholder="Rodilla derecha con aumento de volumen…"></textarea></div><div class="field hc-field"><label for="hc-genitales">Genitales</label><div class="chips hc-chips" data-hc-for="hc-genitales"></div><input type="text" id="hc-genitales" data-hc-req="ef" placeholder="Exploración diferida por no ser pertinente…" /></div></div></details><div class="hc-group">6.1.3 – 6.1.6 Estudios, diagnóstico y plan</div><details class="acc acc-card hc-sec" name="hc-sec" data-hc="plan" id="hc-sec-plan"><summary><span class="sum-text"><strong>Estudios, diagnóstico, pronóstico e indicación</strong> <small class="hc-prog" data-prog="plan"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><label class="field">Estudios de laboratorio, gabinete y otros (6.1.3)<textarea id="hc-estudios" class="hc-ta" data-hc-req="plan" placeholder="Radiografía AP y lateral de tobillo derecho: …"></textarea></label><p class="hc-ro">Lo que envíes desde Calculadoras o Estudios con «Enviar a nota» también entra aquí.</p><label class="field">Diagnósticos o problemas clínicos (6.1.4)<textarea id="hc-dx" class="hc-ta" data-hc-req="plan" placeholder="Fractura bimaleolar de tobillo derecho Weber B"></textarea></label><div class="field hc-field"><label for="hc-pron">Pronóstico (6.1.5)</label><div class="chips hc-chips" data-hc-for="hc-pron"></div><input type="text" id="hc-pron" data-hc-req="plan" placeholder="Bueno para la vida, reservado para la función" /></div><label class="field">Indicación terapéutica (6.1.6)<textarea id="hc-trat" class="hc-ta" data-hc-req="plan" placeholder="Inmovilización con férula posterior, analgesia…"></textarea></label><p class="hc-ro">También puedes usar «Copiar a Nota» en Recetas: la indicación entra en este apartado.</p></div></details><input type="hidden" id="hc-prefill-id" /><button type="button" class="btn btn-primary btn-xl hc-armar" id="btn-hc-armar"><svg class="ic"><use href="#i-file"/></svg>Armar historia clínica</button></div>
+
         <!-- Signos vitales -->
         <details class="acc acc-card local-box no-print" id="box-vitals">
           <summary><span class="sum-text" id="vitals-summary"><strong>Signos vitales</strong> <small>(vacío = [NO REFERIDO])</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
@@ -1698,7 +1731,7 @@
             <div id="nf-Ingreso" class="grid-2">
               <label class="field">Motivo de ingreso (7.1.3)<input type="text" id="ing-motivo" placeholder="Trauma en extremidad pélvica der." /></label>
               <label class="field">Estado mental (8.1.2)<input type="text" id="ing-mental" placeholder="Alerta, orientado, Glasgow 15/15" /></label>
-              <label class="field">Diagnóstico ingreso (7.1.5)<input type="text" id="ing-dx" placeholder="Fx diáfisis tibial der. AO 42-A2" /></label>
+              <label class="field">Diagnóstico ingreso (7.1.6)<input type="text" id="ing-dx" placeholder="Fx diáfisis tibial der. AO 42-A2" /></label>
               <label class="field">Pronóstico (8.1.4)<input type="text" id="ing-pron" placeholder="Reservado función, bueno vida" /></label>
             </div>
 
@@ -1739,46 +1772,46 @@
             <!-- 4. POSTQUIRÚRGICA -->
             <div id="nf-Postquirurgica" class="hidden">
               <div class="grid-2">
-                <label class="field">Dx preoperatorio (8.7.1)<input type="text" id="post-dxpre" placeholder="Fx bimaleolar tobillo der. Weber B" /></label>
-                <label class="field">Cx planeada (8.7.2)<input type="text" id="post-cxplan" placeholder="RAFI tobillo derecho" /></label>
-                <label class="field">Cx realizada (8.7.3)<input type="text" id="post-cxreal" placeholder="RAFI placa 1/3 caña + tornillos" /></label>
-                <label class="field">Dx postoperatorio (8.7.4)<input type="text" id="post-dxpost" placeholder="PO inmediato RAFI tobillo der." /></label>
-                <label class="field">Conteo gasas/instrumental (8.7.7)
+                <label class="field">Dx preoperatorio (8.8.1)<input type="text" id="post-dxpre" placeholder="Fx bimaleolar tobillo der. Weber B" /></label>
+                <label class="field">Cx planeada (8.8.2)<input type="text" id="post-cxplan" placeholder="RAFI tobillo derecho" /></label>
+                <label class="field">Cx realizada (8.8.3)<input type="text" id="post-cxreal" placeholder="RAFI placa 1/3 caña + tornillos" /></label>
+                <label class="field">Dx postoperatorio (8.8.4)<input type="text" id="post-dxpost" placeholder="PO inmediato RAFI tobillo der." /></label>
+                <label class="field">Conteo gasas/instrumental (8.8.7)
                   <span class="select-wrap"><select id="post-conteo">
                     <option value="">[NO REFERIDO — VERIFICAR]</option>
                     <option value="Cuenta COMPLETA de gasas, compresas e instrumental quirúrgico reportada por enfermería instrumentista y circulante.">Cuenta COMPLETA</option>
                     <option value="CUENTA INCOMPLETA — Se realizó búsqueda dirigida y control radiográfico transoperatorio (detallar en incidentes).">CUENTA INCOMPLETA (Alertar)</option>
                   </select><svg class="ic"><use href="#i-chevron"/></svg></span>
                 </label>
-                <label class="field">Incidentes/accidentes (8.7.8)
+                <label class="field">Incidentes/accidentes (8.8.8)
                   <span class="select-wrap"><select id="post-incid">
                     <option value="">[NO REFERIDO]</option>
                     <option value="Ninguno; procedimiento concluido sin incidentes ni accidentes transoperatorios.">Sin incidentes</option>
                     <option value="Con incidentes transoperatorios (ver descripción en hallazgos/técnica).">Con incidentes</option>
                   </select><svg class="ic"><use href="#i-chevron"/></svg></span>
                 </label>
-                <label class="field">Sangrado / transfusiones (8.7.9)<input type="text" id="post-sangrado" placeholder="150 mL; sin transfusiones" /></label>
-                <label class="field">Auxiliares transop (8.7.10)<input type="text" id="post-aux" placeholder="Arco en C satisfactorio" /></label>
-                <label class="field">Equipo quirúrgico (8.7.11 · Local)<input type="text" id="post-equipo" placeholder="Cirujano / Ayud / Anest / Inst" /></label>
-                <label class="field">Estado postqx inmediato (8.7.12)<input type="text" id="post-estado" placeholder="Estable, NVD íntegro, FSP" /></label>
-                <label class="field">Piezas a patología (8.7.15)
+                <label class="field">Sangrado / transfusiones (8.8.9)<input type="text" id="post-sangrado" placeholder="150 mL; sin transfusiones" /></label>
+                <label class="field">Auxiliares transop (8.8.10)<input type="text" id="post-aux" placeholder="Arco en C satisfactorio" /></label>
+                <label class="field">Equipo quirúrgico (8.8.11 · Local)<input type="text" id="post-equipo" placeholder="Cirujano / Ayud / Anest / Inst" /></label>
+                <label class="field">Estado postqx inmediato (8.8.12)<input type="text" id="post-estado" placeholder="Estable, NVD íntegro, FSP" /></label>
+                <label class="field">Piezas a patología (8.8.15)
                   <span class="select-wrap"><select id="post-pato">
                     <option value="">[NO REFERIDO]</option>
                     <option value="No se obtuvieron ni enviaron piezas o biopsias quirúrgicas a patología.">No se enviaron piezas</option>
                     <option value="Sí — pieza/biopsia enviada a Anatomía Patológica (especificar en hallazgos).">Sí — a Patología</option>
                   </select><svg class="ic"><use href="#i-chevron"/></svg></span>
                 </label>
-                <label class="field">Pronóstico (8.7.14)<input type="text" id="post-pron" placeholder="Bueno vida, reservado función" /></label>
+                <label class="field">Pronóstico (8.8.14)<input type="text" id="post-pron" placeholder="Bueno vida, reservado función" /></label>
               </div>
-              <label class="field">Otros hallazgos (8.7.16)<input type="text" id="post-otros" placeholder="Isquemia 55 min a 250 mmHg..." /></label>
+              <label class="field">Otros hallazgos (8.8.16)<input type="text" id="post-otros" placeholder="Isquemia 55 min a 250 mmHg..." /></label>
             </div>
 
             <!-- 5. ALTA -->
             <div id="nf-Alta" class="hidden">
               <div class="grid-2">
-                <label class="field">Fecha ingreso (8.8.1)<input type="date" id="alta-fing" /></label>
-                <label class="field">Fecha egreso (8.8.1)<input type="date" id="alta-fegr" /></label>
-                <label class="field">Motivo egreso (8.8.2)
+                <label class="field">Fecha ingreso (8.9.1)<input type="date" id="alta-fing" /></label>
+                <label class="field">Fecha egreso (8.9.1)<input type="date" id="alta-fegr" /></label>
+                <label class="field">Motivo egreso (8.9.2)
                   <span class="select-wrap"><select id="alta-motivo">
                     <option value="">[NO REFERIDO]</option>
                     <option value="Mejoría clínica">Mejoría clínica</option>
@@ -1788,14 +1821,14 @@
                     <option value="Defunción">Defunción</option>
                   </select><svg class="ic"><use href="#i-chevron"/></svg></span>
                 </label>
-                <label class="field">Diagnósticos finales (8.8.3)<input type="text" id="alta-dx" placeholder="PO RAFI radio distal izq." /></label>
-                <label class="field">Pendientes (8.8.6)<input type="text" id="alta-pend" placeholder="Retiro puntos 14 d y Rx C.E." /></label>
-                <label class="field">Factores de riesgo (8.8.9)<input type="text" id="alta-riesgos" placeholder="Suspensión tabaco/alcohol" /></label>
-                <label class="field">Vigilancia y cita (8.8.8)<input type="text" id="alta-vigil" placeholder="Cita C.E. TyO en 14 días" /></label>
-                <label class="field">Pronóstico (8.8.10)<input type="text" id="alta-pron" placeholder="Favorable con rehabilitación" /></label>
+                <label class="field">Diagnósticos finales (8.9.3)<input type="text" id="alta-dx" placeholder="PO RAFI radio distal izq." /></label>
+                <label class="field">Pendientes (8.9.6)<input type="text" id="alta-pend" placeholder="Retiro puntos 14 d y Rx C.E." /></label>
+                <label class="field">Factores de riesgo (8.9.9)<input type="text" id="alta-riesgos" placeholder="Suspensión tabaco/alcohol" /></label>
+                <label class="field">Vigilancia y cita (8.9.8)<input type="text" id="alta-vigil" placeholder="Cita C.E. TyO en 14 días" /></label>
+                <label class="field">Pronóstico (8.9.10)<input type="text" id="alta-pron" placeholder="Favorable con rehabilitación" /></label>
               </div>
               <div id="nf-alta-defuncion" class="hidden">
-                <label class="field">Causas de muerte y necropsia (8.8.11)<input type="text" id="alta-def" placeholder="Causas según certificado de defunción" /></label>
+                <label class="field">Causas de muerte y necropsia (8.9.11)<input type="text" id="alta-def" placeholder="Causas según certificado de defunción" /></label>
               </div>
             </div>
           </div>
@@ -1953,7 +1986,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v37 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v38 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -1985,7 +2018,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v37</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v38</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2059,7 +2092,7 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (51 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (53 pruebas)</h4>
         <div class="btn-row">
           <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (29)</button>
         </div>
@@ -2191,15 +2224,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v37 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v38 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "37",
-      versionLabel: "v37 Intuitiva",
+      version: "38",
+      versionLabel: "v38 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -4519,6 +4552,491 @@
         syncRxOutputToggle();
       }
 
+      /* =======================================================
+         v38: HISTORIA CLÍNICA GUIADA (NOM-004-SSA3-2012, numeral 6.1)
+         6.1.1 Interrogatorio · 6.1.2 Exploración física · 6.1.3 Estudios
+         6.1.4 Diagnósticos · 6.1.5 Pronóstico · 6.1.6 Indicación terapéutica
+         La ficha de identificación se arma en el teléfono y nunca va a la IA.
+      ======================================================= */
+      var HC_TIPO = "Historia clínica";
+
+      function notaTipoTitulo(tipo) {
+        return tipo === HC_TIPO ? "Historia clínica" : "Nota de " + tipo;
+      }
+
+      function hcIsActive() {
+        try { return $("nota-tipo").value === HC_TIPO; } catch (_) { return false; }
+      }
+
+      function hcVal(id) {
+        const el = $(id);
+        return el ? String(el.value || "").trim() : "";
+      }
+
+      function hcFichaRec() {
+        try {
+          const rec = loadFicha();
+          return rec && rec.data && fichaHasData(rec.data) ? rec : null;
+        } catch (_) { return null; }
+      }
+
+      function hcSexoFrom(ficha, edadSexoTxt) {
+        if (ficha && (ficha.sexo === "F" || ficha.sexo === "M")) return ficha.sexo;
+        const es = String(edadSexoTxt || "").trim().toLowerCase();
+        if (/^(f\b|fem)/.test(es)) return "F";
+        if (/^(m\b|masc)/.test(es)) return "M";
+        return "";
+      }
+
+      // Frases rápidas por campo. neg = [etiqueta, texto] (deja el campo solo con ese texto).
+      // exclusive = cada frase reemplaza lo escrito (para «Sin alteraciones» y similares).
+      function hcChipDefs() {
+        const base = (typeof EXAM_CHIPS_BY_TYPE === "object" && EXAM_CHIPS_BY_TYPE.base) ? EXAM_CHIPS_BY_TYPE.base : [];
+        return {
+          "hc-ahf": { neg: ["Negados", "Interrogados y negados"], items: [["DM2", "Diabetes mellitus tipo 2"], ["HAS", "Hipertensión arterial sistémica"], ["Cardiopatía", "Cardiopatía"], ["Cáncer", "Cáncer"], ["ERC", "Enfermedad renal crónica"], ["Art. reumatoide", "Artritis reumatoide"], ["Osteoporosis", "Osteoporosis"], ["Trombosis", "Trombosis o trastornos de la coagulación"]] },
+          "hc-cronicos": { neg: ["Negados", "Crónico-degenerativos negados"], items: [["DM2", "Diabetes mellitus tipo 2"], ["HAS", "Hipertensión arterial sistémica"], ["ERC", "Enfermedad renal crónica"], ["Cardiopatía", "Cardiopatía"], ["EPOC o asma", "Enfermedad pulmonar obstructiva crónica o asma"], ["Hipotiroidismo", "Hipotiroidismo"], ["Art. reumatoide", "Artritis reumatoide"], ["Osteoporosis", "Osteoporosis"], ["Hepatopatía", "Hepatopatía crónica"], ["Epilepsia", "Epilepsia"], ["Trombosis previa", "Trombosis venosa o tromboembolia previa"], ["Obesidad", "Obesidad"]] },
+          "hc-quirurgicos": { neg: ["Negados", "Negados"], items: [] },
+          "hc-traumaticos": { neg: ["Negados", "Negados"], items: [["Fracturas previas", "Fracturas previas"], ["Luxaciones", "Luxaciones previas"]] },
+          "hc-transfusionales": { neg: ["Negados", "Negados"], items: [] },
+          "hc-hosp": { neg: ["Negadas", "Negadas"], items: [] },
+          "hc-meds": { neg: ["Ninguno", "Ninguno"], items: [["Anticoagulante", "Anticoagulante oral"], ["Antiagregante", "Antiagregante plaquetario"], ["Esteroide", "Corticoesteroide crónico"], ["Insulina", "Insulina"], ["Metformina", "Metformina"], ["Antihipertensivo", "Antihipertensivo"]] },
+          "hc-trat-previos": { neg: ["Ninguno", "Ninguno"], items: [["Automedicación", "Analgésicos o antiinflamatorios por automedicación"], ["Huesero o sobador", "Manipulación por huesero o sobador"], ["Remedios caseros", "Remedios caseros o pomadas"], ["Férula o yeso previo", "Inmovilización previa con férula o yeso"], ["Valoración previa", "Valoración médica previa en otra unidad"]] },
+          "hc-ipas": { neg: ["Interrogados y negados", "Síntomas generales, cardiovascular, respiratorio, digestivo, genitourinario, neurológico, tegumentario y musculoesquelético (fuera del padecimiento actual): interrogados y negados"], items: [] },
+          "hc-habitus": { sep: ", ", items: [["Consciente y orientado", "Consciente, orientado en tiempo, lugar y persona"], ["Cooperador", "cooperador"], ["Edad aparente acorde", "edad aparente igual a la cronológica"], ["Buena coloración", "buena coloración e hidratación de tegumentos"], ["Facies álgica", "facies álgica"], ["Posición antiálgica", "posición antiálgica"], ["Marcha no valorable", "marcha no valorable por la lesión"]] },
+          "hc-cabeza": { exclusive: true, items: [["Sin alteraciones", "Normocéfalo, sin hundimientos ni exostosis; pupilas isocóricas y normorrefléxicas; mucosa oral hidratada"]] },
+          "hc-cuello": { exclusive: true, items: [["Sin alteraciones", "Cilíndrico, tráquea central, sin adenomegalias; sin dolor a la palpación de apófisis espinosas cervicales; arcos de movilidad conservados"]] },
+          "hc-torax": { exclusive: true, items: [["Sin alteraciones", "Normolíneo, movimientos de amplexión y amplexación conservados, campos pulmonares bien ventilados sin agregados; ruidos cardiacos rítmicos, de buena intensidad, sin soplos"]] },
+          "hc-abdomen": { exclusive: true, items: [["Sin alteraciones", "Blando, depresible, no doloroso a la palpación, sin datos de irritación peritoneal; peristalsis presente"]] },
+          "hc-columna": { exclusive: true, items: [["Sin alteraciones", "Alineada, sin dolor a la palpación de apófisis espinosas ni de musculatura paravertebral; arcos de movilidad conservados"]] },
+          "hc-genitales": { exclusive: true, items: [["Sin alteraciones", "Sin alteraciones aparentes a la inspección"], ["Diferida (no pertinente)", "Exploración diferida por no ser pertinente al padecimiento actual"], ["Diferida (paciente)", "Exploración diferida a solicitud del paciente"]] },
+          "hc-miembros": { sep: " ", items: base.map((c) => [String(c.label).replace(/^\+\s*/, ""), c.text]).concat([["Contralaterales normales", "Extremidades contralaterales sin alteraciones: arcos de movilidad completos, fuerza 5/5 en escala de Daniels, reflejos osteotendinosos normales y sensibilidad conservada."]]) },
+          "hc-pron": { sep: ", ", items: [["Bueno para la vida", "Bueno para la vida"], ["Reservado para la vida", "Reservado para la vida"], ["Bueno para la función", "bueno para la función"], ["Reservado para la función", "reservado para la función"], ["Reservado a evolución", "reservado a evolución"]] }
+        };
+      }
+
+      function hcCap(s) {
+        s = String(s || "");
+        return s.charAt(0).toUpperCase() + s.slice(1);
+      }
+
+      function hcNorm(s) {
+        return String(s || "").toLowerCase().replace(/[\s.;,]+$/g, "").trim();
+      }
+
+      // Agrega o quita una frase del campo. El texto del campo manda: las frases solo son atajos.
+      function hcApplyPhrase(cur, phrase, def, isNeg) {
+        const sep = def.sep || "; ";
+        let v = String(cur || "").trim();
+        if (isNeg) {
+          if (hcNorm(v) === hcNorm(phrase)) return "";
+          return phrase;
+        }
+        if (def.exclusive) {
+          return hcNorm(v) === hcNorm(phrase) ? "" : phrase;
+        }
+        if (def.neg && hcNorm(v) === hcNorm(def.neg[1])) v = "";
+        const idx = v.toLowerCase().indexOf(phrase.toLowerCase());
+        if (idx !== -1) {
+          v = (v.slice(0, idx) + v.slice(idx + phrase.length))
+            .replace(/\s*;\s*;\s*/g, "; ")
+            .replace(/,\s*,/g, ",")
+            .replace(/^[\s;,]+|[\s;,]+$/g, "")
+            .replace(/\s{2,}/g, " ")
+            .trim();
+          return v ? hcCap(v) : "";
+        }
+        return v ? v.replace(/[\s;,]+$/g, "") + sep + phrase : hcCap(phrase);
+      }
+
+      function hcRenderChips() {
+        const defs = hcChipDefs();
+        document.querySelectorAll("#hc-guide [data-hc-for]").forEach((box) => {
+          const id = box.dataset.hcFor;
+          const def = defs[id];
+          if (!def) { box.remove(); return; }
+          const btns = [];
+          if (def.neg) btns.push('<button type="button" class="chip hc-chip" data-neg="1" data-phrase="' + escapeHtml(def.neg[1]) + '"><span class="chip-plus">+</span>' + escapeHtml(def.neg[0]) + "</button>");
+          def.items.forEach((it) => {
+            btns.push('<button type="button" class="chip hc-chip" data-phrase="' + escapeHtml(it[1]) + '"><span class="chip-plus">+</span>' + escapeHtml(it[0]) + "</button>");
+          });
+          box.innerHTML = btns.join("");
+          if (!btns.length) box.remove();
+        });
+      }
+
+      function hcSyncChips() {
+        const defs = hcChipDefs();
+        document.querySelectorAll("#hc-guide [data-hc-for]").forEach((box) => {
+          const def = defs[box.dataset.hcFor] || {};
+          const v = hcVal(box.dataset.hcFor);
+          const low = v.toLowerCase();
+          box.querySelectorAll(".hc-chip").forEach((b) => {
+            const ph = b.dataset.phrase || "";
+            const on = (b.dataset.neg === "1" || def.exclusive)
+              ? hcNorm(v) === hcNorm(ph)
+              : low.indexOf(ph.toLowerCase()) !== -1;
+            b.classList.toggle("is-on", !!on);
+            b.setAttribute("aria-pressed", on ? "true" : "false");
+            const plus = b.querySelector(".chip-plus");
+            if (plus) plus.textContent = on ? "✓" : "+";
+          });
+        });
+      }
+
+      function hcIndiceTabaquico(cig, anios) {
+        const c = Number(cig), a = Number(anios);
+        if (!Number.isFinite(c) || !Number.isFinite(a) || c <= 0 || a <= 0) return null;
+        return Math.round((c * a / 20) * 10) / 10;
+      }
+
+      function hcSyncConditional() {
+        const tab = hcVal("hc-tabaco");
+        const fuma = tab === "Activo" || tab === "Exfumador";
+        $("hc-tabaco-det").classList.toggle("hidden", !fuma);
+        const it = fuma ? hcIndiceTabaquico(hcVal("hc-cig"), hcVal("hc-cig-anios")) : null;
+        $("hc-it").classList.toggle("hidden", it === null);
+        $("hc-it").textContent = it === null ? "" : "Índice tabáquico: " + it + " paquetes-año" + (it >= 20 ? " (riesgo alto)" : it >= 10 ? " (riesgo moderado)" : "");
+        const alc = hcVal("hc-alcohol");
+        $("hc-alcohol-det-box").classList.toggle("hidden", !alc || alc === "Negado");
+        $("hc-sustancias-det-box").classList.toggle("hidden", hcVal("hc-sustancias") !== "Positivas");
+        const rec = hcFichaRec();
+        const sexo = hcSexoFrom(rec ? rec.data : null, hcVal("nota-edadsexo"));
+        const goFilled = ["hc-menarca", "hc-fum", "hc-gpca", "hc-mpf", "hc-embarazo"].some((id) => hcVal(id));
+        $("hc-sec-go").classList.toggle("hidden", sexo === "M" && !goFilled);
+        const emb = hcVal("hc-embarazo");
+        $("hc-embarazo-warn").classList.toggle("hidden", !(emb === "Sí (embarazo referido)" || emb === "Se desconoce"));
+      }
+
+      function hcSectionReq() {
+        const out = {};
+        document.querySelectorAll("#hc-guide [data-hc-req]").forEach((el) => {
+          const k = el.dataset.hcReq;
+          (out[k] = out[k] || []).push(el.id);
+        });
+        out.pa = ["nota-input"].concat(out.pa || []);
+        return out;
+      }
+
+      function hcUpdateProgress() {
+        const req = hcSectionReq();
+        let total = 0, filled = 0;
+        Object.keys(req).forEach((k) => {
+          const sec = $("hc-sec-" + k);
+          if (!sec || sec.classList.contains("hidden")) return;
+          const n = req[k].length;
+          const f = req[k].filter((id) => hcVal(id)).length;
+          total += n; filled += f;
+          const el = document.querySelector('#hc-guide [data-prog="' + k + '"]');
+          if (el) {
+            el.textContent = f + "/" + n;
+            el.classList.toggle("done", f === n);
+          }
+        });
+        const badge = $("hc-total");
+        if (badge) {
+          badge.textContent = filled + "/" + total + " datos";
+          badge.className = "badge" + (filled === total ? " ok" : filled > 0 ? " warn" : "");
+        }
+      }
+
+      function hcSomatoText(f) {
+        if (!f) return "";
+        const bits = [];
+        const peso = Number(f.peso), talla = Number(f.talla);
+        if (f.peso !== "" && Number.isFinite(peso) && peso > 0) bits.push("peso " + peso + " kg");
+        if (f.talla !== "" && Number.isFinite(talla) && talla > 0) bits.push("talla " + talla + " cm");
+        if (bits.length === 2) {
+          const imc = Math.round((peso / Math.pow(talla / 100, 2)) * 10) / 10;
+          if (Number.isFinite(imc)) bits.push("índice de masa corporal " + imc + " kg/m²");
+        }
+        return bits.length ? hcCap(bits.join("; ")) : "";
+      }
+
+      function hcRenderResumen() {
+        const rec = hcFichaRec();
+        const f = rec ? rec.data : null;
+        const box = $("hc-ficha-resumen");
+        if (box) {
+          if (!f) {
+            box.innerHTML = '<span>Sin ficha del paciente: el nombre, la edad, las alergias, el peso y la talla salen de ahí.</span><button type="button" class="btn btn-secondary btn-sm hc-open-ficha"><svg class="ic gold"><use href="#i-user"/></svg>Ficha</button>';
+          } else {
+            const bits = [];
+            if (f.nombre) bits.push("<strong>" + escapeHtml(f.nombre) + "</strong>");
+            if (f.edad !== "" && Number.isFinite(Number(f.edad))) bits.push(escapeHtml(f.edad + (f.edadUnidad === "m" ? " meses" : " años")));
+            if (f.sexo) bits.push(f.sexo === "F" ? "Femenino" : "Masculino");
+            if (f.fnac) bits.push("F. nac. " + escapeHtml(fichaFnacTexto(f.fnac)));
+            if (f.comorb && f.comorb.length) bits.push(escapeHtml(f.comorb.join(", ")));
+            bits.push("Alergias: " + escapeHtml(fichaAllergyText(f)));
+            box.innerHTML = "<span>" + bits.join(" · ") + '</span><button type="button" class="btn btn-secondary btn-sm hc-open-ficha"><svg class="ic gold"><use href="#i-user"/></svg>Ficha</button>';
+          }
+        }
+        if ($("hc-alergias-ro")) $("hc-alergias-ro").innerHTML = "<strong>Alérgicos:</strong> " + escapeHtml(f ? fichaAllergyText(f) : "[NO REFERIDO]") + " <span>(de la ficha)</span>";
+        if ($("hc-somato-ro")) {
+          const som = hcSomatoText(f);
+          let vit = "";
+          try { vit = formatVitals(); } catch (_) { vit = ""; }
+          $("hc-somato-ro").innerHTML = "<strong>Peso y talla:</strong> " + escapeHtml(som || "[NO REFERIDO] (captúralos en la ficha)") +
+            "<br><strong>Signos vitales:</strong> " + escapeHtml(vit && vit !== "[NO REFERIDO]" ? vit : "[NO REFERIDO] (recuadro «Signos vitales»)");
+        }
+        if ($("hc-pa-ro")) {
+          const words = hcVal("nota-input").split(/\s+/).filter(Boolean).length;
+          $("hc-pa-ro").innerHTML = words
+            ? "<strong>Se toma de tu dictado</strong> (" + words + " palabras). Inicio, mecanismo, evolución y síntomas."
+            : "<strong>Dicta o escribe arriba</strong> el padecimiento actual: inicio, mecanismo de lesión, evolución y síntomas.";
+        }
+      }
+
+      function hcComorbTexto(code) {
+        return ({ "DM2": "Diabetes mellitus tipo 2", "HAS": "Hipertensión arterial sistémica", "ERC": "Enfermedad renal crónica", "Hepatopatía": "Hepatopatía crónica", "Gastritis/úlcera": "Gastritis o enfermedad ácido-péptica", "Obesidad": "Obesidad" })[code] || "";
+      }
+
+      // Llena una sola vez por paciente los campos vacíos con lo que ya está en la ficha.
+      function hcPrefillFromFicha() {
+        const rec = hcFichaRec();
+        if (!rec || !hcIsActive()) return false;
+        const flag = $("hc-prefill-id");
+        const pid = String(rec.id || "1");
+        if (flag.value === pid) return false;
+        const f = rec.data;
+        const set = (id, v) => { if (v && !hcVal(id)) $(id).value = v; };
+        const cron = (f.comorb || []).map(hcComorbTexto).filter(Boolean);
+        if (f.comorbOtras) cron.push(f.comorbOtras);
+        set("hc-cronicos", cron.join("; "));
+        const meds = [];
+        if ((f.comorb || []).includes("Anticoagulado")) meds.push("Anticoagulante oral");
+        if (f.meds) meds.push(f.meds);
+        set("hc-meds", meds.join("; "));
+        if (f.sexo === "F") set("hc-embarazo", ({ no: "No", embarazo: "Sí (embarazo referido)", lactancia: "En lactancia" })[f.embarazo] || "");
+        flag.value = pid;
+        return true;
+      }
+
+      function hcRefresh() {
+        if (!$("hc-guide")) return;
+        const filled = hcPrefillFromFicha();
+        hcSyncConditional();
+        hcRenderResumen();
+        hcSyncChips();
+        hcUpdateProgress();
+        if (filled) { try { scheduleNotaDraftSave(); } catch (_) {} }
+      }
+
+      // Todo lo capturado, como datos simples (lo usan la nota y el autodiagnóstico).
+      function hcCollect() {
+        const ids = ["hc-informante", "hc-mano", "hc-ocupacion", "hc-escolaridad", "hc-civil", "hc-origen", "hc-etnia",
+          "hc-ahf", "hc-tabaco", "hc-cig", "hc-cig-anios", "hc-alcohol", "hc-alcohol-det", "hc-sustancias", "hc-sustancias-det", "hc-tetanos", "hc-apnp",
+          "hc-cronicos", "hc-quirurgicos", "hc-traumaticos", "hc-transfusionales", "hc-hosp", "hc-meds",
+          "hc-menarca", "hc-fum", "hc-gpca", "hc-mpf", "hc-embarazo", "hc-trat-previos", "hc-ipas",
+          "hc-habitus", "hc-cabeza", "hc-cuello", "hc-torax", "hc-abdomen", "hc-columna", "hc-miembros", "hc-genitales",
+          "hc-estudios", "hc-dx", "hc-pron", "hc-trat"];
+        const d = {};
+        ids.forEach((id) => { d[id] = hcVal(id); });
+        d.folio = hcVal("nota-folio");
+        d.edadSexo = hcVal("nota-edadsexo");
+        return d;
+      }
+
+      function hcFichaLineFrom(d, f) {
+        f = f || {};
+        const parts = [];
+        parts.push("Nombre: " + valOrNR(f.nombre));
+        const edadOk = f.edad !== "" && f.edad !== undefined && Number.isFinite(Number(f.edad));
+        parts.push("Edad: " + (edadOk ? f.edad + (f.edadUnidad === "m" ? " meses" : " años") : valOrNR(d.edadSexo)));
+        const sx = hcSexoFrom(f, d.edadSexo);
+        parts.push("Sexo: " + (sx === "F" ? "Femenino" : sx === "M" ? "Masculino" : "[NO REFERIDO]"));
+        if (f.fnac) parts.push("Fecha de nacimiento: " + fichaFnacTexto(f.fnac));
+        if (f.folio || d.folio) parts.push("Expediente o cama: " + (f.folio || d.folio));
+        parts.push("Ocupación: " + valOrNR(d["hc-ocupacion"]));
+        parts.push("Escolaridad: " + valOrNR(d["hc-escolaridad"]));
+        parts.push("Estado civil: " + valOrNR(d["hc-civil"]));
+        parts.push("Originario y residente de: " + valOrNR(d["hc-origen"]));
+        if (d["hc-etnia"]) parts.push("Grupo étnico: " + d["hc-etnia"]);
+        parts.push("Mano dominante: " + valOrNR(d["hc-mano"]));
+        return "Ficha de identificación: " + parts.join(" | ");
+      }
+
+      function hcFichaLine() {
+        const rec = hcFichaRec();
+        return hcFichaLineFrom(hcCollect(), rec ? rec.data : null);
+      }
+
+      function hcFechaTexto(iso) {
+        const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || ""));
+        return m ? m[3] + "/" + m[2] + "/" + m[1] : String(iso || "");
+      }
+
+      // Arma los 6 apartados del numeral 6.1. exp = expansión de jerga (5.11).
+      function hcBuildBlocksFrom(d, f, extra, exp) {
+        exp = exp || ((t) => t);
+        extra = extra || {};
+        const nr = valOrNR;
+        const x = (id) => exp(d[id] || "");
+        // Personales no patológicos
+        let tab = d["hc-tabaco"];
+        if (tab === "Activo" || tab === "Exfumador") {
+          const it = hcIndiceTabaquico(d["hc-cig"], d["hc-cig-anios"]);
+          tab = tab + (d["hc-cig"] ? ", " + d["hc-cig"] + " cigarrillos al día" : "") + (d["hc-cig-anios"] ? " durante " + d["hc-cig-anios"] + " años" : "") + (it !== null ? " (índice tabáquico " + it + " paquetes-año)" : "");
+        }
+        const alc = d["hc-alcohol"] ? d["hc-alcohol"] + (d["hc-alcohol"] !== "Negado" && d["hc-alcohol-det"] ? " (" + exp(d["hc-alcohol-det"]) + ")" : "") : "";
+        const sus = d["hc-sustancias"] ? d["hc-sustancias"] + (d["hc-sustancias"] === "Positivas" && d["hc-sustancias-det"] ? ": " + exp(d["hc-sustancias-det"]) : "") : "";
+        const apnp = ["tabaquismo: " + nr(tab), "alcoholismo: " + nr(alc), "otras sustancias psicoactivas: " + nr(sus), "vacuna antitetánica: " + nr(d["hc-tetanos"])];
+        if (d["hc-apnp"]) apnp.push("otros: " + x("hc-apnp"));
+        // Personales patológicos
+        const app = [
+          "crónico-degenerativos: " + nr(x("hc-cronicos")),
+          "quirúrgicos: " + nr(x("hc-quirurgicos")),
+          "traumáticos: " + nr(x("hc-traumaticos")),
+          "transfusionales: " + nr(x("hc-transfusionales")),
+          "alérgicos: " + (f && f.alergiaEstado ? fichaAllergyText(f) : "[NO REFERIDO]"),
+          "hospitalizaciones previas: " + nr(x("hc-hosp")),
+          "medicamentos actuales: " + nr(x("hc-meds"))
+        ];
+        const sexo = hcSexoFrom(f, d.edadSexo);
+        const goFilled = ["hc-menarca", "hc-fum", "hc-gpca", "hc-mpf", "hc-embarazo"].some((k) => d[k]);
+        const lines = [
+          "Tipo de interrogatorio: " + nr(d["hc-informante"]),
+          hcFichaLineFrom(d, f),
+          "Antecedentes heredofamiliares: " + nr(x("hc-ahf")),
+          "Antecedentes personales no patológicos: " + hcCap(apnp.join("; ")),
+          "Antecedentes personales patológicos: " + hcCap(app.join("; "))
+        ];
+        if (sexo === "F" || goFilled) {
+          lines.push("Antecedentes gineco-obstétricos: " + hcCap([
+            "menarca: " + (d["hc-menarca"] ? d["hc-menarca"] + " años" : "[NO REFERIDO]"),
+            "fecha de última menstruación: " + (d["hc-fum"] ? hcFechaTexto(d["hc-fum"]) : "[NO REFERIDO]"),
+            "gestas, partos, cesáreas y abortos: " + nr(d["hc-gpca"]),
+            "planificación familiar: " + nr(d["hc-mpf"]),
+            "posibilidad de embarazo: " + nr(d["hc-embarazo"])
+          ].join("; ")));
+        }
+        lines.push("Padecimiento actual: " + nr(extra.narrativa));
+        lines.push("Tratamientos previos (convencionales, alternativos o tradicionales): " + nr(x("hc-trat-previos")));
+        lines.push("Interrogatorio por aparatos y sistemas: " + nr(x("hc-ipas")));
+        // Exploración física (6.1.2)
+        const ef = [
+          "Habitus exterior: " + nr(x("hc-habitus")),
+          "Signos vitales: " + nr(extra.vitals),
+          "Peso y talla: " + nr(hcSomatoText(f)),
+          "Cabeza: " + nr(x("hc-cabeza")),
+          "Cuello: " + nr(x("hc-cuello")),
+          "Tórax: " + nr(x("hc-torax")),
+          "Abdomen: " + nr(x("hc-abdomen"))
+        ];
+        if (d["hc-columna"]) ef.push("Columna vertebral: " + x("hc-columna"));
+        ef.push("Miembros: " + nr(x("hc-miembros")));
+        ef.push("Genitales: " + nr(x("hc-genitales")));
+        const estudios = [x("hc-estudios"), extra.aux || ""].filter((s) => String(s).trim()).join("\n");
+        const trat = [x("hc-trat"), extra.plan || ""].filter((s) => String(s).trim()).join("\n");
+        return [
+          renderSection("6.1.1", "INTERROGATORIO", lines.join("\n")),
+          renderSection("6.1.2", "EXPLORACIÓN FÍSICA", ef.join("\n")),
+          renderSection("6.1.3", "RESULTADOS PREVIOS Y ACTUALES DE ESTUDIOS DE LABORATORIO, GABINETE Y OTROS", estudios),
+          renderSection("6.1.4", "DIAGNÓSTICOS O PROBLEMAS CLÍNICOS", x("hc-dx")),
+          renderSection("6.1.5", "PRONÓSTICO", x("hc-pron")),
+          renderSection("6.1.6", "INDICACIÓN TERAPÉUTICA", trat)
+        ];
+      }
+
+      function buildHistoriaBlocks(exp, parsed, vitals, auxCombined, narrativeExp) {
+        const rec = hcFichaRec();
+        return hcBuildBlocksFrom(hcCollect(), rec ? rec.data : null, { narrativa: narrativeExp, vitals: vitals, aux: auxCombined, plan: parsed.plan }, exp);
+      }
+
+      // Para la IA: solo datos clínicos. Nada de nombre, fecha de nacimiento, expediente,
+      // origen, grupo étnico, escolaridad ni estado civil.
+      function hcAiFieldList() {
+        return [
+          ["Tipo de interrogatorio", "hc-informante"], ["Ocupación", "hc-ocupacion"], ["Mano dominante", "hc-mano"],
+          ["Antecedentes heredofamiliares", "hc-ahf"], ["Tabaquismo", "hc-tabaco"], ["Cigarrillos al día", "hc-cig"], ["Años fumando", "hc-cig-anios"],
+          ["Alcoholismo", "hc-alcohol"], ["Detalle de alcohol", "hc-alcohol-det"], ["Otras sustancias psicoactivas", "hc-sustancias"], ["Detalle de sustancias", "hc-sustancias-det"],
+          ["Vacuna antitetánica", "hc-tetanos"], ["Otros no patológicos", "hc-apnp"],
+          ["Crónico-degenerativos", "hc-cronicos"], ["Quirúrgicos", "hc-quirurgicos"], ["Traumáticos", "hc-traumaticos"], ["Transfusionales", "hc-transfusionales"],
+          ["Hospitalizaciones previas", "hc-hosp"], ["Medicamentos actuales", "hc-meds"],
+          ["Menarca (años)", "hc-menarca"], ["Fecha de última menstruación", "hc-fum"], ["Gestas, partos, cesáreas y abortos", "hc-gpca"], ["Planificación familiar", "hc-mpf"], ["Posibilidad de embarazo", "hc-embarazo"],
+          ["Tratamientos previos (convencionales, alternativos o tradicionales)", "hc-trat-previos"], ["Interrogatorio por aparatos y sistemas", "hc-ipas"],
+          ["Habitus exterior", "hc-habitus"], ["Cabeza", "hc-cabeza"], ["Cuello", "hc-cuello"], ["Tórax", "hc-torax"], ["Abdomen", "hc-abdomen"], ["Columna vertebral", "hc-columna"],
+          ["Miembros", "hc-miembros"], ["Genitales", "hc-genitales"],
+          ["Estudios de laboratorio y gabinete", "hc-estudios"], ["Diagnósticos", "hc-dx"], ["Pronóstico", "hc-pron"], ["Indicación terapéutica", "hc-trat"]
+        ];
+      }
+
+      function hcAiExtraChunksFrom(f) {
+        const out = [];
+        if (f && f.alergiaEstado) out.push("Alergias: " + fichaAllergyText(f));
+        const som = hcSomatoText(f);
+        if (som) out.push("Peso y talla: " + som);
+        out.push("Nota para la estructura: la ficha de identificación se agrega en el teléfono; no la escribas. El texto dictado es el padecimiento actual.");
+        return out;
+      }
+
+      function hcAiExtraChunks() {
+        const rec = hcFichaRec();
+        return hcAiExtraChunksFrom(rec ? rec.data : null);
+      }
+
+      function initHistoriaClinicaV38() {
+        const guide = $("hc-guide");
+        if (!guide) return;
+        hcRenderChips();
+        guide.addEventListener("click", (e) => {
+          const chip = e.target.closest(".hc-chip");
+          if (chip) {
+            const box = chip.closest("[data-hc-for]");
+            const id = box.dataset.hcFor;
+            const def = hcChipDefs()[id];
+            const el = $(id);
+            if (!def || !el) return;
+            el.value = hcApplyPhrase(el.value, chip.dataset.phrase || "", def, chip.dataset.neg === "1");
+            el.dispatchEvent(new Event("input", { bubbles: true }));
+            return;
+          }
+          if (e.target.closest(".hc-open-ficha")) { try { openFichaModal(); } catch (_) {} return; }
+        });
+        const onEdit = () => {
+          hcSyncConditional();
+          hcSyncChips();
+          hcUpdateProgress();
+          try { scheduleNotaDraftSave(); } catch (_) {}
+        };
+        guide.addEventListener("input", onEdit);
+        guide.addEventListener("change", onEdit);
+        // Al abrir un apartado, que quede a la vista (los demás se cierran solos)
+        guide.querySelectorAll(".hc-sec").forEach((sec) => {
+          sec.addEventListener("toggle", () => {
+            if (!sec.open) return;
+            hcRenderResumen();
+            requestAnimationFrame(() => {
+              const r = sec.getBoundingClientRect();
+              if (r.top < 70 || r.top > window.innerHeight * 0.7) {
+                const suave = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+                sec.scrollIntoView({ block: "start", behavior: suave ? "smooth" : "auto" });
+              }
+            });
+          });
+        });
+        $("btn-hc-ir-dictado").addEventListener("click", () => {
+          const ta = $("nota-input");
+          ta.scrollIntoView({ block: "center", behavior: "smooth" });
+          setTimeout(() => { try { ta.focus({ preventScroll: true }); } catch (_) {} }, 350);
+        });
+        $("btn-hc-vitales").addEventListener("click", () => {
+          const box = $("box-vitals");
+          box.open = true;
+          box.scrollIntoView({ block: "start", behavior: "smooth" });
+        });
+        $("btn-hc-armar").addEventListener("click", () => {
+          $("btn-format-local").click();
+          const out = $("nota-output");
+          if (out) setTimeout(() => { try { (out.closest(".band") || out).scrollIntoView({ block: "start", behavior: "smooth" }); } catch (_) {} }, 120);
+        });
+        // El padecimiento actual es el dictado de arriba
+        $("nota-input").addEventListener("input", () => { if (hcIsActive()) { hcRenderResumen(); hcUpdateProgress(); } });
+        ["nv-ta", "nv-fc", "nv-fr", "nv-temp", "nv-spo2", "nv-eva", "nota-edadsexo"].forEach((id) => {
+          if ($(id)) $(id).addEventListener("input", () => { if (hcIsActive()) { hcRenderResumen(); hcSyncConditional(); hcUpdateProgress(); } });
+        });
+        if (hcIsActive()) hcRefresh();
+      }
+
       function renderProtocol() {
         const proto = $("rx-protocol").value;
         const peso = parseFloat($("rx-peso").value);
@@ -5047,9 +5565,24 @@
       }
 
       /* =======================================================
-         PASO 3: MOTOR HOMOLOGADO NOM-004-SSA3-2012 (5 FORMATOS)
+         PASO 3: MOTOR HOMOLOGADO NOM-004-SSA3-2012 (6 FORMATOS; v38: + historia clínica 6.1)
       ======================================================= */
       const NOM004_SCHEMAS = {
+        "Historia clínica": {
+          titulo: "HISTORIA CLÍNICA",
+          numeral: "Num. 6.1",
+          panelId: "hc-guide",
+          showVitals: true,
+          inputLabel: "Padecimiento actual (dictado libre): inicio, mecanismo de lesión, evolución y síntomas",
+          sections: [
+            { code: "6.1.1", title: "INTERROGATORIO" },
+            { code: "6.1.2", title: "EXPLORACIÓN FÍSICA" },
+            { code: "6.1.3", title: "RESULTADOS PREVIOS Y ACTUALES DE ESTUDIOS DE LABORATORIO, GABINETE Y OTROS" },
+            { code: "6.1.4", title: "DIAGNÓSTICOS O PROBLEMAS CLÍNICOS" },
+            { code: "6.1.5", title: "PRONÓSTICO" },
+            { code: "6.1.6", title: "INDICACIÓN TERAPÉUTICA" }
+          ]
+        },
         "Ingreso": {
           titulo: "NOTA DE INGRESO A HOSPITALIZACIÓN / URGENCIAS",
           numeral: "Num. 8.1 y 7.1",
@@ -5061,7 +5594,7 @@
             { code: "7.1.3", title: "MOTIVO DE INGRESO / ATENCIÓN" },
             { code: "8.1.2", title: "RESUMEN DEL INTERROGATORIO, EXPLORACIÓN FÍSICA Y ESTADO MENTAL" },
             { code: "8.1.3", title: "RESULTADOS DE ESTUDIOS AUXILIARES DE DIAGNÓSTICO Y TRATAMIENTO" },
-            { code: "7.1.5", title: "DIAGNÓSTICO(S) O PROBLEMAS CLÍNICOS" },
+            { code: "7.1.6", title: "DIAGNÓSTICO(S) O PROBLEMAS CLÍNICOS" },
             { code: "8.1.4a", title: "PLAN TERAPÉUTICO E INDICACIONES MÉDICAS" },
             { code: "8.1.4b", title: "PRONÓSTICO" }
           ]
@@ -5099,48 +5632,48 @@
         },
         "Postquirúrgica": {
           titulo: "NOTA POSTOPERATORIA / POSTQUIRÚRGICA",
-          numeral: "Num. 8.7",
+          numeral: "Num. 8.8",
           panelId: "nf-Postquirurgica",
           showVitals: false,
-          inputLabel: "Dictado libre / Descripción detallada de técnica quirúrgica (8.7.5) y hallazgos transoperatorios (8.7.6)",
+          inputLabel: "Dictado libre / Descripción detallada de técnica quirúrgica (8.8.5) y hallazgos transoperatorios (8.8.6)",
           sections: [
-            { code: "8.7.1", title: "DIAGNÓSTICO PREOPERATORIO" },
-            { code: "8.7.2", title: "OPERACIÓN PLANEADA" },
-            { code: "8.7.3", title: "OPERACIÓN REALIZADA" },
-            { code: "8.7.4", title: "DIAGNÓSTICO POSTOPERATORIO" },
-            { code: "8.7.5", title: "DESCRIPCIÓN DE LA TÉCNICA QUIRÚRGICA" },
-            { code: "8.7.6", title: "HALLAZGOS TRANSOPERATORIOS" },
-            { code: "8.7.7", title: "REPORTE DEL CONTEO DE GASAS, COMPRESAS E INSTRUMENTAL QUIRÚRGICO" },
-            { code: "8.7.8", title: "INCIDENTES Y ACCIDENTES" },
-            { code: "8.7.9", title: "CUANTIFICACIÓN DE SANGRADO Y, EN SU CASO, TRANSFUSIONES" },
-            { code: "8.7.10", title: "ESTUDIOS DE AUXILIARES DE DIAGNÓSTICO Y TRATAMIENTO TRANSOPERATORIOS" },
-            { code: "8.7.11", title: "AYUDANTES, INSTRUMENTISTAS, ANESTESIÓLOGO Y CIRCULANTE" },
-            { code: "8.7.12", title: "ESTADO POST-QUIRÚRGICO INMEDIATO" },
-            { code: "8.7.13", title: "PLAN DE MANEJO Y TRATAMIENTO POSTOPERATORIO INMEDIATO" },
-            { code: "8.7.14", title: "PRONÓSTICO" },
-            { code: "8.7.15", title: "ENVÍO DE PIEZAS O BIOPSIAS QUIRÚRGICAS A EXAMEN MACROSCÓPICO E HISTOPATOLÓGICO" },
-            { code: "8.7.16", title: "OTROS HALLAZGOS DE IMPORTANCIA PARA EL PACIENTE" },
-            { code: "8.7.17", title: "NOMBRE COMPLETO Y FIRMA DEL RESPONSABLE DE LA CIRUGÍA" }
+            { code: "8.8.1", title: "DIAGNÓSTICO PREOPERATORIO" },
+            { code: "8.8.2", title: "OPERACIÓN PLANEADA" },
+            { code: "8.8.3", title: "OPERACIÓN REALIZADA" },
+            { code: "8.8.4", title: "DIAGNÓSTICO POSTOPERATORIO" },
+            { code: "8.8.5", title: "DESCRIPCIÓN DE LA TÉCNICA QUIRÚRGICA" },
+            { code: "8.8.6", title: "HALLAZGOS TRANSOPERATORIOS" },
+            { code: "8.8.7", title: "REPORTE DEL CONTEO DE GASAS, COMPRESAS E INSTRUMENTAL QUIRÚRGICO" },
+            { code: "8.8.8", title: "INCIDENTES Y ACCIDENTES" },
+            { code: "8.8.9", title: "CUANTIFICACIÓN DE SANGRADO Y, EN SU CASO, TRANSFUSIONES" },
+            { code: "8.8.10", title: "ESTUDIOS DE AUXILIARES DE DIAGNÓSTICO Y TRATAMIENTO TRANSOPERATORIOS" },
+            { code: "8.8.11", title: "AYUDANTES, INSTRUMENTISTAS, ANESTESIÓLOGO Y CIRCULANTE" },
+            { code: "8.8.12", title: "ESTADO POST-QUIRÚRGICO INMEDIATO" },
+            { code: "8.8.13", title: "PLAN DE MANEJO Y TRATAMIENTO POSTOPERATORIO INMEDIATO" },
+            { code: "8.8.14", title: "PRONÓSTICO" },
+            { code: "8.8.15", title: "ENVÍO DE PIEZAS O BIOPSIAS QUIRÚRGICAS A EXAMEN MACROSCÓPICO E HISTOPATOLÓGICO" },
+            { code: "8.8.16", title: "OTROS HALLAZGOS DE IMPORTANCIA PARA EL PACIENTE" },
+            { code: "8.8.17", title: "NOMBRE COMPLETO Y FIRMA DEL RESPONSABLE DE LA CIRUGÍA" }
           ]
         },
         "Alta": {
           titulo: "NOTA DE EGRESO / ALTA HOSPITALARIA",
-          numeral: "Num. 8.8",
+          numeral: "Num. 8.9",
           panelId: "nf-Alta",
           showVitals: true,
           inputLabel: "Dictado libre / Resumen de evolución, manejo durante estancia hospitalaria y receta de alta",
           sections: [
-            { code: "8.8.1", title: "FECHA DE INGRESO Y FECHA DE EGRESO" },
-            { code: "8.8.2", title: "MOTIVO DEL EGRESO" },
-            { code: "8.8.3", title: "DIAGNÓSTICOS FINALES" },
-            { code: "8.8.4", title: "RESUMEN DE LA EVOLUCIÓN Y ESTADO ACTUAL" },
-            { code: "8.8.5", title: "MANEJO DURANTE LA ESTANCIA HOSPITALARIA" },
-            { code: "8.8.6", title: "PROBLEMAS CLÍNICOS PENDIENTES" },
-            { code: "8.8.7", title: "PLAN DE MANEJO Y TRATAMIENTO (DOSIS, VÍA Y PERIODICIDAD)" },
-            { code: "8.8.8", title: "RECOMENDACIONES PARA VIGILANCIA AMBULATORIA Y DATOS DE ALARMA" },
-            { code: "8.8.9", title: "ATENCIÓN DE FACTORES DE RIESGO (INCLUYE TABACO, ALCOHOL Y OTRAS SUSTANCIAS)" },
-            { code: "8.8.10", title: "PRONÓSTICO" },
-            { code: "8.8.11", title: "DEFUNCIÓN: CAUSAS DE MUERTE (CERTIFICADO) Y NECROPSIA HOSPITALARIA" }
+            { code: "8.9.1", title: "FECHA DE INGRESO Y FECHA DE EGRESO" },
+            { code: "8.9.2", title: "MOTIVO DEL EGRESO" },
+            { code: "8.9.3", title: "DIAGNÓSTICOS FINALES" },
+            { code: "8.9.4", title: "RESUMEN DE LA EVOLUCIÓN Y ESTADO ACTUAL" },
+            { code: "8.9.5", title: "MANEJO DURANTE LA ESTANCIA HOSPITALARIA" },
+            { code: "8.9.6", title: "PROBLEMAS CLÍNICOS PENDIENTES" },
+            { code: "8.9.7", title: "PLAN DE MANEJO Y TRATAMIENTO (DOSIS, VÍA Y PERIODICIDAD)" },
+            { code: "8.9.8", title: "RECOMENDACIONES PARA VIGILANCIA AMBULATORIA Y DATOS DE ALARMA" },
+            { code: "8.9.9", title: "ATENCIÓN DE FACTORES DE RIESGO (INCLUYE TABACO, ALCOHOL Y OTRAS SUSTANCIAS)" },
+            { code: "8.9.10", title: "PRONÓSTICO" },
+            { code: "8.9.11", title: "DEFUNCIÓN: CAUSAS DE MUERTE (CERTIFICADO) Y NECROPSIA HOSPITALARIA" }
           ]
         }
       };
@@ -5156,6 +5689,19 @@
           { label: "+ Deformidad/Crep.", text: "Aumento de volumen, equimosis, deformidad evidente y crepitación ósea a la palpación." },
           { label: "+ Fx Cerrada", text: "Piel íntegra, sin heridas penetrantes ni exposición ósea." },
           { label: "+ Herida limpia", text: "Herida quirúrgica limpia, bordes bien afrontados, sin exudado purulento, dehiscencia ni eritema perilesional." }
+        ],
+        "Historia clínica": [
+          { label: "Caída de su altura", text: "Inicia su padecimiento tras caída de su propia altura, con apoyo sobre la región afectada." },
+          { label: "Caída de altura", text: "Inicia su padecimiento tras caída de altura." },
+          { label: "Accidente vehicular", text: "Inicia su padecimiento tras accidente vehicular." },
+          { label: "Motocicleta", text: "Inicia su padecimiento tras accidente en motocicleta." },
+          { label: "Atropellamiento", text: "Inicia su padecimiento tras atropellamiento." },
+          { label: "Trauma directo", text: "Refiere trauma directo sobre la región afectada." },
+          { label: "Torsión", text: "Refiere mecanismo de torsión de la extremidad." },
+          { label: "Deportiva", text: "La lesión ocurrió durante actividad deportiva." },
+          { label: "Laboral", text: "La lesión ocurrió durante su jornada laboral." },
+          { label: "Sin trauma", text: "Dolor de inicio insidioso, sin antecedente traumático." },
+          { label: "Dolor e impotencia", text: "Presenta dolor, aumento de volumen e impotencia funcional de la región afectada." }
         ],
         Postquirúrgica: [
           { label: "+ Asepsia y campos", text: "Previa asepsia, antisepsia con clorhexidina/yodopovidona y colocación de campos estériles." },
@@ -5188,7 +5734,7 @@
       function renderExamChips(tipo) {
         const container = $("exam-chips");
         // v27: mismo orden que la interfaz Base44 (las frases del tipo de nota y luego las básicas, de la última a la primera)
-        const chips = EXAM_CHIPS_BY_TYPE.base.concat(EXAM_CHIPS_BY_TYPE[tipo] || []).slice().reverse();
+        const chips = tipo === "Historia clínica" ? (EXAM_CHIPS_BY_TYPE[tipo] || []).slice() : EXAM_CHIPS_BY_TYPE.base.concat(EXAM_CHIPS_BY_TYPE[tipo] || []).slice().reverse();
         container.innerHTML = chips.map((c, idx) =>
           '<button type="button" class="chip" data-cidx="' + idx + '"><span class="chip-plus">+</span>' + escapeHtml(String(c.label).replace(/^\+\s*/, "")) + "</button>"
         ).join("");
@@ -5210,6 +5756,10 @@
         ["nf-Ingreso", "nf-Evolucion", "nf-Preoperatoria", "nf-Postquirurgica", "nf-Alta"].forEach((id) => {
           $(id).classList.toggle("hidden", id !== schema.panelId);
         });
+        // v38: la historia clínica tiene su propia guía por apartados
+        const esHc = tipo === HC_TIPO;
+        if ($("hc-guide")) $("hc-guide").classList.toggle("hidden", !esHc);
+        if ($("nota-fields-accordion")) $("nota-fields-accordion").classList.toggle("hidden", esHc);
         $("box-vitals").classList.toggle("hidden", !schema.showVitals);
         $("nota-norma-badge").textContent = schema.numeral + " · " + schema.sections.length + " apartados";
         $("nota-input-label").textContent = schema.inputLabel;
@@ -5219,9 +5769,10 @@
         if (tipo === "Alta" && !$("alta-fegr").value) $("alta-fegr").value = todayISO();
 
         lastAuditMeta = { mode: "none", suspiciousNums: [], expandedTerms: [], locksApplied: [], piiFindings: [] };
-        if ($("nota-hero-title")) $("nota-hero-title").textContent = "Nota de " + tipo;
+        if ($("nota-hero-title")) $("nota-hero-title").textContent = notaTipoTitulo(tipo);
         if (typeof updateNotaFieldsSummary === "function") updateNotaFieldsSummary(tipo);
         renderExamChips(tipo);
+        if (esHc) { try { hcRefresh(); } catch (_) {} }
       }
 
       $("nota-tipo").addEventListener("change", updateNotaUI);
@@ -5250,6 +5801,7 @@
         "post-dxpre", "post-cxplan", "post-cxreal", "post-dxpost", "post-conteo", "post-incid",
         "post-sangrado", "post-aux", "post-equipo", "post-estado", "post-pato", "post-pron", "post-otros",
         "alta-fing", "alta-fegr", "alta-motivo", "alta-dx", "alta-pend", "alta-riesgos", "alta-vigil", "alta-pron", "alta-def",
+        "hc-informante", "hc-mano", "hc-ocupacion", "hc-escolaridad", "hc-civil", "hc-origen", "hc-etnia", "hc-ahf", "hc-tabaco", "hc-cig", "hc-cig-anios", "hc-alcohol", "hc-alcohol-det", "hc-sustancias", "hc-sustancias-det", "hc-tetanos", "hc-apnp", "hc-cronicos", "hc-quirurgicos", "hc-traumaticos", "hc-transfusionales", "hc-hosp", "hc-meds", "hc-menarca", "hc-fum", "hc-gpca", "hc-mpf", "hc-embarazo", "hc-trat-previos", "hc-ipas", "hc-habitus", "hc-cabeza", "hc-cuello", "hc-torax", "hc-abdomen", "hc-columna", "hc-miembros", "hc-genitales", "hc-estudios", "hc-dx", "hc-pron", "hc-trat", "hc-prefill-id",
         "nota-input", "nota-output"
       ];
 
@@ -5375,9 +5927,9 @@
           "------------------------------------------------------------",
           "Fecha y hora de elaboración [5.10]: " + now
         ];
-        if (fichaHdr && fichaHdr.nombre) lines.push("Nombre del paciente [5.10]: " + fichaHdr.nombre);
-        lines.push("Paciente / Expediente / Cama [5.10]: " + folio);
-        lines.push("Edad y Sexo [5.10]: " + edadSexo);
+        if (fichaHdr && fichaHdr.nombre) lines.push("Nombre del paciente [5.9]: " + fichaHdr.nombre);
+        lines.push("Paciente / Expediente / Cama [5.9]: " + folio);
+        lines.push("Edad y Sexo [5.9]: " + edadSexo);
         if (fichaHdr && fichaHdr.alergiaEstado) lines.push("Alergias: " + fichaAllergyText(fichaHdr));
         lines.push("============================================================");
         return lines.join("\n");
@@ -5389,7 +5941,7 @@
         const adscrito = $("nota-adscrito").value.trim();
         const lines = [
           "------------------------------------------------------------",
-          (tipo === "Postquirúrgica" ? "[8.7.17] RESPONSABLE DE LA CIRUGÍA / QUIEN ELABORA [5.10]:" : "NOMBRE COMPLETO, CÉDULA Y FIRMA DE QUIEN ELABORA [5.10]:"),
+          (tipo === "Postquirúrgica" ? "[8.8.17] RESPONSABLE DE LA CIRUGÍA / QUIEN ELABORA [5.10]:" : "NOMBRE COMPLETO, CÉDULA Y FIRMA DE QUIEN ELABORA [5.10]:"),
           "Médico: " + medico + " | Cédula/Matrícula: " + cedula,
           "Firma autógrafa / digital: _______________________________"
         ];
@@ -5422,10 +5974,12 @@
             renderSection("7.1.3", "MOTIVO DE INGRESO / ATENCIÓN", exp($("ing-motivo").value)),
             renderSection("8.1.2", "RESUMEN DEL INTERROGATORIO, EXPLORACIÓN FÍSICA Y ESTADO MENTAL", narrativa),
             renderSection("8.1.3", "RESULTADOS DE ESTUDIOS AUXILIARES DE DIAGNÓSTICO Y TRATAMIENTO", auxCombined),
-            renderSection("7.1.5", "DIAGNÓSTICO(S) O PROBLEMAS CLÍNICOS", exp($("ing-dx").value)),
+            renderSection("7.1.6", "DIAGNÓSTICO(S) O PROBLEMAS CLÍNICOS", exp($("ing-dx").value)),
             renderSection("8.1.4a", "PLAN TERAPÉUTICO E INDICACIONES MÉDICAS", parsed.plan),
             renderSection("8.1.4b", "PRONÓSTICO", exp($("ing-pron").value))
           ];
+        } else if (tipo === HC_TIPO) {
+          blocks = buildHistoriaBlocks(exp, parsed, vitals, auxCombined, narrativeExp);
         } else if (tipo === "Evolución") {
           const dia = exp($("evo-dia").value.trim());
           const tox = exp($("evo-tox").value.trim());
@@ -5464,22 +6018,22 @@
         } else if (tipo === "Postquirúrgica") {
           const auxTrans = [exp($("post-aux").value.trim()), auxCombined].filter(Boolean).join("\n");
           blocks = [
-            renderSection("8.7.1", "DIAGNÓSTICO PREOPERATORIO", exp($("post-dxpre").value)),
-            renderSection("8.7.2", "OPERACIÓN PLANEADA", exp($("post-cxplan").value)),
-            renderSection("8.7.3", "OPERACIÓN REALIZADA", exp($("post-cxreal").value)),
-            renderSection("8.7.4", "DIAGNÓSTICO POSTOPERATORIO", exp($("post-dxpost").value)),
-            renderSection("8.7.5", "DESCRIPCIÓN DE LA TÉCNICA QUIRÚRGICA", narrativeExp),
-            renderSection("8.7.6", "HALLAZGOS TRANSOPERATORIOS", narrativeExp ? "Ver descripción transoperatoria integrada en [8.7.5] (especificar hallazgos óseos/tejidos blandos si aplica)." : "[NO REFERIDO]"),
-            renderSection("8.7.7", "REPORTE DEL CONTEO DE GASAS, COMPRESAS E INSTRUMENTAL QUIRÚRGICO", $("post-conteo").value),
-            renderSection("8.7.8", "INCIDENTES Y ACCIDENTES", $("post-incid").value),
-            renderSection("8.7.9", "CUANTIFICACIÓN DE SANGRADO Y, EN SU CASO, TRANSFUSIONES", exp($("post-sangrado").value)),
-            renderSection("8.7.10", "ESTUDIOS DE AUXILIARES DE DIAGNÓSTICO Y TRATAMIENTO TRANSOPERATORIOS", auxTrans),
-            renderSection("8.7.11", "AYUDANTES, INSTRUMENTISTAS, ANESTESIÓLOGO Y CIRCULANTE", $("post-equipo").value),
-            renderSection("8.7.12", "ESTADO POST-QUIRÚRGICO INMEDIATO", exp($("post-estado").value)),
-            renderSection("8.7.13", "PLAN DE MANEJO Y TRATAMIENTO POSTOPERATORIO INMEDIATO", parsed.plan),
-            renderSection("8.7.14", "PRONÓSTICO", exp($("post-pron").value)),
-            renderSection("8.7.15", "ENVÍO DE PIEZAS O BIOPSIAS QUIRÚRGICAS A EXAMEN MACROSCÓPICO E HISTOPATOLÓGICO", $("post-pato").value),
-            renderSection("8.7.16", "OTROS HALLAZGOS DE IMPORTANCIA PARA EL PACIENTE", exp($("post-otros").value))
+            renderSection("8.8.1", "DIAGNÓSTICO PREOPERATORIO", exp($("post-dxpre").value)),
+            renderSection("8.8.2", "OPERACIÓN PLANEADA", exp($("post-cxplan").value)),
+            renderSection("8.8.3", "OPERACIÓN REALIZADA", exp($("post-cxreal").value)),
+            renderSection("8.8.4", "DIAGNÓSTICO POSTOPERATORIO", exp($("post-dxpost").value)),
+            renderSection("8.8.5", "DESCRIPCIÓN DE LA TÉCNICA QUIRÚRGICA", narrativeExp),
+            renderSection("8.8.6", "HALLAZGOS TRANSOPERATORIOS", narrativeExp ? "Ver descripción transoperatoria integrada en [8.8.5] (especificar hallazgos óseos/tejidos blandos si aplica)." : "[NO REFERIDO]"),
+            renderSection("8.8.7", "REPORTE DEL CONTEO DE GASAS, COMPRESAS E INSTRUMENTAL QUIRÚRGICO", $("post-conteo").value),
+            renderSection("8.8.8", "INCIDENTES Y ACCIDENTES", $("post-incid").value),
+            renderSection("8.8.9", "CUANTIFICACIÓN DE SANGRADO Y, EN SU CASO, TRANSFUSIONES", exp($("post-sangrado").value)),
+            renderSection("8.8.10", "ESTUDIOS DE AUXILIARES DE DIAGNÓSTICO Y TRATAMIENTO TRANSOPERATORIOS", auxTrans),
+            renderSection("8.8.11", "AYUDANTES, INSTRUMENTISTAS, ANESTESIÓLOGO Y CIRCULANTE", $("post-equipo").value),
+            renderSection("8.8.12", "ESTADO POST-QUIRÚRGICO INMEDIATO", exp($("post-estado").value)),
+            renderSection("8.8.13", "PLAN DE MANEJO Y TRATAMIENTO POSTOPERATORIO INMEDIATO", parsed.plan),
+            renderSection("8.8.14", "PRONÓSTICO", exp($("post-pron").value)),
+            renderSection("8.8.15", "ENVÍO DE PIEZAS O BIOPSIAS QUIRÚRGICAS A EXAMEN MACROSCÓPICO E HISTOPATOLÓGICO", $("post-pato").value),
+            renderSection("8.8.16", "OTROS HALLAZGOS DE IMPORTANCIA PARA EL PACIENTE", exp($("post-otros").value))
           ];
         } else if (tipo === "Alta") {
           const fing = valOrNR($("alta-fing").value);
@@ -5491,17 +6045,17 @@
             ? valOrNR($("alta-def").value)
             : (motivo ? "No aplica (egreso por " + motivo.toLowerCase() + ")." : "[NO REFERIDO]");
           blocks = [
-            renderSection("8.8.1", "FECHA DE INGRESO Y FECHA DE EGRESO", "Ingreso: " + fing + " | Egreso: " + fegr),
-            renderSection("8.8.2", "MOTIVO DEL EGRESO", motivo),
-            renderSection("8.8.3", "DIAGNÓSTICOS FINALES", exp($("alta-dx").value)),
-            renderSection("8.8.4", "RESUMEN DE LA EVOLUCIÓN Y ESTADO ACTUAL", resumenActual),
-            renderSection("8.8.5", "MANEJO DURANTE LA ESTANCIA HOSPITALARIA", manejoEstancia),
-            renderSection("8.8.6", "PROBLEMAS CLÍNICOS PENDIENTES", exp($("alta-pend").value)),
-            renderSection("8.8.7", "PLAN DE MANEJO Y TRATAMIENTO (DOSIS, VÍA Y PERIODICIDAD)", parsed.plan),
-            renderSection("8.8.8", "RECOMENDACIONES PARA VIGILANCIA AMBULATORIA Y DATOS DE ALARMA", exp($("alta-vigil").value)),
-            renderSection("8.8.9", "ATENCIÓN DE FACTORES DE RIESGO (INCLUYE TABACO, ALCOHOL Y OTRAS SUSTANCIAS)", exp($("alta-riesgos").value)),
-            renderSection("8.8.10", "PRONÓSTICO", exp($("alta-pron").value)),
-            renderSection("8.8.11", "DEFUNCIÓN: CAUSAS DE MUERTE (CERTIFICADO) Y NECROPSIA HOSPITALARIA", defuncionTxt)
+            renderSection("8.9.1", "FECHA DE INGRESO Y FECHA DE EGRESO", "Ingreso: " + fing + " | Egreso: " + fegr),
+            renderSection("8.9.2", "MOTIVO DEL EGRESO", motivo),
+            renderSection("8.9.3", "DIAGNÓSTICOS FINALES", exp($("alta-dx").value)),
+            renderSection("8.9.4", "RESUMEN DE LA EVOLUCIÓN Y ESTADO ACTUAL", resumenActual),
+            renderSection("8.9.5", "MANEJO DURANTE LA ESTANCIA HOSPITALARIA", manejoEstancia),
+            renderSection("8.9.6", "PROBLEMAS CLÍNICOS PENDIENTES", exp($("alta-pend").value)),
+            renderSection("8.9.7", "PLAN DE MANEJO Y TRATAMIENTO (DOSIS, VÍA Y PERIODICIDAD)", parsed.plan),
+            renderSection("8.9.8", "RECOMENDACIONES PARA VIGILANCIA AMBULATORIA Y DATOS DE ALARMA", exp($("alta-vigil").value)),
+            renderSection("8.9.9", "ATENCIÓN DE FACTORES DE RIESGO (INCLUYE TABACO, ALCOHOL Y OTRAS SUSTANCIAS)", exp($("alta-riesgos").value)),
+            renderSection("8.9.10", "PRONÓSTICO", exp($("alta-pron").value)),
+            renderSection("8.9.11", "DEFUNCIÓN: CAUSAS DE MUERTE (CERTIFICADO) Y NECROPSIA HOSPITALARIA", defuncionTxt)
           ];
         }
 
@@ -5511,7 +6065,7 @@
         auditNom004Output(fullNote, tipo, lastAuditMeta);
         updateNextNrButtonUI();
         scheduleNotaDraftSave();
-        showToast("Nota " + tipo + " estructurada al 100% NOM-004 (Local).");
+        showToast(notaTipoTitulo(tipo) + ": estructura NOM-004 lista (en el teléfono).");
       }
 
       function auditNom004Output(text, tipo, meta) {
@@ -5540,9 +6094,9 @@
           const chunk = nextMatch === -1 ? rest : rest.slice(0, nextMatch);
           if (chunk.indexOf("[NO REFERIDO]") !== -1) {
             pending.push(sec.code + " " + sec.title.split(" ")[0]);
-            if (sec.code === "8.7.7") conteoAlert = true;
+            if (sec.code === "8.8.7") conteoAlert = true;
           }
-          if (sec.code === "8.7.7" && /INCOMPLETA/i.test(chunk)) conteoAlert = true;
+          if (sec.code === "8.8.7" && /INCOMPLETA/i.test(chunk)) conteoAlert = true;
         });
 
         const html = [];
@@ -5569,7 +6123,7 @@
         }
 
         if (conteoAlert) {
-          html.push('<div class="alert danger"><strong>⚠️ Candado Quirúrgico [8.7.7]:</strong> Verifica y documenta el conteo completo de gasas, compresas e instrumental con enfermería quirúrgica antes de firmar la nota.</div>');
+          html.push('<div class="alert danger"><strong>⚠️ Candado Quirúrgico [8.8.7]:</strong> Verifica y documenta el conteo completo de gasas, compresas e instrumental con enfermería quirúrgica antes de firmar la nota.</div>');
         }
 
         if (auditMeta.expandedTerms && auditMeta.expandedTerms.length > 0) {
@@ -5794,7 +6348,7 @@
 
           const rawJson = await callGemini(
             [
-              { text: "Transcribe fielmente este dictado de guardia para una Nota de " + tipo + " en el esquema JSON solicitado." },
+              { text: "Transcribe fielmente este dictado de guardia para una " + notaTipoTitulo(tipo) + " en el esquema JSON solicitado." },
               { inline_data: { mime_type: geminiMime, data: base64 } }
             ],
             {
@@ -6231,7 +6785,7 @@
 
       function buildNom004ResponseSchema(tipo) {
         const schema = NOM004_SCHEMAS[tipo];
-        const sectionsForAI = schema.sections.filter((s) => s.code !== "8.7.17");
+        const sectionsForAI = schema.sections.filter((s) => s.code !== "8.8.17");
         const secProps = {};
         const secRequired = [];
 
@@ -6271,6 +6825,7 @@
           if (v !== "[NO REFERIDO]") chunks.push("Signos vitales capturados: " + v);
         }
         const fieldMap = {
+          "Historia clínica": hcAiFieldList(),
           "Ingreso": [
             ["Motivo de ingreso", "ing-motivo"], ["Estado mental", "ing-mental"],
             ["Diagnóstico", "ing-dx"], ["Pronóstico", "ing-pron"]
@@ -6304,6 +6859,7 @@
           const val = $(id) ? $(id).value.trim() : "";
           if (val) chunks.push(label + ": " + val);
         });
+        if (tipo === HC_TIPO) { try { hcAiExtraChunks().forEach((c) => chunks.push(c)); } catch (_) {} }
         if (tipo === "Preoperatoria") {
           const cares = Array.from(document.querySelectorAll(".pre-care:checked")).map((c) => c.value);
           if (cares.length) chunks.push("Cuidados preoperatorios confirmados: " + cares.join("; "));
@@ -6365,7 +6921,7 @@
             throw new Error("El modelo no devolvió la estructura JSON esperada.");
           }
 
-          const sectionsForAI = schema.sections.filter((s) => s.code !== "8.7.17");
+          const sectionsForAI = schema.sections.filter((s) => s.code !== "8.8.17");
           const locksApplied = [];
           const localOverrideCodes = new Set();
           const rawInputText = $("nota-input").value || "";
@@ -6373,30 +6929,30 @@
           if (tipo === "Postquirúrgica") {
             const conteoSel = $("post-conteo").value.trim();
             if (conteoSel) {
-              parsed.secciones[secKey("8.7.7")] = conteoSel;
-              localOverrideCodes.add("8.7.7");
+              parsed.secciones[secKey("8.8.7")] = conteoSel;
+              localOverrideCodes.add("8.8.7");
             } else if (!/gasas?|compresas?|conteo|cuenta/i.test(rawInputText)) {
-              const aiVal = valOrNR(parsed.secciones[secKey("8.7.7")]);
+              const aiVal = valOrNR(parsed.secciones[secKey("8.8.7")]);
               if (aiVal !== "[NO REFERIDO]") {
-                locksApplied.push("Bloqueado texto IA en [8.7.7] conteo de gasas sin confirmación fuente");
+                locksApplied.push("Bloqueado texto IA en [8.8.7] conteo de gasas sin confirmación fuente");
               }
-              parsed.secciones[secKey("8.7.7")] = "[NO REFERIDO]";
-              localOverrideCodes.add("8.7.7");
+              parsed.secciones[secKey("8.8.7")] = "[NO REFERIDO]";
+              localOverrideCodes.add("8.8.7");
             }
 
             const equipoLocal = $("post-equipo").value.trim();
             if (equipoLocal) {
-              parsed.secciones[secKey("8.7.11")] = equipoLocal;
-              localOverrideCodes.add("8.7.11");
-              locksApplied.push("Equipo quirúrgico [8.7.11] ensamblado localmente sin enviarse a API");
+              parsed.secciones[secKey("8.8.11")] = equipoLocal;
+              localOverrideCodes.add("8.8.11");
+              locksApplied.push("Equipo quirúrgico [8.8.11] ensamblado localmente sin enviarse a API");
             }
           }
 
           if (tipo === "Alta") {
             const motivo = $("alta-motivo").value.trim();
             if (motivo && motivo !== "Defunción") {
-              parsed.secciones[secKey("8.8.11")] = "No aplica (egreso por " + motivo.toLowerCase() + ").";
-              localOverrideCodes.add("8.8.11");
+              parsed.secciones[secKey("8.9.11")] = "No aplica (egreso por " + motivo.toLowerCase() + ").";
+              localOverrideCodes.add("8.9.11");
             }
           }
 
@@ -6405,6 +6961,14 @@
             .map((sec) => renderSection(sec.code, sec.title, valOrNR(parsed.secciones[secKey(sec.code)])))
             .join("\n\n");
           const suspiciousNums = auditNumericHallucinations(payload, aiOnlyBody);
+          if (tipo === HC_TIPO) {
+            try {
+              const k611 = secKey("6.1.1");
+              const aiTxt = valOrNR(parsed.secciones[k611]).split("\n").filter((l) => !/^\s*ficha de identificaci/i.test(l)).join("\n").trim();
+              parsed.secciones[k611] = hcFichaLine() + "\n" + (aiTxt || "[NO REFERIDO]");
+              locksApplied.push("Ficha de identificación [6.1.1] armada en el teléfono, sin enviarse a la IA");
+            } catch (_) {}
+          }
 
           const assembledBlocks = sectionsForAI.map((sec) => {
             const val = valOrNR(parsed.secciones[secKey(sec.code)]);
@@ -7416,6 +7980,7 @@
             document.querySelectorAll(".pre-care").forEach((c) => { c.checked = setCares.has(c.value); });
           }
 
+          try { hcRefresh(); } catch (_) {}
           updateVitalsSummaryUI();
           updateNextNrButtonUI();
           if ($("nota-output").value.trim()) {
@@ -8116,6 +8681,7 @@
           try { updateNotaPacienteSummary(); } catch (_) {}
         }
         renderRxFichaBanner();
+        try { hcRefresh(); } catch (_) {}
         return { sections: Array.from(touched), plan };
       }
 
@@ -8643,7 +9209,7 @@
         addTest("17. Paso 11: operación offline (local OK; IA/Audio protegidos)", offLocal.allowed && !offAi.allowed && !offAudio.allowed && onAi.allowed, "Offline guard OK");
 
         // 18. Paso 12 Salto [NO REFERIDO]
-        const sampleNr = "[8.7.7] CONTEO:\n[NO REFERIDO]\n[8.7.9] SANGRADO:\n[NO REFERIDO]";
+        const sampleNr = "[8.8.7] CONTEO:\n[NO REFERIDO]\n[8.8.9] SANGRADO:\n[NO REFERIDO]";
         const nr1 = findNextUnreferredRange(sampleNr, 0);
         const nr2 = nr1 ? findNextUnreferredRange(sampleNr, nr1.end) : null;
         const nrWrap = nr2 ? findNextUnreferredRange(sampleNr, nr2.end) : null;
@@ -8866,6 +9432,36 @@
         const ok51 = pares51.every(([f, b]) => cr51(v51(f), v51(b)) >= 4.5);
         addTest("51. v37: textos dorados y notas finas con contraste suficiente (" + (document.body.classList.contains("dark") ? "oscuro" : "claro") + ")", ok51, res51.join(" · "));
 
+        // 52. v38: historia clínica (NOM-004 6.1): 6 apartados en orden, identificación local, IA sin identificadores
+        let ok52 = false, det52 = "";
+        try {
+          const f52 = normalizeFicha({ nombre: "Ana Ruiz Prueba", fnac: "1990-05-20", sexo: "F", peso: 60, talla: 160, alergiaEstado: "niega", comorb: ["DM2"] });
+          const d52 = { "hc-informante": "Directo", "hc-ocupacion": "Enfermera", "hc-origen": "Ciudad de prueba", "hc-tabaco": "Activo", "hc-cig": "10", "hc-cig-anios": "15", "hc-ahf": "Interrogados y negados", edadSexo: "", folio: "" };
+          const txt52 = hcBuildBlocksFrom(d52, f52, { narrativa: "Dolor en tobillo derecho tras caída.", vitals: "TA 120/80 mmHg", aux: "", plan: "" }).join("\n\n");
+          const pos52 = ["6.1.1", "6.1.2", "6.1.3", "6.1.4", "6.1.5", "6.1.6"].map((c) => txt52.indexOf("[" + c + "]"));
+          const orden52 = pos52.every((q, k) => q !== -1 && (k === 0 || q > pos52[k - 1]));
+          const ficha52 = txt52.indexOf("Nombre: Ana Ruiz Prueba") !== -1 && txt52.indexOf("Fecha de nacimiento: 20/05/1990") !== -1;
+          const go52 = txt52.indexOf("Antecedentes gineco-obstétricos") !== -1;
+          const it52 = txt52.indexOf("índice tabáquico 7.5 paquetes-año") !== -1;
+          const nr52 = /transfusionales: \[NO REFERIDO\]/.test(txt52);
+          const imc52 = txt52.indexOf("índice de masa corporal 23.4") !== -1;
+          const sinGo52 = hcBuildBlocksFrom({ edadSexo: "Masculino, 40 años" }, null, {}).join("\n").indexOf("gineco-obstétricos") === -1;
+          const ids52 = hcAiFieldList().map((x) => x[1]);
+          const privado52 = !["hc-origen", "hc-etnia", "hc-civil", "hc-escolaridad"].some((id) => ids52.includes(id)) &&
+            !/Ana|1990|20\/05/.test(hcAiExtraChunksFrom(f52).join(" "));
+          ok52 = orden52 && ficha52 && go52 && it52 && nr52 && imc52 && sinGo52 && privado52;
+          det52 = "orden " + orden52 + " · identificación " + ficha52 + " · gineco-obstétricos " + go52 + " · índice tabáquico " + it52 + " · vacío → [NO REFERIDO] " + nr52 + " · IMC " + imc52 + " · hombre sin gineco-obstétricos " + sinGo52 + " · IA sin identificadores " + privado52;
+        } catch (e) { det52 = "Error: " + e.message; }
+        addTest("52. v38: historia clínica NOM-004 6.1 completa y con la identificación fuera de la IA", ok52, det52);
+
+        // 53. v38: numerales de la NOM-004 como en el texto oficial
+        const sc53 = (tp) => ((NOM004_SCHEMAS[tp] && NOM004_SCHEMAS[tp].sections) || []).map((s) => s.code);
+        const post53 = sc53("Postquirúrgica"), alta53 = sc53("Alta"), ing53 = sc53("Ingreso"), hc53 = sc53(HC_TIPO);
+        const ok53 = post53[0] === "8.8.1" && post53[post53.length - 1] === "8.8.17" && alta53[0] === "8.9.1" && alta53[alta53.length - 1] === "8.9.11" &&
+          ing53.includes("7.1.6") && !ing53.includes("7.1.5") && hc53.join(",") === "6.1.1,6.1.2,6.1.3,6.1.4,6.1.5,6.1.6";
+        addTest("53. v38: numerales NOM-004 (postoperatoria 8.8, egreso 8.9, diagnóstico de ingreso 7.1.6, historia 6.1)", ok53,
+          "Postoperatoria " + post53[0] + "–" + post53[post53.length - 1] + " · Egreso " + alta53[0] + "–" + alta53[alta53.length - 1] + " · Ingreso " + ing53.join(", ") + " · Historia " + hc53.length + " apartados");
+
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
         const rows = tests.map((t) => (t.ok ? "✅ " : "❌ ") + "<strong>" + escapeHtml(t.name) + "</strong>: " + escapeHtml(t.detail)).join("<br>");
@@ -8983,11 +9579,12 @@
           { title: "Analgesia Postquirúrgica Multimodal", mod: "tab-rx rx-analgesia", cat: "Receta", keys: "analgesia dolor paracetamol ketorolaco tramadol postoperatorio", run: () => { $("rx-protocol").value = "analgesia"; renderProtocol(); switchTab("tab-rx"); } },
           { title: "Esguince de Tobillo (Alta)", mod: "tab-rx rx-esguince", cat: "Receta", keys: "esguince tobillo alta ibuprofeno peace love", run: () => { $("rx-protocol").value = "esguince"; renderProtocol(); switchTab("tab-rx"); } },
           { title: "Lumbalgia Mecánica + Banderas Rojas", mod: "tab-rx rx-lumbalgia", cat: "Receta", keys: "lumbalgia espalda columna banderas rojas cauda equina", run: () => { $("rx-protocol").value = "lumbalgia"; renderProtocol(); switchTab("tab-rx"); } },
+          { title: "Historia clínica (NOM-004 · 6.1)", mod: "tab-notas", cat: "Nota", keys: "historia clinica antecedentes heredofamiliares patologicos no patologicos interrogatorio exploracion fisica 6.1", run: () => { $("nota-tipo").value = "Historia clínica"; updateNotaUI(); syncNotaTypePills(); switchTab("tab-notas"); } },
           { title: "Nota de Ingreso (NOM-004 · 8.1)", mod: "tab-notas", cat: "Nota", keys: "nota ingreso urgencias hospitalizacion 8.1", run: () => { $("nota-tipo").value = "Ingreso"; updateNotaUI(); syncNotaTypePills(); switchTab("tab-notas"); } },
           { title: "Nota de Evolución (NOM-004 · 6.2)", mod: "tab-notas", cat: "Nota", keys: "nota evolucion pase visita dpo deh 6.2", run: () => { $("nota-tipo").value = "Evolución"; updateNotaUI(); syncNotaTypePills(); switchTab("tab-notas"); } },
           { title: "Nota Preoperatoria (NOM-004 · 8.5)", mod: "tab-notas", cat: "Nota", keys: "nota preoperatoria cirugia programada asa 8.5", run: () => { $("nota-tipo").value = "Preoperatoria"; updateNotaUI(); syncNotaTypePills(); switchTab("tab-notas"); } },
-          { title: "Nota Postquirúrgica (NOM-004 · 8.7)", mod: "tab-notas", cat: "Nota", keys: "nota postquirurgica postoperatoria gasas sangrado tecnica 8.7", run: () => { $("nota-tipo").value = "Postquirúrgica"; updateNotaUI(); syncNotaTypePills(); switchTab("tab-notas"); } },
-          { title: "Nota de Egreso / Alta (NOM-004 · 8.8)", mod: "tab-notas", cat: "Nota", keys: "nota alta egreso salida 8.8", run: () => { $("nota-tipo").value = "Alta"; updateNotaUI(); syncNotaTypePills(); switchTab("tab-notas"); } },
+          { title: "Nota Postquirúrgica (NOM-004 · 8.8)", mod: "tab-notas", cat: "Nota", keys: "nota postquirurgica postoperatoria gasas sangrado tecnica 8.8", run: () => { $("nota-tipo").value = "Postquirúrgica"; updateNotaUI(); syncNotaTypePills(); switchTab("tab-notas"); } },
+          { title: "Nota de Egreso / Alta (NOM-004 · 8.9)", mod: "tab-notas", cat: "Nota", keys: "nota alta egreso salida 8.9", run: () => { $("nota-tipo").value = "Alta"; updateNotaUI(); syncNotaTypePills(); switchTab("tab-notas"); } },
           { title: "Laboratorios Críticos Preoperatorios", mod: "tab-estudios", cat: "Estudios", keys: "laboratorios hb plaquetas inr potasio sodio glucosa creatinina", run: () => { switchEstudiosMode("lab"); switchTab("tab-estudios"); } },
           { title: "Analizar Foto de Rx o Lab (Vision IA)", mod: "tab-estudios ia-vision", cat: "Estudios", keys: "radiografia rx vision foto camara placa imagen", run: () => { switchEstudiosMode("vision"); switchTab("tab-estudios"); } },
           { title: "Historial Local y Fin de Guardia", mod: "tab-hist", cat: "Historial", keys: "historial guardadas borrar fin de guardia purga", run: () => { switchTab("tab-hist"); } }
@@ -9581,6 +10178,7 @@
         ["Interfaz Base44 v27", initBase44UI],
         ["Ficha del paciente v31", initFichaPaciente],
         ["Receta del paciente v34", initRecetaPaciente],
+        ["Historia clínica v38", initHistoriaClinicaV38],
         ["Pulido v37", initPulidoV37],
         ["Módulos v26", initModulesV26] /* siempre al final */
       ].forEach(([name, fn]) => runInit(name, fn));
