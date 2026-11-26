@@ -1,8 +1,8 @@
-// sw.js — Service Worker Offline-First para TyO Assist (v38)
+// sw.js — Service Worker Offline-First para TyO Assist (v39)
 // Candado LFPDPPP: solo cachea archivos estáticos del mismo origen; CERO caché de API o POST.
 // build.py inserta la versión desde config.js: al subir de versión, el caché se renueva solo.
 
-const CACHE_NAME = "tyo-assist-v38";
+const CACHE_NAME = "tyo-assist-v39";
 const CORE_ASSETS = ["./", "./manifest.json", "./icon.svg"];
 const OPTIONAL_ASSETS = ["./index.html", "./icon-180.png", "./icon-192.png", "./icon-512.png", "./icon-maskable-192.png", "./icon-maskable-512.png", "./jspdf.umd.min.js", "./receta-escudo.jpg", "./receta-marca.jpg", "./receta-esquina.jpg"];
 

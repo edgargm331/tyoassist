@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v38 · Tema "Base44" (oscuro + claro)
+       TyO Assist v39 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -913,6 +913,41 @@
     .hc-lock .ic { width: 15px; height: 15px; flex: none; }
     .hc-warn { font-size: 13px; font-weight: 600; color: var(--danger-ink); }
     .hc-armar { width: 100%; margin-top: 16px; }
+
+
+    /* ---------- v39: revisión antes/después de la IA ---------- */
+    #modal-ai-diff .modal { padding-bottom: 0; }
+    .ai-sum { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin-top: 10px; }
+    .ai-sum p { flex: 1 1 100%; font-size: 14px; color: var(--text-2); line-height: 1.45; }
+    .ai-sum p strong { color: var(--text); }
+    .ai-flag-inline { color: var(--danger-ink); font-weight: 650; }
+    .ai-sum-actions { display: flex; gap: 6px; }
+    .ai-legend { display: flex; gap: 10px; font-size: 12.5px; }
+    .ai-legend del, .ai-diff del { background: var(--danger-bg); color: var(--danger-ink); text-decoration: line-through; text-decoration-thickness: 1px; border-radius: 4px; padding: 0 2px; }
+    .ai-legend ins, .ai-diff ins { background: var(--ok-bg); color: var(--ok-ink); text-decoration: none; border-radius: 4px; padding: 0 2px; font-weight: 600; }
+    .ai-sec { margin-top: 12px; padding: 14px; border-radius: 18px; border: 1px solid var(--line); background: var(--card); }
+    .ai-sec.is-flag { border-color: var(--danger-line); }
+    .ai-sec-title { font-size: 13px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.35; color: var(--text-2); }
+    .ai-sec-title code { font-family: var(--mono); font-size: 12px; color: var(--gold-text); }
+    .ai-flag { margin-top: 8px; font-size: 12.5px; font-weight: 600; line-height: 1.4; color: var(--danger-ink); }
+    .ai-diff { margin-top: 10px; font-family: var(--mono); font-size: 12.5px; line-height: 1.6; color: var(--text-2); overflow-wrap: anywhere; }
+    .ai-split { display: none; }
+    .ai-split-col h5 { margin-top: 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .ai-split-col .ai-diff { margin-top: 6px; }
+    .ai-choice { display: flex; gap: 6px; margin-top: 12px; }
+    .ai-choice button { flex: 1; min-height: 40px; border-radius: 12px; border: 1px solid var(--line-2); background: var(--tint-1); color: var(--text-2); font-size: 14px; font-weight: 650; }
+    .ai-choice button[aria-pressed="true"] { background: var(--gold-soft); border-color: var(--gold-line); color: var(--text); }
+    .ai-same { margin-top: 12px; font-size: 13px; color: var(--muted); }
+    .ai-foot { position: sticky; bottom: 0; z-index: 2; display: flex; gap: 10px; margin: 16px -18px 0; padding: 12px 18px calc(12px + env(safe-area-inset-bottom)); background: var(--modal-bg); border-top: 1px solid var(--line); }
+    .ai-foot .btn { flex: 1; white-space: nowrap; }
+    .ai-review-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 12px; }
+    .ai-row-btns { display: flex; gap: 14px; }
+    @media (min-width: 1100px) {
+      #modal-ai-diff .modal { max-width: 1000px; }
+      .ai-inline { display: none; }
+      .ai-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+      .ai-foot { border-radius: 0 0 26px 26px; }
+    }
 
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
@@ -1986,7 +2021,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v38 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v39 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2018,7 +2053,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v38</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v39</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2092,7 +2127,7 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (53 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (54 pruebas)</h4>
         <div class="btn-row">
           <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (29)</button>
         </div>
@@ -2209,6 +2244,27 @@
   </div>
 
   <!-- MODAL GLOSARIO JERGA TyO MEXICANA -->
+  <!-- v39: revisión antes/después de la IA -->
+  <div class="modal-backdrop" id="modal-ai-diff">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="ai-diff-title">
+      <div class="modal-grab" aria-hidden="true"></div>
+      <div class="modal-head">
+        <h3 id="ai-diff-title">Revisa los cambios de la IA</h3>
+        <button type="button" class="icon-round" id="btn-close-ai-diff" aria-label="Cerrar sin aplicar"><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+      <div class="ai-sum">
+        <p id="ai-diff-summary"></p>
+        <div class="ai-legend" aria-hidden="true"><span><del>Así estaba</del></span><span><ins>Lo cambió la IA</ins></span></div>
+        <div class="ai-sum-actions"><button type="button" class="btn btn-secondary btn-sm" id="btn-ai-diff-all">Todo IA</button><button type="button" class="btn btn-secondary btn-sm" id="btn-ai-diff-none">Todo original</button></div>
+      </div>
+      <div id="ai-diff-list"></div>
+      <div class="ai-foot">
+        <button type="button" class="btn btn-secondary btn-lg" id="btn-ai-diff-orig">Descartar IA</button>
+        <button type="button" class="btn btn-primary btn-lg" id="btn-ai-diff-apply"><svg class="ic"><use href="#i-check"/></svg>Aplicar</button>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-backdrop" id="modal-glossary">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="glossary-title">
       <div class="modal-grab" aria-hidden="true"></div>
@@ -2224,15 +2280,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v38 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v39 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "38",
-      versionLabel: "v38 Intuitiva",
+      version: "39",
+      versionLabel: "v39 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -5037,6 +5093,271 @@
         if (hcIsActive()) hcRefresh();
       }
 
+      /* =======================================================
+         v39: IA CON VISTA ANTES / DESPUÉS
+         La IA ya no reemplaza la nota de golpe: se compara apartado por apartado
+         contra la versión de la app (o la que tienes en pantalla) y tú eliges.
+         Las cifras que la IA escribió y no están en tus datos se marcan y, por
+         seguridad, ese apartado queda en «Original» hasta que lo cambies.
+      ======================================================= */
+      var AI_REVIEW = null;
+
+      function aiTokens(s) {
+        return String(s || "").replace(/\r/g, "").split(/(\n)|[ \t]+/).filter((t) => t !== undefined && t !== "");
+      }
+
+      // Diferencias palabra por palabra (subsecuencia común más larga).
+      function aiDiffWords(a, b) {
+        const A = aiTokens(a), B = aiTokens(b);
+        const n = A.length, m = B.length;
+        const ops = [];
+        const push = (t, s) => {
+          const last = ops[ops.length - 1];
+          if (last && last.t === t) last.w.push(s); else ops.push({ t, w: [s] });
+        };
+        if (n * m > 400000) {
+          A.forEach((s) => push("del", s));
+          B.forEach((s) => push("ins", s));
+          return ops;
+        }
+        const W = m + 1;
+        const L = new Uint32Array((n + 1) * W);
+        for (let i = n - 1; i >= 0; i--) {
+          for (let j = m - 1; j >= 0; j--) {
+            L[i * W + j] = A[i] === B[j] ? L[(i + 1) * W + j + 1] + 1 : Math.max(L[(i + 1) * W + j], L[i * W + j + 1]);
+          }
+        }
+        let i = 0, j = 0;
+        while (i < n && j < m) {
+          if (A[i] === B[j]) { push("eq", A[i]); i++; j++; }
+          else if (L[(i + 1) * W + j] >= L[i * W + j + 1]) { push("del", A[i]); i++; }
+          else { push("ins", B[j]); j++; }
+        }
+        while (i < n) push("del", A[i++]);
+        while (j < m) push("ins", B[j++]);
+        return ops;
+      }
+
+      function aiOpsHtml(ops, side) {
+        // side: "both" (en línea), "before" (solo quitado), "after" (solo agregado)
+        const words = (w) => w.map((x) => (x === "\n" ? "<br>" : escapeHtml(x))).join(" ").replace(/ ?<br> ?/g, "<br>");
+        return ops.map((op) => {
+          if (op.t === "eq") return words(op.w);
+          if (op.t === "del") return side === "after" ? "" : "<del>" + words(op.w) + "</del>";
+          return side === "before" ? "" : "<ins>" + words(op.w) + "</ins>";
+        }).filter(Boolean).join(" ").replace(/ ?<br> ?/g, "<br>");
+      }
+
+      function aiNormBody(s) {
+        return String(s || "").replace(/\s+/g, " ").trim();
+      }
+
+      function aiHasAllMarkers(text, codes) {
+        const t = String(text || "");
+        return codes.length > 0 && codes.every((c) => t.indexOf("[" + c + "] ") !== -1);
+      }
+
+      // Separa el texto de una nota en apartados: { código: cuerpo }.
+      function aiSplitSections(text, codes) {
+        const t = String(text || "");
+        const marks = codes.map((c) => ({ c, i: t.indexOf("[" + c + "] ") })).filter((x) => x.i !== -1).sort((a, b) => a.i - b.i);
+        const out = {};
+        marks.forEach((mk, k) => {
+          const lineEnd = t.indexOf("\n", mk.i);
+          const start = lineEnd === -1 ? t.length : lineEnd + 1;
+          let end = k + 1 < marks.length ? marks[k + 1].i : t.length;
+          const foot = t.indexOf("\n------------------------------------------------------------", start);
+          if (foot !== -1 && foot < end) end = foot;
+          out[mk.c] = t.slice(start, end).trim();
+        });
+        return out;
+      }
+
+      // Modelo de revisión: qué cambió y qué se elige por defecto.
+      function aiReviewModel(sections, before, ai, flags) {
+        flags = flags || {};
+        return sections.map((s) => {
+          const b = valOrNR(before[s.code]);
+          const a = valOrNR(ai[s.code]);
+          const same = aiNormBody(a) === aiNormBody(b);
+          const emptied = a === "[NO REFERIDO]" && b !== "[NO REFERIDO]";
+          const nums = (flags[s.code] || []).map((x) => x.num);
+          let choice = "ai";
+          if (same) choice = "same";
+          else if (nums.length || emptied) choice = "orig";
+          return { code: s.code, title: s.title, before: b, ai: a, same, emptied, nums, choice };
+        });
+      }
+
+      function aiMergeBody(items, choice) {
+        return items.map((it) => {
+          const c = (choice && choice[it.code]) || it.choice;
+          return renderSection(it.code, it.title, c === "ai" ? it.ai : it.before);
+        }).join("\n\n");
+      }
+
+      function aiChosenCount(items, choice) {
+        return items.filter((it) => !it.same && ((choice && choice[it.code]) || it.choice) === "ai").length;
+      }
+
+      function openAiDiffReview(tipo, sections, aiMap, meta, ctx) {
+        ctx = ctx || {};
+        const codes = sections.map((s) => s.code);
+        const cur = $("nota-output").value;
+        const fromScreen = aiHasAllMarkers(cur, codes);
+        const beforeText = fromScreen ? cur : composeNom004Local().fullNote;
+        const before = aiSplitSections(beforeText, codes);
+        const flags = {};
+        sections.forEach((s) => {
+          if (ctx.localCodes && ctx.localCodes.has(s.code)) return;
+          let txt = valOrNR(aiMap[s.code]);
+          if (s.code === "6.1.1") txt = txt.split("\n").filter((l) => !/^\s*Ficha de identificaci/i.test(l)).join("\n");
+          const f = ctx.payload ? auditNumericHallucinations(ctx.payload, txt) : [];
+          if (f.length) flags[s.code] = f;
+        });
+        const items = aiReviewModel(sections, before, aiMap, flags);
+        const choice = {};
+        items.forEach((it) => { choice[it.code] = it.choice; });
+        AI_REVIEW = { tipo, items, choice, meta, fromScreen, preText: cur, applied: false, appliedText: "" };
+        renderAiDiffReview();
+        $("modal-ai-diff").classList.add("open");
+        const body = $("modal-ai-diff").querySelector(".modal");
+        if (body) body.scrollTop = 0;
+      }
+
+      function renderAiDiffReview() {
+        const R = AI_REVIEW;
+        if (!R) return;
+        const changed = R.items.filter((it) => !it.same);
+        const flagged = R.items.filter((it) => it.nums.length);
+        const n = aiChosenCount(R.items, R.choice);
+        $("ai-diff-summary").innerHTML = changed.length
+          ? "La IA cambió <strong>" + changed.length + " de " + R.items.length + "</strong> apartados" +
+            (flagged.length ? " · <span class=\"ai-flag-inline\">" + flagged.length + " con cifras que no están en tus datos</span>" : "") +
+            ". Compara contra " + (R.fromScreen ? "la nota que tenías en pantalla." : "la versión de la app.")
+          : "La IA no cambió ningún apartado.";
+        const html = [];
+        const sameCodes = [];
+        R.items.forEach((it) => {
+          if (it.same) { sameCodes.push(it.code); return; }
+          const ops = aiDiffWords(it.before, it.ai);
+          const c = R.choice[it.code];
+          const warn = [];
+          if (it.nums.length) warn.push("Cifras nuevas de la IA: " + it.nums.map(escapeHtml).join(", ") + ". Verifícalas antes de usar esta versión.");
+          if (it.emptied) warn.push("La IA dejó vacío este apartado.");
+          html.push(
+            '<div class="ai-sec' + (warn.length ? " is-flag" : "") + '" data-code="' + escapeHtml(it.code) + '">' +
+              '<div class="ai-sec-title"><code>[' + escapeHtml(it.code) + "]</code> " + escapeHtml(it.title) + "</div>" +
+              (warn.length ? '<div class="ai-flag">⚠️ ' + warn.join(" ") + "</div>" : "") +
+              '<div class="ai-diff ai-inline">' + aiOpsHtml(ops, "both") + "</div>" +
+              '<div class="ai-split"><div class="ai-split-col"><h5>Antes</h5><div class="ai-diff">' + aiOpsHtml(ops, "before") + '</div></div>' +
+                '<div class="ai-split-col"><h5>Con IA</h5><div class="ai-diff">' + aiOpsHtml(ops, "after") + "</div></div></div>" +
+              '<div class="ai-choice" role="group" aria-label="Versión para este apartado">' +
+                '<button type="button" data-v="ai" aria-pressed="' + (c === "ai") + '">Usar IA</button>' +
+                '<button type="button" data-v="orig" aria-pressed="' + (c === "orig") + '">Original</button>' +
+              "</div>" +
+            "</div>"
+          );
+        });
+        if (sameCodes.length) html.push('<p class="ai-same">Sin cambios: ' + sameCodes.map((c) => "[" + escapeHtml(c) + "]").join(", ") + "</p>");
+        $("ai-diff-list").innerHTML = html.join("");
+        $("btn-ai-diff-apply").lastChild.textContent = n ? "Aplicar · " + n + " de IA" : "Aplicar";
+        $("btn-ai-diff-all").disabled = !changed.length;
+      }
+
+      function applyAiReview(mode) {
+        const R = AI_REVIEW;
+        if (!R) return;
+        if (mode === "orig") R.items.forEach((it) => { if (!it.same) R.choice[it.code] = "orig"; });
+        const n = aiChosenCount(R.items, R.choice);
+        const finalText = buildLocalHeader(R.tipo) + "\n\n" + aiMergeBody(R.items, R.choice) + "\n\n" + buildLocalFooter(R.tipo);
+        $("nota-output").value = finalText;
+        const aiCodes = new Set(R.items.filter((it) => !it.same && R.choice[it.code] === "ai").map((it) => it.code));
+        const nums = [];
+        R.items.forEach((it) => { if (aiCodes.has(it.code)) it.nums.forEach((x) => nums.push(x)); });
+        const susp = (R.meta.suspiciousNums || []).filter((s) => nums.indexOf(s.num) !== -1);
+        lastAuditMeta = n
+          ? Object.assign({}, R.meta, { suspiciousNums: susp })
+          : { mode: "local", suspiciousNums: [], expandedTerms: [], locksApplied: [], piiFindings: [] };
+        auditNom004Output(finalText, R.tipo, lastAuditMeta);
+        R.applied = true;
+        R.appliedText = finalText;
+        R.appliedCount = n;
+        aiShowReviewRow();
+        $("modal-ai-diff").classList.remove("open");
+        try { updateNextNrButtonUI(); } catch (_) {}
+        try { scheduleNotaDraftSave(); } catch (_) {}
+        showToast(n ? "Listo: " + n + " apartado(s) de la IA en tu nota." + (susp.length ? " ⚠️ Revisa " + susp.length + " cifra(s)." : "") : "Se conservó la versión original.");
+      }
+
+      function aiShowReviewRow() {
+        const R = AI_REVIEW;
+        const box = $("nota-audit");
+        if (!box || !R) return;
+        const old = box.querySelector(".ai-review-row");
+        if (old) old.remove();
+        const row = document.createElement("div");
+        if (R.applied) {
+          row.className = "alert ok ai-review-row";
+          row.innerHTML = "<span>IA: <strong>" + R.appliedCount + " de " + R.items.length + "</strong> apartados aplicados.</span>" +
+            '<span class="ai-row-btns"><button type="button" class="link-gold" data-ai="ver">Ver cambios</button><button type="button" class="link-gold" data-ai="deshacer">Deshacer</button></span>';
+        } else {
+          row.className = "alert warn ai-review-row";
+          row.innerHTML = "<span>La IA terminó y aún no aplicas sus cambios.</span>" +
+            '<span class="ai-row-btns"><button type="button" class="link-gold" data-ai="ver">Revisar cambios</button></span>';
+        }
+        box.insertBefore(row, box.firstChild);
+      }
+
+      function closeAiReview() {
+        $("modal-ai-diff").classList.remove("open");
+        if (AI_REVIEW && !AI_REVIEW.applied) aiShowReviewRow();
+      }
+
+      function initAiReviewV39() {
+        $("ai-diff-list").addEventListener("click", (e) => {
+          const b = e.target.closest(".ai-choice button");
+          if (!b || !AI_REVIEW) return;
+          const code = b.closest(".ai-sec").dataset.code;
+          AI_REVIEW.choice[code] = b.dataset.v;
+          renderAiDiffReview();
+        });
+        $("btn-ai-diff-all").addEventListener("click", () => {
+          if (!AI_REVIEW) return;
+          AI_REVIEW.items.forEach((it) => { if (!it.same) AI_REVIEW.choice[it.code] = "ai"; });
+          renderAiDiffReview();
+        });
+        $("btn-ai-diff-none").addEventListener("click", () => {
+          if (!AI_REVIEW) return;
+          AI_REVIEW.items.forEach((it) => { if (!it.same) AI_REVIEW.choice[it.code] = "orig"; });
+          renderAiDiffReview();
+        });
+        $("btn-ai-diff-apply").addEventListener("click", () => applyAiReview("choice"));
+        $("btn-ai-diff-orig").addEventListener("click", () => applyAiReview("orig"));
+        $("btn-close-ai-diff").addEventListener("click", closeAiReview);
+        $("modal-ai-diff").addEventListener("click", (e) => { if (e.target === $("modal-ai-diff")) closeAiReview(); });
+        $("nota-audit").addEventListener("click", (e) => {
+          const b = e.target.closest("[data-ai]");
+          if (!b || !AI_REVIEW) return;
+          if (AI_REVIEW.tipo !== $("nota-tipo").value) { showToast("Esa revisión era de otro tipo de nota."); return; }
+          if (b.dataset.ai === "ver") {
+            renderAiDiffReview();
+            $("modal-ai-diff").classList.add("open");
+          } else if (b.dataset.ai === "deshacer") {
+            $("nota-output").value = AI_REVIEW.preText;
+            auditNom004Output(AI_REVIEW.preText, AI_REVIEW.tipo, { mode: "manual", suspiciousNums: [], expandedTerms: [], locksApplied: [], piiFindings: [] });
+            AI_REVIEW.applied = false;
+            aiShowReviewRow();
+            try { updateNextNrButtonUI(); } catch (_) {}
+            try { scheduleNotaDraftSave(); } catch (_) {}
+            showToast(AI_REVIEW.preText.trim() ? "Se regresó a la nota de antes de la IA." : "Se quitó la versión de la IA.");
+          }
+        });
+        // La revisión pertenece a la nota actual: se descarta al cambiar de paciente o empezar otra nota
+        document.addEventListener("tyo-patient-change", () => { AI_REVIEW = null; });
+        $("btn-nota-clear").addEventListener("click", () => { if (!$("nota-output").value.trim()) AI_REVIEW = null; });
+      }
+
       function renderProtocol() {
         const proto = $("rx-protocol").value;
         const peso = parseFloat($("rx-peso").value);
@@ -5955,7 +6276,7 @@
         return "[" + code + "] " + title + ":\n" + valOrNR(body);
       }
 
-      function buildNom004Local() {
+      function composeNom004Local() {
         const tipo = $("nota-tipo").value;
         const parsed = parseCapturedBlocks($("nota-input").value);
         const expandedSet = new Set();
@@ -6060,12 +6381,17 @@
         }
 
         const fullNote = buildLocalHeader(tipo) + "\n\n" + blocks.join("\n\n") + "\n\n" + buildLocalFooter(tipo);
-        $("nota-output").value = fullNote;
-        lastAuditMeta = { mode: "local", suspiciousNums: [], expandedTerms: Array.from(expandedSet), locksApplied: [], piiFindings: [] };
-        auditNom004Output(fullNote, tipo, lastAuditMeta);
+        return { tipo, fullNote, blocks, expanded: Array.from(expandedSet) };
+      }
+
+      function buildNom004Local() {
+        const r = composeNom004Local();
+        $("nota-output").value = r.fullNote;
+        lastAuditMeta = { mode: "local", suspiciousNums: [], expandedTerms: r.expanded, locksApplied: [], piiFindings: [] };
+        auditNom004Output(r.fullNote, r.tipo, lastAuditMeta);
         updateNextNrButtonUI();
         scheduleNotaDraftSave();
-        showToast(notaTipoTitulo(tipo) + ": estructura NOM-004 lista (en el teléfono).");
+        showToast(notaTipoTitulo(r.tipo) + ": estructura NOM-004 lista (en el teléfono).");
       }
 
       function auditNom004Output(text, tipo, meta) {
@@ -6906,7 +7232,7 @@
         const btnAi = $("btn-format-ai");
         btnAi.disabled = true;
         setBtnLabel(btnAi, "sparkles", "Auditando…");
-        $("nota-output").value = "Estructurando " + schema.titulo + " en formato JSON blindado con IA...";
+        $("nota-audit-badge").textContent = "IA trabajando…";
 
         try {
           const rawJson = await callGemini([{ text: userPrompt }], {
@@ -6976,32 +7302,21 @@
           });
           const aiBody = assembledBlocks.join("\n\n");
 
-          const fullNote = buildLocalHeader(tipo) + "\n\n" + aiBody + "\n\n" + buildLocalFooter(tipo);
-          $("nota-output").value = fullNote;
-
           const aiExpanded = Array.isArray(parsed.abreviaturas_expandidas)
             ? parsed.abreviaturas_expandidas.filter((x) => typeof x === "string" && x.trim())
             : [];
-
-          lastAuditMeta = {
-            mode: "ai",
-            suspiciousNums,
-            expandedTerms: aiExpanded,
-            locksApplied,
-            piiFindings: piiCheck.findings
-          };
-          auditNom004Output(fullNote, tipo, lastAuditMeta);
-
-          if (suspiciousNums.length > 0) {
-            showToast("⚠️ Nota generada, pero se detectaron " + suspiciousNums.length + " cifras a verificar.");
-          } else if (piiCheck.hadChanges) {
-            showToast("🔐 Nota auditada (" + piiCheck.totalRedacted + " dato(s) personal(es) redactado(s) antes de enviar).");
-          } else {
-            showToast("Nota NOM-004 generada en JSON y auditada sin alucinaciones.");
-          }
+          const aiMap = {};
+          sectionsForAI.forEach((sec) => { aiMap[sec.code] = valOrNR(parsed.secciones[secKey(sec.code)]); });
+          // v39: no se reemplaza la nota; se abre la comparación antes/después
+          openAiDiffReview(tipo, sectionsForAI, aiMap, {
+            mode: "ai", suspiciousNums, expandedTerms: aiExpanded, locksApplied, piiFindings: piiCheck.findings
+          }, { payload, localCodes: localOverrideCodes });
+          auditNom004Output($("nota-output").value, tipo, lastAuditMeta);
+          aiShowReviewRow();
+          if (piiCheck.hadChanges) showToast("🔐 Se omitieron " + piiCheck.totalRedacted + " dato(s) personal(es) antes de enviar. Revisa los cambios.");
         } catch (e) {
-          $("nota-output").value = "";
-          auditNom004Output("", tipo);
+          // v39: si la IA falla, tu nota se queda como estaba
+          auditNom004Output($("nota-output").value, tipo, { mode: "manual", suspiciousNums: [], expandedTerms: [], locksApplied: [], piiFindings: [] });
           showToast(e.message);
         } finally {
           btnAi.disabled = false;
@@ -9462,6 +9777,24 @@
         addTest("53. v38: numerales NOM-004 (postoperatoria 8.8, egreso 8.9, diagnóstico de ingreso 7.1.6, historia 6.1)", ok53,
           "Postoperatoria " + post53[0] + "–" + post53[post53.length - 1] + " · Egreso " + alta53[0] + "–" + alta53[alta53.length - 1] + " · Ingreso " + ing53.join(", ") + " · Historia " + hc53.length + " apartados");
 
+        // 54. v39: comparación antes/después de la IA y elección por apartado
+        let ok54 = false, det54 = "";
+        try {
+          const sig54 = aiDiffWords("a b c d", "a x c d e").map((o) => o.t + ":" + o.w.join(" ")).join("|");
+          const diff54 = sig54 === "eq:a|del:b|ins:x|eq:c d|ins:e";
+          const txt54 = "ENCABEZADO\n------------------------------------------------------------\nx\n\n[1.1] UNO:\nalfa beta\n\n[1.2] DOS:\ngamma\n\n------------------------------------------------------------\nFIRMA";
+          const sp54 = aiSplitSections(txt54, ["1.1", "1.2"]);
+          const split54 = sp54["1.1"] === "alfa beta" && sp54["1.2"] === "gamma";
+          const secs54 = [{ code: "1.1", title: "UNO" }, { code: "1.2", title: "DOS" }, { code: "1.3", title: "TRES" }, { code: "1.4", title: "CUATRO" }];
+          const mod54 = aiReviewModel(secs54, { "1.1": "alfa", "1.2": "gamma", "1.3": "delta", "1.4": "eps" }, { "1.1": "alfa", "1.2": "gamma 38 °C", "1.3": "[NO REFERIDO]", "1.4": "épsilon" }, { "1.2": [{ num: "38" }] });
+          const def54 = mod54.map((x) => x.choice).join(",") === "same,orig,orig,ai";
+          const merged54 = aiMergeBody(mod54);
+          const mezcla54 = /\[1\.2\] DOS:\ngamma(\n|$)/.test(merged54) && /\[1\.3\] TRES:\ndelta/.test(merged54) && /\[1\.4\] CUATRO:\népsilon/.test(merged54) && aiChosenCount(mod54) === 1;
+          ok54 = diff54 && split54 && def54 && mezcla54;
+          det54 = "diferencias " + diff54 + " · apartados " + split54 + " · por defecto (igual / cifra nueva → original / vaciado → original / cambio limpio → IA) " + def54 + " · mezcla " + mezcla54;
+        } catch (e) { det54 = "Error: " + e.message; }
+        addTest("54. v39: IA con vista antes/después y elección por apartado", ok54, det54);
+
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
         const rows = tests.map((t) => (t.ok ? "✅ " : "❌ ") + "<strong>" + escapeHtml(t.name) + "</strong>: " + escapeHtml(t.detail)).join("<br>");
@@ -10179,6 +10512,7 @@
         ["Ficha del paciente v31", initFichaPaciente],
         ["Receta del paciente v34", initRecetaPaciente],
         ["Historia clínica v38", initHistoriaClinicaV38],
+        ["Revisión IA v39", initAiReviewV39],
         ["Pulido v37", initPulidoV37],
         ["Módulos v26", initModulesV26] /* siempre al final */
       ].forEach(([name, fn]) => runInit(name, fn));
