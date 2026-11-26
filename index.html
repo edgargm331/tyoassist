@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v36 · Tema "Base44" (oscuro + claro)
+       TyO Assist v37 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -124,7 +124,7 @@
       fill: none; stroke: currentColor; stroke-width: 2;
       stroke-linecap: round; stroke-linejoin: round;
     }
-    .ic.gold, .gold-text { color: var(--gold); }
+    .ic.gold, .gold-text { color: var(--gold-text); }
     .danger-text { color: var(--danger-ink); }
     :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
@@ -154,18 +154,18 @@
     .ficha-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px; border-radius: 14px; background: var(--inset); border: 1px solid var(--line); color: inherit; font: inherit; text-align: left; cursor: pointer; }
     .ficha-row.active { border-color: rgba(183, 134, 44, 0.6); background: rgba(183, 134, 44, 0.10); cursor: default; }
     .ficha-row .fr-ini { flex: none; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 14px; background: var(--card); border: 1px solid var(--line); }
-    .ficha-row.active .fr-ini { color: var(--gold); border-color: rgba(183, 134, 44, 0.6); }
+    .ficha-row.active .fr-ini { color: var(--gold-text); border-color: rgba(183, 134, 44, 0.6); }
     .ficha-row .fr-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
     .ficha-row .fr-l1 { font-weight: 600; font-size: 14px; }
     .ficha-row .fr-l2 { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .ficha-row .fr-tag { flex: none; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; color: var(--gold); }
+    .ficha-row .fr-tag { flex: none; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; color: var(--gold-text); }
     .rx-item { margin-top: 10px; border: 1px solid var(--line); border-radius: 14px; background: var(--inset); }
     .rx-item > summary { list-style: none; cursor: pointer; display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; }
     .rx-item > summary::-webkit-details-marker { display: none; }
     .rx-item .rxi-text { flex: 1; min-width: 0; font-size: 14px; line-height: 1.45; }
     .rx-item .rxi-text strong { display: block; font-weight: 700; }
     .rx-item .rxi-sub { display: block; color: var(--muted); font-size: 12.5px; margin-top: 2px; }
-    .rx-item .rxi-edit { flex: none; font-size: 12px; font-weight: 700; color: var(--gold); padding-top: 2px; }
+    .rx-item .rxi-edit { flex: none; font-size: 12px; font-weight: 700; color: var(--gold-text); padding-top: 2px; }
     .rx-item[open] .rxi-edit { color: var(--muted); }
     .rx-item .rxi-body { padding: 0 14px 14px; }
     .rx-item.rxi-missing { border-color: rgba(214, 69, 69, 0.55); }
@@ -176,7 +176,7 @@
     .rx-logo-prev { display: block; max-width: 120px; max-height: 80px; margin-top: 8px; border-radius: 8px; background: #fff; padding: 4px; }
     .rx-receta-empty { font-size: 13px; color: var(--muted); padding: 6px 2px; }
     .ficha-lista-empty { font-size: 13px; color: var(--muted); padding: 4px 2px; }
-    .hbtn-px.has-ficha { color: var(--gold); border-color: rgba(183, 134, 44, 0.45); }
+    .hbtn-px.has-ficha { color: var(--gold-text); border-color: rgba(183, 134, 44, 0.45); }
     .hbtn-round { width: 34px; }
     .hbtn:active { transform: scale(0.95); }
 
@@ -217,7 +217,7 @@
     }
     .nav-btn .ico { width: 42px; height: 34px; border-radius: 11px; display: flex; align-items: center; justify-content: center; transition: background 0.18s; }
     .nav-btn .ico .ic { width: 22px; height: 22px; stroke-width: 1.8; }
-    .nav-btn.active { color: var(--gold); font-weight: 600; }
+    .nav-btn.active { color: var(--gold-text); font-weight: 600; }
     .nav-btn.active .ico { background: var(--gold-soft); }
 
     /* ---------- Pie ---------- */
@@ -240,7 +240,7 @@
       background: var(--tint-1); border: 1px solid var(--line-2); color: var(--text-2);
       white-space: nowrap;
     }
-    .tag-gold { color: var(--gold); border-color: var(--gold-line); background: var(--gold-soft); }
+    .tag-gold { color: var(--gold-text); border-color: var(--gold-line); background: var(--gold-soft); }
     .tag-badge { height: 30px; font-size: 12.5px; font-weight: 600; letter-spacing: 0.01em; text-transform: none; }
     .tag-badge .ic { width: 15px; height: 15px; }
     .tag-soft { text-transform: none; letter-spacing: 0; font-size: 12.5px; font-weight: 600; height: 30px; background: var(--card-2); color: var(--text); }
@@ -307,7 +307,7 @@
       box-shadow: 0 8px 22px rgba(214, 165, 64, 0.18);
     }
     .btn-secondary { background: var(--tint-1); border-color: var(--line-2); color: var(--text); }
-    .btn-ghost-gold { background: transparent; border-color: var(--gold-line); color: var(--gold); opacity: 0.92; }
+    .btn-ghost-gold { background: transparent; border-color: var(--gold-line); color: var(--gold-text); }
     .btn-danger { background: var(--danger-bg); border-color: var(--danger-line); color: var(--danger-ink); }
     .btn-stack { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
     .btn-duo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
@@ -322,7 +322,7 @@
     .btn-outline-gold {
       display: inline-flex; align-items: center; gap: 6px;
       height: 36px; padding: 0 14px; border-radius: 999px;
-      border: 1px solid var(--gold-line); background: var(--gold-soft); color: var(--gold);
+      border: 1px solid var(--gold-line); background: var(--gold-soft); color: var(--gold-text);
       font-size: 14px; font-weight: 650;
     }
     .btn-outline-gold .ic { width: 16px; height: 16px; }
@@ -333,7 +333,7 @@
     }
     .icon-round .ic { width: 17px; height: 17px; }
     .icon-plain { background: none; border: none; color: var(--muted); padding: 4px; display: inline-flex; }
-    .link-gold { display: inline-flex; align-items: center; gap: 4px; background: none; border: none; color: var(--gold); font-size: 14px; font-weight: 600; padding: 4px 0; }
+    .link-gold { display: inline-flex; align-items: center; gap: 4px; background: none; border: none; color: var(--gold-text); font-size: 14px; font-weight: 600; padding: 4px 0; }
     .link-gold .ic { width: 15px; height: 15px; }
 
     /* ---------- Campos ---------- */
@@ -403,7 +403,7 @@
     }
     .check-pill input[type="checkbox"]:checked {
       background: var(--gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1408' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 14px no-repeat;
-      border-color: var(--gold);
+      border-color: var(--gold-text);
     }
     .check-pill:has(input:checked) { border-color: var(--gold-line); background: var(--gold-soft); }
     .danger-pill:has(input:checked) { border-color: var(--danger-line); background: var(--danger-bg); color: var(--danger-ink); }
@@ -412,7 +412,7 @@
     /* Acordeones */
     details > summary { list-style: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
     details > summary::-webkit-details-marker { display: none; }
-    details > summary .chev { width: 18px; height: 18px; color: var(--gold); transition: transform 0.2s; }
+    details > summary .chev { width: 18px; height: 18px; color: var(--gold-text); transition: transform 0.2s; }
     details[open] > summary .chev { transform: rotate(180deg); }
     .acc { border-top: 1px solid var(--line); }
     .acc > summary { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 0; font-size: 15px; font-weight: 700; }
@@ -451,7 +451,7 @@
       color: var(--text); text-align: left; font-size: 14px;
     }
     .quick-jump-item strong { font-weight: 600; }
-    .quick-jump-item span { color: var(--gold); font-size: 12px; font-weight: 600; white-space: nowrap; }
+    .quick-jump-item span { color: var(--gold-text); font-size: 12px; font-weight: 600; white-space: nowrap; }
     .quick-jump-item:hover, .quick-jump-item:focus-visible { background: var(--tint-2); }
 
     .kpi-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-top: 16px; }
@@ -502,7 +502,7 @@
     .q3-ico .ic { width: 22px; height: 22px; }
     .q3-ico.blue { color: var(--blue); }
     .q3-ico.rose { color: var(--rose); }
-    .q3-ico.gold { color: var(--gold); }
+    .q3-ico.gold { color: var(--gold-text); }
     .q3:active, .kpi-card:active, .hero-card:active, .tile:active { transform: scale(0.985); }
 
     .info-card {
@@ -511,7 +511,7 @@
       font-size: 14px; color: var(--muted); line-height: 1.45;
     }
     .info-card strong { color: var(--text); }
-    .info-ico { width: 38px; height: 38px; border-radius: 50%; background: var(--tint-1); display: flex; align-items: center; justify-content: center; flex: none; color: var(--gold); }
+    .info-ico { width: 38px; height: 38px; border-radius: 50%; background: var(--tint-1); display: flex; align-items: center; justify-content: center; flex: none; color: var(--gold-text); }
     .info-card.is-offline { border-color: var(--warn-line); background: var(--warn-bg); }
 
     .section-hdr { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
@@ -532,7 +532,7 @@
     .tile-sub { font-size: 14px; color: var(--muted); margin-top: 6px; }
     .tile-val { align-self: start; margin-top: 2px; padding: 4px 10px; border-radius: 999px; background: var(--tint-2); color: var(--text-2); font-size: 12px; font-weight: 700; white-space: nowrap; }
     .tile-dot { display: none; }
-    .tile.active { border-color: var(--gold); background: linear-gradient(180deg, var(--gold-soft), transparent); }
+    .tile.active { border-color: var(--gold-text); background: linear-gradient(180deg, var(--gold-soft), transparent); }
     .tile.active .tile-ico, .tile.active .tile-val { background: linear-gradient(145deg, var(--gold-2), var(--gold)); color: var(--gold-ink); }
     .extra-calc-tile:not(.hidden) { animation: tab-in 0.22s ease; }
 
@@ -555,7 +555,7 @@
       background: var(--tint-1); border: 1px solid var(--line); color: var(--text-2);
       font-size: 14px; font-weight: 500; text-align: left;
     }
-    .preset-btn .ic { width: 15px; height: 15px; color: var(--gold); }
+    .preset-btn .ic { width: 15px; height: 15px; color: var(--gold-text); }
 
     .metric-stack { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
     .metric-box { background: var(--inset); border: 1px solid var(--line); border-radius: 20px; padding: 22px 16px; text-align: center; }
@@ -602,7 +602,7 @@
     .step-num {
       width: 28px; height: 28px; border-radius: 50%; flex: none;
       display: flex; align-items: center; justify-content: center;
-      border: 1.5px solid var(--gold-line); color: var(--gold); font-size: 13px; font-weight: 700;
+      border: 1.5px solid var(--gold-line); color: var(--gold-text); font-size: 13px; font-weight: 700;
     }
     .step-check {
       width: 28px; height: 28px; border-radius: 50%; flex: none;
@@ -682,7 +682,7 @@
       background: var(--tint-1); border: 1px solid var(--line-2); color: var(--text);
       font-size: 14px; font-weight: 650; white-space: nowrap;
     }
-    .chip-plus { color: var(--gold); font-weight: 500; font-size: 17px; line-height: 1; }
+    .chip-plus { color: var(--gold-text); font-weight: 500; font-size: 17px; line-height: 1; }
     .input-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
     .input-head label { font-size: 14px; font-weight: 600; color: var(--text-2); line-height: 1.35; }
     .input-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 10px 0 14px; font-size: 13px; color: var(--muted); }
@@ -737,7 +737,7 @@
     #quick-strip { display: none; gap: 8px; overflow-x: auto; padding: 10px var(--gutter) 0; scrollbar-width: none; position: relative; z-index: 2; }
     #quick-strip::-webkit-scrollbar { display: none; }
     .quick-chip { display: inline-flex; align-items: center; gap: 6px; flex: none; height: 34px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line-2); background: var(--card); color: var(--text); font-size: 13px; font-weight: 600; white-space: nowrap; }
-    .quick-chip .ic { width: 15px; height: 15px; color: var(--gold); }
+    .quick-chip .ic { width: 15px; height: 15px; color: var(--gold-text); }
     .guide-banner { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin: 12px var(--gutter) 0; padding: 12px 14px; border-radius: 16px; background: var(--gold-soft); border: 1px solid var(--gold-line); font-size: 13px; color: var(--text-2); }
     .guide-close { background: none; border: none; color: var(--muted); padding: 2px; display: inline-flex; }
     .update-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin: 12px var(--gutter) 0; }
@@ -772,7 +772,7 @@
     #selftest-output .alert { font-size: 12.5px; }
     .glossary-grid { display: grid; gap: 8px; margin-top: 12px; }
     .glossary-row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 12px; border-radius: 12px; background: var(--inset); border: 1px solid var(--line); font-size: 13px; }
-    .glossary-row strong { color: var(--gold); white-space: nowrap; }
+    .glossary-row strong { color: var(--gold-text); white-space: nowrap; }
     .glossary-row span { color: var(--text-2); text-align: right; }
 
     /* ---------- Aviso flotante ---------- */
@@ -819,6 +819,73 @@
       .btn-xl { font-size: 15px; }
     }
 
+
+    /* =======================================================
+       v37: pulido — contraste, áreas táctiles, Recetas compacta y diseño para PC
+    ======================================================= */
+    body { --gold-text: #7f5c12; --muted-2: #716a5e; }
+    body.dark { --gold-text: #d6a540; --muted-2: #938d85; }
+    .ver-chip { display: inline-block; margin-left: 6px; padding: 2px 9px; border-radius: 999px; background: var(--tint-2); border: 1px solid var(--line); color: var(--muted); font-size: 11.5px; font-weight: 700; letter-spacing: 0.02em; vertical-align: middle; }
+    /* Áreas táctiles de 40 px o más */
+    .hbtn { height: 40px; }
+    .hbtn-round { width: 40px; }
+    .hbtn .ic { width: 18px; height: 18px; }
+    .icon-plain { min-width: 40px; min-height: 40px; align-items: center; justify-content: center; border-radius: 12px; }
+    .icon-plain:active { background: var(--tint-2); }
+    .link-gold { min-height: 40px; white-space: nowrap; }
+    .btn:active:not(:disabled) { transform: translateY(1px) scale(0.99); }
+    .btn-sm { min-height: 40px; }
+    .chip { height: 40px; }
+    .icon-round { min-width: 40px; min-height: 40px; }
+    .btn-outline-gold { min-height: 40px; }
+    .preset-btn { min-height: 40px; }
+    /* Números con ancho fijo (no «brincan» al cambiar) */
+    .metric-val, .kpi-num, .tile-val, .nr-count, .stepper input { font-variant-numeric: tabular-nums; }
+    /* Recetas: protocolos en 2 columnas */
+    #rx-proto-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    #rx-proto-grid .tile { grid-template-columns: 1fr; gap: 10px; padding: 14px; border-radius: 18px; }
+    #rx-proto-grid .tile-title { font-size: 15px; }
+    #rx-proto-grid .tile-sub { font-size: 12.5px; margin-top: 3px; line-height: 1.3; }
+    .step-hdr { scroll-margin-top: 84px; }
+    /* Indicación plegable */
+    .output-box.is-collapsed { max-height: 230px; overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent); mask-image: linear-gradient(to bottom, #000 72%, transparent); }
+    .btn-expand { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; min-height: 40px; margin-top: 8px; border-radius: 14px; border: 1px dashed var(--line-2); background: var(--tint-1); color: var(--gold-text); font-size: 13.5px; font-weight: 650; }
+    .btn-expand .ic { width: 16px; height: 16px; transition: transform 0.2s; }
+    .btn-expand[aria-expanded="true"] .ic { transform: rotate(180deg); }
+    /* Tipos de nota: aviso de que se desliza */
+    .pill-scroll:not(.at-end) { -webkit-mask-image: linear-gradient(to right, #000 82%, transparent); mask-image: linear-gradient(to right, #000 82%, transparent); }
+    #rx-receta-texto { margin-top: 12px; }
+    /* Encabezado: en teléfonos angostos el saludo se recorta antes que los botones */
+    .brand-copy { min-width: 0; flex: 1 1 auto; }
+    .greet { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .header-actions { flex: none; }
+    @media (max-width: 400px) { .app-header-in { gap: 8px; } .header-actions { gap: 6px; } }
+    #rx-receta-texto .acc-body .output-box { margin-top: 4px; }
+
+    /* ---------- PC y tabletas grandes (≥ 1100 px) ---------- */
+    @media (min-width: 1100px) {
+      body { padding-left: 104px; }
+      .bottom-nav { top: 0; right: auto; width: 104px; border-top: 0; border-right: 1px solid var(--line); padding: calc(env(safe-area-inset-top) + 92px) 10px 20px; }
+      .bottom-nav-in { flex-direction: column; gap: 6px; max-width: none; }
+      .nav-btn { flex: none; padding: 8px 0; font-size: 12px; border-radius: 14px; }
+      .nav-btn:hover { color: var(--text); }
+      .nav-btn .ico { width: 52px; height: 40px; border-radius: 13px; }
+      main { padding-bottom: 36px; }
+      .toast { bottom: 28px; }
+      .app-header, .app-foot, .tab-panel > .band-hero, .guide-banner, .update-bar { --gutter: max(32px, calc((100% - 1180px) / 2)); }
+      .band, .pad { --gutter: max(32px, calc((100% - 780px) / 2)); }
+      .tab-panel > .band-hero { --gutter: max(32px, calc((100% - 1180px) / 2)); }
+      .desk-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; align-items: start; padding: 22px max(32px, calc((100% - 1180px) / 2)) 6px; }
+      #tab-rx .desk-grid, #tab-notas .desk-grid { grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr); }
+      .desk-col { min-width: 0; display: flex; flex-direction: column; gap: 22px; }
+      .desk-col > .band, .desk-col > .pad { --gutter: 22px; padding-top: 22px; padding-bottom: 22px; border-radius: 24px; border: 1px solid var(--line); background: var(--bg-alt); }
+      .desk-col .pill-scroll { margin-right: 0; padding-right: 0; }
+      .output-box.is-collapsed { max-height: 380px; }
+      .modal-backdrop { align-items: center; }
+      .modal { border-radius: 26px; border-bottom: 1px solid var(--line-2); max-height: 86vh; }
+      .page-title { font-size: 36px; }
+    }
+
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
     @media print {
@@ -845,7 +912,7 @@
     .mod-count {
       margin-left: 8px; margin-right: 10px;
       font-size: 12px; font-weight: 700;
-      color: var(--gold); background: var(--gold-soft);
+      color: var(--gold-text); background: var(--gold-soft);
       border-radius: 999px; padding: 2px 8px;
     }
     /* <label> con apariencia de botón (para elegir archivo) */
@@ -1001,7 +1068,7 @@
       <div class="band band-alt">
         <div class="section-hdr no-print" data-mod-any="calc-renal calc-caprini calc-tad calc-mess">
           <h2>Calculadoras clínicas</h2>
-          <button type="button" class="link-gold" id="btn-calc-all-note" data-mod="tab-notas">Enviar actual a nota <svg class="ic"><use href="#i-arrow"/></svg></button>
+          <button type="button" class="link-gold" id="btn-calc-all-note" data-mod="tab-notas" title="Enviar la calculadora abierta a la nota">Enviar a nota <svg class="ic"><use href="#i-arrow"/></svg></button>
         </div>
 
         <div class="tile-list no-print" id="calc-subnav">
@@ -1338,7 +1405,7 @@
       </div>
 
       <div class="band band-alt">
-        <div class="step-hdr no-print"><span class="step-num">2</span><h3>Revisa y copia la indicación</h3></div>
+        <div class="step-hdr no-print" id="rx-step2"><span class="step-num">2</span><h3>Revisa y copia la indicación</h3></div>
         <div class="card" data-mod-any="rx-profilaxis rx-expuesta rx-trombo rx-analgesia rx-esguince rx-lumbalgia">
           <div class="card-head">
             <h3 class="h-sm" id="rx-active-title">Profilaxis Antibiótica Quirúrgica</h3>
@@ -1387,12 +1454,13 @@
 
           <div id="rx-alerts"></div>
           <div class="output-box" id="rx-output"></div>
+          <button type="button" class="btn-expand no-print hidden" id="btn-rx-output-toggle" aria-expanded="false" aria-controls="rx-output">Ver indicación completa <svg class="ic"><use href="#i-chevron"/></svg></button>
 
           <div class="btn-grid no-print">
             <button type="button" class="btn btn-primary btn-lg" id="btn-rx-copy"><svg class="ic"><use href="#i-copy"/></svg>Copiar</button>
             <button type="button" class="btn btn-secondary btn-lg" id="btn-rx-note" data-mod="tab-notas"><svg class="ic"><use href="#i-clip"/></svg>Copiar a Nota</button>
             <button type="button" class="btn btn-secondary btn-lg" id="btn-rx-save" data-mod="tab-hist"><svg class="ic gold"><use href="#i-save"/></svg>Guardar</button>
-            <button type="button" class="btn btn-secondary btn-lg" onclick="window.print()" aria-label="Imprimir"><svg class="ic gold"><use href="#i-printer"/></svg></button>
+            <button type="button" class="btn btn-secondary btn-lg" onclick="window.print()"><svg class="ic gold"><use href="#i-printer"/></svg>Imprimir</button>
           </div>
           <div class="ref-text" id="rx-refs"></div>
         </div>
@@ -1487,7 +1555,10 @@
               <p class="cfg-help">Automático: media carta; si no cabe, carta. Los medicamentos controlados (p. ej. tramadol) salen en una receta aparte. La firma se deja en blanco: el art. 29 pide firma autógrafa.</p>
             </div>
           </details>
-          <div class="output-box" id="rx-receta-output"></div>
+          <details class="acc acc-card no-print" id="rx-receta-texto">
+            <summary><span class="sum-text"><strong>Texto de la receta</strong> <small>Para revisar o pegar en otro sistema</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+            <div class="acc-body"><div class="output-box" id="rx-receta-output"></div></div>
+          </details>
           <div class="btn-grid no-print">
             <button type="button" class="btn btn-primary btn-lg" id="btn-receta-pdf"><svg class="ic"><use href="#i-file"/></svg>Receta en PDF</button>
             <button type="button" class="btn btn-secondary btn-lg" id="btn-receta-copy"><svg class="ic"><use href="#i-copy"/></svg>Copiar texto</button>
@@ -1754,9 +1825,9 @@
           <textarea id="nota-output" class="nota-output hidden" placeholder="Tu nota NOM-004 aparecerá aquí lista para copiar o imprimir..."></textarea>
           <div class="btn-grid no-print">
             <button type="button" class="btn btn-primary btn-lg" id="btn-nota-copy"><svg class="ic"><use href="#i-copy"/></svg>Copiar</button>
-            <button type="button" class="btn btn-secondary btn-lg" id="btn-nota-next-nr"><svg class="ic"><use href="#i-send"/></svg>[NO REFERIDO]</button>
+            <button type="button" class="btn btn-secondary btn-lg" id="btn-nota-next-nr" title="Ir al siguiente dato [NO REFERIDO] de la nota"><svg class="ic"><use href="#i-send"/></svg>Siguiente pendiente</button>
             <button type="button" class="btn btn-secondary btn-lg" id="btn-nota-save" data-mod="tab-hist"><svg class="ic gold"><use href="#i-save"/></svg>Guardar</button>
-            <button type="button" class="btn btn-secondary btn-lg" onclick="window.print()" aria-label="Imprimir"><svg class="ic gold"><use href="#i-printer"/></svg></button>
+            <button type="button" class="btn btn-secondary btn-lg" onclick="window.print()"><svg class="ic gold"><use href="#i-printer"/></svg>Imprimir</button>
           </div>
         </div>
       </div>
@@ -1882,7 +1953,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v36 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v37 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -1914,7 +1985,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes y Diagnóstico (v36 · Intuitiva)</h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v37</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -1988,7 +2059,7 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (50 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (51 pruebas)</h4>
         <div class="btn-row">
           <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (29)</button>
         </div>
@@ -2120,15 +2191,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v36 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v37 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "36",
-      versionLabel: "v36 Intuitiva",
+      version: "37",
+      versionLabel: "v37 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -2548,7 +2619,7 @@
           rawSwitchCalc(calcKey);
         };
 
-        if ($("cfg-title") && TYO_CFG.versionLabel) $("cfg-title").textContent = "Ajustes y Diagnóstico (" + TYO_CFG.versionLabel + ")";
+        if ($("cfg-title") && TYO_CFG.version) $("cfg-title").innerHTML = 'Ajustes <span class="ver-chip">v' + escapeHtml(String(TYO_CFG.version)) + "</span>";
         if ($("btn-settings")) $("btn-settings").addEventListener("click", renderModuleSettings);
         if ($("cfg-default-tab")) {
           $("cfg-default-tab").addEventListener("change", (e) => {
@@ -4344,6 +4415,110 @@
         if (res === "descargado") showToast("📄 Muestra del formato: " + d.fileName);
       }
 
+      /* =======================================================
+         v37: pulido de uso — indicación plegable, desliza a la indicación,
+         Esc cierra ventanas, aviso de deslizar en los tipos de nota y diseño de PC
+      ======================================================= */
+      var RX_OUTPUT_EXPANDED = false;
+      function syncRxOutputToggle() {
+        const box = $("rx-output");
+        const btn = $("btn-rx-output-toggle");
+        if (!box || !btn) return;
+        box.classList.remove("is-collapsed");
+        const largo = box.textContent.trim() !== "" && box.scrollHeight > (window.matchMedia("(min-width: 1100px)").matches ? 420 : 270);
+        btn.classList.toggle("hidden", !largo);
+        if (largo && !RX_OUTPUT_EXPANDED) box.classList.add("is-collapsed");
+        btn.setAttribute("aria-expanded", RX_OUTPUT_EXPANDED ? "true" : "false");
+        btn.firstChild.textContent = RX_OUTPUT_EXPANDED ? "Ver menos " : "Ver indicación completa ";
+      }
+
+      function syncPillScrollEnds() {
+        document.querySelectorAll(".pill-scroll").forEach((el) => {
+          if (!el.clientWidth) return; // pestaña oculta: se revisa al mostrarse
+          el.classList.toggle("at-end", el.scrollLeft + el.clientWidth >= el.scrollWidth - 6);
+        });
+      }
+
+      // Diseño de PC: en pantallas anchas cada pestaña se acomoda en dos columnas.
+      var DESK_LAYOUT_ON = false;
+      function deskSpecs() { return { "tab-rx": [[2, 1], [3, 4]], "tab-notas": [[1, 2], [3]], "tab-calc": [[0, 2], [1]] }; }
+      function applyDeskLayout() {
+        const want = window.matchMedia("(min-width: 1100px)").matches;
+        if (want === DESK_LAYOUT_ON) return;
+        DESK_LAYOUT_ON = want;
+        document.body.classList.toggle("desk", want);
+        const specs = deskSpecs();
+        Object.keys(specs).forEach((id) => {
+          const sec = $(id);
+          if (!sec) return;
+          if (want) {
+            const kids = Array.from(sec.children);
+            kids.forEach((el, i) => { el.dataset.deskOrder = String(i); });
+            const grid = document.createElement("div");
+            grid.className = "desk-grid";
+            specs[id].forEach((idxs) => {
+              const col = document.createElement("div");
+              col.className = "desk-col";
+              idxs.forEach((i) => { if (kids[i]) col.appendChild(kids[i]); });
+              grid.appendChild(col);
+            });
+            sec.appendChild(grid);
+          } else {
+            const all = Array.from(sec.querySelectorAll("[data-desk-order]")).filter((el) => el.parentElement === sec || (el.parentElement && el.parentElement.classList.contains("desk-col")));
+            all.sort((a, b) => Number(a.dataset.deskOrder) - Number(b.dataset.deskOrder)).forEach((el) => sec.appendChild(el));
+            sec.querySelectorAll(":scope > .desk-grid").forEach((g) => g.remove());
+          }
+        });
+        syncRxOutputToggle();
+      }
+
+      function initPulidoV37() {
+        // Indicación plegable: se ajusta cada vez que cambia el texto
+        const box = $("rx-output");
+        if (box && typeof MutationObserver === "function") {
+          new MutationObserver(() => syncRxOutputToggle()).observe(box, { childList: true, characterData: true, subtree: true });
+        }
+        $("btn-rx-output-toggle").addEventListener("click", () => {
+          RX_OUTPUT_EXPANDED = !RX_OUTPUT_EXPANDED;
+          syncRxOutputToggle();
+          if (!RX_OUTPUT_EXPANDED) $("rx-step2").scrollIntoView({ block: "start", behavior: "smooth" });
+        });
+        // En el teléfono, al elegir un protocolo baja suave a la indicación
+        $("rx-proto-grid").addEventListener("click", (e) => {
+          if (!e.target.closest("button") || window.matchMedia("(min-width: 1100px)").matches) return;
+          const hdr = $("rx-step2");
+          requestAnimationFrame(() => {
+            const r = hdr.getBoundingClientRect();
+            if (r.top > window.innerHeight * 0.55) {
+              const suave = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+              hdr.scrollIntoView({ block: "start", behavior: suave ? "smooth" : "auto" });
+            }
+          });
+        });
+        // Esc cierra la ventana abierta (PC)
+        document.addEventListener("keydown", (e) => {
+          if (e.key !== "Escape") return;
+          const open = document.querySelector(".modal-backdrop.open");
+          if (!open) return;
+          const close = open.querySelector(".modal-head .icon-round");
+          if (close) close.click(); else open.classList.remove("open");
+        });
+        // Tipos de nota: el desvanecido indica que hay más opciones a la derecha
+        document.querySelectorAll(".pill-scroll").forEach((el) => el.addEventListener("scroll", syncPillScrollEnds, { passive: true }));
+        window.addEventListener("resize", syncPillScrollEnds);
+        if (typeof ResizeObserver === "function") {
+          const ro = new ResizeObserver(() => { syncPillScrollEnds(); syncRxOutputToggle(); });
+          document.querySelectorAll(".pill-scroll").forEach((el) => ro.observe(el));
+          if ($("rx-output")) ro.observe($("rx-output").parentElement);
+        }
+        // Diseño de PC
+        const mq = window.matchMedia("(min-width: 1100px)");
+        if (mq.addEventListener) mq.addEventListener("change", applyDeskLayout); else if (mq.addListener) mq.addListener(applyDeskLayout);
+        applyDeskLayout();
+        syncPillScrollEnds();
+        syncRxOutputToggle();
+      }
+
       function renderProtocol() {
         const proto = $("rx-protocol").value;
         const peso = parseFloat($("rx-peso").value);
@@ -4386,7 +4561,7 @@
             out = [
               "INDICACIONES — PROFILAXIS ANTIBIÓTICA QUIRÚRGICA (ALERGIA A BETALACTÁMICOS)",
               "Parámetros: Peso " + peso + " kg | Edad " + edad + " años | TFG " + tfg + " mL/min",
-              "------------------------------------------------------------",
+              "————————————————————————————————————",
               "1. Opción A: Clindamicina 900 mg IV dosis única, iniciar 60 min antes de la incisión (o isquemia). Redosificar 900 mg IV c/6 h si cirugía prolongada o sangrado > 1,500 mL.",
               "2. Opción B (si riesgo SARM o artroplastia): Vancomicina " + vanco + " mg IV (15 mg/kg), iniciar 120 min antes de incisión en infusión lenta (60–120 min) para prevenir síndrome de hombre rojo.",
               "3. Postoperatorio: Suspender profilaxis a las 24 h (no prolongar en fracturas cerradas)."
@@ -4398,7 +4573,7 @@
             out = [
               "INDICACIONES — PROFILAXIS ANTIBIÓTICA QUIRÚRGICA (FX CERRADA / ARTROPLASTIA)",
               "Parámetros: Peso " + peso + " kg | Edad " + edad + " años | TFG " + tfg + " mL/min",
-              "------------------------------------------------------------",
+              "————————————————————————————————————",
               "1. " + farmaco + ", dosis única 30–60 min antes de la incisión quirúrgica (antes de inflar manguito de isquemia).",
               "2. Redosificación intraoperatoria: Repetir dosis " + redo + " o ante sangrado > 1,500 mL.",
               "3. Postoperatorio: " + post + ". Suspender estrictamente a las 24 horas."
@@ -4417,7 +4592,7 @@
           const lines = [
             "INDICACIONES — MANEJO ANTIMICROBIANO DE FRACTURA EXPUESTA (GUSTILO " + (grado === "3" ? "III A/B/C" : "I–II") + ")",
             "Parámetros: Peso " + peso + " kg | Edad " + edad + " años | TFG " + tfg + " mL/min",
-            "------------------------------------------------------------"
+            "————————————————————————————————————"
           ];
 
           if (alergia) {
@@ -4468,7 +4643,7 @@
           const lines = [
             "INDICACIONES — TROMBOPROFILAXIS EN CIRUGÍA ORTOPÉDICA MAYOR",
             "Parámetros: Peso " + peso + " kg | Edad " + edad + " años | TFG " + tfg + " mL/min",
-            "------------------------------------------------------------"
+            "————————————————————————————————————"
           ];
 
           if (tfg < 30) {
@@ -4510,7 +4685,7 @@
           const lines = [
             "INDICACIONES — ANALGESIA POSTQUIRÚRGICA HOSPITALARIA MULTIMODAL",
             "Parámetros: Peso " + peso + " kg | Edad " + edad + " años | TFG " + tfg + " mL/min",
-            "------------------------------------------------------------",
+            "————————————————————————————————————",
             "1. Base no opioide: " + paracetamolLinea
           ];
 
@@ -4549,7 +4724,7 @@
 
           out = [
             "RECETA DE ALTA — ESGUINCE DE TOBILLO AGUDO (GRADO I–II)",
-            "------------------------------------------------------------",
+            "————————————————————————————————————",
             "1. " + paracetamolVO,
             segundo,
             "3. Medidas físicas (Protocolo PEACE & LOVE):",
@@ -4596,7 +4771,7 @@
 
             const lines = [
               "RECETA DE ALTA — LUMBALGIA MECÁNICA AGUDA (SIN BANDERAS ROJAS)",
-              "------------------------------------------------------------",
+              "————————————————————————————————————",
               "1. " + para,
               aineLine,
               "3. Relajante muscular (si espasmo paravertebral severo): Metocarbamol 500–750 mg VO c/8 h por 3–5 días (advertir somnolencia; no conducir ni operar maquinaria)."
@@ -7159,7 +7334,7 @@
         if (!btn) return;
         const txt = $("nota-output").value || "";
         const info = findNextUnreferredRange(txt, 0);
-        setBtnLabel(btn, info ? "send" : "check", "[NO REFERIDO]");
+        setBtnLabel(btn, info ? "send" : "check", info ? "Siguiente pendiente" : "Sin pendientes");
         if (info) btn.insertAdjacentHTML("beforeend", '<span class="nr-count" aria-label="' + info.total + ' pendientes">' + info.total + "</span>");
       }
 
@@ -8676,6 +8851,21 @@
         const ok50 = malos50.length === 0 && rxAfecciones().length >= 12 && /cefalexina/.test(cel) && /clindamicina/.test(celBL) && !/cefalexina/.test(celBL);
         addTest("50. v36: recetas ya armadas para " + rxAfecciones().length + " afecciones, ajustadas por TFG, riesgo GI, alergia y anticoagulación", ok50, malos50.slice(0, 4).join(" · ") || cel + " | alergia BL: " + celBL);
 
+        // 51. v37: contraste de textos dorados y notas finas (WCAG AA ≥ 4.5:1) en el tema actual
+        const lum51 = (hex) => {
+          const h = String(hex).trim().replace("#", "");
+          if (!/^[0-9a-f]{6}$/i.test(h)) return null;
+          const c = [0, 2, 4].map((k) => parseInt(h.slice(k, k + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)));
+          return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+        };
+        const cr51 = (a, b) => { const la = lum51(a), lb = lum51(b); return la === null || lb === null ? 0 : (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05); };
+        const cs51 = getComputedStyle(document.body);
+        const v51 = (k) => cs51.getPropertyValue(k).trim();
+        const pares51 = [["--gold-text", "--card"], ["--gold-text", "--bg-alt"], ["--muted-2", "--card"], ["--muted", "--bg-alt"]];
+        const res51 = pares51.map(([f, b]) => f + "/" + b + " " + cr51(v51(f), v51(b)).toFixed(2));
+        const ok51 = pares51.every(([f, b]) => cr51(v51(f), v51(b)) >= 4.5);
+        addTest("51. v37: textos dorados y notas finas con contraste suficiente (" + (document.body.classList.contains("dark") ? "oscuro" : "claro") + ")", ok51, res51.join(" · "));
+
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
         const rows = tests.map((t) => (t.ok ? "✅ " : "❌ ") + "<strong>" + escapeHtml(t.name) + "</strong>: " + escapeHtml(t.detail)).join("<br>");
@@ -9391,6 +9581,7 @@
         ["Interfaz Base44 v27", initBase44UI],
         ["Ficha del paciente v31", initFichaPaciente],
         ["Receta del paciente v34", initRecetaPaciente],
+        ["Pulido v37", initPulidoV37],
         ["Módulos v26", initModulesV26] /* siempre al final */
       ].forEach(([name, fn]) => runInit(name, fn));
 
