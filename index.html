@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v48 · Tema "Base44" (oscuro + claro)
+       TyO Assist v49 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -1103,6 +1103,37 @@
       #tab-urg .desk-grid { grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr); }
       #tab-urg .urg-panels > .calc-panel { margin-top: 0; }
     }
+    /* ---------- v49: entrega de guardia ---------- */
+    .urg-ent-btn { display: grid; grid-template-columns: 20px minmax(0, 1fr) 18px; align-items: center; gap: 10px; width: 100%; min-height: 48px; margin-top: 10px; padding: 10px 12px; border-radius: 14px; border: 1px dashed var(--line-2); background: transparent; color: var(--text); text-align: left; }
+    .urg-ent-btn .ic { width: 18px; height: 18px; }
+    .urg-ent-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .urg-ent-txt strong { font-size: 14.5px; font-weight: 650; }
+    .urg-ent-txt small { font-size: 12.5px; color: var(--muted); }
+    #modal-entrega .modal { padding-bottom: 0; }
+    .ent-list { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+    .ent-card { padding: 14px; border-radius: 18px; border: 1px solid var(--line); background: var(--card); }
+    .ent-card.lvl-danger { border-color: var(--danger-line); }
+    .ent-card.lvl-warn { border-color: var(--warn-line); }
+    .ent-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+    .ent-head strong { font-size: 15.5px; font-weight: 700; }
+    .ent-head .urg-dot { flex: 0 0 10px; }
+    .ent-card.lvl-danger .ent-head .urg-dot { background: var(--danger-ink); }
+    .ent-card.lvl-warn .ent-head .urg-dot { background: var(--warn-ink); }
+    .ent-serv { font-size: 13px; color: var(--muted); }
+    .ent-act { margin-left: auto; }
+    .ent-alg { margin: 6px 0 2px; font-size: 13px; color: var(--text-2); }
+    .ent-alg.danger { color: var(--danger-ink); font-weight: 650; }
+    .ent-card .field { margin-top: 10px; }
+    .ent-pend { min-height: 64px; resize: vertical; }
+    .ent-dx, #ficha-dx { min-height: 0; resize: none; }
+    .ent-items { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+    .ent-items li { display: grid; grid-template-columns: 10px minmax(0, 1fr); gap: 8px; align-items: baseline; font-size: 13px; line-height: 1.45; color: var(--text-2); }
+    .ent-items li .urg-dot { width: 8px; height: 8px; transform: translateY(-1px); }
+    .ent-items li.lvl-danger { color: var(--danger-ink); }
+    .ent-items li.lvl-danger .urg-dot { background: var(--danger-ink); }
+    .ent-items li.lvl-warn .urg-dot { background: var(--warn-ink); }
+    .ent-foot .btn:first-child { flex: 1.7; }
+    #ent-pdf-ready { margin-top: 12px; }
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
     @media print {
@@ -1506,6 +1537,7 @@
         <div class="urg-sum no-print" id="urg-sum">
           <div class="urg-sum-head"><span class="mini-label">Pendientes del paciente</span><span class="urg-sum-pt" id="urg-sum-pt">Sin paciente</span></div>
           <div class="urg-sum-list" id="urg-sum-list" aria-live="polite"></div>
+          <button type="button" class="urg-ent-btn" id="btn-entrega"><svg class="ic gold"><use href="#i-list"/></svg><span class="urg-ent-txt"><strong>Entrega de guardia</strong><small id="btn-entrega-n">sin pacientes</small></span><svg class="ic urg-go" aria-hidden="true"><use href="#i-arrow"/></svg></button>
         </div>
         <div class="tile-list no-print" id="urg-subnav">
           <button type="button" class="tile" id="urg-tile-expuesta" data-mod="tab-rx rx-expuesta">
@@ -2568,7 +2600,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v48 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v49 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2601,7 +2633,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v48</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v49</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2713,9 +2745,9 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (63 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (64 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (63)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (64)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -2773,6 +2805,10 @@
 
       <div class="modal-section">
         <h4>Datos clínicos</h4>
+        <label class="field">Diagnóstico
+          <textarea id="ficha-dx" rows="2" maxlength="120" placeholder="Ej. fractura transtrocantérica de cadera derecha"></textarea>
+          <small class="cfg-help">Llena el diagnóstico de las notas, la historia clínica y la receta (si están vacíos) y la entrega de guardia.</small>
+        </label>
         <div class="grid-2">
           <label class="field">Peso (kg)
             <input type="number" id="ficha-peso" inputmode="decimal" step="0.1" placeholder="70" />
@@ -2831,6 +2867,26 @@
 
   <!-- MODAL GLOSARIO JERGA TyO MEXICANA -->
   <!-- v39: revisión antes/después de la IA -->
+  <div class="modal-backdrop" id="modal-entrega">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="entrega-title">
+      <div class="modal-grab" aria-hidden="true"></div>
+      <div class="modal-head">
+        <h3 id="entrega-title">Entrega de guardia</h3>
+        <button type="button" class="icon-round" id="btn-close-entrega" aria-label="Cerrar entrega de guardia"><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+      <p class="modal-intro"><strong id="ent-meta"></strong><br />Se queda en este teléfono. «Copiar para WhatsApp» lleva <strong>solo iniciales</strong>; el PDF lleva el nombre, como las notas. Evita escribir nombres en los pendientes.</p>
+      <div id="ent-list" class="ent-list"></div>
+      <div class="btn-row hidden" id="ent-pdf-ready">
+        <button type="button" class="btn btn-primary btn-sm" id="btn-ent-pdf-share"><svg class="ic"><use href="#i-send"/></svg>Compartir PDF</button>
+        <button type="button" class="btn btn-secondary btn-sm" id="btn-ent-pdf-open"><svg class="ic"><use href="#i-file"/></svg>Abrir PDF</button>
+      </div>
+      <div class="ai-foot ent-foot">
+        <button type="button" class="btn btn-primary btn-lg" id="btn-ent-copy"><svg class="ic"><use href="#i-copy"/></svg>Copiar para WhatsApp</button>
+        <button type="button" class="btn btn-secondary btn-lg" id="btn-ent-pdf"><svg class="ic gold"><use href="#i-file"/></svg>PDF</button>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-backdrop" id="modal-ai-diff">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="ai-diff-title">
       <div class="modal-grab" aria-hidden="true"></div>
@@ -2866,15 +2922,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v48 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v49 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "48",
-      versionLabel: "v48 Intuitiva",
+      version: "49",
+      versionLabel: "v49 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-urg | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -4032,7 +4088,7 @@
         const sig = JSON.stringify([st.afeccion, def.items, def.reason]);
         st.blocked = def.blocked;
         st.reason = def.reason;
-        if (!st.diagEdited) st.diag = def.diag || "";
+        if (!st.diagEdited) st.diag = ((recetaFicha() || {}).dx) || def.diag || "";
         if (!st.edited) {
           st.items = def.items.map((x) => Object.assign({}, x));
           st.indic = def.indic;
@@ -7161,7 +7217,8 @@
         return [
           { key: "tyo_sc_v44", label: "vigilancia compartimental", has: (r) => !!(r && Array.isArray(r.evals) && r.evals.length) },
           { key: "tyo_cadera_v45", label: "fractura de cadera", has: (r) => !!(r && (r.ingreso || (r.pend && r.pend.length) || (r.ac && r.ac.tipo) || r.fx)) },
-          { key: "tyo_infx_v47", label: "infección ósea o de herida", has: (r) => !!(r && r.v && Object.keys(r.v).length) }
+          { key: "tyo_infx_v47", label: "infección ósea o de herida", has: (r) => !!(r && r.v && Object.keys(r.v).length) },
+          { key: "tyo_entrega_v49", label: "pendientes de entrega", has: (r) => !!(r && r.pend) }
         ];
       }
 
@@ -7759,7 +7816,7 @@
               if (!byId[it.id] || Number(it.savedAt || 0) > Number(byId[it.id].savedAt || 0)) byId[it.id] = it;
             });
             out[k] = JSON.stringify(Object.assign({}, a, { items: Object.keys(byId).map((id) => byId[id]) }));
-          } else if (k === "tyo_sc_v44" || k === "tyo_cadera_v45" || k === "tyo_infx_v47") {
+          } else if (k === "tyo_sc_v44" || k === "tyo_cadera_v45" || k === "tyo_infx_v47" || k === "tyo_entrega_v49") {
             const a = parse(out[k]), b = parse(inc[k]);
             if (!a || !b || !a.byId || !b.byId) return;
             const byId = Object.assign({}, a.byId);
@@ -8581,6 +8638,7 @@
         const items = urgItems(urgCollect(), Date.now());
         const quien = urgPatientLabel();
         if ($("urg-sum-pt")) $("urg-sum-pt").textContent = quien || "Sin paciente";
+        if ($("btn-entrega-n")) { const np = entCountPatients(); $("btn-entrega-n").textContent = np ? "Todos tus pacientes: " + np : "Sin pacientes en la lista"; }
         const list = $("urg-sum-list");
         if (list) {
           list.innerHTML = items.length
@@ -8658,6 +8716,431 @@
         clearInterval(s.timer);
         s.timer = setInterval(urgTick, urgDefs().tickMs);
         urgRender();
+      }
+
+      /* =======================================================
+         v49: ENTREGA DE GUARDIA
+         Todos los pacientes de la lista con su diagnóstico (de la ficha),
+         los pendientes de urgencias que ya calcula la app y lo que el
+         médico escribe para el siguiente turno. «Copiar para WhatsApp»
+         lleva solo iniciales; el PDF lleva el nombre, como las notas.
+         Los pendientes viven en tyo_entrega_v49 y vencen con el paciente.
+      ======================================================= */
+      function entDefs() {
+        return { key: "tyo_entrega_v49", maxPend: 400, maxDx: 120 };
+      }
+
+      function entState() {
+        if (!entState.s) entState.s = { deb: {}, pdf: null };
+        return entState.s;
+      }
+
+      function entLoad() {
+        const raw = pxRawGet(entDefs().key);
+        const byId = {};
+        let changed = false;
+        if (raw && raw.byId && typeof raw.byId === "object") {
+          let ids = [];
+          try { ids = loadFichaStore().items.map((it) => it.id); } catch (_) { ids = []; }
+          Object.keys(raw.byId).forEach((id) => {
+            const r = raw.byId[id];
+            if (r && typeof r.pend === "string" && r.pend.trim() && ids.includes(id)) byId[id] = { pend: r.pend.slice(0, entDefs().maxPend), upd: Number(r.upd) || 0 };
+            else changed = true;
+          });
+        } else if (raw) changed = true;
+        const st = { v: 1, byId };
+        if (changed) pxRawSet(entDefs().key, st);
+        return st;
+      }
+
+      function entSetPend(id, text) {
+        const st = entLoad();
+        const t = String(text || "").slice(0, entDefs().maxPend);
+        if (t.trim()) st.byId[id] = { pend: t, upd: Date.now() };
+        else delete st.byId[id];
+        pxRawSet(entDefs().key, st);
+      }
+
+      // Guarda el diagnóstico en la ficha de ese paciente sin renovar su plazo.
+      function entSetDx(id, dx) {
+        const store = loadFichaStore();
+        const it = store.items.find((x) => x.id === id);
+        if (!it) return false;
+        it.data = Object.assign({}, it.data, { dx: String(dx || "").replace(/\s+/g, " ").trim().slice(0, entDefs().maxDx) });
+        saveFichaStore(store);
+        return true;
+      }
+
+      function entEdadCorta(f) {
+        const e = f && f.edad !== "" && Number.isFinite(f.edad) ? f.edad + (f.edadUnidad === "m" ? " m" : " a") : "";
+        return [e, f && f.sexo ? f.sexo : ""].filter(Boolean).join(" · ");
+      }
+
+      function entFecha(nowMs) {
+        const d = new Date(Number.isFinite(nowMs) ? nowMs : Date.now());
+        const p2 = (n) => String(n).padStart(2, "0");
+        return p2(d.getDate()) + "/" + p2(d.getMonth() + 1) + "/" + d.getFullYear() + " " + p2(d.getHours()) + ":" + p2(d.getMinutes());
+      }
+
+      // Pura: un renglón por paciente, primero los que tienen algo en rojo.
+      // pts = [{ id, data (normalizada), active }]; recs = { sc, cad, inf, ent } con byId.
+      function entBuild(pts, recs, nowMs) {
+        const r = recs || {};
+        const byId = (s) => (s && s.byId) || {};
+        const rank = { danger: 0, warn: 1, info: 2 };
+        const rows = (pts || []).map((p, idx) => {
+          const f = p.data || {};
+          const age = fichaAgeYears(f);
+          const sc = byId(r.sc)[p.id], cad = byId(r.cad)[p.id], inf = byId(r.inf)[p.id], ent = byId(r.ent)[p.id];
+          const items = urgItems({ sc: sc ? scSanitizeRec(sc) : null, cad: cad ? cadSanitizeRec(cad) : null, inf: inf || null, ctx: { nino: Number.isFinite(age) && age < 18, crcl: null } }, nowMs);
+          const lvl = items.some((i) => i.lvl === "danger") ? "danger" : items.some((i) => i.lvl === "warn") ? "warn" : "info";
+          return {
+            id: p.id, idx, active: !!p.active,
+            ini: fichaInitials(f.nombre) || "Px",
+            nombre: f.nombre || "",
+            edad: entEdadCorta(f),
+            edadSexo: fichaEdadSexoText(f),
+            folio: f.folio || "",
+            servicio: f.servicio || "",
+            alergia: f.alergiaEstado ? fichaAllergyText(f) : "",
+            alergico: f.alergiaEstado === "si",
+            dx: f.dx || "",
+            items, lvl,
+            pend: ent && ent.pend ? String(ent.pend) : ""
+          };
+        });
+        return rows.sort((a, b) => rank[a.lvl] - rank[b.lvl] || a.idx - b.idx);
+      }
+
+      // Pura: texto para WhatsApp. Solo iniciales: sin nombre ni cama/expediente.
+      function entTextWhats(rows, meta) {
+        const m = meta || {};
+        const n = rows.length;
+        const L = ["*ENTREGA DE GUARDIA TyO*", entFecha(m.now) + (m.medico ? " · Entrega: " + m.medico : ""), n + (n === 1 ? " paciente" : " pacientes")];
+        rows.forEach((r, k) => {
+          L.push("");
+          L.push("*" + (k + 1) + ". " + [r.ini, r.edad].filter(Boolean).join(" · ") + "*" + (r.servicio ? " · " + r.servicio : ""));
+          L.push("Diagnóstico: " + (r.dx || "sin capturar"));
+          if (r.alergia) L.push("Alergias: " + r.alergia);
+          r.items.forEach((i) => L.push((i.lvl === "danger" ? "🔴 " : i.lvl === "warn" ? "🟡 " : "• ") + i.title + ": " + i.sub));
+          if (r.pend.trim()) L.push("Pendientes: " + r.pend.trim().replace(/\s*\n\s*/g, "; "));
+        });
+        return L.join("\n");
+      }
+
+      function entCollect(nowMs) {
+        let pts = [];
+        try { pts = listFichas().map((x) => ({ id: x.id, data: x.data, active: x.active })); } catch (_) { pts = []; }
+        let sc = null, cad = null, inf = null, ent = null;
+        try { sc = scLoad(); } catch (_) {}
+        try { cad = cadLoad(); } catch (_) {}
+        try { inf = infLoad(); } catch (_) {}
+        try { ent = entLoad(); } catch (_) {}
+        return entBuild(pts, { sc, cad, inf, ent }, nowMs);
+      }
+
+      function entCountPatients() {
+        try { return loadFichaStore().items.length; } catch (_) { return 0; }
+      }
+
+      function entPdfFileName(nowMs) {
+        const d = new Date(nowMs);
+        const p2 = (n) => String(n).padStart(2, "0");
+        return "Entrega_guardia_" + d.getFullYear() + "-" + p2(d.getMonth() + 1) + "-" + p2(d.getDate()) + "_" + p2(d.getHours()) + p2(d.getMinutes()) + ".pdf";
+      }
+
+      function buildEntregaPdfDoc(jsPDF, d, imgsAll) {
+        const membrete = d.estilo !== "sobrio";
+        RECETA_TPL = recetaTemplate();
+        const C = membrete ? pdfColors() : { NAVY: [24, 24, 28], INK: [24, 24, 28], RED: [158, 22, 22], GRAY: [96, 96, 104], LABEL: [40, 40, 44], LINE: [120, 120, 124] };
+        const imgs = membrete ? recetaImagesFor(imgsAll) : { logo: null, marca: null, esquina: null };
+        imgs.marca = null; imgs.esquina = null;
+        const g = pdfGeom("carta");
+        const doc = new jsPDF({ unit: "pt", format: "letter", orientation: "portrait" });
+        const L = 50, R = 562, W = R - L;
+        const top = membrete ? 118 : 92;
+        const bottom = membrete ? 728 : 736;
+        const stripH = 20;
+        const S = pdfSafeText;
+        const SIZE = 9.5, LH = 13;
+        let y = top;
+        const newPage = () => { doc.addPage("letter", "portrait"); y = top + stripH; };
+        const ensure = (h) => { if (y + h > bottom) newPage(); };
+        const M = d.medico || {};
+
+        doc.setTextColor(...C.NAVY); doc.setFont("helvetica", "bold");
+        pdfFit(doc, "ENTREGA DE GUARDIA", W, 13, 9); doc.text("ENTREGA DE GUARDIA", 306, y + 10, { align: "center" });
+        doc.setTextColor(...C.GRAY); doc.setFont("helvetica", "normal"); doc.setFontSize(8.5);
+        doc.text(S("Traumatología y Ortopedia · " + entFecha(d.now)), 306, y + 22, { align: "center" });
+        y += 32;
+
+        // Quién entrega y quién recibe
+        const boxH = 42;
+        if (membrete) { const a = C.NAVY; doc.setFillColor(Math.round(255 - (255 - a[0]) * 0.06), Math.round(255 - (255 - a[1]) * 0.06), Math.round(255 - (255 - a[2]) * 0.06)); }
+        else doc.setFillColor(244, 244, 245);
+        doc.setDrawColor(...C.LINE); doc.setLineWidth(0.6);
+        doc.roundedRect(L, y, W, boxH, 5, 5, "FD");
+        const field = (label, value, x, yy, maxW) => {
+          doc.setFont("helvetica", "bold"); doc.setFontSize(8); doc.setTextColor(...C.LABEL);
+          doc.text(S(label), x, yy);
+          const lw = doc.getTextWidth(S(label)) + 4;
+          const v = S(value || "______________________");
+          doc.setFont("helvetica", "normal"); doc.setTextColor(...(value ? C.INK : C.GRAY));
+          pdfFit(doc, v, maxW - lw, 9.5, 6.5);
+          doc.text(v, x + lw, yy);
+        };
+        const mid = L + W * 0.56;
+        field("Entrega:", M.nombre, L + 10, y + 16, mid - L - 18);
+        field("Fecha y hora:", entFecha(d.now), mid, y + 16, R - mid - 10);
+        field("Recibe:", "", L + 10, y + 31, mid - L - 18);
+        field("Pacientes:", String(d.rows.length), mid, y + 31, R - mid - 10);
+        y += boxH + 16;
+
+        const drawRich = (wr, x0, xHang, color) => {
+          wr.lines.forEach((ln, k) => {
+            ensure(LH);
+            let x = k === 0 ? x0 : xHang;
+            ln.forEach((tk, j) => {
+              if (j > 0 && !tk.glue) x += wr.sp;
+              doc.setFont("helvetica", tk.b ? "bold" : "normal"); doc.setFontSize(SIZE);
+              doc.setTextColor(...(color || C.INK));
+              doc.text(tk.t, x, y + 9.5);
+              x += tk.w;
+            });
+            y += LH;
+          });
+        };
+        const para = (label, text, color) => {
+          const segs = [{ t: S(label) + " ", b: true }, { t: S(text) }];
+          drawRich(notaPdfWrap(doc, segs, SIZE, R - (L + 12), R - (L + 12)), L + 12, L + 12, color);
+        };
+
+        d.rows.forEach((r, k) => {
+          ensure(LH * 4 + 24);
+          y += 2;
+          // Barra del paciente
+          doc.setFillColor(...(r.lvl === "danger" ? C.RED : C.NAVY)); doc.rect(L, y + 1, 3, 13, "F");
+          doc.setFont("helvetica", "bold"); doc.setFontSize(10.5); doc.setTextColor(...C.NAVY);
+          const head = S((k + 1) + ". " + (r.nombre || r.ini));
+          pdfFit(doc, head, W * 0.58, 10.5, 7.5); doc.text(head, L + 9, y + 11);
+          doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.setTextColor(...C.GRAY);
+          const side = S([r.edadSexo, r.folio].filter(Boolean).join(" · "));
+          if (side) { pdfFit(doc, side, W * 0.4, 8.5, 6.5); doc.text(side, R, y + 11, { align: "right" }); }
+          y += 18;
+          para("Diagnóstico:", r.dx || "sin capturar");
+          if (r.servicio) para("Servicio:", r.servicio);
+          if (r.alergia) para("Alergias:", r.alergia, r.alergico ? C.RED : null);
+          r.items.forEach((i) => {
+            const pre = "• ";
+            doc.setFont("helvetica", "normal"); doc.setFontSize(SIZE);
+            const hang = doc.getTextWidth(pre);
+            const segs = [{ t: pre }, { t: S(i.title) + ":", b: true }, { t: " " + S(i.sub) }];
+            drawRich(notaPdfWrap(doc, segs, SIZE, R - (L + 12), R - (L + 12) - hang), L + 12, L + 12 + hang, i.lvl === "danger" ? C.RED : null);
+          });
+          const pend = r.pend.trim();
+          if (pend) {
+            pend.split(/\n+/).map((x) => x.trim()).filter(Boolean).forEach((ln, j) => para(j === 0 ? "Pendientes:" : "", ln));
+          } else {
+            para("Pendientes:", "sin pendientes escritos");
+          }
+          y += 8;
+          if (k < d.rows.length - 1) { ensure(6); doc.setDrawColor(...C.LINE); doc.setLineWidth(0.3); doc.line(L + 9, y - 3, R, y - 3); }
+        });
+
+        // Firmas: entrega y recibe
+        const sigH = 80;
+        ensure(sigH + 12);
+        y = Math.max(y + 12, Math.min(bottom - sigH, y + 30));
+        const col = (cx, nombre, l2) => {
+          doc.setDrawColor(...C.INK); doc.setLineWidth(0.7);
+          doc.line(cx - 110, y + 34, cx + 110, y + 34);
+          doc.setFont("helvetica", "bold"); doc.setFontSize(9.5); doc.setTextColor(...C.INK);
+          const n = S(nombre || "Nombre: ______________________");
+          pdfFit(doc, n, 230, 9.5, 7); doc.text(n, cx, y + 47, { align: "center" });
+          doc.setFont("helvetica", "normal"); doc.setTextColor(...C.GRAY); doc.setFontSize(8);
+          doc.text(S(l2), cx, y + 58, { align: "center" });
+        };
+        col(L + W * 0.25, M.nombre, "Entrega" + (M.cedula ? " · Cédula profesional " + M.cedula : ""));
+        col(L + W * 0.75, "", "Recibe");
+
+        const total = doc.getNumberOfPages();
+        for (let pg = 1; pg <= total; pg++) {
+          doc.setPage(pg);
+          if (membrete) {
+            drawRecetaFrame(doc, { medico: M }, g, imgs, { recetas: 1, recetaIdx: 0, pagesInGroup: total, pageInGroup: pg - 1 });
+          } else {
+            doc.setTextColor(...C.INK); doc.setFont("helvetica", "bold");
+            const un = S(d.unidad || "Unidad médica");
+            pdfFit(doc, un, W - 110, 11.5, 8); doc.text(un, L, 42);
+            doc.setFont("helvetica", "normal"); doc.setTextColor(...C.GRAY);
+            const dom = S([M.domicilio, M.tel ? "Teléfono: " + M.tel : ""].filter(Boolean).join("  ·  "));
+            if (dom) { pdfFit(doc, dom, W - 110, 8.5, 6); doc.text(dom, L, 55); }
+            doc.setFontSize(8); doc.text("Entrega de guardia", R, 42, { align: "right" });
+            doc.setDrawColor(...C.INK); doc.setLineWidth(0.8); doc.line(L, 66, R, 66);
+            doc.setLineWidth(0.5); doc.line(L, 750, R, 750);
+            doc.setFontSize(7.5); doc.setTextColor(...C.GRAY);
+            const pie = S("Elaboró: " + (M.nombre || "________") + (M.cedula ? " · Cédula profesional " + M.cedula : ""));
+            pdfFit(doc, pie, W - 90, 7.5, 6); doc.text(pie, L, 762);
+            doc.text("Hoja " + pg + " de " + total, R, 762, { align: "right" });
+          }
+          if (pg > 1) {
+            doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.setTextColor(...C.GRAY);
+            doc.text(S("Entrega de guardia · " + entFecha(d.now) + " (continuación)"), L, top + 9);
+            doc.setDrawColor(...C.LINE); doc.setLineWidth(0.4); doc.line(L, top + 14, R, top + 14);
+          }
+        }
+        return { doc, pages: total };
+      }
+
+      function entShowPdfReady(show) {
+        if ($("ent-pdf-ready")) $("ent-pdf-ready").classList.toggle("hidden", !show);
+      }
+
+      function entSharePdf(blob, name) {
+        const file = new File([blob], name, { type: "application/pdf" });
+        if (isMobileShareTarget() && navigator.canShare && navigator.share) {
+          let ok = false;
+          try { ok = navigator.canShare({ files: [file] }); } catch (_) { ok = false; }
+          if (ok) {
+            return navigator.share({ files: [file], title: "Entrega de guardia" })
+              .then(() => { entShowPdfReady(false); return "compartido"; })
+              .catch((err) => {
+                if (err && err.name === "AbortError") return "cancelado";
+                entShowPdfReady(true);
+                showToast("📄 PDF listo: toca «Compartir PDF».");
+                return "pendiente";
+              });
+          }
+        }
+        downloadRecetaBlob(blob, name);
+        entShowPdfReady(false);
+        return Promise.resolve("descargado");
+      }
+
+      // Guarda en el momento lo que esté pendiente de guardar (diagnóstico y pendientes).
+      function entFlush() {
+        const s = entState();
+        Object.keys(s.deb).forEach((k) => { clearTimeout(s.deb[k].t); try { s.deb[k].fn(); } catch (_) {} });
+        s.deb = {};
+      }
+
+      function entDebounce(k, fn) {
+        const s = entState();
+        if (s.deb[k]) clearTimeout(s.deb[k].t);
+        s.deb[k] = { fn, t: setTimeout(() => { delete s.deb[k]; try { fn(); } catch (_) {} }, 400) };
+      }
+
+      async function onEntregaPdfClick() {
+        entFlush();
+        const now = Date.now();
+        const rows = entCollect(now);
+        if (!rows.length) { showToast("No hay pacientes en tu lista."); return; }
+        let ready = RECETA_PDF_READY;
+        if (!ready) {
+          showToast("Preparando el PDF…");
+          try { ready = await prepareRecetaPdf(); } catch (e) { showToast("No se pudo preparar el PDF: " + (e && e.message ? e.message : e)); return; }
+        }
+        const m = readMedicoData();
+        const d = { rows, medico: m, unidad: m.unidad, now, estilo: notaPdfEstilo() };
+        let out;
+        try { out = buildEntregaPdfDoc(ready.jsPDF, d, ready.imgs); } catch (e) { showToast("No se pudo generar el PDF: " + (e && e.message ? e.message : e)); return; }
+        const blob = out.doc.output("blob");
+        const name = entPdfFileName(now);
+        entState().pdf = { blob, name };
+        const res = await entSharePdf(blob, name);
+        if (res === "descargado") showToast("📄 Entrega de guardia en PDF (" + out.pages + " hoja" + (out.pages > 1 ? "s" : "") + "): " + name);
+      }
+
+      function entRender() {
+        const list = $("ent-list");
+        if (!list) return;
+        const now = Date.now();
+        const rows = entCollect(now);
+        if ($("ent-meta")) $("ent-meta").textContent = rows.length ? rows.length + (rows.length === 1 ? " paciente" : " pacientes") + " · " + entFecha(now) : "";
+        if (!rows.length) {
+          list.innerHTML = '<p class="urg-empty">No hay pacientes en tu lista. Agrégalos con el botón de paciente de arriba y aquí aparecen con sus pendientes.</p>';
+        } else {
+          list.innerHTML = rows.map((r, k) => {
+            const items = r.items.length
+              ? '<ul class="ent-items">' + r.items.map((i) => '<li class="lvl-' + i.lvl + '"><span class="urg-dot" aria-hidden="true"></span><span><strong>' + escapeHtml(i.title) + ":</strong> " + escapeHtml(i.sub).replace(/(\d) (h|min)\b/g, "$1&nbsp;$2") + "</span></li>").join("") + "</ul>"
+              : "";
+            return '<div class="ent-card lvl-' + r.lvl + '" data-id="' + escapeHtml(r.id) + '">' +
+              '<div class="ent-head"><span class="urg-dot" aria-hidden="true"></span><strong>' + (k + 1) + ". " + escapeHtml([r.ini, r.edad].filter(Boolean).join(" · ")) + "</strong>" +
+              (r.servicio ? '<span class="ent-serv">' + escapeHtml(r.servicio) + "</span>" : "") +
+              (r.active ? '<span class="badge ent-act">En pantalla</span>' : "") + "</div>" +
+              '<p class="ent-alg' + (r.alergico ? " danger" : "") + '">Alergias: ' + escapeHtml(r.alergia || "sin preguntar") + "</p>" +
+              '<label class="field">Diagnóstico<textarea class="ent-dx" rows="2" maxlength="' + entDefs().maxDx + '" placeholder="Ej. fractura transtrocantérica de cadera derecha">' + escapeHtml(r.dx) + "</textarea></label>" +
+              items +
+              '<label class="field">Pendientes para el siguiente turno<textarea class="ent-pend" rows="2" maxlength="' + entDefs().maxPend + '" placeholder="Ej. radiografía de control, valoración por medicina interna">' + escapeHtml(r.pend) + "</textarea></label>" +
+              "</div>";
+          }).join("");
+        }
+        if ($("btn-ent-copy")) $("btn-ent-copy").disabled = !rows.length;
+        if ($("btn-ent-pdf")) $("btn-ent-pdf").disabled = !rows.length;
+      }
+
+      function openEntrega() {
+        entShowPdfReady(false);
+        entRender();
+        $("modal-entrega").classList.add("open");
+        const sheet = $("modal-entrega").querySelector(".modal");
+        if (sheet) sheet.scrollTop = 0;
+      }
+
+      function closeEntrega() {
+        entFlush();
+        $("modal-entrega").classList.remove("open");
+        try { urgRender(); } catch (_) {}
+      }
+
+      function initEntregaV49() {
+        if (!$("modal-entrega")) return;
+        if ($("btn-entrega")) $("btn-entrega").addEventListener("click", openEntrega);
+        $("btn-close-entrega").addEventListener("click", closeEntrega);
+        $("modal-entrega").addEventListener("click", (e) => { if (e.target === $("modal-entrega")) closeEntrega(); });
+        const list = $("ent-list");
+        list.addEventListener("input", (e) => {
+          const card = e.target.closest(".ent-card");
+          if (!card) return;
+          const id = card.dataset.id;
+          if (e.target.classList.contains("ent-dx")) {
+            const v = e.target.value;
+            entDebounce("dx:" + id, () => entSetDx(id, v));
+          } else if (e.target.classList.contains("ent-pend")) {
+            const v = e.target.value;
+            entDebounce("pend:" + id, () => entSetPend(id, v));
+          }
+        });
+        // Al terminar de escribir el diagnóstico del paciente en pantalla, llena las notas vacías
+        list.addEventListener("change", (e) => {
+          if (!e.target.classList.contains("ent-dx")) return;
+          entFlush();
+          const card = e.target.closest(".ent-card");
+          try {
+            const rec = loadFicha();
+            if (rec && card && rec.id === card.dataset.id) { applyFichaToApp(rec.data, false); updateFichaChip(); }
+          } catch (_) {}
+        });
+        $("btn-ent-copy").addEventListener("click", () => {
+          entFlush();
+          const rows = entCollect(Date.now());
+          if (!rows.length) { showToast("No hay pacientes en tu lista."); return; }
+          copyText(entTextWhats(rows, { now: Date.now(), medico: readMedicoData().nombre }));
+        });
+        $("btn-ent-pdf").addEventListener("click", () => { onEntregaPdfClick(); });
+        $("btn-ent-pdf-share").addEventListener("click", () => {
+          const p = entState().pdf;
+          if (p) entSharePdf(p.blob, p.name);
+        });
+        $("btn-ent-pdf-open").addEventListener("click", () => {
+          const p = entState().pdf;
+          if (!p) return;
+          const url = URL.createObjectURL(p.blob);
+          window.open(url, "_blank", "noopener");
+          setTimeout(() => URL.revokeObjectURL(url), 60000);
+        });
+        // Precarga silenciosa del generador de PDF
+        $("btn-entrega").addEventListener("click", () => { try { prepareRecetaPdf().catch(() => {}); } catch (_) {} }, { once: true });
       }
 
       function renderProtocol() {
@@ -11791,6 +12274,7 @@
           sexo,
           folio: str(d.folio, 40),
           servicio: str(d.servicio, 60),
+          dx: str(d.dx, 120),
           peso: num(d.peso),
           talla: num(d.talla),
           alergiaEstado,
@@ -11820,7 +12304,7 @@
       }
 
       function fichaHasData(f) {
-        return !!(f && (f.nombre || f.folio || f.fnac || f.edad !== "" || f.peso !== "" || f.sexo || f.alergiaEstado));
+        return !!(f && (f.nombre || f.folio || f.fnac || f.edad !== "" || f.peso !== "" || f.sexo || f.alergiaEstado || f.dx));
       }
 
       // "vigente" | "vencida" | "invalida"
@@ -11955,7 +12439,7 @@
       function clearAllFichas() {
         localStorage.removeItem(FICHA_STORE_KEY);
         localStorage.removeItem(FICHA_STORAGE_KEY);
-        try { localStorage.removeItem("tyo_sc_v44"); localStorage.removeItem("tyo_cadera_v45"); localStorage.removeItem("tyo_infx_v47"); } catch (_) {}
+        try { localStorage.removeItem("tyo_sc_v44"); localStorage.removeItem("tyo_cadera_v45"); localStorage.removeItem("tyo_infx_v47"); localStorage.removeItem("tyo_entrega_v49"); } catch (_) {}
       }
 
       // Nota en progreso + laboratorios del paciente en pantalla.
@@ -12138,7 +12622,7 @@
         return parts.join(", ") || "Sí (sin especificar)";
       }
 
-      const FICHA_TARGET_IDS = ["ren-edad", "ren-peso", "ren-cr", "ren-sexo", "lab-cr", "cap-age", "mess-age", "rx-edad", "rx-peso", "rx-alergia", "rx-gastritis", "rx-hepato", "rx-obesidad", "nota-folio", "nota-edadsexo"];
+      const FICHA_TARGET_IDS = ["ren-edad", "ren-peso", "ren-cr", "ren-sexo", "lab-cr", "cap-age", "mess-age", "rx-edad", "rx-peso", "rx-alergia", "rx-gastritis", "rx-hepato", "rx-obesidad", "nota-folio", "nota-edadsexo", "ing-dx", "evo-dx", "pre-dx", "post-dxpre", "alta-dx", "hc-dx"];
 
       // Plan puro (sin tocar la pantalla): qué valor va en cada campo.
       // cur = valores actuales {id: texto | booleano}; capItems = {valor: marcado}.
@@ -12182,6 +12666,8 @@
         if (f.folio) putVal("nota-folio", f.folio);
         const es = fichaEdadSexoText(f);
         if (es) putVal("nota-edadsexo", es);
+        // v49: diagnóstico de la ficha en las notas y la historia clínica (solo si están vacíos)
+        if (f.dx) ["ing-dx", "evo-dx", "pre-dx", "post-dxpre", "alta-dx", "hc-dx"].forEach((id) => putVal(id, f.dx));
         return { set, caps, adult, pediatric, age, imc, giReasons };
       }
 
@@ -12273,7 +12759,7 @@
         const { cur, capItems } = readFichaTargets();
         const plan = planFichaApply(f, cur, overwrite, capItems);
         const touched = new Set();
-        const section = (id) => id.startsWith("ren-") ? "Función renal" : id.startsWith("cap-") ? "Caprini" : id.startsWith("mess-") ? "MESS" : id.startsWith("rx-") ? "Recetas" : id.startsWith("nota-") ? "Nota" : "Laboratorio";
+        const section = (id) => id.startsWith("ren-") ? "Función renal" : id.startsWith("cap-") ? "Caprini" : id.startsWith("mess-") ? "MESS" : id.startsWith("rx-") ? "Recetas" : id.startsWith("nota-") || /^(ing|evo|pre|post|alta|hc)-/.test(id) ? "Nota" : "Laboratorio";
         Object.keys(plan.set).forEach((id) => {
           const el = $(id);
           if (!el) return;
@@ -12294,7 +12780,7 @@
           if ((overwrite || !$("rx-tfg").value) && $("rx-tfg").value !== tfg) { $("rx-tfg").value = tfg; touched.add("Recetas"); }
         }
         try { renderProtocol(); } catch (_) {}
-        if (plan.set["nota-folio"] !== undefined || plan.set["nota-edadsexo"] !== undefined) {
+        if (plan.set["nota-folio"] !== undefined || plan.set["nota-edadsexo"] !== undefined || Object.keys(plan.set).some((id) => /^(ing|evo|pre|post|alta)-dx/.test(id))) {
           try { scheduleNotaDraftSave(); } catch (_) {}
           try { updateNotaPacienteSummary(); } catch (_) {}
         }
@@ -12335,6 +12821,7 @@
           sexo: $("ficha-sexo").value,
           folio: $("ficha-folio").value,
           servicio: $("ficha-servicio").value,
+          dx: $("ficha-dx").value,
           peso: $("ficha-peso").value,
           talla: $("ficha-talla").value,
           alergiaEstado: $("ficha-alergia-estado").value,
@@ -12358,6 +12845,7 @@
         $("ficha-sexo").value = d.sexo;
         $("ficha-folio").value = d.folio;
         $("ficha-servicio").value = d.servicio;
+        $("ficha-dx").value = d.dx || "";
         $("ficha-peso").value = val(d.peso);
         $("ficha-talla").value = val(d.talla);
         $("ficha-alergia-estado").value = d.alergiaEstado;
@@ -13302,6 +13790,31 @@
         } catch (e) { det63 = "Error: " + e.message; }
         addTest("63. v48: pestaña de Urgencias", ok63, det63);
 
+        // 64. v49: entrega de guardia y diagnóstico en la ficha
+        let ok64 = false, det64 = "";
+        try {
+          const f1 = normalizeFicha({ nombre: "Luis Mora Pérez", edad: 72, sexo: "M", folio: "Cama 14", servicio: "Piso TyO", alergiaEstado: "niega", dx: "  Fractura   transtrocantérica de cadera derecha " });
+          const f2 = normalizeFicha({ nombre: "Ana Ruiz", edad: 6, sexo: "F", alergiaEstado: "si", alergias: "penicilina" });
+          const dx64 = f1.dx === "Fractura transtrocantérica de cadera derecha" && normalizeFicha({ dx: "x".repeat(200) }).dx.length === 120 && fichaHasData(normalizeFicha({ dx: "Esguince" }));
+          const plan1 = planFichaApply(f1, {}, false, {});
+          const plan2 = planFichaApply(f1, { "evo-dx": "PO día 1", "hc-dx": "" }, false, {});
+          const plan3 = planFichaApply(normalizeFicha({ edad: 40 }), {}, false, {});
+          const llena64 = ["ing-dx", "evo-dx", "pre-dx", "post-dxpre", "alta-dx", "hc-dx"].every((id) => plan1.set[id] === f1.dx) && plan1.set["post-dxpost"] === undefined &&
+            plan2.set["evo-dx"] === undefined && plan2.set["hc-dx"] === f1.dx && !Object.keys(plan3.set).some((id) => /dx/.test(id));
+          const t0 = new Date(2026, 10, 27, 12, 0).getTime();
+          const pts = [{ id: "a", data: f2, active: false }, { id: "b", data: f1, active: true }];
+          const recs = { sc: { byId: { b: { risks: ["tibia"], evals: [{ t: t0 - 70 * 60000, f: [], lvl: "ok" }] } } }, cad: { byId: {} }, inf: { byId: {} }, ent: { byId: { b: { pend: "Radiografía de control\nValorar por medicina interna" } } } };
+          const rows = entBuild(pts, recs, t0);
+          const orden64 = rows.length === 2 && rows[0].id === "b" && rows[0].lvl === "danger" && rows[1].id === "a" && rows[1].lvl === "info" && rows[0].ini === "LM" && rows[0].edad === "72 a · M" && rows[1].alergico && rows[1].alergia === "penicilina";
+          const w = entTextWhats(rows, { now: t0, medico: "Dr. Prueba" });
+          const priv64 = !/Luis|Mora|Pérez|Cama 14|Ana|Ruiz/.test(w) && /^\*ENTREGA DE GUARDIA TyO\*\n27\/11\/2026 12:00 · Entrega: Dr\. Prueba\n2 pacientes\n\n\*1\. LM · 72 a · M\* · Piso TyO\nDiagnóstico: Fractura transtrocantérica de cadera derecha\nAlergias: Niega alergias\n🔴 Síndrome compartimental: Revisión vencida desde las 11:50 \(cada 60 min\)\.\nPendientes: Radiografía de control; Valorar por medicina interna\n\n\*2\. AR · 6 a · F\*\nDiagnóstico: sin capturar\nAlergias: penicilina$/.test(w);
+          const store64 = pxStores().some((s) => s.key === "tyo_entrega_v49") && bkEligibleKey("tyo_entrega_v49") && entPdfFileName(t0) === "Entrega_guardia_2026-11-27_1200.pdf" && entFecha(t0) === "27/11/2026 12:00";
+          const ui64 = !!$("modal-entrega") && !!$("btn-entrega") && !!$("ficha-dx") && entBuild([], {}, t0).length === 0;
+          ok64 = dx64 && llena64 && orden64 && priv64 && store64 && ui64;
+          det64 = "diagnóstico en la ficha " + dx64 + " · llena notas vacías sin pisar " + llena64 + " · orden (rojo primero) y datos " + orden64 + " · WhatsApp solo con iniciales " + priv64 + " · guardado, respaldo y nombre del PDF " + store64 + " · pantalla " + ui64;
+        } catch (e) { det64 = "Error: " + e.message; }
+        addTest("64. v49: entrega de guardia", ok64, det64);
+
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
         const rows = tests.map((t) => (t.ok ? "✅ " : "❌ ") + "<strong>" + escapeHtml(t.name) + "</strong>: " + escapeHtml(t.detail)).join("<br>");
@@ -13413,6 +13926,7 @@
           { title: "Escala de Caprini (Riesgo ETV)", mod: "calc-caprini", cat: "Calculadora", keys: "caprini etv tvp tep trombosis", run: () => { switchTab("tab-calc"); switchCalcPanel("caprini"); } },
           { title: "Índice Punta-Ápice (TAD — Cadera)", mod: "calc-tad", cat: "Calculadora", keys: "tad cadera dhs pfn clavo cut out baumgaertner", run: () => { switchTab("tab-calc"); switchCalcPanel("tad"); } },
           { title: "Síndrome compartimental (vigilancia · ΔP)", mod: "calc-compart", cat: "Urgencias", keys: "sindrome compartimental fasciotomia presion compartimental delta perfusion pierna antebrazo vigilancia horaria", run: () => { switchTab("tab-urg"); switchCalcPanel("compart"); scRender(); } },
+          { title: "Entrega de guardia (todos tus pacientes)", mod: "tab-urg", cat: "Urgencias", keys: "entrega de guardia turno pendientes pacientes whatsapp relevo pase de visita", run: () => { switchTab("tab-urg"); openEntrega(); } },
           { title: "Fractura de cadera del adulto mayor (reloj, Nottingham, 4AT)", mod: "calc-cadera", cat: "Urgencias", keys: "fractura cadera adulto mayor femur cuello intertrocanterica subtrocanterica nottingham 4at delirium anticoagulante apixaban warfarina acenocumarol", run: () => { switchTab("tab-urg"); switchCalcPanel("cadera"); cadRender(); } },
           { title: "Infección ósea y de herida (NHSN, FRI, ICM 2018, Kocher)", mod: "calc-infx", cat: "Urgencias", keys: "infeccion sitio quirurgico herida osteomielitis fractura osteosintesis protesis periprotesica artritis septica kocher caird icm nhsn vancomicina cefepima piperacilina sepsis", run: () => { switchTab("tab-urg"); switchCalcPanel("infx"); infRender(); } },
           { title: "Escala MESS (Extremidad Lesionada)", mod: "calc-mess", cat: "Urgencias", keys: "mess isquemia amputacion extremidad trauma", run: () => { switchTab("tab-urg"); switchCalcPanel("mess"); } },
@@ -14036,6 +14550,7 @@
         ["Registros por paciente v45", initPxStoresV45],
         ["Respaldo cifrado v46", initRespaldoV46],
         ["Urgencias v48", initUrgenciasV48],
+        ["Entrega de guardia v49", initEntregaV49],
         ["Pulido v37", initPulidoV37],
         ["Módulos v26", initModulesV26] /* siempre al final */
       ].forEach(([name, fn]) => runInit(name, fn));
