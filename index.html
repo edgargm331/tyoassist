@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v46 · Tema "Base44" (oscuro + claro)
+       TyO Assist v47 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -1053,6 +1053,24 @@
     .bk-modos { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
     #btn-bk-undo { margin-top: 12px; }
 
+    /* ---------- v47: infección ósea y de herida ---------- */
+    #calc-infx { scroll-margin-top: 84px; }
+    #calc-infx .acc { margin-top: 12px; }
+    #calc-infx .acc-body { padding: 0 0 16px; }
+    #calc-infx .acc-body > .alert, #calc-infx .acc-body > .checks { margin: 0; }
+    .ix-label { margin: 16px 0 0; }
+    .ix-first { margin-top: 4px; }
+    .ix-radios { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .ix-tipos { display: grid; grid-template-columns: 1fr 1fr; }
+    .ix-tipos .check-pill { min-width: 0; }
+    .ix-block .checks { margin-top: 10px; }
+    .ix-block .grid-2 { margin-top: 10px; align-items: end; }
+    .ix-block .grid-2 > .field + .field { margin-top: 0; }
+    .ix-block > .field { margin-top: 12px; }
+    #ix-res { margin-top: 14px; }
+    #ix-prompt { margin-top: 10px; }
+    #btn-ix-renal { margin-top: 2px; }
+
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
     @media print {
@@ -1261,6 +1279,11 @@
             <span class="tile-ico"><svg class="ic"><use href="#i-bone"/></svg></span>
             <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-cx"></span>Fractura de cadera</span><span class="tile-sub">Adulto mayor · reloj a cirugía</span></span>
             <span class="tile-val" id="tile-cx-val">--</span>
+          </button>
+          <button type="button" class="tile" data-calc="infx" data-mod="calc-infx">
+            <span class="tile-ico"><svg class="ic"><use href="#i-shield-plus"/></svg></span>
+            <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-ix"></span>Infección ósea y de herida</span><span class="tile-sub">Herida · fractura · prótesis · niños</span></span>
+            <span class="tile-val" id="tile-ix-val">--</span>
           </button>
           <button type="button" class="tile extra-calc-tile hidden" data-calc="tad" data-mod="calc-tad">
             <span class="tile-ico"><svg class="ic"><use href="#i-ruler"/></svg></span>
@@ -1599,6 +1622,136 @@
               <button type="button" class="btn btn-secondary btn-lg" id="btn-cx-borrar"><svg class="ic"><use href="#i-trash"/></svg>Borrar datos</button>
             </div>
             <div class="ref-text">Apoyo a la decisión: decide el equipo tratante. NICE CG124 Fractura de cadera (actualizada 2023); AAOS Fracturas de cadera en adultos mayores (2021); escala de Nottingham, ecuación de 2012 (Moppett, BJA); 4AT (the4AT.com). Anticoagulantes: ejemplo NHS Greater Glasgow and Clyde 2025; seguir el protocolo local.</div>
+          </div>
+        </div>
+
+        <!-- 2.5 INFECCIÓN ÓSEA Y DE HERIDA (v47) -->
+        <div id="calc-infx" class="calc-panel" data-mod="calc-infx">
+          <div class="card">
+            <div class="card-head">
+              <h3><svg class="ic gold"><use href="#i-shield-plus"/></svg>Infección ósea y de herida</h3>
+              <span class="badge" id="ix-badge">Sin tipo</span>
+            </div>
+            <p class="sc-pt" id="ix-pt"></p>
+            <div class="mini-label ix-label ix-first">Tipo de infección</div>
+            <div class="ix-radios ix-tipos" role="radiogroup"><label class="check-pill"><input type="radio" class="ix-in" name="ix-tipo" value="herida" /> Herida quirúrgica</label><label class="check-pill"><input type="radio" class="ix-in" name="ix-tipo" value="fri" /> Fractura u osteosíntesis</label><label class="check-pill"><input type="radio" class="ix-in" name="ix-tipo" value="pji" /> Prótesis articular</label><label class="check-pill"><input type="radio" class="ix-in" name="ix-tipo" value="kocher" /> Artritis séptica (niños)</label></div>
+            <p class="cfg-help" id="ix-prompt">Elige el tipo para ver sus criterios.</p>
+            <div class="ix-block hidden" data-ixtipo="herida">
+              <div class="grid-2">
+                <label class="field">Días desde la cirugía
+                  <input type="number" class="ix-in" id="ix-dias" placeholder="--" inputmode="numeric" min="0" step="1" />
+                </label>
+              </div>
+              <div class="mini-label ix-label">Profundidad</div>
+              <div class="ix-radios" role="radiogroup"><label class="check-pill"><input type="radio" class="ix-in" name="ix-nivel" value="sup" /> Superficial: piel y subcutáneo</label><label class="check-pill"><input type="radio" class="ix-in" name="ix-nivel" value="prof" /> Profunda: fascia y músculo</label><label class="check-pill"><input type="radio" class="ix-in" name="ix-nivel" value="org" /> Órgano o espacio: hueso, articulación</label></div>
+              <div class="checks hidden" id="ix-p90-wrap"><label class="check-pill"><input type="checkbox" class="ix-in" id="ix-p90" /> Cirugía de fractura, prótesis o columna (vigilancia de 90 días)</label></div>
+              <div class="ix-lvl hidden" data-lvl="sup"><div class="mini-label ix-label">Al menos uno</div><div class="checks" id="ix-ss-list"></div></div>
+              <div class="ix-lvl hidden" data-lvl="prof"><div class="mini-label ix-label">Al menos uno</div><div class="checks" id="ix-sp-list"></div></div>
+              <div class="ix-lvl hidden" data-lvl="org"><div class="mini-label ix-label">Al menos uno</div><div class="checks" id="ix-so-list"></div></div>
+            </div>
+            <div class="ix-block hidden" data-ixtipo="fri">
+              <div class="mini-label ix-label">Confirmatorios: uno basta</div>
+              <div class="checks" id="ix-fc-list"></div>
+              <details class="acc" id="ix-fs-acc">
+                <summary><span>Criterios sugestivos <small id="ix-fs-sum">Ninguno marcado</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+                <div class="acc-body">
+                  <p class="cfg-help">No confirman solos: obligan a buscar los confirmatorios.</p>
+                  <div class="checks" id="ix-fs-list"></div>
+                </div>
+              </details>
+            </div>
+            <div class="ix-block hidden" data-ixtipo="pji">
+              <div class="mini-label ix-label">Criterio mayor: uno basta</div>
+              <div class="checks" id="ix-pm-list"></div>
+              <div class="mini-label ix-label">Criterios menores (antes de la cirugía)</div>
+              <div class="grid-2">
+                <label class="field">PCR sérica (mg/L)
+                  <input type="number" class="ix-in" id="ix-p-crp" placeholder="--" inputmode="decimal" min="0" step="0.1" />
+                </label>
+                <label class="field">Dímero D (ng/mL)
+                  <input type="number" class="ix-in" id="ix-p-ddim" placeholder="--" inputmode="numeric" min="0" step="1" />
+                </label>
+                <label class="field">VSG (mm/h)
+                  <input type="number" class="ix-in" id="ix-p-vsg" placeholder="--" inputmode="numeric" min="0" step="1" />
+                </label>
+                <label class="field">Leucocitos sinoviales (/µL)
+                  <input type="number" class="ix-in" id="ix-p-wbc" placeholder="--" inputmode="numeric" min="0" step="1" />
+                </label>
+                <label class="field">Neutrófilos sinoviales (%)
+                  <input type="number" class="ix-in" id="ix-p-pmn" placeholder="--" inputmode="numeric" min="0" step="1" />
+                </label>
+                <label class="field">PCR sinovial (mg/L)
+                  <input type="number" class="ix-in" id="ix-p-scrp" placeholder="--" inputmode="decimal" min="0" step="0.1" />
+                </label>
+              </div>
+              <div class="checks">
+                <label class="check-pill"><input type="checkbox" class="ix-in" id="ix-p-le" /> Esterasa leucocitaria ++</label>
+                <label class="check-pill"><input type="checkbox" class="ix-in" id="ix-p-ad" /> Alfa-defensina positiva</label>
+              </div>
+              <div class="mini-label ix-label">Hallazgos de la cirugía (si ya se operó)</div>
+              <div class="checks">
+                <label class="check-pill"><input type="checkbox" class="ix-in" id="ix-p-histo" /> Histología positiva</label>
+                <label class="check-pill"><input type="checkbox" class="ix-in" id="ix-p-pus" /> Pus</label>
+                <label class="check-pill"><input type="checkbox" class="ix-in" id="ix-p-cult1" /> Un cultivo positivo</label>
+              </div>
+            </div>
+            <div class="ix-block hidden" data-ixtipo="kocher">
+              <div class="mini-label ix-label">Criterios de Kocher (cadera dolorosa en niño)</div>
+              <div class="checks">
+                <label class="check-pill"><input type="checkbox" class="ix-in" id="ix-k-carga" /> No apoya la extremidad</label>
+                <label class="check-pill"><input type="checkbox" class="ix-in" id="ix-k-fiebre" /> Fiebre mayor de 38.5 °C</label>
+                <label class="check-pill"><input type="checkbox" class="ix-in" id="ix-k-vsg" /> VSG de 40 mm/h o más</label>
+                <label class="check-pill"><input type="checkbox" class="ix-in" id="ix-k-leu" /> Leucocitos mayores de 12,000/mm³</label>
+              </div>
+              <label class="field">PCR (criterio de Caird)
+                <span class="select-wrap"><select class="ix-in" id="ix-k-pcr"><option value="">Sin dato</option><option value="baja">Menor de 20 mg/L</option><option value="alta">20 mg/L o más</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+              </label>
+            </div>
+            <div id="ix-res" class="alert hidden"></div>
+            <details class="acc" id="ix-sec-mu">
+              <summary><span>Antes del antibiótico <small id="ix-mu-sum">0 de 6</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="acc-body">
+                <ul class="sc-lines cx-static">
+                  <li>Sin hisopos superficiales ni de la fístula: no predicen el germen.</li>
+                </ul>
+                <div class="checks" id="ix-mu-list"></div>
+              </div>
+            </details>
+            <details class="acc" id="ix-sec-sep">
+              <summary><span>Sepsis y momento del antibiótico <small id="ix-sep-sum">Sin capturar</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="acc-body">
+<div class="ix-radios" role="radiogroup"><label class="check-pill"><input type="radio" class="ix-in" name="ix-sepsis" value="no" /> Sin datos de sepsis</label><label class="check-pill"><input type="radio" class="ix-in" name="ix-sepsis" value="posible" /> Posible sepsis sin choque</label><label class="check-pill"><input type="radio" class="ix-in" name="ix-sepsis" value="shock" /> Choque o alta probabilidad de sepsis</label></div>
+                <div id="ix-sep-res" class="alert hidden"></div>
+              </div>
+            </details>
+            <details class="acc" id="ix-sec-abx">
+              <summary><span>Antibiótico empírico <small id="ix-abx-sum">Vancomicina + gramnegativos</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="acc-body">
+                <label class="field" id="ix-gram-wrap">Agente contra gramnegativos
+                  <span class="select-wrap"><select class="ix-in" id="ix-gram"><option value="">Elegir</option><option value="cefepima">Cefepima</option><option value="pipetazo">Piperacilina-tazobactam</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+                </label>
+                <div id="ix-abx"></div>
+                <button type="button" class="link-gold" id="btn-ix-renal"><svg class="ic"><use href="#i-activity"/></svg>Calcular función renal</button>
+              </div>
+            </details>
+            <details class="acc" id="ix-sec-seg">
+              <summary><span>Duración y seguimiento <small>Consenso FRI</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="acc-body">
+                <ul class="sc-lines cx-static">
+                  <li>Fractura con implante retenido: 12 semanas de antibiótico activo contra biopelícula; intravenoso al inicio hasta tener sensibilidades y cambio temprano a vía oral de buena biodisponibilidad (consenso FRI).</li>
+                  <li>Implante retirado con fractura consolidada: 6 semanas desde el retiro. Recambio en un tiempo: 12 semanas; en dos tiempos: 6 y 6.</li>
+                  <li>Rifampicina solo contra estafilococo, junto con otro antibiótico, después del desbridamiento y con la herida cerrada; nunca sola.</li>
+                  <li>Un nuevo aumento de PCR o VSG después de haber bajado sugiere infección.</li>
+                  <li>Prótesis: la duración depende de la estrategia quirúrgica; decidir con infectología.</li>
+                  <li>Seguimiento mínimo de 12 meses al terminar el tratamiento (consenso FRI).</li>
+                </ul>
+              </div>
+            </details>
+            <div class="btn-duo cx-btns">
+              <button type="button" class="btn btn-primary btn-lg" id="btn-ix-note" data-mod="tab-notas"><svg class="ic"><use href="#i-clip"/></svg>Copiar a Nota</button>
+              <button type="button" class="btn btn-secondary btn-lg" id="btn-ix-borrar"><svg class="ic"><use href="#i-trash"/></svg>Borrar datos</button>
+            </div>
+            <div class="ref-text">Apoyo a la decisión: decide el equipo tratante con infectología. CDC/NHSN cap. 9 (2026); consenso FRI de definición (2018, 2020) y de antibióticos (2020); ICM 2018; Kocher 1999 y 2004, Caird 2006; Surviving Sepsis Campaign 2021; vancomicina: consenso ASHP/IDSA 2020; cefepima y piperacilina-tazobactam: ajuste renal de sus etiquetas (FDA); BOAST de infección de fractura (2019) y AO Alliance (2025) para las muestras.</div>
           </div>
         </div>
 
@@ -2356,7 +2509,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v46 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v47 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2388,7 +2541,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v46</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v47</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2500,9 +2653,9 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (61 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (62 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (61)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (62)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -2653,15 +2806,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v46 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v47 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "46",
-      versionLabel: "v46 Intuitiva",
+      version: "47",
+      versionLabel: "v47 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -2678,6 +2831,7 @@
         "calc-caprini": true,
         "calc-compart": true,
         "calc-cadera": true,
+        "calc-infx": true,
         "calc-tad": true,
         "calc-mess": true,
         // Protocolos de Recetas
@@ -2856,6 +3010,7 @@
         { id: "calc-caprini", group: "Calculadoras", label: "Caprini (ETV)" },
         { id: "calc-compart", group: "Calculadoras", label: "Síndrome compartimental" },
         { id: "calc-cadera", group: "Calculadoras", label: "Fractura de cadera" },
+        { id: "calc-infx", group: "Calculadoras", label: "Infección ósea y de herida" },
         { id: "calc-tad", group: "Calculadoras", label: "Índice TAD" },
         { id: "calc-mess", group: "Calculadoras", label: "Escala MESS" },
         { id: "rx-profilaxis", group: "Protocolos de Recetas", label: "Profilaxis Qx" },
@@ -6936,7 +7091,8 @@
       function pxStores() {
         return [
           { key: "tyo_sc_v44", label: "vigilancia compartimental", has: (r) => !!(r && Array.isArray(r.evals) && r.evals.length) },
-          { key: "tyo_cadera_v45", label: "fractura de cadera", has: (r) => !!(r && (r.ingreso || (r.pend && r.pend.length) || (r.ac && r.ac.tipo) || r.fx)) }
+          { key: "tyo_cadera_v45", label: "fractura de cadera", has: (r) => !!(r && (r.ingreso || (r.pend && r.pend.length) || (r.ac && r.ac.tipo) || r.fx)) },
+          { key: "tyo_infx_v47", label: "infección ósea o de herida", has: (r) => !!(r && r.v && Object.keys(r.v).length) }
         ];
       }
 
@@ -6967,6 +7123,7 @@
       function pxRenderAll() {
         try { scRender(); } catch (_) {}
         try { cadRender(); } catch (_) {}
+        try { infRender(); } catch (_) {}
       }
 
       function initPxStoresV45() {
@@ -7532,7 +7689,7 @@
               if (!byId[it.id] || Number(it.savedAt || 0) > Number(byId[it.id].savedAt || 0)) byId[it.id] = it;
             });
             out[k] = JSON.stringify(Object.assign({}, a, { items: Object.keys(byId).map((id) => byId[id]) }));
-          } else if (k === "tyo_sc_v44" || k === "tyo_cadera_v45") {
+          } else if (k === "tyo_sc_v44" || k === "tyo_cadera_v45" || k === "tyo_infx_v47") {
             const a = parse(out[k]), b = parse(inc[k]);
             if (!a || !b || !a.byId || !b.byId) return;
             const byId = Object.assign({}, a.byId);
@@ -7786,6 +7943,461 @@
         if (msg) setTimeout(() => showToast(msg), 600);
         bkRenderStatus();
         if (!msg) bkMaybeNag();
+      }
+
+      /* =======================================================
+         v47: INFECCIÓN ÓSEA Y DE HERIDA
+         Fuentes:
+         - CDC/NHSN Patient Safety Component Manual, cap. 9 (ene 2026):
+           infección de sitio quirúrgico superficial (30 días), profunda y de
+           órgano o espacio (30 o 90 días; 90 en FX, HPRO, KPRO, FUSN…).
+         - Consenso FRI (Metsemakers, Injury 2018; Govaert, JOT 2020):
+           criterios confirmatorios y sugestivos.
+         - Consenso FRI de antibióticos (Depypere, JOT 2020): glucopéptido o
+           lipopéptido + agente contra gramnegativos tras el muestreo;
+           12 semanas con implante retenido, 6 semanas tras retirarlo.
+         - ICM 2018 (Parvizi, J Arthroplasty 2018) para prótesis.
+         - Kocher 1999 / 2004 y Caird 2006 (artritis séptica de cadera, niños).
+         - Surviving Sepsis Campaign 2021 (momento del antibiótico).
+         - Vancomicina: consenso ASHP/IDSA/PIDS/SIDP 2020; cefepima y
+           piperacilina-tazobactam: ajuste renal de sus etiquetas (FDA).
+         Datos por paciente en tyo_infx_v47, sin datos que identifiquen.
+      ======================================================= */
+      function infDefs() {
+        return {
+          key: "tyo_infx_v47",
+          tipos: [["herida", "Herida quirúrgica"], ["fri", "Fractura u osteosíntesis"], ["pji", "Prótesis articular"], ["kocher", "Artritis séptica (niños)"]],
+          ssi: {
+            sup: [
+              ["ix-ss-a", "Drenaje purulento de la incisión superficial", "drenaje purulento de la incisión superficial"],
+              ["ix-ss-b", "Microorganismo en muestra aséptica de la incisión o del subcutáneo", "microorganismo en muestra aséptica de la incisión o del tejido subcutáneo"],
+              ["ix-ss-c", "Incisión abierta o aspirada por el médico, con antibiótico 2 días o más y dolor, aumento de volumen, eritema o calor", "incisión abierta o aspirada por el médico con antibiótico por 2 días o más y signos locales"],
+              ["ix-ss-d", "Diagnóstico de infección superficial por el médico", "diagnóstico de infección superficial por el médico"]
+            ],
+            prof: [
+              ["ix-sp-a", "Drenaje purulento de la incisión profunda", "drenaje purulento de la incisión profunda"],
+              ["ix-sp-b", "Microorganismo en tejido blando profundo", "microorganismo en tejido blando profundo"],
+              ["ix-sp-c", "Incisión profunda abierta, aspirada o con dehiscencia, con antibiótico 2 días o más y fiebre mayor de 38 °C o dolor local nuevo o mayor", "incisión profunda abierta, aspirada o con dehiscencia, con antibiótico por 2 días o más y fiebre o dolor local"]
+            ],
+            org: [
+              ["ix-so-a", "Pus por un drenaje colocado en el órgano o espacio", "pus por drenaje colocado en el órgano o espacio"],
+              ["ix-so-b", "Microorganismo en líquido o tejido del órgano o espacio", "microorganismo en líquido o tejido del órgano o espacio"],
+              ["ix-so-c", "Absceso u otra evidencia de infección en exploración, histopatología o imagen", "absceso u otra evidencia de infección en exploración, histopatología o imagen"]
+            ]
+          },
+          friConf: [
+            ["ix-fc-fistula", "Fístula, trayecto sinusal o dehiscencia con comunicación al hueso o al implante", "fístula, trayecto sinusal o dehiscencia con comunicación al hueso o al implante"],
+            ["ix-fc-pus", "Drenaje purulento de la herida o pus en la cirugía", "drenaje purulento de la herida o pus en la cirugía"],
+            ["ix-fc-cult2", "El mismo microorganismo en 2 o más muestras profundas separadas", "el mismo microorganismo en 2 o más muestras profundas separadas"],
+            ["ix-fc-histo", "Microorganismos en tejido profundo por histopatología", "microorganismos en tejido profundo por histopatología"],
+            ["ix-fc-pmn", "Más de 5 neutrófilos por campo en histopatología (crónica o tardía)", "más de 5 neutrófilos por campo en histopatología"]
+          ],
+          friSug: [
+            ["ix-fs-dolor", "Dolor sin carga, en aumento o de nueva aparición", "dolor sin carga, en aumento o de nueva aparición"],
+            ["ix-fs-rojo", "Enrojecimiento local", "enrojecimiento local"],
+            ["ix-fs-edema", "Aumento de volumen local", "aumento de volumen local"],
+            ["ix-fs-calor", "Aumento de temperatura local", "aumento de temperatura local"],
+            ["ix-fs-fiebre", "Fiebre de 38.3 °C o más", "fiebre de 38.3 °C o más"],
+            ["ix-fs-derrame", "Derrame articular de nueva aparición", "derrame articular de nueva aparición"],
+            ["ix-fs-drenaje", "Drenaje persistente, en aumento o nuevo", "drenaje de la herida persistente, en aumento o nuevo"],
+            ["ix-fs-rx", "Rx: lisis, aflojamiento, secuestro, falta de consolidación o periostitis", "datos radiológicos (lisis, aflojamiento, secuestro, falta de consolidación o reacción perióstica)"],
+            ["ix-fs-nuc", "Gammagrafía o PET positivos", "gammagrafía o PET positivos"],
+            ["ix-fs-lab", "PCR, VSG o leucocitos elevados sin otra causa", "marcadores inflamatorios elevados sin otra causa"],
+            ["ix-fs-cult1", "Microorganismo en una sola muestra profunda", "microorganismo en una sola muestra profunda"]
+          ],
+          pjiMayor: [
+            ["ix-pm-cult", "2 cultivos positivos con el mismo microorganismo", "2 cultivos positivos con el mismo microorganismo"],
+            ["ix-pm-fistula", "Fístula comunicada con la articulación o prótesis visible", "fístula comunicada con la articulación o prótesis visible"]
+          ],
+          muestras: [
+            ["ix-mu-hemo", "Hemocultivos antes del antibiótico (si no lo retrasa)", "hemocultivos"],
+            ["ix-mu-tejido", "5 muestras de tejido profundo con instrumental distinto", "5 muestras de tejido profundo con instrumental estéril distinto"],
+            ["ix-mu-histo", "Una muestra para histopatología", "muestra para histopatología"],
+            ["ix-mu-puncion", "Punción articular: citológico y cultivo", "punción articular con citológico y cultivo"],
+            ["ix-mu-labs", "Biometría, PCR y VSG", "biometría hemática, PCR y VSG"],
+            ["ix-mu-imagen", "Radiografía (TAC o RM según el caso)", "estudios de imagen"]
+          ],
+          sepsis: [["no", "Sin datos de sepsis"], ["posible", "Posible sepsis sin choque"], ["shock", "Choque o alta probabilidad de sepsis"]],
+          gram: [["", "Elegir"], ["cefepima", "Cefepima"], ["pipetazo", "Piperacilina-tazobactam"]]
+        };
+      }
+
+      function infState() {
+        if (!infState.s) infState.s = {};
+        return infState.s;
+      }
+
+      // Pura: CDC/NHSN 2026. Ventana: superficial 30 días; profunda u órgano 30 o 90.
+      function infSsiEval(d) {
+        const x = d || {};
+        const nivel = x.nivel || "";
+        const ventana = nivel === "sup" ? 30 : x.p90 ? 90 : 30;
+        const dias = x.dias === "" || x.dias == null ? null : Number(x.dias);
+        const dentro = dias === null || !Number.isFinite(dias) ? null : dias >= 1 && dias <= ventana;
+        const crit = Array.isArray(x.crit) ? x.crit : [];
+        const cumple = !!nivel && crit.length > 0 && dentro !== false;
+        return { nivel, ventana, dias, dentro, crit: crit.length, cumple };
+      }
+
+      // Pura: consenso FRI.
+      function infFriEval(d) {
+        const x = d || {};
+        const conf = Array.isArray(x.conf) ? x.conf.length : 0;
+        const sug = Array.isArray(x.sug) ? x.sug.length : 0;
+        return { estado: conf ? "confirmada" : sug ? "sugestiva" : "sin", conf, sug };
+      }
+
+      // Pura: ICM 2018. Umbrales: PCR mayor de 10 mg/L (1 mg/dL) o dímero D mayor de 860 ng/mL = 2; VSG mayor de 30 = 1;
+      // leucocitos sinoviales mayor de 3000/µL o esterasa ++ = 3; alfa-defensina = 3; PMN mayor de 80 % = 2; PCR sinovial mayor de 6.9 mg/L = 1.
+      function infPjiScore(d) {
+        const x = d || {};
+        const n = (v) => (v === "" || v == null ? null : Number(v));
+        const crp = n(x.crp), ddim = n(x.ddim), vsg = n(x.vsg), wbc = n(x.wbc), pmn = n(x.pmn), scrp = n(x.scrp);
+        const items = [];
+        let pre = 0;
+        if ((crp !== null && crp > 10) || (ddim !== null && ddim > 860)) { pre += 2; items.push([crp !== null && crp > 10 ? "PCR sérica " + crp + " mg/L" : "", ddim !== null && ddim > 860 ? "dímero D " + ddim + " ng/mL" : ""].filter(Boolean).join(" y ")); }
+        if (vsg !== null && vsg > 30) { pre += 1; items.push("VSG " + vsg + " mm/h"); }
+        if ((wbc !== null && wbc > 3000) || x.le) { pre += 3; items.push([wbc !== null && wbc > 3000 ? "leucocitos sinoviales " + wbc + "/µL" : "", x.le ? "esterasa leucocitaria ++" : ""].filter(Boolean).join(" y ")); }
+        if (x.ad) { pre += 3; items.push("alfa-defensina positiva"); }
+        if (pmn !== null && pmn > 80) { pre += 2; items.push("neutrófilos sinoviales " + pmn + " %"); }
+        if (scrp !== null && scrp > 6.9) { pre += 1; items.push("PCR sinovial " + scrp + " mg/L"); }
+        const mayor = !!x.mayor;
+        const preLvl = mayor || pre >= 6 ? "infectada" : pre >= 2 ? "posible" : "no";
+        let intra = null, intraLvl = "";
+        if (x.histo || x.pus || x.cult1) {
+          intra = pre + (x.histo ? 3 : 0) + (x.pus ? 3 : 0) + (x.cult1 ? 2 : 0);
+          intraLvl = intra >= 6 ? "infectada" : intra >= 4 ? "no concluyente" : "no infectada";
+        }
+        return { mayor, pre, preLvl, intra, intraLvl, items };
+      }
+
+      // Pura: Kocher (1999 derivación, 2004 validación) y Caird 2006 con PCR de 20 mg/L o más.
+      function infKocher(n, pcr) {
+        const k = Math.max(0, Math.min(4, Number(n) || 0));
+        const p1999 = ["menos de 0.2", "3", "40", "93", "99.6"].at(k);
+        const p2004 = ["2", "9.5", "35", "73", "93"].at(k);
+        let caird = null, n5 = null;
+        if (pcr === "alta" || pcr === "baja") { n5 = k + (pcr === "alta" ? 1 : 0); caird = ["17", "37", "62", "83", "93", "98"].at(n5); }
+        return { n: k, p1999, p2004, n5, caird };
+      }
+
+      // Pura: vancomicina (consenso 2020): carga 20–35 mg/kg (peso real, máximo 3000 mg); mantenimiento 15–20 mg/kg c/8–12 h con función renal normal.
+      function infVanco(peso) {
+        const w = Number(peso);
+        if (!Number.isFinite(w) || w <= 0) return null;
+        const r = (v) => Math.round(v / 250) * 250;
+        return { cargaMin: Math.min(3000, r(20 * w)), cargaMax: Math.min(3000, r(35 * w)), mantMin: r(15 * w), mantMax: r(20 * w) };
+      }
+
+      // Pura: cefepima 2 g c/8 h y su ajuste renal (etiqueta FDA).
+      function infCefepima(crcl) {
+        const c = Number(crcl);
+        if (crcl === null || crcl === "" || !Number.isFinite(c)) return null;
+        if (c > 60) return "2 g IV cada 8 h";
+        if (c >= 30) return "2 g IV cada 12 h";
+        if (c >= 11) return "2 g IV cada 24 h";
+        return "1 g IV cada 24 h";
+      }
+
+      // Pura: piperacilina-tazobactam 4.5 g c/6 h (pauta de infección grave de la etiqueta) y su ajuste renal.
+      function infPipeTazo(crcl) {
+        const c = Number(crcl);
+        if (crcl === null || crcl === "" || !Number.isFinite(c)) return null;
+        if (c > 40) return "4.5 g IV cada 6 h";
+        if (c >= 20) return "3.375 g IV cada 6 h";
+        return "2.25 g IV cada 6 h";
+      }
+
+      function infPeso() {
+        try { const f = loadFicha(); if (f && f.data && Number.isFinite(f.data.peso) && f.data.peso > 0) return f.data.peso; } catch (_) {}
+        const p = parseFloat($("rx-peso") ? $("rx-peso").value : "");
+        return Number.isFinite(p) && p > 0 ? p : null;
+      }
+
+      function infEsNino() {
+        try {
+          const f = loadFicha();
+          if (f && f.data && Number.isFinite(f.data.edad)) return f.data.edadUnidad === "m" || f.data.edad < 18;
+        } catch (_) {}
+        return false;
+      }
+
+      // Lee el panel como valores planos (id o nombre de grupo → valor).
+      function infFormValues() {
+        const v = {};
+        document.querySelectorAll("#calc-infx .ix-in").forEach((el) => {
+          if (el.type === "radio") { if (el.checked) v[el.name] = el.value; }
+          else if (el.type === "checkbox") { if (el.checked) v[el.id] = true; }
+          else if (String(el.value).trim() !== "") v[el.id] = String(el.value).trim();
+        });
+        return v;
+      }
+
+      function infChecked(v, list) {
+        return list.filter((c) => v[c[0]]);
+      }
+
+      // Pura: interpreta los valores del panel.
+      function infEvaluate(v, ctx) {
+        const d = infDefs();
+        const c = ctx || {};
+        const tipo = v["ix-tipo"] || "";
+        const out = { tipo, level: "", head: "", lines: [], tile: "--", resumen: "" };
+        if (tipo === "herida") {
+          const nivel = v["ix-nivel"] || "";
+          const lista = nivel ? d.ssi[nivel] : [];
+          const ev = infSsiEval({ nivel, p90: !!v["ix-p90"], dias: v["ix-dias"], crit: infChecked(v, lista).map((x) => x[0]) });
+          out.ev = ev;
+          const nombre = { sup: "superficial", prof: "profunda", org: "de órgano o espacio" }[nivel] || "";
+          if (!nivel) { out.level = ""; out.head = "Elige la profundidad de la infección"; }
+          else if (ev.dentro === false) { out.level = "warn"; out.head = "Fuera de la ventana de vigilancia (" + ev.ventana + " días)"; out.lines.push("Pasados " + ev.ventana + " días ya no cuenta como infección de sitio quirúrgico para vigilancia; valorar infección tardía, de fractura o de prótesis."); }
+          else if (ev.cumple) { out.level = "danger"; out.head = "Cumple la definición de infección " + nombre; out.tile = "ISQ"; out.resumen = "infección de sitio quirúrgico " + nombre; }
+          else { out.level = "ok"; out.head = "Sin criterios de infección " + nombre + " por ahora"; }
+          if (nivel === "sup") out.lines.push("No cuentan: celulitis sola, absceso de un punto de sutura ni infección en el trayecto de clavos.");
+          if (nivel === "org") out.lines.push("Además debe cumplir un criterio del sitio específico (hueso, articulación, disco) del capítulo 17 de NHSN.");
+          if ((nivel === "prof" || nivel === "org") && ev.cumple) out.lines.push("Si hay osteosíntesis o prótesis, revisa también la pestaña de fractura o de prótesis.");
+          if (ev.dias === null && nivel) out.lines.push("Anota los días desde la cirugía para revisar la ventana.");
+          out.lines.push("Definición de vigilancia de CDC/NHSN 2026; el diagnóstico clínico es del médico tratante.");
+        } else if (tipo === "fri") {
+          const ev = infFriEval({ conf: infChecked(v, d.friConf), sug: infChecked(v, d.friSug) });
+          out.ev = ev;
+          if (ev.estado === "confirmada") { out.level = "danger"; out.head = "Infección relacionada con fractura confirmada"; out.tile = "FRI"; out.resumen = "infección relacionada con fractura confirmada"; out.lines.push("Desbridamiento con muestras profundas; el antibiótico empírico va inmediatamente después del muestreo (consenso FRI)."); }
+          else if (ev.estado === "sugestiva") { out.level = "warn"; out.head = ev.sug + (ev.sug === 1 ? " criterio sugestivo" : " criterios sugestivos"); out.tile = "Sugest."; out.resumen = "infección relacionada con fractura sospechada (criterios sugestivos)"; out.lines.push("Buscar criterios confirmatorios: muestras de tejido profundo en cirugía (no hisopos de fístula)."); }
+          else { out.level = "ok"; out.head = "Sin criterios marcados"; }
+        } else if (tipo === "pji") {
+          const s = infPjiScore({
+            mayor: infChecked(v, d.pjiMayor).length > 0, crp: v["ix-p-crp"], ddim: v["ix-p-ddim"], vsg: v["ix-p-vsg"], wbc: v["ix-p-wbc"], le: !!v["ix-p-le"],
+            ad: !!v["ix-p-ad"], pmn: v["ix-p-pmn"], scrp: v["ix-p-scrp"], histo: !!v["ix-p-histo"], pus: !!v["ix-p-pus"], cult1: !!v["ix-p-cult1"]
+          });
+          out.ev = s;
+          if (s.mayor) { out.level = "danger"; out.head = "Infectada: cumple un criterio mayor"; out.tile = "PJI"; out.resumen = "infección periprotésica (criterio mayor ICM 2018)"; }
+          else {
+            out.head = "Puntuación preoperatoria: " + s.pre + " (" + (s.preLvl === "infectada" ? "infectada" : s.preLvl === "posible" ? "posiblemente infectada" : "no infectada") + ")";
+            out.level = s.preLvl === "infectada" ? "danger" : s.preLvl === "posible" ? "warn" : "ok";
+            out.tile = "ICM " + s.pre;
+            out.resumen = "puntuación ICM 2018 preoperatoria de " + s.pre;
+            if (s.intra !== null) { out.lines.push("Con hallazgos de la cirugía: " + s.intra + " puntos, " + s.intraLvl + "."); if (s.intraLvl === "infectada") out.level = "danger"; }
+            else if (s.preLvl === "posible") out.lines.push("Entre 2 y 5: considerar los hallazgos de la cirugía (histología, pus, un cultivo positivo).");
+          }
+          out.lines.push("Umbrales validados para infección crónica; en las primeras semanas tras la cirugía son más altos (PCR mayor de 100 mg/L, leucocitos sinoviales mayor de 10,000/µL).");
+        } else if (tipo === "kocher") {
+          const nk = ["ix-k-carga", "ix-k-fiebre", "ix-k-vsg", "ix-k-leu"].filter((id) => v[id]).length;
+          const k = infKocher(nk, v["ix-k-pcr"] || "");
+          out.ev = k;
+          out.head = nk + " de 4 criterios de Kocher";
+          out.tile = nk + "/4";
+          out.level = nk >= 3 ? "danger" : nk >= 1 ? "warn" : "ok";
+          out.lines.push("Probabilidad de artritis séptica: " + k.p1999 + " % en el estudio original; " + k.p2004 + " % al validarse.");
+          if (k.caird !== null) out.lines.push("Con la PCR (Caird): " + k.n5 + " de 5 criterios, " + k.caird + " %.");
+          out.lines.push(nk >= 3 ? "Valoración urgente por ortopedia para punción y lavado." : nk >= 1 ? "Probabilidad intermedia: puede requerir más estudios o punción articular." : "Probabilidad baja si el niño se ve bien; seguimiento estrecho.");
+          out.resumen = "criterios de Kocher " + nk + " de 4";
+        }
+        return out;
+      }
+
+      // Pura: momento del antibiótico.
+      function infSepsisLine(sepsis) {
+        if (sepsis === "shock") return { lvl: "danger", txt: "Antibiótico inmediato, idealmente en la primera hora; no esperar la cirugía ni los cultivos de tejido (hemocultivos antes si no lo retrasa)." };
+        if (sepsis === "posible") return { lvl: "warn", txt: "Valorar rápido si la causa es infecciosa; si persiste la sospecha, antibiótico en las primeras 3 horas." };
+        if (sepsis === "no") return { lvl: "ok", txt: "Paciente estable: el antibiótico va después de tomar las muestras profundas. Si ya recibe antibiótico y puede esperar, suspenderlo 2 semanas antes del muestreo." };
+        return null;
+      }
+
+      // Pura: texto para la nota.
+      function infNoteText(v, ctx) {
+        const d = infDefs();
+        const c = ctx || {};
+        const ev = infEvaluate(v, c);
+        const lines = ["INFECCIÓN ÓSEA O DE HERIDA"];
+        const tipo = d.tipos.find((t) => t[0] === ev.tipo);
+        if (!tipo) return lines.join("\n");
+        if (ev.tipo === "herida") {
+          const nombre = { sup: "superficial", prof: "profunda", org: "de órgano o espacio" }[v["ix-nivel"]] || "sin clasificar";
+          lines.push("- Tipo: infección de sitio quirúrgico " + nombre + (v["ix-dias"] ? " a los " + v["ix-dias"] + " días de la cirugía" : "") + (v["ix-p90"] && v["ix-nivel"] !== "sup" ? " (vigilancia de 90 días por implante, fractura, prótesis o columna)" : "") + ".");
+          const crit = v["ix-nivel"] ? infChecked(v, d.ssi[v["ix-nivel"]]).map((x) => x[2]) : [];
+          if (crit.length) lines.push("- Criterios: " + crit.join("; ") + ".");
+          lines.push("- Interpretación: " + (ev.ev && ev.ev.cumple ? "cumple la definición de CDC/NHSN 2026" : ev.head.toLowerCase()) + ".");
+        } else if (ev.tipo === "fri") {
+          lines.push("- Tipo: infección relacionada con fractura u osteosíntesis.");
+          const cf = infChecked(v, d.friConf).map((x) => x[2]);
+          const sg = infChecked(v, d.friSug).map((x) => x[2]);
+          if (cf.length) lines.push("- Criterios confirmatorios: " + cf.join("; ") + ".");
+          if (sg.length) lines.push("- Criterios sugestivos: " + sg.join("; ") + ".");
+          lines.push("- Interpretación: " + (ev.ev.estado === "confirmada" ? "infección confirmada" : ev.ev.estado === "sugestiva" ? "sospecha, sin criterios confirmatorios" : "sin criterios") + " (consenso FRI 2018 y 2020).");
+        } else if (ev.tipo === "pji") {
+          lines.push("- Tipo: infección de prótesis articular.");
+          const my = infChecked(v, d.pjiMayor).map((x) => x[2]);
+          if (my.length) lines.push("- Criterio mayor: " + my.join("; ") + ".");
+          else {
+            lines.push("- Puntuación ICM 2018 preoperatoria: " + ev.ev.pre + " puntos" + (ev.ev.items.length ? " (" + ev.ev.items.join(", ") + ")" : "") + ".");
+            if (ev.ev.intra !== null) lines.push("- Con hallazgos de la cirugía: " + ev.ev.intra + " puntos.");
+          }
+          lines.push("- Interpretación: " + (ev.ev.mayor || ev.ev.preLvl === "infectada" || ev.ev.intraLvl === "infectada" ? "infectada" : ev.ev.intraLvl || (ev.ev.preLvl === "posible" ? "posiblemente infectada" : "no infectada")) + " (ICM 2018).");
+        } else if (ev.tipo === "kocher") {
+          const nombres = [["ix-k-carga", "no apoya la extremidad"], ["ix-k-fiebre", "fiebre mayor de 38.5 °C"], ["ix-k-vsg", "VSG de 40 mm/h o más"], ["ix-k-leu", "leucocitos mayores de 12,000/mm3"]].filter((x) => v[x[0]]).map((x) => x[1]);
+          lines.push("- Tipo: sospecha de artritis séptica en niño.");
+          lines.push("- Criterios de Kocher: " + ev.ev.n + " de 4" + (nombres.length ? " (" + nombres.join(", ") + ")" : "") + "; probabilidad estimada " + ev.ev.p1999 + " % en la derivación y " + ev.ev.p2004 + " % en la validación.");
+          if (ev.ev.caird !== null) lines.push("- Con PCR " + (v["ix-k-pcr"] === "alta" ? "de 20 mg/L o más" : "menor de 20 mg/L") + " (Caird): " + ev.ev.n5 + " de 5, " + ev.ev.caird + " %.");
+        }
+        const mu = infChecked(v, d.muestras).map((x) => x[2]);
+        if (mu.length) lines.push("- Muestras y estudios: " + mu.join("; ") + ".");
+        const sp = d.sepsis.find((s) => s[0] === v["ix-sepsis"]);
+        if (sp) lines.push("- Sepsis: " + sp[1].toLowerCase() + ".");
+        const g = d.gram.find((x) => x[0] && x[0] === v["ix-gram"]);
+        if (g && ev.tipo !== "kocher" && !c.nino) lines.push("- Antibiótico empírico propuesto: vancomicina más " + g[1].toLowerCase() + ", dosis según peso y depuración de creatinina" + (Number.isFinite(c.crcl) ? " (" + Math.round(c.crcl) + " mL/min)" : "") + "; ajustar al cultivo con infectología.");
+        return lines.join("\n");
+      }
+
+      function infLoad() {
+        const raw = pxRawGet(infDefs().key);
+        const byId = {};
+        let removed = 0;
+        if (raw && raw.byId && typeof raw.byId === "object") {
+          let ids = [];
+          try { ids = loadFichaStore().items.map((it) => it.id); } catch (_) { ids = []; }
+          Object.keys(raw.byId).forEach((id) => {
+            const r = raw.byId[id];
+            const v = r && r.v && typeof r.v === "object" ? r.v : null;
+            const clean = {};
+            if (v) Object.keys(v).forEach((k) => { if (/^ix-[a-z0-9-]+$/.test(k) && (typeof v[k] === "string" || v[k] === true)) clean[k] = typeof v[k] === "string" ? v[k].slice(0, 40) : true; });
+            const upd = r && typeof r.upd === "number" ? r.upd : 0;
+            const keep = Object.keys(clean).length > 0 && (id === "_sin" ? Date.now() - upd < 24 * 3600000 : ids.includes(id));
+            if (keep) byId[id] = { v: clean, upd }; else removed++;
+          });
+        } else if (raw) removed = 1;
+        const store = { v: 1, byId };
+        if (removed) pxRawSet(infDefs().key, store);
+        return store;
+      }
+
+      function infActiveId() {
+        try { return loadFichaStore().activeId || "_sin"; } catch (_) { return "_sin"; }
+      }
+
+      function infPersist() {
+        const store = infLoad();
+        const id = infActiveId();
+        const v = infFormValues();
+        if (Object.keys(v).length) store.byId[id] = { v, upd: Date.now() }; else delete store.byId[id];
+        pxRawSet(infDefs().key, store);
+      }
+
+      function infRender() {
+        if (!$("calc-infx")) return;
+        const rec = infLoad().byId[infActiveId()];
+        const v = rec ? rec.v : {};
+        document.querySelectorAll("#calc-infx .ix-in").forEach((el) => {
+          if (el.type === "radio") el.checked = v[el.name] === el.value;
+          else if (el.type === "checkbox") el.checked = !!v[el.id];
+          else el.value = v[el.id] || "";
+        });
+        if ($("ix-fs-acc")) $("ix-fs-acc").open = infDefs().friSug.some((c) => v[c[0]]);
+        if ($("ix-pt")) {
+          let quien = "";
+          try { const f = loadFicha(); if (f) quien = fichaSummary(f.data).initials || "paciente activo"; } catch (_) {}
+          $("ix-pt").textContent = quien ? "Datos ligados a la ficha de " + quien + " (vencen con ella)." : "Sin paciente en la lista: se guarda 24 h y pasa a la ficha si la creas.";
+        }
+        infUpdateLive();
+      }
+
+      function infLinesHtml(lines) {
+        return lines.length ? '<ul class="sc-lines">' + lines.map((l) => '<li class="sc-l-' + (l.lvl || "info") + '">' + escapeHtml(l.txt).replace(/(\d) (%|mg\/kg|mg\/L|mL\/min|mg|g IV|mm\/h)/g, "$1&nbsp;$2") + "</li>").join("") + "</ul>" : "";
+      }
+
+      function infUpdateLive() {
+        if (!$("calc-infx")) return;
+        const d = infDefs();
+        const v = infFormValues();
+        const tipo = v["ix-tipo"] || "";
+        document.querySelectorAll("#calc-infx .ix-block").forEach((b) => b.classList.toggle("hidden", b.dataset.ixtipo !== tipo));
+        document.querySelectorAll("#calc-infx .ix-lvl").forEach((b) => b.classList.toggle("hidden", b.dataset.lvl !== (v["ix-nivel"] || "")));
+        const p90 = $("ix-p90-wrap");
+        if (p90) p90.classList.toggle("hidden", !v["ix-nivel"] || v["ix-nivel"] === "sup");
+        const nino = infEsNino() || tipo === "kocher";
+        const crcl = cadCrclAuto();
+        const ev = infEvaluate(v, { nino, crcl });
+        const box = $("ix-res");
+        if (box) {
+          box.className = "alert" + (ev.level ? " " + ev.level : "") + (tipo ? "" : " hidden");
+          box.innerHTML = tipo ? "<strong>" + escapeHtml(ev.head) + "</strong>" + infLinesHtml(ev.lines.map((t) => ({ lvl: "info", txt: t }))) : "";
+        }
+        if ($("ix-prompt")) $("ix-prompt").classList.toggle("hidden", !!tipo);
+        const badge = $("ix-badge");
+        if (badge) { badge.textContent = !tipo ? "Sin tipo" : ev.level === "danger" ? "Infección" : ev.level === "warn" ? "Sospecha" : "Sin criterios"; badge.className = "badge" + (ev.level === "danger" ? " danger" : ev.level === "warn" ? " warn" : ev.level === "ok" ? " ok" : ""); }
+        const tile = $("tile-ix-val");
+        if (tile) { tile.textContent = ev.tile; tile.classList.toggle("sc-alert", ev.level === "danger"); }
+        // Sugestivos de fractura
+        const nfs = infChecked(v, d.friSug).length;
+        if ($("ix-fs-sum")) $("ix-fs-sum").textContent = nfs ? nfs + (nfs === 1 ? " marcado" : " marcados") : "Ninguno marcado";
+        // Muestras
+        const nm = infChecked(v, d.muestras).length;
+        if ($("ix-mu-sum")) $("ix-mu-sum").textContent = nm + " de " + d.muestras.length;
+        // Sepsis
+        const sl = infSepsisLine(v["ix-sepsis"] || "");
+        if ($("ix-sep-res")) { $("ix-sep-res").className = "alert" + (sl ? " " + sl.lvl : " hidden"); $("ix-sep-res").textContent = sl ? sl.txt : ""; }
+        if ($("ix-sep-sum")) $("ix-sep-sum").textContent = (d.sepsis.find((s) => s[0] === v["ix-sepsis"]) || [0, "Sin capturar"])[1];
+        // Antibiótico empírico
+        const abx = $("ix-abx");
+        if (abx) {
+          const lines = [];
+          if (nino) {
+            lines.push({ lvl: "warn", txt: "Paciente pediátrico: dosis y esquema con infectología pediátrica; no uses estas dosis de adulto." });
+          } else {
+            const peso = infPeso();
+            const vc = infVanco(peso);
+            lines.push({ lvl: "info", txt: "Esquema del consenso FRI tras el muestreo: glucopéptido (vancomicina) o lipopéptido más un agente contra bacilos gramnegativos, según la resistencia local." });
+            lines.push({ lvl: "info", txt: vc ? "Vancomicina (peso " + peso + " kg): carga 20 a 35 mg/kg = " + vc.cargaMin + " a " + vc.cargaMax + " mg (máximo 3,000 mg); mantenimiento 15 a 20 mg/kg = " + vc.mantMin + " a " + vc.mantMax + " mg cada 8 a 12 h si la función renal es normal. Con depuración baja: intervalo más largo guiado por niveles (meta AUC 400 a 600) con farmacia." : "Vancomicina: carga 20 a 35 mg/kg de peso real (máximo 3,000 mg); mantenimiento 15 a 20 mg/kg cada 8 a 12 h con función renal normal. Anota el peso en la ficha para calcular." });
+            const g = v["ix-gram"] || "";
+            if (crcl === null) lines.push({ lvl: "warn", txt: "Falta la depuración de creatinina: calcúlala en Función renal para ajustar la dosis." });
+            if (g === "cefepima") lines.push({ lvl: "info", txt: "Cefepima: " + (infCefepima(crcl) || "2 g IV cada 8 h con depuración mayor de 60 mL/min") + (crcl !== null ? " (depuración " + Math.round(crcl) + " mL/min)" : "") + "." });
+            if (g === "pipetazo") lines.push({ lvl: "info", txt: "Piperacilina-tazobactam: " + (infPipeTazo(crcl) || "4.5 g IV cada 6 h con depuración mayor de 40 mL/min") + (crcl !== null ? " (depuración " + Math.round(crcl) + " mL/min)" : "") + "." });
+            lines.push({ lvl: "info", txt: "Ajustar al cultivo y con infectología en cuanto haya resultados; vigilar creatinina." });
+          }
+          abx.innerHTML = infLinesHtml(lines);
+          if ($("ix-gram-wrap")) $("ix-gram-wrap").classList.toggle("hidden", nino);
+        }
+        const gsel = d.gram.find((x) => x[0] && x[0] === v["ix-gram"]);
+        if ($("ix-abx-sum")) $("ix-abx-sum").textContent = nino ? "Pediátrico" : gsel ? "Vancomicina + " + gsel[1].toLowerCase() : "Vancomicina + gramnegativos";
+      }
+
+      function infBuild() {
+        const d = infDefs();
+        const pill = (id, label) => '<label class="check-pill"><input type="checkbox" class="ix-in" id="' + id + '" /> ' + escapeHtml(label) + "</label>";
+        const put = (cont, list) => { if ($(cont)) $(cont).innerHTML = list.map((c) => pill(c[0], c[1])).join(""); };
+        put("ix-ss-list", d.ssi.sup); put("ix-sp-list", d.ssi.prof); put("ix-so-list", d.ssi.org);
+        put("ix-fc-list", d.friConf); put("ix-fs-list", d.friSug); put("ix-pm-list", d.pjiMayor); put("ix-mu-list", d.muestras);
+      }
+
+      function infCopyToNote() {
+        const v = infFormValues();
+        if (!v["ix-tipo"]) { showToast("Primero elige el tipo de infección."); return false; }
+        appendToNota(infNoteText(v, { nino: infEsNino() || v["ix-tipo"] === "kocher", crcl: cadCrclAuto() }));
+        return true;
+      }
+
+      function initInfeccionV47() {
+        const panel = $("calc-infx");
+        if (!panel) return;
+        infBuild();
+        const onChange = () => { infPersist(); infUpdateLive(); };
+        panel.addEventListener("change", (e) => { if (e.target && e.target.classList.contains("ix-in")) onChange(); });
+        panel.addEventListener("input", (e) => { if (e.target && e.target.classList.contains("ix-in") && (e.target.type === "number" || e.target.type === "text")) onChange(); });
+        $("btn-ix-note").addEventListener("click", infCopyToNote);
+        $("btn-ix-borrar").addEventListener("click", () => {
+          const store = infLoad();
+          const id = infActiveId();
+          if (!store.byId[id]) { showToast("No hay datos que borrar."); return; }
+          if (!confirm("¿Borrar los datos de infección de este paciente?")) return;
+          delete store.byId[id];
+          pxRawSet(infDefs().key, store);
+          infRender();
+          showToast("Datos de infección borrados.");
+        });
+        $("btn-ix-renal").addEventListener("click", () => { switchCalcPanel("renal"); const t = document.querySelector('#calc-subnav [data-calc="renal"]'); if (t) t.scrollIntoView({ block: "center" }); });
+        const tile = document.querySelector('#calc-subnav [data-calc="infx"]');
+        if (tile) tile.addEventListener("click", infRender);
+        document.addEventListener("tyo-patient-change", () => { try { infRender(); } catch (_) {} });
+        infRender();
       }
 
       function renderProtocol() {
@@ -11083,7 +11695,7 @@
       function clearAllFichas() {
         localStorage.removeItem(FICHA_STORE_KEY);
         localStorage.removeItem(FICHA_STORAGE_KEY);
-        try { localStorage.removeItem("tyo_sc_v44"); localStorage.removeItem("tyo_cadera_v45"); } catch (_) {}
+        try { localStorage.removeItem("tyo_sc_v44"); localStorage.removeItem("tyo_cadera_v45"); localStorage.removeItem("tyo_infx_v47"); } catch (_) {}
       }
 
       // Nota en progreso + laboratorios del paciente en pantalla.
@@ -12365,6 +12977,31 @@
         } catch (e) { det61 = "Error: " + e.message; }
         addTest("61. v46: respaldo cifrado de tus datos", ok61, det61);
 
+        // 62. v47: infección ósea y de herida
+        let ok62 = false, det62 = "";
+        try {
+          const s1 = infSsiEval({ nivel: "sup", dias: 12, crit: ["ix-ss-a"] }), s2 = infSsiEval({ nivel: "prof", p90: true, dias: 60, crit: ["ix-sp-a"] }), s3 = infSsiEval({ nivel: "prof", p90: false, dias: 60, crit: ["ix-sp-a"] }), s4 = infSsiEval({ nivel: "sup", p90: true, dias: 45, crit: ["ix-ss-a"] });
+          const ssi62 = s1.cumple && s1.ventana === 30 && s2.cumple && s2.ventana === 90 && !s3.cumple && s3.dentro === false && s4.ventana === 30 && !s4.cumple;
+          const fri62 = infFriEval({ conf: ["x"], sug: [] }).estado === "confirmada" && infFriEval({ conf: [], sug: ["a", "b"] }).estado === "sugestiva" && infFriEval({}).estado === "sin";
+          const p1 = infPjiScore({ crp: 25, vsg: 45, wbc: 4000 }), p2 = infPjiScore({ crp: 8, ddim: 900, pmn: 85 }), p3 = infPjiScore({ crp: 5, vsg: 35 }), p4 = infPjiScore({ crp: 5, vsg: 35, pus: true, cult1: true }), p5 = infPjiScore({ mayor: true });
+          const pji62 = p1.pre === 6 && p1.preLvl === "infectada" && p2.pre === 4 && p2.preLvl === "posible" && p3.pre === 1 && p3.preLvl === "no" && p4.intra === 6 && p4.intraLvl === "infectada" && p5.preLvl === "infectada";
+          const k4 = infKocher(4, ""), k0 = infKocher(0, ""), k3 = infKocher(3, "alta"), k2 = infKocher(2, "baja");
+          const koc62 = k4.p1999 === "99.6" && k4.p2004 === "93" && k0.p1999 === "menos de 0.2" && k3.n5 === 4 && k3.caird === "93" && k2.n5 === 2 && k2.caird === "62" && k4.caird === null;
+          const vc = infVanco(70), vc2 = infVanco(110);
+          const abx62 = vc.cargaMin === 1500 && vc.cargaMax === 2500 && vc.mantMin === 1000 && vc.mantMax === 1500 && vc2.cargaMax === 3000 && infVanco(null) === null &&
+            infCefepima(90) === "2 g IV cada 8 h" && infCefepima(60) === "2 g IV cada 12 h" && infCefepima(30) === "2 g IV cada 12 h" && infCefepima(29) === "2 g IV cada 24 h" && infCefepima(10) === "1 g IV cada 24 h" && infCefepima(null) === null &&
+            infPipeTazo(41) === "4.5 g IV cada 6 h" && infPipeTazo(40) === "3.375 g IV cada 6 h" && infPipeTazo(20) === "3.375 g IV cada 6 h" && infPipeTazo(19) === "2.25 g IV cada 6 h";
+          const sep62 = infSepsisLine("shock").lvl === "danger" && /primera hora/.test(infSepsisLine("shock").txt) && /3 horas/.test(infSepsisLine("posible").txt) && infSepsisLine("") === null;
+          const nota62 = infNoteText({ "ix-tipo": "fri", "ix-fc-pus": true, "ix-fs-fiebre": true, "ix-mu-tejido": true, "ix-sepsis": "posible", "ix-gram": "cefepima" }, { nino: false, crcl: 56 });
+          const notaOk62 = /^INFECCIÓN ÓSEA O DE HERIDA\n- Tipo: infección relacionada con fractura u osteosíntesis\.\n- Criterios confirmatorios: drenaje purulento de la herida o pus en la cirugía\./.test(nota62) && /Criterios sugestivos: fiebre de 38\.3 °C o más\./.test(nota62) &&
+            /Interpretación: infección confirmada/.test(nota62) && /vancomicina más cefepima, dosis según peso y depuración de creatinina \(56 mL\/min\)/.test(nota62) && pdfSafeText(nota62) === nota62 &&
+            !/Antibiótico/.test(infNoteText({ "ix-tipo": "fri", "ix-gram": "cefepima" }, { nino: true, crcl: 56 }));
+          const px62 = pxStores().some((s) => s.key === "tyo_infx_v47") && bkEligibleKey("tyo_infx_v47");
+          ok62 = ssi62 && fri62 && pji62 && koc62 && abx62 && sep62 && notaOk62 && px62;
+          det62 = "herida NHSN 30/90 días " + ssi62 + " · fractura FRI " + fri62 + " · prótesis ICM 2018 " + pji62 + " · Kocher y Caird " + koc62 + " · dosis y ajuste renal " + abx62 + " · momento del antibiótico " + sep62 + " · texto para la nota " + notaOk62 + " · por paciente y en el respaldo " + px62;
+        } catch (e) { det62 = "Error: " + e.message; }
+        addTest("62. v47: infección ósea y de herida", ok62, det62);
+
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
         const rows = tests.map((t) => (t.ok ? "✅ " : "❌ ") + "<strong>" + escapeHtml(t.name) + "</strong>: " + escapeHtml(t.detail)).join("<br>");
@@ -12477,6 +13114,7 @@
           { title: "Índice Punta-Ápice (TAD — Cadera)", mod: "calc-tad", cat: "Calculadora", keys: "tad cadera dhs pfn clavo cut out baumgaertner", run: () => { switchTab("tab-calc"); switchCalcPanel("tad"); } },
           { title: "Síndrome compartimental (vigilancia · ΔP)", mod: "calc-compart", cat: "Calculadora", keys: "sindrome compartimental fasciotomia presion compartimental delta perfusion pierna antebrazo vigilancia horaria", run: () => { switchTab("tab-calc"); switchCalcPanel("compart"); scRender(); } },
           { title: "Fractura de cadera del adulto mayor (reloj, Nottingham, 4AT)", mod: "calc-cadera", cat: "Calculadora", keys: "fractura cadera adulto mayor femur cuello intertrocanterica subtrocanterica nottingham 4at delirium anticoagulante apixaban warfarina acenocumarol", run: () => { switchTab("tab-calc"); switchCalcPanel("cadera"); cadRender(); } },
+          { title: "Infección ósea y de herida (NHSN, FRI, ICM 2018, Kocher)", mod: "calc-infx", cat: "Calculadora", keys: "infeccion sitio quirurgico herida osteomielitis fractura osteosintesis protesis periprotesica artritis septica kocher caird icm nhsn vancomicina cefepima piperacilina sepsis", run: () => { switchTab("tab-calc"); switchCalcPanel("infx"); infRender(); } },
           { title: "Escala MESS (Extremidad Lesionada)", mod: "calc-mess", cat: "Calculadora", keys: "mess isquemia amputacion extremidad trauma", run: () => { switchTab("tab-calc"); switchCalcPanel("mess"); } },
           { title: "Profilaxis Antibiótica Quirúrgica", mod: "tab-rx rx-profilaxis", cat: "Receta", keys: "profilaxis cefazolina cefalotina clindamicina vancomicina cerrada", run: () => { $("rx-protocol").value = "profilaxis"; renderProtocol(); switchTab("tab-rx"); } },
           { title: "Fractura Expuesta (Gustilo-Anderson)", mod: "tab-rx rx-expuesta", cat: "Receta", keys: "expuesta gustilo gentamicina ceftriaxona tetanos abierta", run: () => { $("rx-protocol").value = "expuesta"; renderProtocol(); switchTab("tab-rx"); } },
@@ -12735,6 +13373,7 @@
             else if (id === "calc-mess") $("btn-mess-note").click();
             else if (id === "calc-compart") $("btn-sc-note").click();
             else if (id === "calc-cadera") $("btn-cx-note").click();
+            else if (id === "calc-infx") $("btn-ix-note").click();
           });
         }
 
@@ -13093,6 +13732,7 @@
         ["Guardia a un pulgar v43", initGuardiaV43],
         ["Síndrome compartimental v44", initCompartimentalV44],
         ["Fractura de cadera v45", initCaderaV45],
+        ["Infección ósea y de herida v47", initInfeccionV47],
         ["Registros por paciente v45", initPxStoresV45],
         ["Respaldo cifrado v46", initRespaldoV46],
         ["Pulido v37", initPulidoV37],
