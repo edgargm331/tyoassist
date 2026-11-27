@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v45 · Tema "Base44" (oscuro + claro)
+       TyO Assist v46 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -1043,6 +1043,15 @@
     #cx-clock-alert { margin-top: 12px; }
     .cx-static { color: var(--text-2); font-size: 14px; margin: 0; }
     .cx-btns { margin-top: 16px; }
+
+    /* ---------- v46: respaldo ---------- */
+    .bk-status { font-size: 14px; font-weight: 600; color: var(--text-2); margin: 4px 0 0; }
+    .bk-status.bk-old { color: var(--warn-ink); }
+    .bk-warn { margin-top: 8px; }
+    .bk-box { margin-top: 12px; padding: 14px; border: 1px solid var(--gold-line); border-radius: 14px; background: var(--gold-soft); }
+    .bk-box p { font-size: 14px; color: var(--text); margin: 0 0 10px; line-height: 1.4; }
+    .bk-modos { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    #btn-bk-undo { margin-top: 12px; }
 
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
@@ -2347,7 +2356,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v45 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v46 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2379,7 +2388,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v45</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v46</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2396,6 +2405,44 @@
           <button type="button" class="btn btn-secondary btn-sm" id="btn-mod-export">Exportar ajustes</button>
           <label class="btn btn-secondary btn-sm btn-file">Importar<input type="file" id="mod-import-file" accept="application/json,.json" /></label>
         </div>
+      </div>
+
+      <div class="modal-section" id="cfg-backup-section">
+        <h4>Respaldo de tus datos</h4>
+        <p class="cfg-help">Guarda en un archivo cifrado tus ajustes, membrete, datos de médico, pacientes de la lista, registros de urgencias, historial y borrador. El token del puente no se incluye. Nada sale a internet.</p>
+        <p class="bk-status" id="bk-status">Aún no has guardado un respaldo en este teléfono.</p>
+        <div class="grid-2">
+          <label class="field">Contraseña
+            <input type="password" id="bk-pass" placeholder="8 o más" autocomplete="new-password" />
+          </label>
+          <label class="field">Repetir contraseña
+            <input type="password" id="bk-pass2" placeholder="Igual" autocomplete="new-password" />
+          </label>
+        </div>
+        <p class="cfg-help bk-warn">Si olvidas la contraseña, el respaldo no se puede abrir. Guárdala aparte.</p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-primary btn-sm" id="btn-bk-crear"><svg class="ic"><use href="#i-shield"/></svg>Crear respaldo</button>
+          <label class="btn btn-secondary btn-sm btn-file"><svg class="ic"><use href="#i-folder"/></svg>Recuperar respaldo<input type="file" id="bk-file" accept="application/json,.json" /></label>
+        </div>
+        <div class="bk-box hidden" id="bk-ready">
+          <p id="bk-ready-info">Respaldo listo.</p>
+          <button type="button" class="btn btn-primary btn-sm" id="btn-bk-share"><svg class="ic"><use href="#i-save"/></svg>Guardar archivo</button>
+        </div>
+        <div class="bk-box hidden" id="bk-restore">
+          <p id="bk-restore-info">Respaldo.</p>
+          <label class="field">Contraseña del respaldo
+            <input type="password" id="bk-rpass" autocomplete="current-password" />
+          </label>
+          <div class="bk-modos" role="radiogroup" aria-label="Cómo recuperar">
+            <label class="check-pill"><input type="radio" name="bk-modo" value="juntar" checked /> Juntar con lo que hay</label>
+            <label class="check-pill"><input type="radio" name="bk-modo" value="reemplazar" /> Reemplazar todo</label>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="btn btn-primary btn-sm" id="btn-bk-restore"><svg class="ic"><use href="#i-refresh"/></svg>Recuperar</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-bk-cancel">Cancelar</button>
+          </div>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm hidden" id="btn-bk-undo"><svg class="ic"><use href="#i-refresh"/></svg>Deshacer la recuperación</button>
       </div>
 
       <div class="modal-section">
@@ -2453,9 +2500,9 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (60 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (61 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (60)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (61)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -2606,15 +2653,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v45 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v46 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "45",
-      versionLabel: "v45 Intuitiva",
+      version: "46",
+      versionLabel: "v46 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -3117,6 +3164,7 @@
         $("cfg-conn-status").innerHTML = "";
         updateSettingsModeUI();
         $("modal-settings").classList.add("open");
+        try { bkRenderStatus(); } catch (_) {}
       });
       $("btn-close-settings").addEventListener("click", () => $("modal-settings").classList.remove("open"));
       $("modal-settings").addEventListener("click", (e) => {
@@ -7388,6 +7436,356 @@
         if (cadState().timer) clearInterval(cadState().timer);
         cadState().timer = setInterval(cadTick, 60000);
         document.addEventListener("visibilitychange", cadTick);
+      }
+
+      /* =======================================================
+         v46: RESPALDO CIFRADO DE TUS DATOS
+         Archivo .json con todo lo que la app guarda en este teléfono
+         (claves «tyo_»), salvo credenciales del puente o de la IA.
+         Cifrado: PBKDF2-HMAC-SHA256 (600,000 iteraciones, recomendación
+         OWASP) → AES-GCM 256 con WebCrypto. Nada sale a internet.
+      ======================================================= */
+      function bkDefs() {
+        return {
+          app: "tyo-assist",
+          type: "respaldo",
+          v: 1,
+          iterations: 600000,
+          aad: "tyo-assist|respaldo|1",
+          deny: ["tyo_apikey", "tyo_proxy_token", "tyo_bk_last", "tyo_bk_nag"],
+          lastKey: "tyo_bk_last",
+          nagKey: "tyo_bk_nag",
+          undoKey: "tyo_bk_undo",
+          msgKey: "tyo_bk_msg",
+          undoMins: 30,
+          nagDays: 7
+        };
+      }
+
+      function bkState() {
+        if (!bkState.s) bkState.s = { blob: null, name: "", env: null, busy: false };
+        return bkState.s;
+      }
+
+      // Pura: ¿esta clave entra al respaldo? (nunca credenciales)
+      function bkEligibleKey(k) {
+        return typeof k === "string" && k.indexOf("tyo_") === 0 && bkDefs().deny.indexOf(k) === -1;
+      }
+
+      function bkCollect() {
+        const keys = {};
+        try {
+          for (let i = 0; i < localStorage.length; i++) {
+            const k = localStorage.key(i);
+            if (bkEligibleKey(k)) keys[k] = localStorage.getItem(k);
+          }
+        } catch (_) {}
+        return keys;
+      }
+
+      // Pura: bytes ⇄ base64 (en trozos para archivos con imágenes)
+      function bkB64(bytes) {
+        let s = "";
+        for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+        return btoa(s);
+      }
+
+      function bkUnB64(str) {
+        const bin = atob(String(str || ""));
+        const out = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+        return out;
+      }
+
+      // Pura: nombre del archivo
+      function bkFileName(d) {
+        const x = d || new Date();
+        const p = (n) => String(n).padStart(2, "0");
+        return "TyO-respaldo-" + x.getFullYear() + "-" + p(x.getMonth() + 1) + "-" + p(x.getDate()) + ".json";
+      }
+
+      // Pura: revisa que el archivo sea un respaldo de TyO Assist antes de pedir la contraseña.
+      function bkValidateEnvelope(env) {
+        const d = bkDefs();
+        if (!env || typeof env !== "object" || env.app !== d.app || env.type !== d.type) return { ok: false, motivo: "Este archivo no es un respaldo de TyO Assist." };
+        if (env.v !== d.v) return { ok: false, motivo: "Este respaldo es de una versión que esta app no conoce. Actualiza la app." };
+        const k = env.kdf || {}, c = env.cipher || {};
+        const it = Number(k.iterations);
+        if (k.name !== "PBKDF2" || k.hash !== "SHA-256" || !Number.isFinite(it) || it < 100000 || it > 5000000 || !k.salt ||
+            c.name !== "AES-GCM" || !c.iv || typeof env.data !== "string" || !env.data) return { ok: false, motivo: "El respaldo está incompleto o dañado." };
+        return { ok: true };
+      }
+
+      // Pura: junta lo del respaldo con lo que ya hay sin perder nada de este teléfono.
+      function bkMergeKeys(cur, inc) {
+        const out = Object.assign({}, cur);
+        const parse = (s) => { try { return JSON.parse(s); } catch (_) { return null; } };
+        Object.keys(inc || {}).forEach((k) => {
+          if (!bkEligibleKey(k) || typeof inc[k] !== "string") return;
+          if (!(k in out)) { out[k] = inc[k]; return; }
+          if (k === "tyo_fichas_v2") {
+            const a = parse(out[k]), b = parse(inc[k]);
+            if (!a || !b || !Array.isArray(a.items) || !Array.isArray(b.items)) return;
+            const byId = {};
+            a.items.concat(b.items).forEach((it) => {
+              if (!it || !it.id) return;
+              if (!byId[it.id] || Number(it.savedAt || 0) > Number(byId[it.id].savedAt || 0)) byId[it.id] = it;
+            });
+            out[k] = JSON.stringify(Object.assign({}, a, { items: Object.keys(byId).map((id) => byId[id]) }));
+          } else if (k === "tyo_sc_v44" || k === "tyo_cadera_v45") {
+            const a = parse(out[k]), b = parse(inc[k]);
+            if (!a || !b || !a.byId || !b.byId) return;
+            const byId = Object.assign({}, a.byId);
+            Object.keys(b.byId).forEach((id) => {
+              if (id === "_sin") { if (!byId._sin) byId._sin = b.byId._sin; return; }
+              if (!byId[id] || Number((b.byId[id] || {}).upd || 0) > Number(byId[id].upd || 0)) byId[id] = b.byId[id];
+            });
+            out[k] = JSON.stringify(Object.assign({}, a, { byId }));
+          } else if (k === "tyo_history") {
+            const a = parse(out[k]), b = parse(inc[k]);
+            if (!Array.isArray(a) || !Array.isArray(b)) return;
+            const seen = {};
+            const all = a.concat(b).filter((it) => { const id = it && (it.id || it.savedAt); if (!id || seen[id]) return false; seen[id] = 1; return true; });
+            all.sort((x, y) => Number(y.savedAt || y.id || 0) - Number(x.savedAt || x.id || 0));
+            out[k] = JSON.stringify(all);
+          }
+          // Ajustes y lo demás: se queda lo de este teléfono.
+        });
+        return out;
+      }
+
+      async function bkKey(pass, salt, iterations) {
+        const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pass), "PBKDF2", false, ["deriveKey"]);
+        return crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+      }
+
+      async function bkEncrypt(keys, pass) {
+        const d = bkDefs();
+        const salt = crypto.getRandomValues(new Uint8Array(16));
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+        const key = await bkKey(pass, salt, d.iterations);
+        const plain = new TextEncoder().encode(JSON.stringify({ app: d.app, keys }));
+        const ct = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv, additionalData: new TextEncoder().encode(d.aad) }, key, plain));
+        return {
+          app: d.app, type: d.type, v: d.v, created: new Date().toISOString(), appVersion: String(TYO_CFG.version || ""), n: Object.keys(keys).length,
+          kdf: { name: "PBKDF2", hash: "SHA-256", iterations: d.iterations, salt: bkB64(salt) },
+          cipher: { name: "AES-GCM", iv: bkB64(iv) },
+          data: bkB64(ct)
+        };
+      }
+
+      async function bkDecrypt(env, pass) {
+        const d = bkDefs();
+        const key = await bkKey(pass, bkUnB64(env.kdf.salt), Number(env.kdf.iterations));
+        const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: bkUnB64(env.cipher.iv), additionalData: new TextEncoder().encode(d.aad) }, key, bkUnB64(env.data));
+        const obj = JSON.parse(new TextDecoder().decode(plain));
+        if (!obj || obj.app !== d.app || !obj.keys || typeof obj.keys !== "object") throw new Error("contenido");
+        const keys = {};
+        Object.keys(obj.keys).forEach((k) => { if (bkEligibleKey(k) && typeof obj.keys[k] === "string") keys[k] = obj.keys[k]; });
+        return keys;
+      }
+
+      function bkFmt(ms) {
+        const x = new Date(ms);
+        const p = (n) => String(n).padStart(2, "0");
+        return p(x.getDate()) + "/" + p(x.getMonth() + 1) + "/" + x.getFullYear() + " " + p(x.getHours()) + ":" + p(x.getMinutes());
+      }
+
+      function bkHace(ms, now) {
+        const dias = Math.floor((now - ms) / 86400000);
+        if (dias <= 0) return "hoy";
+        if (dias === 1) return "ayer";
+        return "hace " + dias + " días";
+      }
+
+      function bkRenderStatus() {
+        const el = $("bk-status");
+        if (!el) return;
+        const last = Number(localStorage.getItem(bkDefs().lastKey) || 0);
+        const now = Date.now();
+        const viejo = !last || now - last > bkDefs().nagDays * 86400000;
+        el.className = "bk-status" + (viejo ? " bk-old" : "");
+        el.textContent = last ? "Último respaldo: " + bkHace(last, now) + " (" + bkFmt(last) + ")." : "Aún no has guardado un respaldo en este teléfono.";
+        const undo = bkReadUndo();
+        if ($("btn-bk-undo")) {
+          $("btn-bk-undo").classList.toggle("hidden", !undo);
+          if (undo) $("btn-bk-undo").lastChild.textContent = "Deshacer la recuperación (hasta las " + bkFmt(undo.t + bkDefs().undoMins * 60000).slice(11) + ")";
+        }
+      }
+
+      function bkReadUndo() {
+        try {
+          const u = JSON.parse(sessionStorage.getItem(bkDefs().undoKey) || "null");
+          if (u && u.keys && Date.now() - u.t < bkDefs().undoMins * 60000) return u;
+          if (u) sessionStorage.removeItem(bkDefs().undoKey);
+        } catch (_) {}
+        return null;
+      }
+
+      function bkWriteAll(keys) {
+        // Reemplaza todo lo respaldable de este teléfono; las credenciales no se tocan.
+        Object.keys(bkCollect()).forEach((k) => { try { localStorage.removeItem(k); } catch (_) {} });
+        Object.keys(keys).forEach((k) => { localStorage.setItem(k, keys[k]); });
+      }
+
+      function bkSetBusy(btn, busy, label) {
+        bkState().busy = busy;
+        if (!btn) return;
+        btn.disabled = busy;
+        if (label) btn.lastChild.textContent = label;
+      }
+
+      async function bkCreate() {
+        if (bkState().busy) return;
+        const p1 = $("bk-pass").value, p2 = $("bk-pass2").value;
+        if (p1.length < 8) { showToast("La contraseña debe tener al menos 8 caracteres."); $("bk-pass").focus(); return; }
+        if (p1 !== p2) { showToast("Las contraseñas no coinciden."); $("bk-pass2").focus(); return; }
+        if (!(window.crypto && crypto.subtle)) { showToast("Este navegador no permite cifrar; abre la app desde su dirección https."); return; }
+        const btn = $("btn-bk-crear");
+        bkSetBusy(btn, true, "Cifrando…");
+        try {
+          const keys = bkCollect();
+          const env = await bkEncrypt(keys, p1);
+          const json = JSON.stringify(env);
+          bkState().blob = new Blob([json], { type: "application/json" });
+          bkState().name = bkFileName(new Date());
+          $("bk-pass").value = ""; $("bk-pass2").value = "";
+          $("bk-ready-info").textContent = "Respaldo listo: " + env.n + " datos, " + Math.max(1, Math.round(json.length / 1024)) + " KB. Guárdalo donde no se pierda (Archivos, iCloud Drive, tu correo).";
+          $("bk-ready").classList.remove("hidden");
+          if (!isMobileShareTarget()) bkSave();
+        } catch (e) {
+          showToast("No se pudo crear el respaldo: " + (e && e.message ? e.message : "error"));
+        } finally {
+          bkSetBusy(btn, false, "Crear respaldo");
+        }
+      }
+
+      function bkMarkSaved() {
+        localStorage.setItem(bkDefs().lastKey, String(Date.now()));
+        bkRenderStatus();
+      }
+
+      // Guarda el archivo: en el teléfono por la hoja de compartir (Guardar en Archivos), en la PC se descarga.
+      function bkSave() {
+        const s = bkState();
+        if (!s.blob) return;
+        const file = new File([s.blob], s.name, { type: "application/json" });
+        if (isMobileShareTarget() && navigator.canShare && navigator.share) {
+          let ok = false;
+          try { ok = navigator.canShare({ files: [file] }); } catch (_) { ok = false; }
+          if (ok) {
+            navigator.share({ files: [file], title: "Respaldo TyO Assist" })
+              .then(() => { bkMarkSaved(); showToast("Respaldo guardado."); })
+              .catch((err) => { if (!(err && err.name === "AbortError")) showToast("No se pudo compartir; intenta de nuevo."); });
+            return;
+          }
+        }
+        downloadRecetaBlob(s.blob, s.name);
+        bkMarkSaved();
+        showToast("Respaldo descargado: " + s.name);
+      }
+
+      function bkPickFile(file) {
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          let env = null;
+          try { env = JSON.parse(String(reader.result || "")); } catch (_) { env = null; }
+          const v = bkValidateEnvelope(env);
+          if (!v.ok) { showToast(v.motivo); bkCancelRestore(); return; }
+          bkState().env = env;
+          const cuando = Date.parse(env.created);
+          $("bk-restore-info").textContent = "Respaldo del " + (Number.isFinite(cuando) ? bkFmt(cuando) : "?") + " · versión " + (env.appVersion || "?") + " · " + (Number(env.n) || 0) + " datos.";
+          $("bk-rpass").value = "";
+          if ($("bk-ready")) $("bk-ready").classList.add("hidden");
+          $("bk-restore").classList.remove("hidden");
+          $("bk-rpass").focus();
+        };
+        reader.onerror = () => showToast("No se pudo leer el archivo.");
+        reader.readAsText(file);
+      }
+
+      function bkCancelRestore() {
+        bkState().env = null;
+        if ($("bk-restore")) $("bk-restore").classList.add("hidden");
+        if ($("bk-rpass")) $("bk-rpass").value = "";
+      }
+
+      async function bkRestore() {
+        const s = bkState();
+        if (s.busy || !s.env) return;
+        const pass = $("bk-rpass").value;
+        if (!pass) { showToast("Escribe la contraseña del respaldo."); return; }
+        const modo = (document.querySelector('input[name="bk-modo"]:checked') || {}).value || "juntar";
+        const btn = $("btn-bk-restore");
+        bkSetBusy(btn, true, "Abriendo…");
+        let keys = null;
+        try {
+          keys = await bkDecrypt(s.env, pass);
+        } catch (_) {
+          bkSetBusy(btn, false, "Recuperar");
+          showToast("Contraseña incorrecta o archivo dañado.");
+          return;
+        }
+        if (modo === "reemplazar" && !confirm("Se reemplazará lo que hay en este teléfono por el respaldo (las credenciales del puente se conservan). Podrás deshacerlo durante 30 minutos. ¿Continuar?")) {
+          bkSetBusy(btn, false, "Recuperar");
+          return;
+        }
+        const cur = bkCollect();
+        try { sessionStorage.setItem(bkDefs().undoKey, JSON.stringify({ t: Date.now(), keys: cur })); } catch (_) {}
+        try {
+          bkWriteAll(modo === "reemplazar" ? keys : bkMergeKeys(cur, keys));
+        } catch (e) {
+          bkWriteAll(cur);
+          bkSetBusy(btn, false, "Recuperar");
+          showToast("No cupo en la memoria del navegador; no se cambió nada.");
+          return;
+        }
+        try { sessionStorage.setItem(bkDefs().msgKey, (modo === "reemplazar" ? "Respaldo recuperado" : "Respaldo juntado con lo que había") + ": " + Object.keys(keys).length + " datos. El token del puente no viaja en el respaldo."); } catch (_) {}
+        location.reload();
+      }
+
+      function bkUndo() {
+        const u = bkReadUndo();
+        if (!u) { bkRenderStatus(); return; }
+        if (!confirm("¿Volver a como estaba este teléfono antes de recuperar el respaldo?")) return;
+        bkWriteAll(u.keys);
+        try { sessionStorage.removeItem(bkDefs().undoKey); sessionStorage.setItem(bkDefs().msgKey, "Se deshizo la recuperación del respaldo."); } catch (_) {}
+        location.reload();
+      }
+
+      // Recordatorio discreto: como máximo una vez por semana, solo si hay algo que perder.
+      function bkMaybeNag() {
+        const d = bkDefs();
+        const now = Date.now();
+        const last = Number(localStorage.getItem(d.lastKey) || 0);
+        const nag = Number(localStorage.getItem(d.nagKey) || 0);
+        if (last && now - last < d.nagDays * 86400000) return false;
+        if (nag && now - nag < d.nagDays * 86400000) return false;
+        const k = bkCollect();
+        const hay = !!(k.tyo_medico || k.tyo_cedula || k.tyo_fichas_v2 || (k.tyo_history && k.tyo_history !== "[]"));
+        if (!hay) return false;
+        localStorage.setItem(d.nagKey, String(now));
+        setTimeout(() => showToast(last ? "Hace más de una semana de tu último respaldo: Ajustes → Respaldo de tus datos." : "Te recomiendo guardar un respaldo cifrado: Ajustes → Respaldo de tus datos."), 1800);
+        return true;
+      }
+
+      function initRespaldoV46() {
+        if (!$("cfg-backup-section")) return;
+        $("btn-bk-crear").addEventListener("click", bkCreate);
+        $("btn-bk-share").addEventListener("click", bkSave);
+        $("bk-file").addEventListener("change", (e) => { bkPickFile(e.target.files && e.target.files[0]); e.target.value = ""; });
+        $("btn-bk-restore").addEventListener("click", bkRestore);
+        $("btn-bk-cancel").addEventListener("click", bkCancelRestore);
+        $("btn-bk-undo").addEventListener("click", bkUndo);
+        ["bk-pass2", "bk-rpass"].forEach((id) => $(id).addEventListener("keydown", (e) => {
+          if (e.key === "Enter") { e.preventDefault(); if (id === "bk-pass2") bkCreate(); else bkRestore(); }
+        }));
+        let msg = null;
+        try { msg = sessionStorage.getItem(bkDefs().msgKey); sessionStorage.removeItem(bkDefs().msgKey); } catch (_) {}
+        if (msg) setTimeout(() => showToast(msg), 600);
+        bkRenderStatus();
+        if (!msg) bkMaybeNag();
       }
 
       function renderProtocol() {
@@ -11943,6 +12341,30 @@
         } catch (e) { det60 = "Error: " + e.message; }
         addTest("60. v45: fractura de cadera del adulto mayor y registros por paciente", ok60, det60);
 
+        // 61. v46: respaldo cifrado (qué entra, cómo se junta, archivo válido)
+        let ok61 = false, det61 = "";
+        try {
+          const elig61 = bkEligibleKey("tyo_medico") && bkEligibleKey("tyo_fichas_v2") && !bkEligibleKey("tyo_proxy_token") && !bkEligibleKey("tyo_apikey") && !bkEligibleKey("tyo_bk_last") && !bkEligibleKey("otra_app");
+          const bytes = new Uint8Array(256); for (let i = 0; i < 256; i++) bytes[i] = i;
+          const back = bkUnB64(bkB64(bytes));
+          const b64ok61 = back.length === 256 && back.every((v, i) => v === i);
+          const cur = { tyo_medico: "Dr. Aquí", tyo_fichas_v2: JSON.stringify({ v: 2, activeId: "b", items: [{ id: "b", savedAt: 5, data: {} }, { id: "c", savedAt: 9, data: { x: 1 } }] }),
+            tyo_sc_v44: JSON.stringify({ v: 1, byId: { b: { upd: 3 }, _sin: { upd: 1 } } }), tyo_history: JSON.stringify([{ id: 20, savedAt: 20 }, { id: 10, savedAt: 10 }]) };
+          const inc = { tyo_medico: "Dr. Respaldo", tyo_unidad: "Biomédica", tyo_proxy_token: "no", tyo_fichas_v2: JSON.stringify({ v: 2, activeId: "a", items: [{ id: "a", savedAt: 7, data: {} }, { id: "c", savedAt: 4, data: { x: 0 } }] }),
+            tyo_sc_v44: JSON.stringify({ v: 1, byId: { a: { upd: 2 }, b: { upd: 8 }, _sin: { upd: 9 } } }), tyo_history: JSON.stringify([{ id: 15, savedAt: 15 }, { id: 10, savedAt: 10 }]) };
+          const m = bkMergeKeys(cur, inc);
+          const f = JSON.parse(m.tyo_fichas_v2), sc = JSON.parse(m.tyo_sc_v44), h = JSON.parse(m.tyo_history);
+          const merge61 = m.tyo_medico === "Dr. Aquí" && m.tyo_unidad === "Biomédica" && !("tyo_proxy_token" in m) && f.activeId === "b" && f.items.length === 3 && f.items.find((x) => x.id === "c").data.x === 1 &&
+            sc.byId.a.upd === 2 && sc.byId.b.upd === 8 && sc.byId._sin.upd === 1 && h.map((x) => x.id).join() === "20,15,10";
+          const envOk = { app: "tyo-assist", type: "respaldo", v: 1, kdf: { name: "PBKDF2", hash: "SHA-256", iterations: 600000, salt: "AA==" }, cipher: { name: "AES-GCM", iv: "AA==" }, data: "AA==" };
+          const env61 = bkValidateEnvelope(envOk).ok && !bkValidateEnvelope({ app: "otra" }).ok && !bkValidateEnvelope(Object.assign({}, envOk, { kdf: Object.assign({}, envOk.kdf, { iterations: 10 }) })).ok && !bkValidateEnvelope(Object.assign({}, envOk, { v: 9 })).ok && !bkValidateEnvelope(Object.assign({}, envOk, { data: "" })).ok;
+          const name61 = bkFileName(new Date(2026, 10, 27, 7, 40)) === "TyO-respaldo-2026-11-27.json";
+          const cryp61 = !!(window.crypto && crypto.subtle && crypto.getRandomValues);
+          ok61 = elig61 && b64ok61 && merge61 && env61 && name61 && cryp61;
+          det61 = "sin credenciales " + elig61 + " · base64 " + b64ok61 + " · juntar sin perder nada " + merge61 + " · archivo válido " + env61 + " · nombre " + name61 + " · WebCrypto " + cryp61;
+        } catch (e) { det61 = "Error: " + e.message; }
+        addTest("61. v46: respaldo cifrado de tus datos", ok61, det61);
+
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
         const rows = tests.map((t) => (t.ok ? "✅ " : "❌ ") + "<strong>" + escapeHtml(t.name) + "</strong>: " + escapeHtml(t.detail)).join("<br>");
@@ -12672,6 +13094,7 @@
         ["Síndrome compartimental v44", initCompartimentalV44],
         ["Fractura de cadera v45", initCaderaV45],
         ["Registros por paciente v45", initPxStoresV45],
+        ["Respaldo cifrado v46", initRespaldoV46],
         ["Pulido v37", initPulidoV37],
         ["Módulos v26", initModulesV26] /* siempre al final */
       ].forEach(([name, fn]) => runInit(name, fn));
