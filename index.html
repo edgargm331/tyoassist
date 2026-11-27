@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v47 · Tema "Base44" (oscuro + claro)
+       TyO Assist v48 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -1071,6 +1071,38 @@
     #ix-prompt { margin-top: 10px; }
     #btn-ix-renal { margin-top: 2px; }
 
+    /* ---------- v48: pestaña de Urgencias ---------- */
+    .nav-btn .ico { position: relative; }
+    .nav-dot { position: absolute; top: 3px; right: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--danger-ink); box-shadow: 0 0 0 2px var(--card); }
+    @media (max-width: 400px) { .nav-btn { font-size: 11px; } .nav-btn .ico { width: 40px; } }
+    #tab-urg .urg-top { padding-bottom: 8px; }
+    #tab-urg .urg-panels { padding-top: 6px; }
+    #tab-urg .urg-panels > .calc-panel { margin-top: 10px; }
+    .urg-sum { margin: 0 0 16px; padding: 14px; border-radius: 20px; background: var(--card); border: 1px solid var(--line); }
+    .urg-sum-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+    .urg-sum-head .mini-label { margin: 0; white-space: nowrap; }
+    .urg-sum-pt { font-size: 13px; font-weight: 650; color: var(--gold-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .urg-sum-list { display: flex; flex-direction: column; gap: 8px; }
+    .urg-item { display: grid; grid-template-columns: 12px minmax(0, 1fr) 18px; align-items: center; gap: 10px; width: 100%; min-height: 48px; padding: 10px 12px; border-radius: 14px; border: 1px solid var(--line); background: var(--tint-1); color: var(--text); text-align: left; }
+    .urg-item:active { transform: scale(0.99); }
+    .urg-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted-2); }
+    .urg-txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    .urg-txt strong { font-size: 14.5px; font-weight: 650; line-height: 1.3; }
+    .urg-txt small { font-size: 13px; color: var(--text-2); line-height: 1.4; }
+    .urg-go { width: 16px; height: 16px; color: var(--muted); }
+    .urg-item.lvl-warn { border-color: var(--warn-line); background: var(--warn-bg); }
+    .urg-item.lvl-warn .urg-dot { background: var(--warn-ink); }
+    .urg-item.lvl-warn small { color: var(--warn-ink); }
+    .urg-item.lvl-danger { border-color: var(--danger-line); background: var(--danger-bg); }
+    .urg-item.lvl-danger .urg-dot { background: var(--danger-ink); }
+    .urg-item.lvl-danger small { color: var(--danger-ink); }
+    .urg-empty { margin: 2px 0 0; font-size: 13.5px; color: var(--muted); line-height: 1.45; }
+    .urg-val-link { display: inline-flex; align-items: center; gap: 4px; }
+    .urg-val-link .ic { width: 12px; height: 12px; }
+    @media (min-width: 1100px) {
+      #tab-urg .desk-grid { grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr); }
+      #tab-urg .urg-panels > .calc-panel { margin-top: 0; }
+    }
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
     @media print {
@@ -1128,6 +1160,7 @@
     <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
     <symbol id="i-updown" viewBox="0 0 24 24"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></symbol>
     <symbol id="i-zap" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></symbol>
+    <symbol id="i-siren" viewBox="0 0 24 24"><path d="M7 18v-6a5 5 0 1 1 10 0v6"/><path d="M5 21a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2z"/><path d="M21 12h1"/><path d="M18.5 4.5 18 5"/><path d="M2 12h1"/><path d="M12 2v1"/><path d="m4.929 4.929.707.707"/><path d="M12 12v6"/></symbol>
     <symbol id="i-clip" viewBox="0 0 24 24"><path d="M15 2H9a1 1 0 0 0-1 1v2c0 .6.4 1 1 1h6c.6 0 1-.4 1-1V3c0-.6-.4-1-1-1Z"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2M16 4h2a2 2 0 0 1 2 2v2M11 14h10"/><path d="m17 10 4 4-4 4"/></symbol>
     <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></symbol>
     <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></symbol>
@@ -1254,7 +1287,7 @@
       </div>
 
       <div class="band band-alt">
-        <div class="section-hdr no-print" data-mod-any="calc-renal calc-caprini calc-tad calc-mess">
+        <div class="section-hdr no-print" data-mod-any="calc-renal calc-caprini calc-tad">
           <h2>Calculadoras clínicas</h2>
           <button type="button" class="link-gold" id="btn-calc-all-note" data-mod="tab-notas" title="Enviar la calculadora abierta a la nota">Enviar a nota <svg class="ic"><use href="#i-arrow"/></svg></button>
         </div>
@@ -1270,35 +1303,15 @@
             <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-cap"></span>Caprini (ETV)</span><span class="tile-sub">Riesgo tromboembólico</span></span>
             <span class="tile-val" id="tile-cap-val">0 pts</span>
           </button>
-          <button type="button" class="tile" data-calc="compart" data-mod="calc-compart">
-            <span class="tile-ico"><svg class="ic"><use href="#i-heart-pulse"/></svg></span>
-            <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-sc"></span>Síndrome compartimental</span><span class="tile-sub">Vigilancia horaria · ΔP</span></span>
-            <span class="tile-val" id="tile-sc-val">--</span>
-          </button>
-          <button type="button" class="tile" data-calc="cadera" data-mod="calc-cadera">
-            <span class="tile-ico"><svg class="ic"><use href="#i-bone"/></svg></span>
-            <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-cx"></span>Fractura de cadera</span><span class="tile-sub">Adulto mayor · reloj a cirugía</span></span>
-            <span class="tile-val" id="tile-cx-val">--</span>
-          </button>
-          <button type="button" class="tile" data-calc="infx" data-mod="calc-infx">
-            <span class="tile-ico"><svg class="ic"><use href="#i-shield-plus"/></svg></span>
-            <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-ix"></span>Infección ósea y de herida</span><span class="tile-sub">Herida · fractura · prótesis · niños</span></span>
-            <span class="tile-val" id="tile-ix-val">--</span>
-          </button>
           <button type="button" class="tile extra-calc-tile hidden" data-calc="tad" data-mod="calc-tad">
             <span class="tile-ico"><svg class="ic"><use href="#i-ruler"/></svg></span>
             <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-tad"></span>Índice TAD</span><span class="tile-sub">DHS / Clavo cefalomedular</span></span>
             <span class="tile-val" id="tile-tad-val">--</span>
           </button>
-          <button type="button" class="tile extra-calc-tile hidden" data-calc="mess" data-mod="calc-mess">
-            <span class="tile-ico"><svg class="ic"><use href="#i-bone"/></svg></span>
-            <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-mess"></span>Escala MESS</span><span class="tile-sub">Salvamento de extremidad</span></span>
-            <span class="tile-val" id="tile-mess-val">1 pt</span>
-          </button>
         </div>
 
-        <button type="button" class="dashed-toggle no-print" id="btn-toggle-extra-calcs" aria-expanded="false" data-mod-any="calc-tad calc-mess">
-          <span id="extra-calcs-label">+ Más escalas TyO (Índice TAD · Escala MESS)</span>
+        <button type="button" class="dashed-toggle no-print" id="btn-toggle-extra-calcs" aria-expanded="false" data-mod-any="calc-tad">
+          <span id="extra-calcs-label">+ Más escalas TyO (Índice TAD)</span>
           <span id="extra-calcs-chev" class="chev"><svg class="ic"><use href="#i-chevron"/></svg></span>
         </button>
 
@@ -1419,8 +1432,113 @@
           </div>
         </div>
 
-        <!-- 2.3 SÍNDROME COMPARTIMENTAL (v44) -->
-        <div id="calc-compart" class="calc-panel" data-mod="calc-compart">
+        <!-- 2.3 ÍNDICE PUNTA-ÁPICE (TAD) -->
+        <div id="calc-tad" class="calc-panel" data-mod="calc-tad">
+          <div class="card">
+            <div class="card-head">
+              <h3><svg class="ic gold"><use href="#i-ruler"/></svg>Índice TAD</h3>
+              <span class="tag">BAUMGAERTNER</span>
+            </div>
+            <div class="checks">
+              <label class="check-pill"><input type="checkbox" id="tad-calibrated" /> Placa calibrada en PACS (sin magnificación)</label>
+            </div>
+            <div class="inset">
+              <label class="field">X_AP punta-ápice (mm)
+                <input type="number" id="tad-xap" value="9" min="0" max="100" step="0.5" />
+              </label>
+              <label class="field">X_Lat punta-ápice (mm)
+                <input type="number" id="tad-xlat" value="10" min="0" max="100" step="0.5" />
+              </label>
+              <div class="grid-3" id="tad-mag-fields">
+                <label class="field">D real (mm)
+                  <input type="number" id="tad-dreal" value="12.5" min="1" max="30" step="0.1" />
+                </label>
+                <label class="field">D AP Rx (mm)
+                  <input type="number" id="tad-dap" value="13.5" min="1" max="50" step="0.1" />
+                </label>
+                <label class="field">D Lat Rx (mm)
+                  <input type="number" id="tad-dlat" value="14.0" min="1" max="50" step="0.1" />
+                </label>
+              </div>
+            </div>
+            <div class="metric-stack">
+              <div class="metric-box">
+                <div class="metric-label">TAD corregido</div>
+                <div class="metric-val" id="tad-val">--</div>
+                <div class="metric-sub" id="tad-parts">AP: -- | Lat: --</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Riesgo cut-out</div>
+                <div class="metric-val metric-val-sm" id="tad-status">--</div>
+                <div class="metric-sub">Meta: &lt; 25 mm (ideal &lt; 20)</div>
+              </div>
+            </div>
+            <div id="tad-alert"></div>
+            <div class="btn-stack">
+              <button type="button" class="btn btn-secondary btn-lg" id="btn-tad-note" data-mod="tab-notas"><svg class="ic"><use href="#i-clip"/></svg>Copiar a Nota</button>
+            </div>
+            <div class="ref-text">Baumgaertner MR et al., JBJS Am 1995.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pad">
+        <!-- Dictado -->
+        <div class="voice-card no-print" data-mod="tab-notas">
+          <span class="voice-orb"><svg class="ic"><use href="#i-mic"/></svg></span>
+          <h3>Dicta tu nota en segundos</h3>
+          <p>Graba, estructura en formato NOM-004 y copia directamente al expediente clínico con un solo flujo inteligente.</p>
+          <button type="button" class="btn-white" id="btn-open-voice"><svg class="ic"><use href="#i-sparkles"/></svg>Abrir Notas de Voz</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 1b: URGENCIAS (v48)
+    ========================================================== -->
+    <section id="tab-urg" class="tab-panel">
+      <div class="band band-alt urg-top">
+        <div class="section-hdr no-print">
+          <h2>Urgencias</h2>
+          <button type="button" class="link-gold" id="btn-urg-note" data-mod="tab-notas" title="Enviar el bloque abierto a la nota">Enviar a nota <svg class="ic"><use href="#i-arrow"/></svg></button>
+        </div>
+        <div class="urg-sum no-print" id="urg-sum">
+          <div class="urg-sum-head"><span class="mini-label">Pendientes del paciente</span><span class="urg-sum-pt" id="urg-sum-pt">Sin paciente</span></div>
+          <div class="urg-sum-list" id="urg-sum-list" aria-live="polite"></div>
+        </div>
+        <div class="tile-list no-print" id="urg-subnav">
+          <button type="button" class="tile" id="urg-tile-expuesta" data-mod="tab-rx rx-expuesta">
+            <span class="tile-ico"><svg class="ic"><use href="#i-bandage"/></svg></span>
+            <span class="tile-body"><span class="tile-title">Fractura expuesta</span><span class="tile-sub">Gustilo-Anderson · antibiótico</span></span>
+            <span class="tile-val urg-val-link">Recetas <svg class="ic"><use href="#i-arrow"/></svg></span>
+          </button>
+          <button type="button" class="tile active" data-calc="compart" data-mod="calc-compart">
+            <span class="tile-ico"><svg class="ic"><use href="#i-heart-pulse"/></svg></span>
+            <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-sc"></span>Síndrome compartimental</span><span class="tile-sub">Vigilancia horaria · ΔP</span></span>
+            <span class="tile-val" id="tile-sc-val">--</span>
+          </button>
+          <button type="button" class="tile" data-calc="cadera" data-mod="calc-cadera">
+            <span class="tile-ico"><svg class="ic"><use href="#i-bone"/></svg></span>
+            <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-cx"></span>Fractura de cadera</span><span class="tile-sub">Adulto mayor · reloj a cirugía</span></span>
+            <span class="tile-val" id="tile-cx-val">--</span>
+          </button>
+          <button type="button" class="tile" data-calc="infx" data-mod="calc-infx">
+            <span class="tile-ico"><svg class="ic"><use href="#i-shield-plus"/></svg></span>
+            <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-ix"></span>Infección ósea y de herida</span><span class="tile-sub">Herida · fractura · prótesis · niños</span></span>
+            <span class="tile-val" id="tile-ix-val">--</span>
+          </button>
+          <button type="button" class="tile" data-calc="mess" data-mod="calc-mess">
+            <span class="tile-ico"><svg class="ic"><use href="#i-foot"/></svg></span>
+            <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-mess"></span>Escala MESS</span><span class="tile-sub">Salvamento de extremidad</span></span>
+            <span class="tile-val" id="tile-mess-val">1 pt</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="band band-alt urg-panels">
+        <!-- U.1 SÍNDROME COMPARTIMENTAL (v44) -->
+        <div id="calc-compart" class="calc-panel active" data-mod="calc-compart">
           <div class="card">
             <div class="card-head">
               <h3><svg class="ic gold"><use href="#i-heart-pulse"/></svg>Síndrome compartimental</h3>
@@ -1496,7 +1614,7 @@
           </div>
         </div>
 
-        <!-- 2.4 FRACTURA DE CADERA DEL ADULTO MAYOR (v45) -->
+        <!-- U.2 FRACTURA DE CADERA DEL ADULTO MAYOR (v45) -->
         <div id="calc-cadera" class="calc-panel" data-mod="calc-cadera">
           <div class="card">
             <div class="card-head">
@@ -1625,7 +1743,7 @@
           </div>
         </div>
 
-        <!-- 2.5 INFECCIÓN ÓSEA Y DE HERIDA (v47) -->
+        <!-- U.3 INFECCIÓN ÓSEA Y DE HERIDA (v47) -->
         <div id="calc-infx" class="calc-panel" data-mod="calc-infx">
           <div class="card">
             <div class="card-head">
@@ -1755,56 +1873,7 @@
           </div>
         </div>
 
-        <!-- 2.3 ÍNDICE PUNTA-ÁPICE (TAD) -->
-        <div id="calc-tad" class="calc-panel" data-mod="calc-tad">
-          <div class="card">
-            <div class="card-head">
-              <h3><svg class="ic gold"><use href="#i-ruler"/></svg>Índice TAD</h3>
-              <span class="tag">BAUMGAERTNER</span>
-            </div>
-            <div class="checks">
-              <label class="check-pill"><input type="checkbox" id="tad-calibrated" /> Placa calibrada en PACS (sin magnificación)</label>
-            </div>
-            <div class="inset">
-              <label class="field">X_AP punta-ápice (mm)
-                <input type="number" id="tad-xap" value="9" min="0" max="100" step="0.5" />
-              </label>
-              <label class="field">X_Lat punta-ápice (mm)
-                <input type="number" id="tad-xlat" value="10" min="0" max="100" step="0.5" />
-              </label>
-              <div class="grid-3" id="tad-mag-fields">
-                <label class="field">D real (mm)
-                  <input type="number" id="tad-dreal" value="12.5" min="1" max="30" step="0.1" />
-                </label>
-                <label class="field">D AP Rx (mm)
-                  <input type="number" id="tad-dap" value="13.5" min="1" max="50" step="0.1" />
-                </label>
-                <label class="field">D Lat Rx (mm)
-                  <input type="number" id="tad-dlat" value="14.0" min="1" max="50" step="0.1" />
-                </label>
-              </div>
-            </div>
-            <div class="metric-stack">
-              <div class="metric-box">
-                <div class="metric-label">TAD corregido</div>
-                <div class="metric-val" id="tad-val">--</div>
-                <div class="metric-sub" id="tad-parts">AP: -- | Lat: --</div>
-              </div>
-              <div class="metric-box">
-                <div class="metric-label">Riesgo cut-out</div>
-                <div class="metric-val metric-val-sm" id="tad-status">--</div>
-                <div class="metric-sub">Meta: &lt; 25 mm (ideal &lt; 20)</div>
-              </div>
-            </div>
-            <div id="tad-alert"></div>
-            <div class="btn-stack">
-              <button type="button" class="btn btn-secondary btn-lg" id="btn-tad-note" data-mod="tab-notas"><svg class="ic"><use href="#i-clip"/></svg>Copiar a Nota</button>
-            </div>
-            <div class="ref-text">Baumgaertner MR et al., JBJS Am 1995.</div>
-          </div>
-        </div>
-
-        <!-- 2.4 ESCALA MESS -->
+        <!-- U.4 ESCALA MESS -->
         <div id="calc-mess" class="calc-panel" data-mod="calc-mess">
           <div class="card">
             <div class="card-head">
@@ -1853,16 +1922,6 @@
             </div>
             <div class="ref-text">Johansen K et al., J Trauma 1990; Bosse MJ et al. (LEAP), NEJM 2002.</div>
           </div>
-        </div>
-      </div>
-
-      <div class="pad">
-        <!-- Dictado -->
-        <div class="voice-card no-print" data-mod="tab-notas">
-          <span class="voice-orb"><svg class="ic"><use href="#i-mic"/></svg></span>
-          <h3>Dicta tu nota en segundos</h3>
-          <p>Graba, estructura en formato NOM-004 y copia directamente al expediente clínico con un solo flujo inteligente.</p>
-          <button type="button" class="btn-white" id="btn-open-voice"><svg class="ic"><use href="#i-sparkles"/></svg>Abrir Notas de Voz</button>
         </div>
       </div>
     </section>
@@ -2509,7 +2568,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v47 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v48 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2528,7 +2587,8 @@
   <!-- NAVEGACIÓN INFERIOR -->
   <nav class="bottom-nav no-print">
     <div class="bottom-nav-in">
-      <button type="button" class="nav-btn active" data-tab="tab-calc"><span class="ico"><svg class="ic"><use href="#i-calc"/></svg></span><span>Calculadoras</span></button>
+      <button type="button" class="nav-btn active" data-tab="tab-calc"><span class="ico"><svg class="ic"><use href="#i-calc"/></svg></span><span>Inicio</span></button>
+      <button type="button" class="nav-btn" data-tab="tab-urg" data-mod="tab-urg" data-mod-any="calc-compart calc-cadera calc-infx calc-mess rx-expuesta"><span class="ico"><svg class="ic"><use href="#i-siren"/></svg><span class="nav-dot hidden" id="urg-nav-dot"></span></span><span>Urgencias</span></button>
       <button type="button" class="nav-btn" data-tab="tab-rx" data-mod="tab-rx"><span class="ico"><svg class="ic"><use href="#i-pill"/></svg></span><span>Recetas</span></button>
       <button type="button" class="nav-btn" data-tab="tab-notas" data-mod="tab-notas"><span class="ico"><svg class="ic"><use href="#i-file"/></svg></span><span>Notas</span></button>
       <button type="button" class="nav-btn" data-tab="tab-estudios" data-mod="tab-estudios"><span class="ico"><svg class="ic"><use href="#i-scan"/></svg></span><span>Estudios</span></button>
@@ -2541,7 +2601,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v47</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v48</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2653,9 +2713,9 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (62 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (63 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (62)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (63)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -2806,17 +2866,17 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v47 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v48 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "47",
-      versionLabel: "v47 Intuitiva",
+      version: "48",
+      versionLabel: "v48 Intuitiva",
 
-      // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
+      // Pestaña que se abre al iniciar: tab-calc | tab-urg | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
 
       // Módulos visibles por defecto (true = visible). El catálogo con nombres está en js/core/modulos.js
@@ -2826,7 +2886,8 @@
         "tab-notas": true,
         "tab-estudios": true,
         "tab-hist": true,
-        // Calculadoras
+        "tab-urg": true,
+        // Calculadoras (compartimental, cadera, infección y MESS viven en Urgencias desde v48)
         "calc-renal": true,
         "calc-caprini": true,
         "calc-compart": true,
@@ -2934,10 +2995,13 @@
       }
 
       function switchCalcPanel(calcKey) {
-        document.querySelectorAll("#calc-subnav button").forEach((b) => {
+        // v48: Inicio y Urgencias conservan cada una su propio bloque abierto
+        const panel = $("calc-" + calcKey);
+        const root = (panel && panel.closest(".tab-panel")) || document;
+        root.querySelectorAll(".tile-list button[data-calc]").forEach((b) => {
           b.classList.toggle("active", b.dataset.calc === calcKey);
         });
-        document.querySelectorAll(".calc-panel").forEach((p) => {
+        root.querySelectorAll(".calc-panel").forEach((p) => {
           p.classList.toggle("active", p.id === "calc-" + calcKey);
         });
       }
@@ -3002,17 +3066,18 @@
       const DEFAULT_TAB_STORE_KEY = "tyo_default_tab_v26";
 
       const MODULE_CATALOG = [
+        { id: "tab-urg", group: "Pestañas", label: "Urgencias" },
         { id: "tab-rx", group: "Pestañas", label: "Recetas" },
         { id: "tab-notas", group: "Pestañas", label: "Notas NOM-004" },
         { id: "tab-estudios", group: "Pestañas", label: "Estudios (Labs / Vision)" },
         { id: "tab-hist", group: "Pestañas", label: "Historial local" },
         { id: "calc-renal", group: "Calculadoras", label: "Función Renal" },
         { id: "calc-caprini", group: "Calculadoras", label: "Caprini (ETV)" },
-        { id: "calc-compart", group: "Calculadoras", label: "Síndrome compartimental" },
-        { id: "calc-cadera", group: "Calculadoras", label: "Fractura de cadera" },
-        { id: "calc-infx", group: "Calculadoras", label: "Infección ósea y de herida" },
+        { id: "calc-compart", group: "Urgencias", label: "Síndrome compartimental" },
+        { id: "calc-cadera", group: "Urgencias", label: "Fractura de cadera" },
+        { id: "calc-infx", group: "Urgencias", label: "Infección ósea y de herida" },
         { id: "calc-tad", group: "Calculadoras", label: "Índice TAD" },
-        { id: "calc-mess", group: "Calculadoras", label: "Escala MESS" },
+        { id: "calc-mess", group: "Urgencias", label: "Escala MESS" },
         { id: "rx-profilaxis", group: "Protocolos de Recetas", label: "Profilaxis Qx" },
         { id: "rx-expuesta", group: "Protocolos de Recetas", label: "Fx Expuesta" },
         { id: "rx-trombo", group: "Protocolos de Recetas", label: "Tromboprofilaxis" },
@@ -3029,7 +3094,7 @@
         { id: "quick-strip", group: "Pantalla de inicio", label: "Barra de atajos de guardia" }
       ];
       const MODULE_IDS = MODULE_CATALOG.map((m) => m.id);
-      const TAB_LABELS = { "tab-calc": "Calculadoras", "tab-rx": "Recetas", "tab-notas": "Notas", "tab-estudios": "Estudios", "tab-hist": "Historial" };
+      const TAB_LABELS = { "tab-calc": "Inicio y calculadoras", "tab-urg": "Urgencias", "tab-rx": "Recetas", "tab-notas": "Notas", "tab-estudios": "Estudios", "tab-hist": "Historial" };
 
       function loadModuleOverrides() {
         try {
@@ -3058,6 +3123,8 @@
       }
 
       function isTabOn(tabId) {
+        // v48: Urgencias se oculta si no le queda ningún bloque encendido
+        if (tabId === "tab-urg") return isModuleOn("tab-urg") && (["calc-compart", "calc-cadera", "calc-infx", "calc-mess"].some(isModuleOn) || (isModuleOn("tab-rx") && isModuleOn("rx-expuesta")));
         return tabId === "tab-calc" || isModuleOn(tabId);
       }
 
@@ -3078,8 +3145,9 @@
         return clean;
       }
 
-      function firstEnabledCalc() {
-        const tile = Array.from(document.querySelectorAll("#calc-subnav [data-calc]"))
+      function firstEnabledCalc(scope) {
+        const root = scope || $("tab-calc") || document;
+        const tile = Array.from(root.querySelectorAll(".tile-list [data-calc]"))
           .find((b) => isModuleOn("calc-" + b.dataset.calc));
         return tile ? tile.dataset.calc : null;
       }
@@ -3105,11 +3173,12 @@
         const activeTab = document.querySelector(".tab-panel.active");
         if (activeTab && !isTabOn(activeTab.id)) switchTab("tab-calc");
 
-        const activeCalc = document.querySelector(".calc-panel.active");
-        if (activeCalc && !isModuleOn(activeCalc.id)) {
-          const first = firstEnabledCalc();
-          if (first) switchCalcPanel(first);
-        }
+        document.querySelectorAll(".calc-panel.active").forEach((activeCalc) => {
+          if (!isModuleOn(activeCalc.id)) {
+            const first = firstEnabledCalc(activeCalc.closest(".tab-panel"));
+            if (first) switchCalcPanel(first);
+          }
+        });
 
         const protoSel = $("rx-protocol");
         if (protoSel && !isModuleOn("rx-" + protoSel.value)) {
@@ -5063,7 +5132,7 @@
 
       // Diseño de PC: en pantallas anchas cada pestaña se acomoda en dos columnas.
       var DESK_LAYOUT_ON = false;
-      function deskSpecs() { return { "tab-rx": [[2, 1], [3, 4]], "tab-notas": [[1, 2], [3]], "tab-calc": [[0, 2], [1]] }; }
+      function deskSpecs() { return { "tab-rx": [[2, 1], [3, 4]], "tab-notas": [[1, 2], [3]], "tab-calc": [[0, 2], [1]], "tab-urg": [[0], [1]] }; }
       function applyDeskLayout() {
         const want = window.matchMedia("(min-width: 1100px)").matches;
         if (want === DESK_LAYOUT_ON) return;
@@ -6515,7 +6584,7 @@
           quickGoTo($("nota-input").closest(".card") || $("nota-input"), $("nota-input"));
         } else if (act === "calc-compart") {
           switchCalcPanel("compart");
-          switchTab("tab-calc");
+          switchTab("tab-urg");
           scRender();
           if (tel) quickGoTo($("calc-compart"));
         } else if (act === "est-lab") {
@@ -7057,7 +7126,7 @@
           scPutRec(store, id, rec);
           scRender();
         });
-        const tile = document.querySelector('#calc-subnav [data-calc="compart"]');
+        const tile = document.querySelector('#urg-subnav [data-calc="compart"]');
         if (tile) tile.addEventListener("click", scRender);
 
         // v45: lo capturado «sin paciente» lo maneja initPxStoresV45 (pxStores) para todos los bloques.
@@ -7124,6 +7193,7 @@
         try { scRender(); } catch (_) {}
         try { cadRender(); } catch (_) {}
         try { infRender(); } catch (_) {}
+        try { urgRender(); } catch (_) {}
       }
 
       function initPxStoresV45() {
@@ -7586,7 +7656,7 @@
           renderProtocol();
           switchTab("tab-rx");
         });
-        const tile = document.querySelector('#calc-subnav [data-calc="cadera"]');
+        const tile = document.querySelector('#urg-subnav [data-calc="cadera"]');
         if (tile) tile.addEventListener("click", cadRender);
         document.addEventListener("tyo-patient-change", () => { try { cadRender(); } catch (_) {} });
         cadRender();
@@ -8393,11 +8463,201 @@
           infRender();
           showToast("Datos de infección borrados.");
         });
-        $("btn-ix-renal").addEventListener("click", () => { switchCalcPanel("renal"); const t = document.querySelector('#calc-subnav [data-calc="renal"]'); if (t) t.scrollIntoView({ block: "center" }); });
-        const tile = document.querySelector('#calc-subnav [data-calc="infx"]');
+        $("btn-ix-renal").addEventListener("click", () => { switchTab("tab-calc"); switchCalcPanel("renal"); quickGoTo($("calc-renal"), $("ren-cr")); });
+        const tile = document.querySelector('#urg-subnav [data-calc="infx"]');
         if (tile) tile.addEventListener("click", infRender);
         document.addEventListener("tyo-patient-change", () => { try { infRender(); } catch (_) {} });
         infRender();
+      }
+
+      /* =======================================================
+         v48: PESTAÑA DE URGENCIAS
+         Junta fractura expuesta (abre su protocolo en Recetas),
+         síndrome compartimental, fractura de cadera, infección y
+         MESS. Arriba, un resumen de pendientes del paciente activo;
+         punto rojo en la barra si hay una revisión vencida.
+      ======================================================= */
+      function urgDefs() {
+        return {
+          keys: ["compart", "cadera", "infx", "mess"],
+          notaBtn: { "calc-compart": "btn-sc-note", "calc-cadera": "btn-cx-note", "calc-infx": "btn-ix-note", "calc-mess": "btn-mess-note" },
+          tipos: { herida: "herida quirúrgica", fri: "fractura u osteosíntesis", pji: "prótesis articular", kocher: "artritis séptica en niño" },
+          tickMs: 30000
+        };
+      }
+
+      function urgState() {
+        if (!urgState.s) urgState.s = { timer: 0, deb: 0 };
+        return urgState.s;
+      }
+
+      // Pura: renglones del resumen a partir de los registros del paciente.
+      // in = { sc, cad, inf: { v }, ctx: { nino, crcl } }; cada renglón { key, lvl, title, sub, alert }.
+      function urgItems(input, nowMs) {
+        const x = input || {};
+        const now = Number.isFinite(nowMs) ? nowMs : Date.now();
+        const out = [];
+        // Síndrome compartimental
+        const sc = x.sc;
+        if (sc && !scRecEmpty(sc)) {
+          const ext = scExtLabel(sc.ext.r, sc.ext.l);
+          const it = { key: "compart", lvl: "info", title: "Síndrome compartimental" + (ext ? " · " + ext.toLowerCase() : ""), sub: "", alert: false };
+          const due = scNextDue(sc.evals);
+          if (!due) {
+            it.lvl = sc.risks.length ? "warn" : "info";
+            it.sub = sc.risks.length ? "En riesgo y sin exploración registrada: explorar y registrar cada hora." : "Sin exploraciones registradas.";
+          } else {
+            const last = sc.evals[sc.evals.length - 1];
+            const alarma = last.lvl === "danger";
+            if (now >= due.at) {
+              it.lvl = "danger"; it.alert = true;
+              it.sub = "Revisión vencida desde las " + scHora(due.at, now) + " (cada " + due.mins + " min).";
+            } else {
+              const faltan = Math.max(1, Math.ceil((due.at - now) / 60000));
+              it.lvl = alarma ? "danger" : faltan <= 10 ? "warn" : "info";
+              it.sub = "Próxima revisión a las " + scHora(due.at, now) + " (en " + faltan + " min).";
+            }
+            if (alarma) { it.alert = true; it.sub += " Última exploración con datos de alarma."; }
+          }
+          out.push(it);
+        }
+        // Fractura de cadera
+        const cad = x.cad;
+        if (cad && !cadRecEmpty(cad)) {
+          const it = { key: "cadera", lvl: "info", title: "Fractura de cadera", sub: "", alert: false };
+          const total = cadDefs().pend.length;
+          const clk = cadClock(cad.ingreso, now);
+          if (!clk) {
+            it.lvl = "warn";
+            it.sub = "Falta la hora de ingreso para el reloj a cirugía.";
+          } else {
+            it.lvl = clk.level === "ok" ? "info" : clk.level;
+            it.sub = clk.h + " h " + clk.m + " min desde el ingreso; " + (clk.fueraNice ? "fuera de la meta NICE." : "meta NICE: " + cadDia(clk.nice, now) + " a las 23:59.");
+          }
+          it.sub += " Pendientes del ingreso: " + cad.pend.length + " de " + total + ".";
+          out.push(it);
+        }
+        // Infección ósea y de herida
+        const v = x.inf && x.inf.v ? x.inf.v : null;
+        if (v && v["ix-tipo"]) {
+          const ctx = x.ctx || {};
+          const ev = infEvaluate(v, { nino: !!ctx.nino || v["ix-tipo"] === "kocher", crcl: ctx.crcl == null ? null : ctx.crcl });
+          const it = { key: "infx", lvl: ev.level && ev.level !== "ok" ? ev.level : "info", title: "Infección · " + (urgDefs().tipos[v["ix-tipo"]] || ""), sub: ev.head + ".", alert: false };
+          const nm = infChecked(v, infDefs().muestras).length;
+          if (nm) it.sub += " Muestras: " + nm + " de " + infDefs().muestras.length + ".";
+          if (v["ix-sepsis"] === "shock") { it.lvl = "danger"; it.sub += " Choque o alta probabilidad de sepsis: antibiótico en la primera hora."; }
+          out.push(it);
+        }
+        return out;
+      }
+
+      // Lee los registros del paciente activo (o «sin paciente»).
+      function urgCollect() {
+        let sc = null, cad = null, inf = null;
+        try { sc = scGetRec(scLoad(), scActiveId()); } catch (_) {}
+        try { const s = cadLoad(); cad = s.byId[cadActiveId()] || null; } catch (_) {}
+        try { inf = infLoad().byId[infActiveId()] || null; } catch (_) {}
+        let nino = false, crcl = null;
+        try { nino = infEsNino(); } catch (_) {}
+        try { crcl = cadCrclAuto(); } catch (_) {}
+        return { sc, cad, inf, ctx: { nino, crcl } };
+      }
+
+      function urgPatientLabel() {
+        try {
+          const rec = loadFicha();
+          if (rec && fichaHasData(rec.data)) {
+            const f = rec.data;
+            const edad = f.edad !== "" && Number.isFinite(f.edad) ? f.edad + (f.edadUnidad === "m" ? "m" : "a") : "";
+            return [fichaSummary(f).initials || "Paciente", edad].filter(Boolean).join(" · ");
+          }
+        } catch (_) {}
+        return "";
+      }
+
+      function urgRender() {
+        const box = $("urg-sum");
+        if (!box) return;
+        const items = urgItems(urgCollect(), Date.now());
+        const quien = urgPatientLabel();
+        if ($("urg-sum-pt")) $("urg-sum-pt").textContent = quien || "Sin paciente";
+        const list = $("urg-sum-list");
+        if (list) {
+          list.innerHTML = items.length
+            ? items.map((it) => '<button type="button" class="urg-item lvl-' + it.lvl + '" data-urg-go="' + it.key + '"><span class="urg-dot" aria-hidden="true"></span><span class="urg-txt"><strong>' + escapeHtml(it.title) + "</strong><small>" + escapeHtml(it.sub).replace(/(\d) (h|min)\b/g, "$1&nbsp;$2") + '</small></span><svg class="ic urg-go" aria-hidden="true"><use href="#i-arrow"/></svg></button>').join("")
+            : '<p class="urg-empty">' + (quien ? "Sin registros de urgencias para este paciente." : "Sin registros de urgencias todavía.") + " Elige un bloque abajo.</p>";
+        }
+        const alerta = items.find((it) => it.alert);
+        const dot = $("urg-nav-dot");
+        if (dot) dot.classList.toggle("hidden", !alerta);
+        const nav = document.querySelector('.nav-btn[data-tab="tab-urg"]');
+        if (nav) {
+          if (alerta) nav.setAttribute("aria-label", "Urgencias: " + (alerta.key === "compart" && /vencida/.test(alerta.sub) ? "revisión compartimental vencida" : "hay un dato de alarma"));
+          else nav.removeAttribute("aria-label");
+        }
+      }
+
+      function urgRenderSoon() {
+        const s = urgState();
+        clearTimeout(s.deb);
+        s.deb = setTimeout(() => { try { urgRender(); } catch (_) {} }, 150);
+      }
+
+      // Abre un bloque dentro de Urgencias y lo deja a la vista.
+      function urgOpen(key) {
+        if (!isModuleOn("calc-" + key)) { showToast("Bloque desactivado. Actívalo en ⚙️ Ajustes → Módulos."); return; }
+        switchTab("tab-urg");
+        switchCalcPanel(key);
+        try { if (key === "compart") scRender(); else if (key === "cadera") cadRender(); else if (key === "infx") infRender(); } catch (_) {}
+        quickGoTo($("calc-" + key));
+      }
+
+      function urgGoExpuesta() {
+        if (!isTabOn("tab-rx") || !isModuleOn("rx-expuesta")) { showToast("Protocolo desactivado. Actívalo en ⚙️ Ajustes → Módulos."); return; }
+        $("rx-protocol").value = "expuesta";
+        renderProtocol();
+        switchTab("tab-rx");
+        try { quickActionV43("rx-expuesta"); } catch (_) {}
+      }
+
+      function urgTick() {
+        if (document.hidden) return;
+        try { urgRender(); } catch (_) {}
+      }
+
+      function initUrgenciasV48() {
+        const tab = $("tab-urg");
+        if (!tab) return;
+        document.querySelectorAll("#urg-subnav button[data-calc]").forEach((btn) => {
+          btn.addEventListener("click", () => switchCalcPanel(btn.dataset.calc));
+        });
+        if ($("urg-tile-expuesta")) $("urg-tile-expuesta").addEventListener("click", urgGoExpuesta);
+        if ($("urg-sum-list")) {
+          $("urg-sum-list").addEventListener("click", (e) => {
+            const b = e.target.closest("[data-urg-go]");
+            if (b) urgOpen(b.dataset.urgGo);
+          });
+        }
+        if ($("btn-urg-note")) {
+          $("btn-urg-note").addEventListener("click", () => {
+            const act = tab.querySelector(".calc-panel.active");
+            const id = act ? urgDefs().notaBtn[act.id] : "";
+            if (id && $(id)) $(id).click();
+            else showToast("Abre primero un bloque de urgencias.");
+          });
+        }
+        ["input", "change", "click"].forEach((ev) => tab.addEventListener(ev, urgRenderSoon));
+        document.addEventListener("tyo-patient-change", urgRenderSoon);
+        document.addEventListener("visibilitychange", () => { if (!document.hidden) urgRenderSoon(); });
+        const prevSwitchTab = switchTab;
+        switchTab = function (tabId) {
+          prevSwitchTab(tabId);
+          if (tabId === "tab-urg") urgRenderSoon();
+        };
+        const s = urgState();
+        clearInterval(s.timer);
+        s.timer = setInterval(urgTick, urgDefs().tickMs);
+        urgRender();
       }
 
       function renderProtocol() {
@@ -12611,7 +12871,7 @@
         const savedOverrides = Object.assign({}, moduleOverrides);
         const tabBefore = (document.querySelector(".tab-panel.active") || {}).id || "tab-calc";
         const calcBefore = ((document.querySelector(".calc-panel.active") || {}).id || "calc-renal").replace("calc-", "");
-        const messTile = document.querySelector('#calc-subnav [data-calc="mess"]');
+        const messTile = document.querySelector('#urg-subnav [data-calc="mess"]');
         moduleOverrides = Object.assign({}, savedOverrides, { "calc-mess": false });
         applyModules();
         const modHidden = !!messTile && messTile.classList.contains("mod-off");
@@ -13002,6 +13262,46 @@
         } catch (e) { det62 = "Error: " + e.message; }
         addTest("62. v47: infección ósea y de herida", ok62, det62);
 
+        // 63. v48: pestaña de Urgencias (cada pestaña con su bloque abierto y resumen de pendientes)
+        let ok63 = false, det63 = "";
+        try {
+          const urgTab = $("tab-urg");
+          const inUrg = ["compart", "cadera", "infx", "mess"].every((k) => urgTab && urgTab.contains($("calc-" + k)) && urgTab.querySelector('#urg-subnav [data-calc="' + k + '"]'));
+          const outCalc = !$("calc-subnav").querySelector('[data-calc="compart"], [data-calc="cadera"], [data-calc="infx"], [data-calc="mess"]') && !!$("urg-tile-expuesta");
+          const nav63 = !!document.querySelector('.nav-btn[data-tab="tab-urg"]') && TAB_LABELS["tab-urg"] === "Urgencias" && JSON.stringify(deskSpecs()["tab-urg"]) === "[[0],[1]]";
+          const antesCalc = (document.querySelector("#tab-calc .calc-panel.active") || {}).id;
+          const antesUrg = (document.querySelector("#tab-urg .calc-panel.active") || {}).id;
+          let scope63 = false;
+          if (isModuleOn("calc-cadera") && isModuleOn("calc-renal")) {
+            switchCalcPanel("cadera");
+            const a = $("calc-cadera").classList.contains("active") && (document.querySelector("#tab-calc .calc-panel.active") || {}).id === antesCalc;
+            switchCalcPanel("renal");
+            const b = $("calc-renal").classList.contains("active") && $("calc-cadera").classList.contains("active");
+            scope63 = a && b;
+            if (antesUrg && isModuleOn(antesUrg)) switchCalcPanel(antesUrg.replace("calc-", ""));
+            if (antesCalc && isModuleOn(antesCalc)) switchCalcPanel(antesCalc.replace("calc-", ""));
+          } else scope63 = true;
+          const t0 = new Date(2026, 10, 27, 12, 0).getTime();
+          const venc = urgItems({ sc: scSanitizeRec({ ext: { r: "pierna", l: "der" }, evals: [{ t: t0 - 70 * 60000, f: [], lvl: "ok" }] }) }, t0);
+          const prox = urgItems({ sc: scSanitizeRec({ risks: ["tibia"], evals: [{ t: t0 - 20 * 60000, f: [], lvl: "info" }] }) }, t0);
+          const alarma = urgItems({ sc: scSanitizeRec({ evals: [{ t: t0 - 5 * 60000, f: ["dolor"], lvl: "danger" }] }) }, t0);
+          const cad = urgItems({ cad: cadSanitizeRec({ ingreso: t0 - 30 * 3600000, pend: ["analgesia", "trombo"] }) }, t0);
+          const sinIng = urgItems({ cad: cadSanitizeRec({ fx: "cuello-d" }) }, t0);
+          const inf = urgItems({ inf: { v: { "ix-tipo": "fri", "ix-fc-pus": true, "ix-mu-tejido": true } }, ctx: { nino: false, crcl: 80 } }, t0);
+          const shock = urgItems({ inf: { v: { "ix-tipo": "herida", "ix-sepsis": "shock" } } }, t0);
+          const items63 = venc.length === 1 && venc[0].lvl === "danger" && venc[0].alert && /vencida desde las 11:50 \(cada 60 min\)/.test(venc[0].sub) && venc[0].title === "Síndrome compartimental · pierna derecha" &&
+            prox[0].lvl === "info" && !prox[0].alert && /a las 12:40 \(en 40 min\)/.test(prox[0].sub) &&
+            alarma[0].lvl === "danger" && alarma[0].alert && /12:25 \(en 25 min\).*datos de alarma/.test(alarma[0].sub) &&
+            cad[0].lvl === "warn" && /^30 h 0 min desde el ingreso; meta NICE: hoy a las 23:59\. Pendientes del ingreso: 2 de 7\.$/.test(cad[0].sub) && !cad[0].alert &&
+            sinIng[0].lvl === "warn" && /Falta la hora de ingreso/.test(sinIng[0].sub) &&
+            inf[0].lvl === "danger" && inf[0].title === "Infección · fractura u osteosíntesis" && /confirmada\. Muestras: 1 de 6\.$/.test(inf[0].sub) &&
+            shock[0].lvl === "danger" && /primera hora/.test(shock[0].sub) &&
+            urgItems({}, t0).length === 0 && urgItems({ sc: scSanitizeRec(null), cad: cadSanitizeRec(null), inf: { v: {} } }, t0).length === 0;
+          ok63 = inUrg && outCalc && nav63 && scope63 && items63;
+          det63 = "bloques dentro de Urgencias " + inUrg + " · fuera de Inicio y con fractura expuesta " + outCalc + " · barra, nombre y vista de PC " + nav63 + " · cada pestaña con su bloque " + scope63 + " · resumen (vencida, próxima, alarma, cadera, infección, choque, vacío) " + items63;
+        } catch (e) { det63 = "Error: " + e.message; }
+        addTest("63. v48: pestaña de Urgencias", ok63, det63);
+
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
         const rows = tests.map((t) => (t.ok ? "✅ " : "❌ ") + "<strong>" + escapeHtml(t.name) + "</strong>: " + escapeHtml(t.detail)).join("<br>");
@@ -13112,10 +13412,10 @@
           { title: "Función Renal (Cockcroft-Gault / CKD-EPI)", mod: "calc-renal", cat: "Calculadora", keys: "renal creatinina tfg crcl kdigo cockcroft ckd", run: () => { switchTab("tab-calc"); switchCalcPanel("renal"); } },
           { title: "Escala de Caprini (Riesgo ETV)", mod: "calc-caprini", cat: "Calculadora", keys: "caprini etv tvp tep trombosis", run: () => { switchTab("tab-calc"); switchCalcPanel("caprini"); } },
           { title: "Índice Punta-Ápice (TAD — Cadera)", mod: "calc-tad", cat: "Calculadora", keys: "tad cadera dhs pfn clavo cut out baumgaertner", run: () => { switchTab("tab-calc"); switchCalcPanel("tad"); } },
-          { title: "Síndrome compartimental (vigilancia · ΔP)", mod: "calc-compart", cat: "Calculadora", keys: "sindrome compartimental fasciotomia presion compartimental delta perfusion pierna antebrazo vigilancia horaria", run: () => { switchTab("tab-calc"); switchCalcPanel("compart"); scRender(); } },
-          { title: "Fractura de cadera del adulto mayor (reloj, Nottingham, 4AT)", mod: "calc-cadera", cat: "Calculadora", keys: "fractura cadera adulto mayor femur cuello intertrocanterica subtrocanterica nottingham 4at delirium anticoagulante apixaban warfarina acenocumarol", run: () => { switchTab("tab-calc"); switchCalcPanel("cadera"); cadRender(); } },
-          { title: "Infección ósea y de herida (NHSN, FRI, ICM 2018, Kocher)", mod: "calc-infx", cat: "Calculadora", keys: "infeccion sitio quirurgico herida osteomielitis fractura osteosintesis protesis periprotesica artritis septica kocher caird icm nhsn vancomicina cefepima piperacilina sepsis", run: () => { switchTab("tab-calc"); switchCalcPanel("infx"); infRender(); } },
-          { title: "Escala MESS (Extremidad Lesionada)", mod: "calc-mess", cat: "Calculadora", keys: "mess isquemia amputacion extremidad trauma", run: () => { switchTab("tab-calc"); switchCalcPanel("mess"); } },
+          { title: "Síndrome compartimental (vigilancia · ΔP)", mod: "calc-compart", cat: "Urgencias", keys: "sindrome compartimental fasciotomia presion compartimental delta perfusion pierna antebrazo vigilancia horaria", run: () => { switchTab("tab-urg"); switchCalcPanel("compart"); scRender(); } },
+          { title: "Fractura de cadera del adulto mayor (reloj, Nottingham, 4AT)", mod: "calc-cadera", cat: "Urgencias", keys: "fractura cadera adulto mayor femur cuello intertrocanterica subtrocanterica nottingham 4at delirium anticoagulante apixaban warfarina acenocumarol", run: () => { switchTab("tab-urg"); switchCalcPanel("cadera"); cadRender(); } },
+          { title: "Infección ósea y de herida (NHSN, FRI, ICM 2018, Kocher)", mod: "calc-infx", cat: "Urgencias", keys: "infeccion sitio quirurgico herida osteomielitis fractura osteosintesis protesis periprotesica artritis septica kocher caird icm nhsn vancomicina cefepima piperacilina sepsis", run: () => { switchTab("tab-urg"); switchCalcPanel("infx"); infRender(); } },
+          { title: "Escala MESS (Extremidad Lesionada)", mod: "calc-mess", cat: "Urgencias", keys: "mess isquemia amputacion extremidad trauma", run: () => { switchTab("tab-urg"); switchCalcPanel("mess"); } },
           { title: "Profilaxis Antibiótica Quirúrgica", mod: "tab-rx rx-profilaxis", cat: "Receta", keys: "profilaxis cefazolina cefalotina clindamicina vancomicina cerrada", run: () => { $("rx-protocol").value = "profilaxis"; renderProtocol(); switchTab("tab-rx"); } },
           { title: "Fractura Expuesta (Gustilo-Anderson)", mod: "tab-rx rx-expuesta", cat: "Receta", keys: "expuesta gustilo gentamicina ceftriaxona tetanos abierta", run: () => { $("rx-protocol").value = "expuesta"; renderProtocol(); switchTab("tab-rx"); } },
           { title: "Tromboprofilaxis Ortopédica Mayor", mod: "tab-rx rx-trombo", cat: "Receta", keys: "tromboprofilaxis enoxaparina rivaroxaban apixaban cadera rodilla", run: () => { $("rx-protocol").value = "trombo"; renderProtocol(); switchTab("tab-rx"); } },
@@ -13365,7 +13665,7 @@
         }
         if ($("btn-calc-all-note")) {
           $("btn-calc-all-note").addEventListener("click", () => {
-            const activeCalc = document.querySelector(".calc-panel.active");
+            const activeCalc = document.querySelector("#tab-calc .calc-panel.active");
             const id = activeCalc ? activeCalc.id : "calc-renal";
             if (id === "calc-renal") $("btn-ren-note").click();
             else if (id === "calc-caprini") $("btn-cap-note").click();
@@ -13402,8 +13702,8 @@
         if (btn) btn.setAttribute("aria-expanded", expanded ? "true" : "false");
         // v26: la etiqueta refleja solo las escalas activas en Ajustes → Módulos
         const on = (id) => typeof isModuleOn !== "function" || isModuleOn(id);
-        const shortNames = [on("calc-tad") ? "TAD" : null, on("calc-mess") ? "MESS" : null].filter(Boolean).join(" · ");
-        const longNames = [on("calc-tad") ? "Índice TAD" : null, on("calc-mess") ? "Escala MESS" : null].filter(Boolean).join(" · ");
+        const shortNames = [on("calc-tad") ? "TAD" : null].filter(Boolean).join(" · ");
+        const longNames = [on("calc-tad") ? "Índice TAD" : null].filter(Boolean).join(" · ");
         if (lbl) lbl.textContent = expanded
           ? "− Ocultar escalas adicionales (" + shortNames + ")"
           : "+ Más escalas TyO (" + longNames + ")";
@@ -13422,7 +13722,7 @@
         // If user selects TAD or MESS via search bar, auto-reveal the extra tiles
         const origSwitchCalcPanel = switchCalcPanel;
         switchCalcPanel = function (calcKey) {
-          if (calcKey === "tad" || calcKey === "mess") {
+          if (calcKey === "tad") {
             setExtraCalcsExpanded(true);
           }
           origSwitchCalcPanel(calcKey);
@@ -13735,6 +14035,7 @@
         ["Infección ósea y de herida v47", initInfeccionV47],
         ["Registros por paciente v45", initPxStoresV45],
         ["Respaldo cifrado v46", initRespaldoV46],
+        ["Urgencias v48", initUrgenciasV48],
         ["Pulido v37", initPulidoV37],
         ["Módulos v26", initModulesV26] /* siempre al final */
       ].forEach(([name, fn]) => runInit(name, fn));
