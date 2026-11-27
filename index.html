@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v41 · Tema "Base44" (oscuro + claro)
+       TyO Assist v42 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -958,6 +958,25 @@
     .nota-print-link { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; }
     .nota-print-link .ic { width: 16px; height: 16px; }
 
+
+    /* ---------- v42: guía de la historia clínica menos saturada ---------- */
+    .hc-chips:not(.show-all) > .hc-more-item:not(.is-on) { display: none; }
+    .hc-more-toggle { border-style: dashed; color: var(--gold-text); font-weight: 650; }
+    .hc-field.hc-compact { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 10px; row-gap: 6px; }
+    .hc-field.hc-compact > .hc-chips { flex-wrap: nowrap; justify-content: flex-end; }
+    .hc-field.hc-compact > input { grid-column: 1 / -1; }
+    .hc-quick { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .hc-quick span { font-size: 12.5px; font-weight: 500; color: var(--muted); }
+    .hc-sec > summary .sum-text { min-width: 0; }
+    .hc-prev { display: block; margin-top: 3px; font-size: 12.5px; font-weight: 500; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .hc-sec[open] .hc-prev { display: none; }
+    .hc-mas { border-top: 1px dashed var(--line); padding-top: 4px; }
+    .hc-mas > summary { display: flex; align-items: center; min-height: 40px; cursor: pointer; list-style: none; font-size: 13.5px; font-weight: 650; color: var(--gold-text); }
+    .hc-mas > summary::-webkit-details-marker { display: none; }
+    .hc-mas > summary::before { content: "+"; display: inline-block; width: 16px; font-weight: 700; }
+    .hc-mas[open] > summary::before { content: "−"; }
+    .hc-mas-body { display: flex; flex-direction: column; gap: 12px; padding-bottom: 6px; }
+
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
     @media print {
@@ -1732,7 +1751,7 @@
         </div>
 
         <!-- v38: Historia clínica guiada (NOM-004 6.1) -->
-        <div class="hc-guide no-print hidden" id="hc-guide"><div class="hc-head"><div><div class="mini-label">Historia clínica · NOM-004 6.1</div><p class="hc-sub">Llena por apartados con frases rápidas. Lo que quede vacío sale como [NO REFERIDO].</p></div><span class="badge" id="hc-total">0</span></div><div class="hc-ficha" id="hc-ficha-resumen"></div><div class="hc-group">6.1.1 Interrogatorio</div><details class="acc acc-card hc-sec" name="hc-sec" data-hc="ident" id="hc-sec-ident"><summary><span class="sum-text"><strong>Identificación</strong> <small class="hc-prog" data-prog="ident"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="grid-2"><label class="field">Interrogatorio<span class="select-wrap"><select id="hc-informante" data-hc-req="ident"><option value="">Elegir…</option><option>Directo</option><option>Indirecto (familiar o acompañante)</option><option>Mixto</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Mano dominante<span class="select-wrap"><select id="hc-mano" data-hc-req="ident"><option value="">Elegir…</option><option>Diestro</option><option>Zurdo</option><option>Ambidiestro</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Ocupación<input type="text" id="hc-ocupacion" data-hc-req="ident" placeholder="Albañil, estudiante…" /></label><label class="field">Escolaridad<span class="select-wrap"><select id="hc-escolaridad" data-hc-req="ident"><option value="">Elegir…</option><option>Ninguna</option><option>Primaria</option><option>Secundaria</option><option>Bachillerato</option><option>Licenciatura</option><option>Posgrado</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Estado civil<span class="select-wrap"><select id="hc-civil" data-hc-req="ident"><option value="">Elegir…</option><option>Soltero(a)</option><option>Casado(a)</option><option>Unión libre</option><option>Divorciado(a)</option><option>Viudo(a)</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Originario y residente de<input type="text" id="hc-origen" data-hc-req="ident" placeholder="Ciudad, estado" /></label></div><label class="field">Grupo étnico o lengua indígena (si aplica)<input type="text" id="hc-etnia" placeholder="No aplica" /></label><p class="hc-lock"><svg class="ic gold"><use href="#i-shield"/></svg>La identificación se queda en este teléfono: nunca se envía a la IA.</p></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="ahf" id="hc-sec-ahf"><summary><span class="sum-text"><strong>Heredofamiliares</strong> <small class="hc-prog" data-prog="ahf"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="field hc-field"><label for="hc-ahf">Antecedentes heredofamiliares</label><div class="chips hc-chips" data-hc-for="hc-ahf"></div><textarea id="hc-ahf" class="hc-ta" data-hc-req="ahf" placeholder="Madre con diabetes mellitus tipo 2…"></textarea></div></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="apnp" id="hc-sec-apnp"><summary><span class="sum-text"><strong>Personales no patológicos</strong> <small class="hc-prog" data-prog="apnp"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="grid-2"><label class="field">Tabaquismo<span class="select-wrap"><select id="hc-tabaco" data-hc-req="apnp"><option value="">Elegir…</option><option>Negado</option><option>Activo</option><option>Exfumador</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Alcoholismo<span class="select-wrap"><select id="hc-alcohol" data-hc-req="apnp"><option value="">Elegir…</option><option>Negado</option><option>Ocasional o social</option><option>Frecuente (semanal)</option><option>Diario</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label></div><div class="grid-2 hidden" id="hc-tabaco-det"><label class="field">Cigarrillos al día<input type="number" id="hc-cig" placeholder="10" min="0" max="200" inputmode="numeric" /></label><label class="field">Años fumando<input type="number" id="hc-cig-anios" placeholder="15" min="0" max="90" inputmode="numeric" /></label></div><p class="hc-ro hidden" id="hc-it"></p><div class="hidden" id="hc-alcohol-det-box"><label class="field">Detalle de alcohol<input type="text" id="hc-alcohol-det" placeholder="Cerveza los fines de semana, hasta la embriaguez" /></label></div><div class="grid-2"><label class="field">Otras sustancias<span class="select-wrap"><select id="hc-sustancias" data-hc-req="apnp"><option value="">Elegir…</option><option>Negadas</option><option>Positivas</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Vacuna antitetánica<span class="select-wrap"><select id="hc-tetanos" data-hc-req="apnp"><option value="">Elegir…</option><option>Esquema o refuerzo vigente (menos de 5 años)</option><option>Último refuerzo hace 5 a 10 años</option><option>Último refuerzo hace más de 10 años</option><option>Incompleta o sin vacunar</option><option>Se desconoce</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label></div><div class="hidden" id="hc-sustancias-det-box"><label class="field">¿Cuáles y con qué frecuencia?<input type="text" id="hc-sustancias-det" placeholder="Cannabis ocasional" /></label></div><label class="field">Otros (actividad física, deporte, vivienda)<input type="text" id="hc-apnp" placeholder="Futbol los fines de semana" /></label></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="app" id="hc-sec-app"><summary><span class="sum-text"><strong>Personales patológicos</strong> <small class="hc-prog" data-prog="app"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="field hc-field"><label for="hc-cronicos">Crónico-degenerativos</label><div class="chips hc-chips" data-hc-for="hc-cronicos"></div><textarea id="hc-cronicos" class="hc-ta" data-hc-req="app" placeholder="Diabetes mellitus tipo 2 de 10 años, en tratamiento con metformina…"></textarea></div><div class="field hc-field"><label for="hc-quirurgicos">Quirúrgicos</label><div class="chips hc-chips" data-hc-for="hc-quirurgicos"></div><input type="text" id="hc-quirurgicos" data-hc-req="app" placeholder="Apendicectomía en 2015" /></div><div class="field hc-field"><label for="hc-traumaticos">Traumáticos</label><div class="chips hc-chips" data-hc-for="hc-traumaticos"></div><input type="text" id="hc-traumaticos" data-hc-req="app" placeholder="Fractura de radio distal izquierdo en 2019, manejo conservador" /></div><div class="field hc-field"><label for="hc-transfusionales">Transfusionales</label><div class="chips hc-chips" data-hc-for="hc-transfusionales"></div><input type="text" id="hc-transfusionales" data-hc-req="app" placeholder="Negados" /></div><div class="field hc-field"><label for="hc-hosp">Hospitalizaciones previas</label><div class="chips hc-chips" data-hc-for="hc-hosp"></div><input type="text" id="hc-hosp" data-hc-req="app" placeholder="Negadas" /></div><div class="field hc-field"><label for="hc-meds">Medicamentos actuales</label><div class="chips hc-chips" data-hc-for="hc-meds"></div><input type="text" id="hc-meds" data-hc-req="app" placeholder="Metformina 850 mg cada 12 horas" /></div><div class="hc-ro-row"><p class="hc-ro" id="hc-alergias-ro"></p><button type="button" class="btn btn-secondary btn-sm hc-open-ficha"><svg class="ic gold"><use href="#i-user"/></svg>Ficha</button></div></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="go" id="hc-sec-go"><summary><span class="sum-text"><strong>Gineco-obstétricos</strong> <small class="hc-prog" data-prog="go"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="grid-2"><label class="field">Menarca (años)<input type="number" id="hc-menarca" data-hc-req="go" placeholder="12" min="7" max="20" inputmode="numeric" /></label><label class="field">Fecha de última menstruación<input type="date" id="hc-fum" data-hc-req="go" placeholder="" /></label></div><label class="field">Gestas, partos, cesáreas y abortos<input type="text" id="hc-gpca" data-hc-req="go" placeholder="Gestas 2, partos 1, cesáreas 1, abortos 0" /></label><div class="grid-2"><label class="field">Planificación familiar<input type="text" id="hc-mpf" data-hc-req="go" placeholder="Ninguno, DIU, hormonal…" /></label><label class="field">Posibilidad de embarazo<span class="select-wrap"><select id="hc-embarazo" data-hc-req="go"><option value="">Elegir…</option><option>No</option><option>Sí (embarazo referido)</option><option>En lactancia</option><option>Se desconoce</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label></div><p class="hc-warn hidden" id="hc-embarazo-warn">Considera prueba de embarazo antes de radiografías y revisa los medicamentos.</p></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="pa" id="hc-sec-pa"><summary><span class="sum-text"><strong>Padecimiento actual</strong> <small class="hc-prog" data-prog="pa"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="hc-ro-row"><p class="hc-ro" id="hc-pa-ro"></p><button type="button" class="btn btn-secondary btn-sm" id="btn-hc-ir-dictado"><svg class="ic gold"><use href="#i-mic"/></svg>Dictar</button></div><div class="field hc-field"><label for="hc-trat-previos">Tratamientos previos (convencionales, alternativos o tradicionales)</label><div class="chips hc-chips" data-hc-for="hc-trat-previos"></div><input type="text" id="hc-trat-previos" data-hc-req="pa" placeholder="Paracetamol por automedicación; valoración por huesero" /></div></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="ipas" id="hc-sec-ipas"><summary><span class="sum-text"><strong>Aparatos y sistemas</strong> <small class="hc-prog" data-prog="ipas"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="field hc-field"><label for="hc-ipas">Interrogatorio por aparatos y sistemas</label><div class="chips hc-chips" data-hc-for="hc-ipas"></div><textarea id="hc-ipas" class="hc-ta" data-hc-req="ipas" placeholder="Cardiovascular: niega dolor torácico…"></textarea></div></div></details><div class="hc-group">6.1.2 Exploración física</div><details class="acc acc-card hc-sec" name="hc-sec" data-hc="ef" id="hc-sec-ef"><summary><span class="sum-text"><strong>Exploración física</strong> <small class="hc-prog" data-prog="ef"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="hc-ro-row"><p class="hc-ro" id="hc-somato-ro"></p><button type="button" class="btn btn-secondary btn-sm" id="btn-hc-vitales"><svg class="ic gold"><use href="#i-activity"/></svg>Signos</button></div><div class="field hc-field"><label for="hc-habitus">Habitus exterior</label><div class="chips hc-chips" data-hc-for="hc-habitus"></div><textarea id="hc-habitus" class="hc-ta" data-hc-req="ef" placeholder="Consciente, orientado, cooperador, facies álgica…"></textarea></div><div class="field hc-field"><label for="hc-cabeza">Cabeza</label><div class="chips hc-chips" data-hc-for="hc-cabeza"></div><input type="text" id="hc-cabeza" data-hc-req="ef" placeholder="Normocéfalo, pupilas isocóricas…" /></div><div class="field hc-field"><label for="hc-cuello">Cuello</label><div class="chips hc-chips" data-hc-for="hc-cuello"></div><input type="text" id="hc-cuello" data-hc-req="ef" placeholder="Cilíndrico, sin adenomegalias…" /></div><div class="field hc-field"><label for="hc-torax">Tórax</label><div class="chips hc-chips" data-hc-for="hc-torax"></div><input type="text" id="hc-torax" data-hc-req="ef" placeholder="Campos pulmonares bien ventilados…" /></div><div class="field hc-field"><label for="hc-abdomen">Abdomen</label><div class="chips hc-chips" data-hc-for="hc-abdomen"></div><input type="text" id="hc-abdomen" data-hc-req="ef" placeholder="Blando, depresible, no doloroso…" /></div><div class="field hc-field"><label for="hc-columna">Columna vertebral (si aplica)</label><div class="chips hc-chips" data-hc-for="hc-columna"></div><input type="text" id="hc-columna" placeholder="Sin dolor a la palpación de apófisis espinosas…" /></div><div class="field hc-field"><label for="hc-miembros">Miembros (exploración traumatológica)</label><div class="chips hc-chips" data-hc-for="hc-miembros"></div><textarea id="hc-miembros" class="hc-ta" data-hc-req="ef" placeholder="Rodilla derecha con aumento de volumen…"></textarea></div><div class="field hc-field"><label for="hc-genitales">Genitales</label><div class="chips hc-chips" data-hc-for="hc-genitales"></div><input type="text" id="hc-genitales" data-hc-req="ef" placeholder="Exploración diferida por no ser pertinente…" /></div></div></details><div class="hc-group">6.1.3 – 6.1.6 Estudios, diagnóstico y plan</div><details class="acc acc-card hc-sec" name="hc-sec" data-hc="plan" id="hc-sec-plan"><summary><span class="sum-text"><strong>Estudios, diagnóstico, pronóstico e indicación</strong> <small class="hc-prog" data-prog="plan"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><label class="field">Estudios de laboratorio, gabinete y otros (6.1.3)<textarea id="hc-estudios" class="hc-ta" data-hc-req="plan" placeholder="Radiografía AP y lateral de tobillo derecho: …"></textarea></label><p class="hc-ro">Lo que envíes desde Calculadoras o Estudios con «Enviar a nota» también entra aquí.</p><label class="field">Diagnósticos o problemas clínicos (6.1.4)<textarea id="hc-dx" class="hc-ta" data-hc-req="plan" placeholder="Fractura bimaleolar de tobillo derecho Weber B"></textarea></label><div class="field hc-field"><label for="hc-pron">Pronóstico (6.1.5)</label><div class="chips hc-chips" data-hc-for="hc-pron"></div><input type="text" id="hc-pron" data-hc-req="plan" placeholder="Bueno para la vida, reservado para la función" /></div><label class="field">Indicación terapéutica (6.1.6)<textarea id="hc-trat" class="hc-ta" data-hc-req="plan" placeholder="Inmovilización con férula posterior, analgesia…"></textarea></label><p class="hc-ro">También puedes usar «Copiar a Nota» en Recetas: la indicación entra en este apartado.</p></div></details><input type="hidden" id="hc-prefill-id" /><button type="button" class="btn btn-primary btn-xl hc-armar" id="btn-hc-armar"><svg class="ic"><use href="#i-file"/></svg>Armar historia clínica</button></div>
+        <div class="hc-guide no-print hidden" id="hc-guide"><div class="hc-head"><div><div class="mini-label">Historia clínica · NOM-004 6.1</div><p class="hc-sub">Toca las frases o escribe. Lo vacío sale como [NO REFERIDO].</p></div><span class="badge" id="hc-total">0</span></div><div class="hc-ficha" id="hc-ficha-resumen"></div><div class="hc-group">6.1.1 Interrogatorio</div><details class="acc acc-card hc-sec" name="hc-sec" data-hc="ident" id="hc-sec-ident"><summary><span class="sum-text"><strong>Identificación</strong> <small class="hc-prog" data-prog="ident"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="grid-2"><label class="field">Interrogatorio<span class="select-wrap"><select id="hc-informante" data-hc-req="ident"><option value="">Elegir…</option><option>Directo</option><option>Indirecto (familiar o acompañante)</option><option>Mixto</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Mano dominante<span class="select-wrap"><select id="hc-mano" data-hc-req="ident"><option value="">Elegir…</option><option>Diestro</option><option>Zurdo</option><option>Ambidiestro</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Ocupación<input type="text" id="hc-ocupacion" data-hc-req="ident" placeholder="Albañil, estudiante…" /></label><label class="field">Escolaridad<span class="select-wrap"><select id="hc-escolaridad" data-hc-req="ident"><option value="">Elegir…</option><option>Ninguna</option><option>Primaria</option><option>Secundaria</option><option>Bachillerato</option><option>Licenciatura</option><option>Posgrado</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Estado civil<span class="select-wrap"><select id="hc-civil" data-hc-req="ident"><option value="">Elegir…</option><option>Soltero(a)</option><option>Casado(a)</option><option>Unión libre</option><option>Divorciado(a)</option><option>Viudo(a)</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Originario y residente de<input type="text" id="hc-origen" data-hc-req="ident" placeholder="Ciudad, estado" /></label></div><label class="field">Grupo étnico o lengua indígena (si aplica)<input type="text" id="hc-etnia" placeholder="No aplica" /></label><p class="hc-lock"><svg class="ic gold"><use href="#i-shield"/></svg>La identificación se queda en este teléfono: nunca se envía a la IA.</p></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="ahf" id="hc-sec-ahf"><summary><span class="sum-text"><strong>Heredofamiliares</strong> <small class="hc-prog" data-prog="ahf"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="field hc-field"><label for="hc-ahf">Antecedentes heredofamiliares</label><div class="chips hc-chips" data-hc-for="hc-ahf"></div><textarea id="hc-ahf" class="hc-ta" data-hc-req="ahf" placeholder="Madre con diabetes mellitus tipo 2…"></textarea></div></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="apnp" id="hc-sec-apnp"><summary><span class="sum-text"><strong>Personales no patológicos</strong> <small class="hc-prog" data-prog="apnp"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="grid-2"><label class="field">Tabaquismo<span class="select-wrap"><select id="hc-tabaco" data-hc-req="apnp"><option value="">Elegir…</option><option>Negado</option><option>Activo</option><option>Exfumador</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Alcoholismo<span class="select-wrap"><select id="hc-alcohol" data-hc-req="apnp"><option value="">Elegir…</option><option>Negado</option><option>Ocasional o social</option><option>Frecuente (semanal)</option><option>Diario</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label></div><div class="grid-2 hidden" id="hc-tabaco-det"><label class="field">Cigarrillos al día<input type="number" id="hc-cig" placeholder="10" min="0" max="200" inputmode="numeric" /></label><label class="field">Años fumando<input type="number" id="hc-cig-anios" placeholder="15" min="0" max="90" inputmode="numeric" /></label></div><p class="hc-ro hidden" id="hc-it"></p><div class="hidden" id="hc-alcohol-det-box"><label class="field">Detalle de alcohol<input type="text" id="hc-alcohol-det" placeholder="Cerveza los fines de semana, hasta la embriaguez" /></label></div><div class="grid-2"><label class="field">Otras sustancias<span class="select-wrap"><select id="hc-sustancias" data-hc-req="apnp"><option value="">Elegir…</option><option>Negadas</option><option>Positivas</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label><label class="field">Vacuna antitetánica<span class="select-wrap"><select id="hc-tetanos" data-hc-req="apnp"><option value="">Elegir…</option><option>Esquema o refuerzo vigente (menos de 5 años)</option><option>Último refuerzo hace 5 a 10 años</option><option>Último refuerzo hace más de 10 años</option><option>Incompleta o sin vacunar</option><option>Se desconoce</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label></div><div class="hidden" id="hc-sustancias-det-box"><label class="field">¿Cuáles y con qué frecuencia?<input type="text" id="hc-sustancias-det" placeholder="Cannabis ocasional" /></label></div><label class="field">Otros (actividad física, deporte, vivienda)<input type="text" id="hc-apnp" placeholder="Futbol los fines de semana" /></label></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="app" id="hc-sec-app"><summary><span class="sum-text"><strong>Personales patológicos</strong> <small class="hc-prog" data-prog="app"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="field hc-field"><label for="hc-cronicos">Crónico-degenerativos</label><div class="chips hc-chips" data-hc-for="hc-cronicos"></div><textarea id="hc-cronicos" class="hc-ta" data-hc-req="app" placeholder="Diabetes mellitus tipo 2 de 10 años, en tratamiento con metformina…"></textarea></div><div class="field hc-field"><label for="hc-quirurgicos">Quirúrgicos</label><div class="chips hc-chips" data-hc-for="hc-quirurgicos"></div><input type="text" id="hc-quirurgicos" data-hc-req="app" placeholder="Apendicectomía en 2015" /></div><div class="field hc-field"><label for="hc-traumaticos">Traumáticos</label><div class="chips hc-chips" data-hc-for="hc-traumaticos"></div><input type="text" id="hc-traumaticos" data-hc-req="app" placeholder="Fractura de radio distal izquierdo en 2019, manejo conservador" /></div><div class="field hc-field"><label for="hc-transfusionales">Transfusionales</label><div class="chips hc-chips" data-hc-for="hc-transfusionales"></div><input type="text" id="hc-transfusionales" data-hc-req="app" placeholder="Negados" /></div><div class="field hc-field"><label for="hc-hosp">Hospitalizaciones previas</label><div class="chips hc-chips" data-hc-for="hc-hosp"></div><input type="text" id="hc-hosp" data-hc-req="app" placeholder="Negadas" /></div><div class="field hc-field"><label for="hc-meds">Medicamentos actuales</label><div class="chips hc-chips" data-hc-for="hc-meds"></div><input type="text" id="hc-meds" data-hc-req="app" placeholder="Metformina 850 mg cada 12 horas" /></div><div class="hc-ro-row"><p class="hc-ro" id="hc-alergias-ro"></p><button type="button" class="btn btn-secondary btn-sm hc-open-ficha"><svg class="ic gold"><use href="#i-user"/></svg>Ficha</button></div></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="go" id="hc-sec-go"><summary><span class="sum-text"><strong>Gineco-obstétricos</strong> <small class="hc-prog" data-prog="go"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="grid-2"><label class="field">Menarca (años)<input type="number" id="hc-menarca" data-hc-req="go" placeholder="12" min="7" max="20" inputmode="numeric" /></label><label class="field">Fecha de última menstruación<input type="date" id="hc-fum" data-hc-req="go" placeholder="" /></label></div><label class="field">Gestas, partos, cesáreas y abortos<input type="text" id="hc-gpca" data-hc-req="go" placeholder="Gestas 2, partos 1, cesáreas 1, abortos 0" /></label><div class="grid-2"><label class="field">Planificación familiar<input type="text" id="hc-mpf" data-hc-req="go" placeholder="Ninguno, DIU, hormonal…" /></label><label class="field">Posibilidad de embarazo<span class="select-wrap"><select id="hc-embarazo" data-hc-req="go"><option value="">Elegir…</option><option>No</option><option>Sí (embarazo referido)</option><option>En lactancia</option><option>Se desconoce</option></select><svg class="ic"><use href="#i-chevron"/></svg></span></label></div><p class="hc-warn hidden" id="hc-embarazo-warn">Considera prueba de embarazo antes de radiografías y revisa los medicamentos.</p></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="pa" id="hc-sec-pa"><summary><span class="sum-text"><strong>Padecimiento actual</strong> <small class="hc-prog" data-prog="pa"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="hc-ro-row"><p class="hc-ro" id="hc-pa-ro"></p><button type="button" class="btn btn-secondary btn-sm" id="btn-hc-ir-dictado"><svg class="ic gold"><use href="#i-mic"/></svg>Dictar</button></div><div class="field hc-field"><label for="hc-trat-previos">Tratamientos previos (convencionales, alternativos o tradicionales)</label><div class="chips hc-chips" data-hc-for="hc-trat-previos"></div><input type="text" id="hc-trat-previos" data-hc-req="pa" placeholder="Paracetamol por automedicación; valoración por huesero" /></div></div></details><details class="acc acc-card hc-sec" name="hc-sec" data-hc="ipas" id="hc-sec-ipas"><summary><span class="sum-text"><strong>Aparatos y sistemas</strong> <small class="hc-prog" data-prog="ipas"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="field hc-field"><label for="hc-ipas">Interrogatorio por aparatos y sistemas</label><div class="chips hc-chips" data-hc-for="hc-ipas"></div><textarea id="hc-ipas" class="hc-ta" data-hc-req="ipas" placeholder="Cardiovascular: niega dolor torácico…"></textarea></div></div></details><div class="hc-group">6.1.2 Exploración física</div><details class="acc acc-card hc-sec" name="hc-sec" data-hc="ef" id="hc-sec-ef"><summary><span class="sum-text"><strong>Exploración física</strong> <small class="hc-prog" data-prog="ef"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><div class="hc-ro-row"><p class="hc-ro" id="hc-somato-ro"></p><button type="button" class="btn btn-secondary btn-sm" id="btn-hc-vitales"><svg class="ic gold"><use href="#i-activity"/></svg>Signos</button></div><div class="field hc-field"><label for="hc-habitus">Habitus exterior</label><div class="chips hc-chips" data-hc-for="hc-habitus"></div><textarea id="hc-habitus" class="hc-ta" data-hc-req="ef" placeholder="Consciente, orientado, cooperador, facies álgica…"></textarea></div><div class="field hc-field"><label for="hc-cabeza">Cabeza</label><div class="chips hc-chips" data-hc-for="hc-cabeza"></div><input type="text" id="hc-cabeza" data-hc-req="ef" placeholder="Normocéfalo, pupilas isocóricas…" /></div><div class="field hc-field"><label for="hc-cuello">Cuello</label><div class="chips hc-chips" data-hc-for="hc-cuello"></div><input type="text" id="hc-cuello" data-hc-req="ef" placeholder="Cilíndrico, sin adenomegalias…" /></div><div class="field hc-field"><label for="hc-torax">Tórax</label><div class="chips hc-chips" data-hc-for="hc-torax"></div><input type="text" id="hc-torax" data-hc-req="ef" placeholder="Campos pulmonares bien ventilados…" /></div><div class="field hc-field"><label for="hc-abdomen">Abdomen</label><div class="chips hc-chips" data-hc-for="hc-abdomen"></div><input type="text" id="hc-abdomen" data-hc-req="ef" placeholder="Blando, depresible, no doloroso…" /></div><div class="field hc-field"><label for="hc-columna">Columna vertebral (si aplica)</label><div class="chips hc-chips" data-hc-for="hc-columna"></div><input type="text" id="hc-columna" placeholder="Sin dolor a la palpación de apófisis espinosas…" /></div><div class="field hc-field"><label for="hc-miembros">Miembros (exploración traumatológica)</label><div class="chips hc-chips" data-hc-for="hc-miembros"></div><textarea id="hc-miembros" class="hc-ta" data-hc-req="ef" placeholder="Rodilla derecha con aumento de volumen…"></textarea></div><div class="field hc-field"><label for="hc-genitales">Genitales</label><div class="chips hc-chips" data-hc-for="hc-genitales"></div><input type="text" id="hc-genitales" data-hc-req="ef" placeholder="Exploración diferida por no ser pertinente…" /></div></div></details><div class="hc-group">6.1.3 – 6.1.6 Estudios, diagnóstico y plan</div><details class="acc acc-card hc-sec" name="hc-sec" data-hc="plan" id="hc-sec-plan"><summary><span class="sum-text"><strong>Estudios, diagnóstico, pronóstico e indicación</strong> <small class="hc-prog" data-prog="plan"></small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary><div class="acc-body"><label class="field">Estudios de laboratorio, gabinete y otros (6.1.3)<textarea id="hc-estudios" class="hc-ta" data-hc-req="plan" placeholder="Radiografía AP y lateral de tobillo derecho: … (lo enviado desde Calculadoras también entra)"></textarea></label><label class="field">Diagnósticos o problemas clínicos (6.1.4)<textarea id="hc-dx" class="hc-ta" data-hc-req="plan" placeholder="Fractura bimaleolar de tobillo derecho Weber B"></textarea></label><div class="field hc-field"><label for="hc-pron">Pronóstico (6.1.5)</label><div class="chips hc-chips" data-hc-for="hc-pron"></div><input type="text" id="hc-pron" data-hc-req="plan" placeholder="Bueno para la vida, reservado para la función" /></div><label class="field">Indicación terapéutica (6.1.6)<textarea id="hc-trat" class="hc-ta" data-hc-req="plan" placeholder="Inmovilización con férula posterior, analgesia… (o «Copiar a Nota» desde Recetas)"></textarea></label></div></details><input type="hidden" id="hc-prefill-id" /><button type="button" class="btn btn-primary btn-xl hc-armar" id="btn-hc-armar"><svg class="ic"><use href="#i-file"/></svg>Armar historia clínica</button></div>
 
         <!-- Signos vitales -->
         <details class="acc acc-card local-box no-print" id="box-vitals">
@@ -2042,7 +2061,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v41 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v42 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2074,7 +2093,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v41</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v42</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2148,9 +2167,9 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (56 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (57 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (56)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (57)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -2301,15 +2320,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v41 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v42 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "41",
-      versionLabel: "v41 Intuitiva",
+      version: "42",
+      versionLabel: "v42 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -4725,22 +4744,6 @@
         return v ? v.replace(/[\s;,]+$/g, "") + sep + phrase : hcCap(phrase);
       }
 
-      function hcRenderChips() {
-        const defs = hcChipDefs();
-        document.querySelectorAll("#hc-guide [data-hc-for]").forEach((box) => {
-          const id = box.dataset.hcFor;
-          const def = defs[id];
-          if (!def) { box.remove(); return; }
-          const btns = [];
-          if (def.neg) btns.push('<button type="button" class="chip hc-chip" data-neg="1" data-phrase="' + escapeHtml(def.neg[1]) + '"><span class="chip-plus">+</span>' + escapeHtml(def.neg[0]) + "</button>");
-          def.items.forEach((it) => {
-            btns.push('<button type="button" class="chip hc-chip" data-phrase="' + escapeHtml(it[1]) + '"><span class="chip-plus">+</span>' + escapeHtml(it[0]) + "</button>");
-          });
-          box.innerHTML = btns.join("");
-          if (!btns.length) box.remove();
-        });
-      }
-
       function hcSyncChips() {
         const defs = hcChipDefs();
         document.querySelectorAll("#hc-guide [data-hc-for]").forEach((box) => {
@@ -4792,28 +4795,6 @@
         });
         out.pa = ["nota-input"].concat(out.pa || []);
         return out;
-      }
-
-      function hcUpdateProgress() {
-        const req = hcSectionReq();
-        let total = 0, filled = 0;
-        Object.keys(req).forEach((k) => {
-          const sec = $("hc-sec-" + k);
-          if (!sec || sec.classList.contains("hidden")) return;
-          const n = req[k].length;
-          const f = req[k].filter((id) => hcVal(id)).length;
-          total += n; filled += f;
-          const el = document.querySelector('#hc-guide [data-prog="' + k + '"]');
-          if (el) {
-            el.textContent = f + "/" + n;
-            el.classList.toggle("done", f === n);
-          }
-        });
-        const badge = $("hc-total");
-        if (badge) {
-          badge.textContent = filled + "/" + total + " datos";
-          badge.className = "badge" + (filled === total ? " ok" : filled > 0 ? " warn" : "");
-        }
       }
 
       function hcSomatoText(f) {
@@ -4886,16 +4867,6 @@
         if (f.sexo === "F") set("hc-embarazo", ({ no: "No", embarazo: "Sí (embarazo referido)", lactancia: "En lactancia" })[f.embarazo] || "");
         flag.value = pid;
         return true;
-      }
-
-      function hcRefresh() {
-        if (!$("hc-guide")) return;
-        const filled = hcPrefillFromFicha();
-        hcSyncConditional();
-        hcRenderResumen();
-        hcSyncChips();
-        hcUpdateProgress();
-        if (filled) { try { scheduleNotaDraftSave(); } catch (_) {} }
       }
 
       // Todo lo capturado, como datos simples (lo usan la nota y el autodiagnóstico).
@@ -5842,6 +5813,183 @@
             if (m) syncSelftestCount(Number(m[2]));
           }).observe(out, { childList: true, subtree: true, characterData: true });
         }
+      }
+
+      /* =======================================================
+         v42: GUÍA DE LA HISTORIA CLÍNICA MENOS SATURADA
+         · 4 frases a la vista por campo; el resto en «+ N más» (las marcadas siempre se ven)
+         · campos cortos en un solo renglón (etiqueta + «Negados»)
+         · «Todo negado» por apartado (solo llena lo vacío)
+         · resumen de lo capturado en el encabezado de cada apartado cerrado
+         · grupo étnico y columna en «Más datos (opcional)»
+      ======================================================= */
+      var HC_CHIPS_VISIBLE = 4;
+
+      function hcChipLimit(total) {
+        return total > HC_CHIPS_VISIBLE + 1 ? HC_CHIPS_VISIBLE : total;
+      }
+
+      function hcRenderChips() {
+        const defs = hcChipDefs();
+        document.querySelectorAll("#hc-guide [data-hc-for]").forEach((box) => {
+          const def = defs[box.dataset.hcFor];
+          if (!def) { box.remove(); return; }
+          const all = [];
+          if (def.neg) all.push({ neg: true, label: def.neg[0], phrase: def.neg[1] });
+          def.items.forEach((it) => all.push({ label: it[0], phrase: it[1] }));
+          if (!all.length) { box.remove(); return; }
+          const limit = hcChipLimit(all.length);
+          const html = all.map((c, k) =>
+            '<button type="button" class="chip hc-chip' + (k >= limit ? " hc-more-item" : "") + '"' + (c.neg ? ' data-neg="1"' : "") +
+            ' data-phrase="' + escapeHtml(c.phrase) + '"><span class="chip-plus">+</span>' + escapeHtml(c.label) + "</button>");
+          if (limit < all.length) {
+            const rest = all.length - limit;
+            html.push('<button type="button" class="chip hc-more-toggle" aria-expanded="false" data-rest="' + rest + '">+ ' + rest + " más</button>");
+          }
+          box.innerHTML = html.join("");
+          box.classList.remove("show-all");
+          const field = box.closest(".hc-field");
+          if (field) field.classList.toggle("hc-compact", all.length <= 2 && !!field.querySelector("input"));
+        });
+      }
+
+      function hcPreviewDefs() {
+        return {
+          ident: [["", "hc-ocupacion"], ["", "hc-mano"], ["Interrogatorio", "hc-informante"]],
+          ahf: [["", "hc-ahf"]],
+          apnp: [["Tabaco", "hc-tabaco"], ["Alcohol", "hc-alcohol"], ["Sustancias", "hc-sustancias"], ["Tétanos", "hc-tetanos"]],
+          app: [["", "hc-cronicos"], ["Medicamentos", "hc-meds"], ["Quirúrgicos", "hc-quirurgicos"]],
+          go: [["Embarazo", "hc-embarazo"], ["", "hc-gpca"]],
+          pa: [["", "nota-input"], ["Previos", "hc-trat-previos"]],
+          ipas: [["", "hc-ipas"]],
+          ef: [["", "hc-habitus"], ["Miembros", "hc-miembros"]],
+          plan: [["Diagnóstico", "hc-dx"], ["", "hc-pron"]]
+        };
+      }
+
+      function hcPreviewFor(sec, get) {
+        get = get || hcVal;
+        return (hcPreviewDefs()[sec] || []).map((d) => {
+          const v = String(get(d[1]) || "").replace(/\s+/g, " ").trim();
+          if (!v) return "";
+          return d[0] ? d[0] + ": " + v.charAt(0).toLowerCase() + v.slice(1) : v;
+        }).filter(Boolean).join(" · ");
+      }
+
+      function hcUpdateProgress() {
+        const req = hcSectionReq();
+        let total = 0, filled = 0;
+        Object.keys(req).forEach((k) => {
+          const sec = $("hc-sec-" + k);
+          if (!sec || sec.classList.contains("hidden")) return;
+          const n = req[k].length;
+          const f = req[k].filter((id) => hcVal(id)).length;
+          total += n; filled += f;
+          const el = document.querySelector('#hc-guide [data-prog="' + k + '"]');
+          if (el) {
+            el.textContent = f + "/" + n;
+            el.classList.toggle("done", f === n);
+          }
+          const st = sec.querySelector(":scope > summary .sum-text");
+          if (st) {
+            let pv = st.querySelector(".hc-prev");
+            if (!pv) { pv = document.createElement("span"); pv.className = "hc-prev"; st.appendChild(pv); }
+            const txt = hcPreviewFor(k);
+            pv.textContent = txt;
+            pv.classList.toggle("hidden", !txt);
+          }
+        });
+        const badge = $("hc-total");
+        if (badge) {
+          badge.textContent = filled + "/" + total + " datos";
+          badge.className = "badge" + (filled === total ? " ok" : filled > 0 ? " warn" : "");
+        }
+      }
+
+      // «Todo negado»: valores negativos solo para los campos vacíos del apartado
+      function hcNegDefaults(sec, get) {
+        get = get || hcVal;
+        const defs = hcChipDefs();
+        const map = ({
+          ahf: { "hc-ahf": defs["hc-ahf"].neg[1] },
+          apnp: { "hc-tabaco": "Negado", "hc-alcohol": "Negado", "hc-sustancias": "Negadas" },
+          app: { "hc-cronicos": defs["hc-cronicos"].neg[1], "hc-quirurgicos": "Negados", "hc-traumaticos": "Negados", "hc-transfusionales": "Negados", "hc-hosp": "Negadas", "hc-meds": "Ninguno" },
+          ipas: { "hc-ipas": defs["hc-ipas"].neg[1] },
+          ef: { "hc-cabeza": defs["hc-cabeza"].items[0][1], "hc-cuello": defs["hc-cuello"].items[0][1], "hc-torax": defs["hc-torax"].items[0][1], "hc-abdomen": defs["hc-abdomen"].items[0][1] }
+        })[sec] || {};
+        const out = {};
+        Object.keys(map).forEach((id) => { if (!String(get(id) || "").trim()) out[id] = map[id]; });
+        return out;
+      }
+
+      function hcApplyTodoNegado(sec) {
+        const vals = hcNegDefaults(sec);
+        const ids = Object.keys(vals);
+        ids.forEach((id) => { $(id).value = vals[id]; });
+        if (ids.length) $(ids[0]).dispatchEvent(new Event("input", { bubbles: true }));
+        showToast(ids.length
+          ? "Listo: " + ids.length + " campo" + (ids.length > 1 ? "s" : "") + " vacío" + (ids.length > 1 ? "s" : "") + " llenado" + (ids.length > 1 ? "s" : "") + (sec === "ef" ? " sin alteraciones." : " como negado" + (ids.length > 1 ? "s" : "") + ".")
+          : "No había campos vacíos en este apartado.");
+      }
+
+      function hcSyncMas() {
+        document.querySelectorAll("#hc-guide .hc-mas").forEach((d) => {
+          const lleno = Array.from(d.querySelectorAll("input, textarea")).some((el) => String(el.value || "").trim());
+          if (lleno) d.open = true;
+        });
+      }
+
+      function hcRefresh() {
+        if (!$("hc-guide")) return;
+        const filled = hcPrefillFromFicha();
+        hcSyncConditional();
+        hcRenderResumen();
+        hcSyncChips();
+        hcUpdateProgress();
+        hcSyncMas();
+        if (filled) { try { scheduleNotaDraftSave(); } catch (_) {} }
+      }
+
+      function initHcGuiaV42() {
+        const guide = $("hc-guide");
+        if (!guide) return;
+        // «Todo negado» al inicio de los apartados que lo admiten
+        [["ahf", "Todo negado"], ["apnp", "Todo negado"], ["app", "Todo negado"], ["ipas", "Todo negado"], ["ef", "Regiones sin alteraciones"]].forEach(([sec, label]) => {
+          const body = document.querySelector("#hc-sec-" + sec + " > .acc-body");
+          if (!body || body.querySelector(".hc-quick")) return;
+          const row = document.createElement("div");
+          row.className = "hc-quick";
+          row.innerHTML = '<button type="button" class="btn btn-secondary btn-sm hc-todo-neg" data-sec="' + sec + '"><svg class="ic gold"><use href="#i-check"/></svg>' + label + "</button><span>Solo llena lo vacío</span>";
+          body.insertBefore(row, body.firstChild);
+        });
+        // «Más datos (opcional)»: grupo étnico y columna
+        const mas = (anchorEl, nodes) => {
+          if (!anchorEl) return;
+          const d = document.createElement("details");
+          d.className = "hc-mas";
+          d.innerHTML = "<summary>Más datos (opcional)</summary><div class=\"hc-mas-body\"></div>";
+          anchorEl.parentNode.insertBefore(d, anchorEl);
+          nodes.forEach((nd) => { if (nd) d.querySelector(".hc-mas-body").appendChild(nd); });
+        };
+        const etnia = $("hc-etnia") ? $("hc-etnia").closest("label") : null;
+        if (etnia && !etnia.closest(".hc-mas")) mas(etnia, [etnia]);
+        const col = $("hc-columna") ? $("hc-columna").closest(".hc-field") : null;
+        if (col && !col.closest(".hc-mas")) mas(col, [col]);
+        guide.addEventListener("click", (e) => {
+          const more = e.target.closest(".hc-more-toggle");
+          if (more) {
+            const box = more.closest(".hc-chips");
+            const open = !box.classList.contains("show-all");
+            box.classList.toggle("show-all", open);
+            more.setAttribute("aria-expanded", open ? "true" : "false");
+            more.textContent = open ? "Menos" : "+ " + more.dataset.rest + " más";
+            return;
+          }
+          const neg = e.target.closest(".hc-todo-neg");
+          if (neg) hcApplyTodoNegado(neg.dataset.sec);
+        });
+        hcSyncMas();
+        hcUpdateProgress();
       }
 
       function renderProtocol() {
@@ -10318,6 +10466,22 @@
         } catch (e) { det56 = "Error: " + e.message; }
         addTest("56. v41: historia clínica escrita por bloques y contador de pruebas correcto", ok56, det56);
 
+        // 57. v42: guía de la historia menos saturada (frases visibles, «Todo negado», resumen)
+        let ok57 = false, det57 = "";
+        try {
+          const lim57 = hcChipLimit(5) === 5 && hcChipLimit(9) === 4 && hcChipLimit(2) === 2;
+          const vals57 = { "hc-cronicos": "Diabetes mellitus tipo 2", "hc-meds": "", "hc-quirurgicos": "" };
+          const neg57 = hcNegDefaults("app", (id) => vals57[id] || "");
+          const soloVacios57 = !("hc-cronicos" in neg57) && neg57["hc-meds"] === "Ninguno" && neg57["hc-quirurgicos"] === "Negados" && Object.keys(neg57).length === 5;
+          const ef57 = hcNegDefaults("ef", () => "");
+          const efOk57 = Object.keys(ef57).join(",") === "hc-cabeza,hc-cuello,hc-torax,hc-abdomen" && /^Normocéfalo/.test(ef57["hc-cabeza"]);
+          const pv57 = hcPreviewFor("apnp", (id) => ({ "hc-tabaco": "Negado", "hc-alcohol": "Ocasional o social" })[id] || "");
+          const prevOk57 = pv57 === "Tabaco: negado · Alcohol: ocasional o social";
+          ok57 = lim57 && soloVacios57 && efOk57 && prevOk57;
+          det57 = "frases visibles " + lim57 + " · «Todo negado» solo llena lo vacío " + soloVacios57 + " · regiones sin alteraciones " + efOk57 + " · resumen del apartado " + prevOk57;
+        } catch (e) { det57 = "Error: " + e.message; }
+        addTest("57. v42: guía de la historia clínica menos saturada", ok57, det57);
+
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
         const rows = tests.map((t) => (t.ok ? "✅ " : "❌ ") + "<strong>" + escapeHtml(t.name) + "</strong>: " + escapeHtml(t.detail)).join("<br>");
@@ -11035,6 +11199,7 @@
         ["Ficha del paciente v31", initFichaPaciente],
         ["Receta del paciente v34", initRecetaPaciente],
         ["Historia clínica v38", initHistoriaClinicaV38],
+        ["Guía de la historia v42", initHcGuiaV42],
         ["Revisión IA v39", initAiReviewV39],
         ["Nota en PDF v40", initNotaPdfV40],
         ["Contador de pruebas v41", initSelftestCountV41],
