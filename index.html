@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v40 · Tema "Base44" (oscuro + claro)
+       TyO Assist v41 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -2042,7 +2042,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v40 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v41 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2074,7 +2074,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v40</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v41</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2148,9 +2148,9 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (55 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (56 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (29)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (56)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -2301,15 +2301,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v40 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v41 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "40",
-      versionLabel: "v40 Intuitiva",
+      version: "41",
+      versionLabel: "v41 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -4913,23 +4913,33 @@
         return d;
       }
 
+      // v41: ficha de identificación en renglones cortos; los datos opcionales vacíos no se imprimen
       function hcFichaLineFrom(d, f) {
         f = f || {};
-        const parts = [];
-        parts.push("Nombre: " + valOrNR(f.nombre));
+        const join = (arr) => arr.filter(Boolean).join(" · ");
         const edadOk = f.edad !== "" && f.edad !== undefined && Number.isFinite(Number(f.edad));
-        parts.push("Edad: " + (edadOk ? f.edad + (f.edadUnidad === "m" ? " meses" : " años") : valOrNR(d.edadSexo)));
         const sx = hcSexoFrom(f, d.edadSexo);
-        parts.push("Sexo: " + (sx === "F" ? "Femenino" : sx === "M" ? "Masculino" : "[NO REFERIDO]"));
-        if (f.fnac) parts.push("Fecha de nacimiento: " + fichaFnacTexto(f.fnac));
-        if (f.folio || d.folio) parts.push("Expediente o cama: " + (f.folio || d.folio));
-        parts.push("Ocupación: " + valOrNR(d["hc-ocupacion"]));
-        parts.push("Escolaridad: " + valOrNR(d["hc-escolaridad"]));
-        parts.push("Estado civil: " + valOrNR(d["hc-civil"]));
-        parts.push("Originario y residente de: " + valOrNR(d["hc-origen"]));
-        if (d["hc-etnia"]) parts.push("Grupo étnico: " + d["hc-etnia"]);
-        parts.push("Mano dominante: " + valOrNR(d["hc-mano"]));
-        return "Ficha de identificación: " + parts.join(" | ");
+        const rows = [];
+        rows.push(join([
+          "Nombre: " + valOrNR(f.nombre),
+          "Edad: " + (edadOk ? f.edad + (f.edadUnidad === "m" ? " meses" : " años") : valOrNR(d.edadSexo)),
+          "Sexo: " + (sx === "F" ? "Femenino" : sx === "M" ? "Masculino" : "[NO REFERIDO]")
+        ]));
+        rows.push(join([
+          f.fnac ? "Fecha de nacimiento: " + fichaFnacTexto(f.fnac) : "",
+          (f.folio || d.folio) ? "Expediente o cama: " + (f.folio || d.folio) : ""
+        ]));
+        rows.push(join([
+          d["hc-ocupacion"] ? "Ocupación: " + d["hc-ocupacion"] : "",
+          d["hc-escolaridad"] ? "Escolaridad: " + d["hc-escolaridad"] : "",
+          d["hc-civil"] ? "Estado civil: " + d["hc-civil"] : ""
+        ]));
+        rows.push(join([
+          d["hc-origen"] ? "Originario y residente de: " + d["hc-origen"] : "",
+          d["hc-etnia"] ? "Grupo étnico: " + d["hc-etnia"] : "",
+          d["hc-mano"] ? "Mano dominante: " + d["hc-mano"] : ""
+        ]));
+        return "FICHA DE IDENTIFICACIÓN:\n" + rows.filter(Boolean).map((r) => "- " + r).join("\n");
       }
 
       function hcFichaLine() {
@@ -4943,11 +4953,14 @@
       }
 
       // Arma los 6 apartados del numeral 6.1. exp = expansión de jerga (5.11).
+      // v41: historia por bloques con subtítulos y un antecedente por renglón
       function hcBuildBlocksFrom(d, f, extra, exp) {
         exp = exp || ((t) => t);
         extra = extra || {};
         const nr = valOrNR;
         const x = (id) => exp(d[id] || "");
+        const item = (label, value) => "- " + label + ": " + nr(value);
+        const block = (title, lines) => title + ":\n" + lines.join("\n");
         // Personales no patológicos
         let tab = d["hc-tabaco"];
         if (tab === "Activo" || tab === "Exfumador") {
@@ -4956,40 +4969,39 @@
         }
         const alc = d["hc-alcohol"] ? d["hc-alcohol"] + (d["hc-alcohol"] !== "Negado" && d["hc-alcohol-det"] ? " (" + exp(d["hc-alcohol-det"]) + ")" : "") : "";
         const sus = d["hc-sustancias"] ? d["hc-sustancias"] + (d["hc-sustancias"] === "Positivas" && d["hc-sustancias-det"] ? ": " + exp(d["hc-sustancias-det"]) : "") : "";
-        const apnp = ["tabaquismo: " + nr(tab), "alcoholismo: " + nr(alc), "otras sustancias psicoactivas: " + nr(sus), "vacuna antitetánica: " + nr(d["hc-tetanos"])];
-        if (d["hc-apnp"]) apnp.push("otros: " + x("hc-apnp"));
-        // Personales patológicos
+        const apnp = [item("Tabaquismo", tab), item("Alcoholismo", alc), item("Otras sustancias psicoactivas", sus), item("Vacuna antitetánica", d["hc-tetanos"])];
+        if (d["hc-apnp"]) apnp.push(item("Otros", x("hc-apnp")));
         const app = [
-          "crónico-degenerativos: " + nr(x("hc-cronicos")),
-          "quirúrgicos: " + nr(x("hc-quirurgicos")),
-          "traumáticos: " + nr(x("hc-traumaticos")),
-          "transfusionales: " + nr(x("hc-transfusionales")),
-          "alérgicos: " + (f && f.alergiaEstado ? fichaAllergyText(f) : "[NO REFERIDO]"),
-          "hospitalizaciones previas: " + nr(x("hc-hosp")),
-          "medicamentos actuales: " + nr(x("hc-meds"))
+          item("Crónico-degenerativos", x("hc-cronicos")),
+          item("Quirúrgicos", x("hc-quirurgicos")),
+          item("Traumáticos", x("hc-traumaticos")),
+          item("Transfusionales", x("hc-transfusionales")),
+          item("Alérgicos", f && f.alergiaEstado ? fichaAllergyText(f) : ""),
+          item("Hospitalizaciones previas", x("hc-hosp")),
+          item("Medicamentos actuales", x("hc-meds"))
         ];
         const sexo = hcSexoFrom(f, d.edadSexo);
         const goFilled = ["hc-menarca", "hc-fum", "hc-gpca", "hc-mpf", "hc-embarazo"].some((k) => d[k]);
-        const lines = [
+        const parts = [
           "Tipo de interrogatorio: " + nr(d["hc-informante"]),
           hcFichaLineFrom(d, f),
-          "Antecedentes heredofamiliares: " + nr(x("hc-ahf")),
-          "Antecedentes personales no patológicos: " + hcCap(apnp.join("; ")),
-          "Antecedentes personales patológicos: " + hcCap(app.join("; "))
+          block("ANTECEDENTES HEREDOFAMILIARES", ["- " + nr(x("hc-ahf"))]),
+          block("ANTECEDENTES PERSONALES NO PATOLÓGICOS", apnp),
+          block("ANTECEDENTES PERSONALES PATOLÓGICOS", app)
         ];
         if (sexo === "F" || goFilled) {
-          lines.push("Antecedentes gineco-obstétricos: " + hcCap([
-            "menarca: " + (d["hc-menarca"] ? d["hc-menarca"] + " años" : "[NO REFERIDO]"),
-            "fecha de última menstruación: " + (d["hc-fum"] ? hcFechaTexto(d["hc-fum"]) : "[NO REFERIDO]"),
-            "gestas, partos, cesáreas y abortos: " + nr(d["hc-gpca"]),
-            "planificación familiar: " + nr(d["hc-mpf"]),
-            "posibilidad de embarazo: " + nr(d["hc-embarazo"])
-          ].join("; ")));
+          parts.push(block("ANTECEDENTES GINECO-OBSTÉTRICOS", [
+            "- Menarca: " + (d["hc-menarca"] ? d["hc-menarca"] + " años" : "[NO REFERIDO]") + " · Fecha de última menstruación: " + (d["hc-fum"] ? hcFechaTexto(d["hc-fum"]) : "[NO REFERIDO]"),
+            item("Gestas, partos, cesáreas y abortos", d["hc-gpca"]),
+            "- Planificación familiar: " + nr(d["hc-mpf"]) + " · Posibilidad de embarazo: " + nr(d["hc-embarazo"])
+          ]));
         }
-        lines.push("Padecimiento actual: " + nr(extra.narrativa));
-        lines.push("Tratamientos previos (convencionales, alternativos o tradicionales): " + nr(x("hc-trat-previos")));
-        lines.push("Interrogatorio por aparatos y sistemas: " + nr(x("hc-ipas")));
-        // Exploración física (6.1.2)
+        parts.push(block("PADECIMIENTO ACTUAL", [
+          nr(extra.narrativa),
+          "Tratamientos previos (convencionales, alternativos o tradicionales): " + nr(x("hc-trat-previos"))
+        ]));
+        parts.push(block("INTERROGATORIO POR APARATOS Y SISTEMAS", [nr(x("hc-ipas"))]));
+        // Exploración física (6.1.2): un renglón por región, en el orden de la norma
         const ef = [
           "Habitus exterior: " + nr(x("hc-habitus")),
           "Signos vitales: " + nr(extra.vitals),
@@ -5005,7 +5017,7 @@
         const estudios = [x("hc-estudios"), extra.aux || ""].filter((s) => String(s).trim()).join("\n");
         const trat = [x("hc-trat"), extra.plan || ""].filter((s) => String(s).trim()).join("\n");
         return [
-          renderSection("6.1.1", "INTERROGATORIO", lines.join("\n")),
+          renderSection("6.1.1", "INTERROGATORIO", parts.join("\n\n")),
           renderSection("6.1.2", "EXPLORACIÓN FÍSICA", ef.join("\n")),
           renderSection("6.1.3", "RESULTADOS PREVIOS Y ACTUALES DE ESTUDIOS DE LABORATORIO, GABINETE Y OTROS", estudios),
           renderSection("6.1.4", "DIAGNÓSTICOS O PROBLEMAS CLÍNICOS", x("hc-dx")),
@@ -5232,7 +5244,7 @@
         sections.forEach((s) => {
           if (ctx.localCodes && ctx.localCodes.has(s.code)) return;
           let txt = valOrNR(aiMap[s.code]);
-          if (s.code === "6.1.1") txt = txt.split("\n").filter((l) => !/^\s*Ficha de identificaci/i.test(l)).join("\n");
+          if (s.code === "6.1.1") { try { txt = txt.replace(hcFichaLine(), ""); } catch (_) {} txt = txt.split("\n").filter((l) => !/^\s*Ficha de identificaci/i.test(l)).join("\n"); }
           const f = ctx.payload ? auditNumericHallucinations(ctx.payload, txt) : [];
           if (f.length) flags[s.code] = f;
         });
@@ -5650,15 +5662,16 @@
             const bm = /^\s*((?:[•\-*]|\d{1,2}[.)])\s+)(.*)$/.exec(t);
             if (bm) {
               doc.setFont("helvetica", "normal"); doc.setFontSize(SIZE);
-              const pre = bm[1].trim();
+              const pre = /^[-*]$/.test(bm[1].trim()) ? "•" : bm[1].trim();
               const hang = doc.getTextWidth(pre + " ");
-              const wr = notaPdfWrap(doc, [{ t: pre }].concat(notaPdfSegments(bm[2])), SIZE, R - x0, R - x0 - hang);
+              const wr = notaPdfWrap(doc, [{ t: pre + " " }].concat(notaPdfSegments(bm[2])), SIZE, R - x0, R - x0 - hang);
               drawRich(wr, x0, x0 + hang);
               return;
             }
             const txt = t.trim();
             const caps = txt.length <= 90 && !/\[(NO REFERIDO|NO VALORABLE|INAUDIBLE)\]/.test(txt) && /[A-ZÁÉÍÓÚÑ]{4}/.test(txt) && txt === txt.toUpperCase();
             const segs = caps ? [{ t: txt, b: true }] : notaPdfSegments(txt);
+            if (caps) ensure(LH * 2 + 2);
             drawRich(notaPdfWrap(doc, segs, SIZE, R - x0, R - x0), x0, x0);
           });
           y += 4;
@@ -5808,6 +5821,27 @@
         const pre = () => { try { prepareRecetaPdf().catch(() => {}); } catch (_) {} };
         $("nota-output").addEventListener("focus", pre, { once: true });
         $("btn-format-local").addEventListener("click", pre, { once: true });
+      }
+
+      // v41: el botón de pruebas y el título muestran el total real (el botón decía «29» desde la v29)
+      function syncSelftestCount(total) {
+        const btn = $("btn-run-selftest");
+        const h4 = Array.from(document.querySelectorAll("h4")).find((h) => /Autodiagnóstico determinístico/.test(h.textContent));
+        if (!total && h4) { const m = /\((\d+) pruebas\)/.exec(h4.textContent); if (m) total = Number(m[1]); }
+        if (!total) return;
+        if (h4) h4.textContent = "Autodiagnóstico determinístico (" + total + " pruebas)";
+        if (btn && btn.lastChild && btn.lastChild.nodeType === 3) btn.lastChild.textContent = "Ejecutar pruebas (" + total + ")";
+      }
+
+      function initSelftestCountV41() {
+        syncSelftestCount();
+        const out = $("selftest-output");
+        if (out && typeof MutationObserver === "function") {
+          new MutationObserver(() => {
+            const m = /(\d+)\/(\d+) pruebas aprobadas/.exec(out.textContent || "");
+            if (m) syncSelftestCount(Number(m[2]));
+          }).observe(out, { childList: true, subtree: true, characterData: true });
+        }
       }
 
       function renderProtocol() {
@@ -10208,11 +10242,11 @@
           const pos52 = ["6.1.1", "6.1.2", "6.1.3", "6.1.4", "6.1.5", "6.1.6"].map((c) => txt52.indexOf("[" + c + "]"));
           const orden52 = pos52.every((q, k) => q !== -1 && (k === 0 || q > pos52[k - 1]));
           const ficha52 = txt52.indexOf("Nombre: Ana Ruiz Prueba") !== -1 && txt52.indexOf("Fecha de nacimiento: 20/05/1990") !== -1;
-          const go52 = txt52.indexOf("Antecedentes gineco-obstétricos") !== -1;
+          const go52 = /ANTECEDENTES GINECO-OBSTÉTRICOS:/.test(txt52);
           const it52 = txt52.indexOf("índice tabáquico 7.5 paquetes-año") !== -1;
-          const nr52 = /transfusionales: \[NO REFERIDO\]/.test(txt52);
+          const nr52 = /transfusionales: \[NO REFERIDO\]/i.test(txt52);
           const imc52 = txt52.indexOf("índice de masa corporal 23.4") !== -1;
-          const sinGo52 = hcBuildBlocksFrom({ edadSexo: "Masculino, 40 años" }, null, {}).join("\n").indexOf("gineco-obstétricos") === -1;
+          const sinGo52 = !/gineco-obstétricos/i.test(hcBuildBlocksFrom({ edadSexo: "Masculino, 40 años" }, null, {}).join("\n"));
           const ids52 = hcAiFieldList().map((x) => x[1]);
           const privado52 = !["hc-origen", "hc-etnia", "hc-civil", "hc-escolaridad"].some((id) => ids52.includes(id)) &&
             !/Ana|1990|20\/05/.test(hcAiExtraChunksFrom(f52).join(" "));
@@ -10266,6 +10300,23 @@
           det55 = "encabezado, apartados y firma " + lee55 + " · etiquetas y [NO REFERIDO] " + segOk55 + " · renglones " + wrapOk55 + " · palabra larga " + largoOk55 + " · nombre del archivo " + nombre55;
         } catch (e) { det55 = "Error: " + e.message; }
         addTest("55. v40: nota en PDF (lectura de la nota, renglones y nombre del archivo)", ok55, det55);
+
+        // 56. v41: historia clínica escrita por bloques (menos saturada) y contador de pruebas correcto
+        let ok56 = false, det56 = "";
+        try {
+          const f56 = normalizeFicha({ nombre: "Luis Prueba", sexo: "M", edad: 40, alergiaEstado: "niega" });
+          const t56 = hcBuildBlocksFrom({ "hc-tabaco": "Negado", "hc-ahf": "Interrogados y negados", edadSexo: "" }, f56, { narrativa: "Dolor lumbar." }).join("\n\n");
+          const subt56 = ["FICHA DE IDENTIFICACIÓN:", "ANTECEDENTES HEREDOFAMILIARES:", "ANTECEDENTES PERSONALES NO PATOLÓGICOS:", "ANTECEDENTES PERSONALES PATOLÓGICOS:", "PADECIMIENTO ACTUAL:", "INTERROGATORIO POR APARATOS Y SISTEMAS:"].every((s) => t56.indexOf(s) !== -1);
+          const renglones56 = /\n- Tabaquismo: Negado\n- Alcoholismo: \[NO REFERIDO\]\n/.test(t56) && /\n- Quirúrgicos: \[NO REFERIDO\]\n- Traumáticos:/.test(t56);
+          const opcionales56 = !/Escolaridad|Estado civil|Originario|Mano dominante|Ocupación/.test(t56) && /- Nombre: Luis Prueba · Edad: 40 años · Sexo: Masculino/.test(t56);
+          const sinGo56 = !/GINECO/i.test(t56);
+          const btn56 = ($("btn-run-selftest").textContent.match(/\((\d+)\)/) || [])[1];
+          const h456 = (Array.from(document.querySelectorAll("h4")).map((h) => h.textContent).join(" ").match(/determinístico \((\d+) pruebas\)/) || [])[1];
+          const contador56 = !!btn56 && btn56 === h456;
+          ok56 = subt56 && renglones56 && opcionales56 && sinGo56 && contador56;
+          det56 = "subtítulos " + subt56 + " · un antecedente por renglón " + renglones56 + " · opcionales vacíos fuera " + opcionales56 + " · hombre sin gineco-obstétricos " + sinGo56 + " · botón y título con el mismo total (" + btn56 + "/" + h456 + ") " + contador56;
+        } catch (e) { det56 = "Error: " + e.message; }
+        addTest("56. v41: historia clínica escrita por bloques y contador de pruebas correcto", ok56, det56);
 
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
@@ -10986,6 +11037,7 @@
         ["Historia clínica v38", initHistoriaClinicaV38],
         ["Revisión IA v39", initAiReviewV39],
         ["Nota en PDF v40", initNotaPdfV40],
+        ["Contador de pruebas v41", initSelftestCountV41],
         ["Pulido v37", initPulidoV37],
         ["Módulos v26", initModulesV26] /* siempre al final */
       ].forEach(([name, fn]) => runInit(name, fn));
