@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v43 · Tema "Base44" (oscuro + claro)
+       TyO Assist v44 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -988,6 +988,40 @@
     @media (prefers-reduced-motion: reduce) { .flash-target { animation: none; } }
     @media (min-width: 1100px) { #quick-strip { --gutter: max(32px, calc((100% - 1180px) / 2)); } }
 
+    /* ---------- v44: síndrome compartimental ---------- */
+    .alert.info { background: var(--gold-soft); border-color: var(--gold-line); color: var(--text); }
+    #calc-compart { scroll-margin-top: 84px; }
+    .sc-pt { font-size: 13px; color: var(--muted-2); margin: -4px 0 12px; }
+    .sc-label { margin: 18px 0 0; }
+    .sc-checks { margin: 10px 0; }
+    .sc-grid { margin: 12px 0; align-items: end; }
+    #calc-compart .inset .grid-2 > .field + .field { margin-top: 0; }
+    #sc-pres-acc .grid-2 { align-items: end; }
+    #calc-compart .acc { margin-top: 12px; }
+    #btn-sc-ta { margin-top: 6px; }
+    .sc-dp { margin-top: 10px; padding: 14px 12px; }
+    .sc-dp .metric-val { font-size: 26px; }
+    .sc-dp.sc-dp-alert { border-color: var(--danger-line); background: var(--danger-bg); }
+    .sc-dp.sc-dp-alert .metric-val { color: var(--danger-ink); }
+    .sc-lines { margin: 8px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+    .sc-lines li { line-height: 1.4; }
+    #sc-result { margin-top: 14px; }
+    .sc-log-wrap { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 14px; }
+    .sc-log-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .sc-log-head .mini-label { margin-bottom: 8px; }
+    .sc-next { font-size: 13px; font-weight: 650; color: var(--gold-text); }
+    .sc-next.sc-overdue { color: var(--danger-ink); }
+    .sc-log { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    .sc-item { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 4px 4px 4px 12px; border: 1px solid var(--line); border-left-width: 4px; border-radius: 14px; background: var(--tint-1); }
+    .sc-item.sc-lvl-danger { border-left-color: var(--danger-line); }
+    .sc-item.sc-lvl-warn { border-left-color: var(--warn-line); }
+    .sc-item.sc-lvl-ok, .sc-item.sc-lvl-info { border-left-color: var(--ok-line); }
+    .sc-time { font-family: var(--mono); font-size: 13px; font-weight: 700; white-space: nowrap; }
+    .sc-txt { font-size: 13px; color: var(--text-2); line-height: 1.35; }
+    .sc-del { width: 40px; height: 40px; border: none; background: none; color: var(--muted-2); display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; }
+    .sc-del .ic { width: 16px; height: 16px; }
+    #tile-sc-val.sc-alert { background: var(--danger-bg); color: var(--danger-ink); }
+
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
     @media print {
@@ -1101,6 +1135,7 @@
     <button type="button" class="quick-chip" data-qact="rx-expuesta" data-mod="tab-rx rx-expuesta"><svg class="ic"><use href="#i-bandage"/></svg> Fractura expuesta</button>
     <button type="button" class="quick-chip" data-qact="rx-trombo" data-mod="tab-rx rx-trombo"><svg class="ic"><use href="#i-syringe"/></svg> Tromboprofilaxis</button>
     <button type="button" class="quick-chip" data-qact="nota-evol" data-mod="tab-notas"><svg class="ic"><use href="#i-file"/></svg> Evolución rápida</button>
+    <button type="button" class="quick-chip" data-qact="calc-compart" data-mod="calc-compart"><svg class="ic"><use href="#i-heart-pulse"/></svg> Compartimental</button>
     <button type="button" class="quick-chip" data-qact="est-lab" data-mod="tab-estudios"><svg class="ic"><use href="#i-flask"/></svg> Labs críticos</button>
     <button type="button" class="quick-chip" data-qact="nota-audio" data-mod="tab-notas"><svg class="ic"><use href="#i-mic"/></svg> Dictar nota</button>
     <button type="button" class="quick-chip" data-qact="calc-renal" data-mod="calc-renal"><svg class="ic"><use href="#i-activity"/></svg> Función renal</button>
@@ -1185,6 +1220,11 @@
             <span class="tile-ico"><svg class="ic"><use href="#i-droplets"/></svg></span>
             <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-cap"></span>Caprini (ETV)</span><span class="tile-sub">Riesgo tromboembólico</span></span>
             <span class="tile-val" id="tile-cap-val">0 pts</span>
+          </button>
+          <button type="button" class="tile" data-calc="compart" data-mod="calc-compart">
+            <span class="tile-ico"><svg class="ic"><use href="#i-heart-pulse"/></svg></span>
+            <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-sc"></span>Síndrome compartimental</span><span class="tile-sub">Vigilancia horaria · ΔP</span></span>
+            <span class="tile-val" id="tile-sc-val">--</span>
           </button>
           <button type="button" class="tile extra-calc-tile hidden" data-calc="tad" data-mod="calc-tad">
             <span class="tile-ico"><svg class="ic"><use href="#i-ruler"/></svg></span>
@@ -1317,6 +1357,83 @@
               </div>
             </div>
             <div class="ref-text">Modelo de Caprini modificado (ACCP / AAOS / GPC CENETEC).</div>
+          </div>
+        </div>
+
+        <!-- 2.3 SÍNDROME COMPARTIMENTAL (v44) -->
+        <div id="calc-compart" class="calc-panel" data-mod="calc-compart">
+          <div class="card">
+            <div class="card-head">
+              <h3><svg class="ic gold"><use href="#i-heart-pulse"/></svg>Síndrome compartimental</h3>
+              <span class="badge ok" id="sc-badge">Sin datos</span>
+            </div>
+            <p class="sc-pt" id="sc-pt"></p>
+            <div class="inset">
+              <div class="grid-2">
+                <label class="field">Región
+                  <span class="select-wrap"><select id="sc-region"><option value="">Elegir</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+                </label>
+                <label class="field">Lado
+                  <span class="select-wrap"><select id="sc-lado">
+                    <option value="">--</option>
+                    <option value="der">Derecho</option>
+                    <option value="izq">Izquierdo</option>
+                    <option value="bil">Bilateral</option>
+                  </select><svg class="ic"><use href="#i-chevron"/></svg></span>
+                </label>
+              </div>
+            </div>
+            <details class="acc" id="sc-risk-acc" open>
+              <summary><span>Factores de riesgo <small id="sc-risk-count">Ninguno marcado</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="checks" id="sc-risks"></div>
+            </details>
+            <div class="mini-label sc-label">Exploración actual</div>
+            <div class="checks sc-checks" id="sc-findings"></div>
+            <div class="checks sc-checks">
+              <label class="check-pill"><input type="checkbox" id="sc-nv" /> No valorable (sedado, bloqueo o alerta alterado)</label>
+            </div>
+            <div class="grid-2 sc-grid">
+              <label class="field">Dolor EVA 0–10
+                <input type="number" id="sc-eva" placeholder="--" inputmode="numeric" min="0" max="10" step="1" />
+              </label>
+              <label class="field">Analgesia y hora
+                <input type="text" id="sc-analg" placeholder="Ej. tramadol 50 mg 14:00" maxlength="120" autocomplete="off" />
+              </label>
+            </div>
+            <details class="acc" id="sc-pres-acc">
+              <summary><span>Presión compartimental <small>Si hay duda o no es valorable</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="grid-2">
+                <label class="field">TA diastólica (mmHg)
+                  <input type="number" id="sc-tad" placeholder="--" inputmode="numeric" min="20" max="150" step="1" />
+                </label>
+                <label class="field">Compartimental (mmHg)
+                  <input type="number" id="sc-pic" placeholder="--" inputmode="numeric" min="0" max="150" step="1" />
+                </label>
+              </div>
+              <button type="button" class="link-gold" id="btn-sc-ta"><svg class="ic"><use href="#i-refresh"/></svg>Traer TA de signos vitales</button>
+              <div class="metric-box sc-dp" id="sc-dp-box">
+                <div class="metric-label">ΔP = TA diastólica − compartimental</div>
+                <div class="metric-val" id="sc-dp-val">--</div>
+                <div class="metric-sub">Riesgo aumentado si es menor de 30 mmHg</div>
+              </div>
+            </details>
+            <div id="sc-result" class="alert ok"></div>
+            <details class="acc" id="sc-acc-acc">
+              <summary><span>Acciones realizadas <small id="sc-acc-count">Se guardan con la exploración</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="checks" id="sc-acciones"></div>
+            </details>
+            <div class="btn-stack">
+              <button type="button" class="btn btn-primary btn-lg" id="btn-sc-registrar"><svg class="ic"><use href="#i-clock"/></svg>Registrar exploración</button>
+              <div class="btn-duo">
+                <button type="button" class="btn btn-secondary btn-lg" id="btn-sc-note" data-mod="tab-notas"><svg class="ic"><use href="#i-clip"/></svg>Copiar a Nota</button>
+                <button type="button" class="btn btn-secondary btn-lg" id="btn-sc-borrar"><svg class="ic"><use href="#i-trash"/></svg>Borrar registro</button>
+              </div>
+            </div>
+            <div class="sc-log-wrap hidden" id="sc-log-wrap">
+              <div class="sc-log-head"><span class="mini-label">Registro de vigilancia</span><span class="sc-next" id="sc-next"></span></div>
+              <ol class="sc-log" id="sc-log"></ol>
+            </div>
+            <div class="ref-text">Apoyo a la decisión: el diagnóstico es clínico y la descompresión la decide el adscrito. BOAST Síndrome compartimental de las extremidades (BOA, julio 2025); AAOS Guía de síndrome compartimental agudo (2025); Bae et al., J Pediatr Orthop 2001.</div>
           </div>
         </div>
 
@@ -2074,7 +2191,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v43 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v44 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2106,7 +2223,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v43</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v44</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2180,9 +2297,9 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (58 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (59 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (58)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (59)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -2333,15 +2450,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v43 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v44 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "43",
-      versionLabel: "v43 Intuitiva",
+      version: "44",
+      versionLabel: "v44 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -2356,6 +2473,7 @@
         // Calculadoras
         "calc-renal": true,
         "calc-caprini": true,
+        "calc-compart": true,
         "calc-tad": true,
         "calc-mess": true,
         // Protocolos de Recetas
@@ -2532,6 +2650,7 @@
         { id: "tab-hist", group: "Pestañas", label: "Historial local" },
         { id: "calc-renal", group: "Calculadoras", label: "Función Renal" },
         { id: "calc-caprini", group: "Calculadoras", label: "Caprini (ETV)" },
+        { id: "calc-compart", group: "Calculadoras", label: "Síndrome compartimental" },
         { id: "calc-tad", group: "Calculadoras", label: "Índice TAD" },
         { id: "calc-mess", group: "Calculadoras", label: "Escala MESS" },
         { id: "rx-profilaxis", group: "Protocolos de Recetas", label: "Profilaxis Qx" },
@@ -6033,6 +6152,11 @@
           syncNotaTypePills();
           switchTab("tab-notas");
           quickGoTo($("nota-input").closest(".card") || $("nota-input"), $("nota-input"));
+        } else if (act === "calc-compart") {
+          switchCalcPanel("compart");
+          switchTab("tab-calc");
+          scRender();
+          if (tel) quickGoTo($("calc-compart"));
         } else if (act === "est-lab") {
           switchEstudiosMode("lab");
           switchTab("tab-estudios");
@@ -6056,6 +6180,570 @@
         strip.addEventListener("scroll", syncQuickStripEnd, { passive: true });
         window.addEventListener("resize", syncQuickStripEnd);
         syncQuickStripEnd();
+      }
+
+      /* =======================================================
+         v44: VIGILANCIA DE SÍNDROME COMPARTIMENTAL
+         Fuentes: BOAST «Diagnosis and Management of Compartment Syndrome
+         of the Extremities» (BOA, actualizado julio 2025) y AAOS CPG
+         Management of Acute Compartment Syndrome (actualización 2025).
+         - ΔP = TA diastólica − presión compartimental; < 30 mmHg = riesgo
+           aumentado (BOAST); > 30 mmHg con medición repetida ayuda a
+           descartar (AAOS). PIC > 40 mmHg: considerar descompresión.
+         - Con signos: abrir vendajes hasta piel, elevar y reevaluar en
+           30 min (BOAST 7). En riesgo: exploración horaria documentada,
+           haya o no hallazgos (BOAST 5).
+         El registro se guarda por paciente en este dispositivo (sin datos
+         que identifiquen) y vence con su ficha o al cerrar la guardia.
+      ======================================================= */
+      function scDefs() {
+        return {
+          key: "tyo_sc_v44",
+          sinPx: "_sin",
+          maxEvals: 48,
+          risks: [
+            ["tibia", "Fx diáfisis tibial", "fractura de diáfisis tibial"],
+            ["antebrazo", "Fx antebrazo o codo", "fractura de antebrazo o codo"],
+            ["supra", "Supracondílea (niños)", "fractura supracondílea humeral"],
+            ["energia", "Alta energía / aplastamiento", "mecanismo de alta energía o aplastamiento"],
+            ["vendaje", "Yeso o vendaje circular", "yeso o vendaje circunferencial"],
+            ["cirugia", "Cirugía de la extremidad", "cirugía de la extremidad o procedimiento prolongado"],
+            ["anticoag", "Anticoagulación", "anticoagulación o coagulopatía"],
+            ["reperf", "Reperfusión", "reperfusión tras isquemia o reparación vascular"],
+            ["compresion", "Compresión prolongada", "inmovilización o compresión prolongada"],
+            ["infiltr", "Infiltración IV", "infiltración intravenosa o extravasación"]
+          ],
+          findings: [
+            ["dolor", "Dolor desproporcionado", "dolor desproporcionado a la lesión", "dolor desproporcionado"],
+            ["estiramiento", "Dolor al estiramiento pasivo", "dolor al estiramiento pasivo", "estiramiento pasivo"],
+            ["tenso", "Compartimento tenso", "compartimento tenso a la palpación", "compartimento tenso"],
+            ["parestesia", "Parestesias", "parestesias o hipoestesia", "parestesias"],
+            ["debilidad", "Debilidad", "debilidad o parálisis", "debilidad"],
+            ["analgesia", "Más analgesia", "aumento del requerimiento analgésico", "más analgesia"],
+            ["pulso", "Pulso o llenado lento (tardío)", "pulso disminuido o llenado capilar lento", "pulso o llenado lento"]
+          ],
+          acciones: [
+            ["vendaje", "Vendaje o yeso abierto a piel", "se abren vendaje, férula o yeso hasta piel"],
+            ["elevar", "Extremidad a nivel del corazón", "se coloca la extremidad a nivel del corazón"],
+            ["ta", "Sin hipotensión", "se vigila la presión arterial para evitar hipotensión"],
+            ["adscrito", "Adscrito informado", "se informa al médico adscrito"],
+            ["pic", "Presión medida", "se mide la presión compartimental"],
+            ["qx", "Fasciotomía solicitada", "se solicita fasciotomía urgente"]
+          ],
+          regiones: [
+            ["pierna", "Pierna", "f"], ["antebrazo", "Antebrazo", "m"], ["muslo", "Muslo", "m"], ["pie", "Pie", "m"],
+            ["mano", "Mano", "f"], ["brazo", "Brazo", "m"], ["gluteo", "Glúteo", "m"]
+          ]
+        };
+      }
+
+      function scState() {
+        if (!scState.s) scState.s = { prev: null, accAuto: false, presAuto: false, timer: 0 };
+        return scState.s;
+      }
+
+      // Pura: «Pierna derecha», «Antebrazo izquierdo», «Mano bilateral»…
+      function scExtLabel(region, lado) {
+        const reg = scDefs().regiones.find((r) => r[0] === region);
+        if (!reg) return "";
+        if (lado === "bil") return reg[1] + " (bilateral)";
+        if (lado === "der") return reg[1] + (reg[2] === "f" ? " derecha" : " derecho");
+        if (lado === "izq") return reg[1] + (reg[2] === "f" ? " izquierda" : " izquierdo");
+        return reg[1];
+      }
+
+      // Pura: evalúa la exploración actual. Devuelve nivel, ΔP y renglones de apoyo.
+      function scEvaluate(inp) {
+        const d = inp || {};
+        const f = Array.isArray(d.f) ? d.f : [];
+        const risks = Array.isArray(d.risks) ? d.risks : [];
+        const tad = Number(d.tad);
+        const pic = Number(d.pic);
+        const hasTad = d.tad !== "" && d.tad != null && Number.isFinite(tad);
+        const hasPic = d.pic !== "" && d.pic != null && Number.isFinite(pic);
+        const rank = { ok: 0, info: 1, warn: 2, danger: 3 };
+        const out = { level: "ok", dp: null, codes: [], lines: [] };
+        const add = (code, lvl, txt) => {
+          out.codes.push(code);
+          out.lines.push({ code, lvl, txt });
+          if (rank[lvl] > rank[out.level]) out.level = lvl;
+        };
+        if (f.length) {
+          add("clinica", "danger", "Datos clínicos sugestivos: abrir vendaje, férula o yeso hasta piel, elevar la extremidad sin rebasar el nivel del corazón, evitar la hipotensión y reevaluar en 30 minutos. Si persisten: descompresión quirúrgica urgente (BOAST 7 y 9).");
+          if (f.includes("pulso")) add("pulso", "danger", "El pulso débil y el llenado capilar lento son signos tardíos: no esperar a ellos para actuar.");
+        }
+        if (d.nv) add("noValorable", "warn", "Exploración no confiable: medir la presión de los compartimentos sospechosos con TA diastólica simultánea, explorar cada hora y pedir valoración del adscrito (BOAST 8; AAOS).");
+        const rangoOk = (!hasTad || (tad >= 20 && tad <= 150)) && (!hasPic || (pic >= 0 && pic <= 150));
+        if (!rangoOk) {
+          add("rango", "warn", "Revisar las cifras de presión: están fuera de rango.");
+        } else {
+          if (hasPic && pic > 40) add("pic40", "danger", "Presión compartimental mayor de 40 mmHg: considerar descompresión urgente (BOAST).");
+          if (hasPic && hasTad) {
+            out.dp = Math.round(tad - pic);
+            if (out.dp < 30) add("dp30", "danger", "ΔP de " + out.dp + " mmHg (menor de 30): riesgo aumentado. El adscrito decide descompresión o vigilancia continua (BOAST).");
+            else if (out.dp === 30) add("dpLim", "warn", "ΔP de 30 mmHg, en el umbral: repetir la medición y correlacionar con la clínica.");
+            else add("dpOk", "info", "ΔP de " + out.dp + " mmHg: con mediciones repetidas ayuda a descartar (AAOS); una sola lectura normal no excluye el diagnóstico.");
+          } else if (hasPic) {
+            add("sinTad", "warn", "Anotar la TA diastólica tomada junto con la medición para calcular ΔP.");
+          }
+        }
+        if (!f.length && !d.nv) {
+          if (risks.length) add("riesgo", "info", "Paciente en riesgo: explorar y registrar cada hora, haya o no hallazgos (BOAST 5).");
+          else if (!out.codes.length) add("sinDatos", "ok", "Sin datos clínicos en esta exploración.");
+        }
+        if (d.ped) add("ped", "info", "Niños: la ansiedad, la agitación y el aumento del requerimiento analgésico suelen ser los primeros signos; los umbrales de presión vienen de adultos.");
+        if (d.region === "pie") add("pie", "info", "Pie: no hay consenso de manejo; documentar la justificación del plan (BOAST 13).");
+        return out;
+      }
+
+      // Pura: próxima revisión sugerida (30 min si hubo hallazgos, si no cada hora).
+      function scNextDue(evals) {
+        const list = Array.isArray(evals) ? evals : [];
+        if (!list.length) return null;
+        const last = list[list.length - 1];
+        const mins = (last.f && last.f.length) || last.lvl === "danger" ? 30 : 60;
+        return { at: last.t + mins * 60000, mins };
+      }
+
+      function scHora(ms, nowMs) {
+        const d = new Date(ms);
+        const now = new Date(nowMs || Date.now());
+        const pad = (n) => String(n).padStart(2, "0");
+        const hm = pad(d.getHours()) + ":" + pad(d.getMinutes());
+        const mismoDia = d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth() && d.getDate() === now.getDate();
+        return mismoDia ? hm : pad(d.getDate()) + "/" + pad(d.getMonth() + 1) + " " + hm;
+      }
+
+      // Pura: texto para la nota (sin abreviaturas ni símbolos que el PDF no imprime).
+      function scNoteText(rec, nowMs) {
+        const defs = scDefs();
+        const r = rec || {};
+        const ext = scExtLabel(r.ext && r.ext.r, r.ext && r.ext.l);
+        const lines = ["VIGILANCIA DE SÍNDROME COMPARTIMENTAL"];
+        if (ext) lines.push("- Extremidad: " + ext.toLowerCase() + ".");
+        const risks = (r.risks || []).map((k) => (defs.risks.find((x) => x[0] === k) || [])[2]).filter(Boolean);
+        if (risks.length) lines.push("- Factores de riesgo: " + risks.join("; ") + ".");
+        (r.evals || []).forEach((e) => {
+          const parts = [];
+          const hall = (e.f || []).map((k) => (defs.findings.find((x) => x[0] === k) || [])[2]).filter(Boolean);
+          let first = "";
+          if (e.nv) first = "exploración no valorable (sedación, bloqueo regional o alteración del estado de alerta)";
+          if (hall.length) first = (first ? first + "; " : "") + hall.join(", ");
+          if (!first) first = "sin datos clínicos de síndrome compartimental";
+          parts.push(first.charAt(0).toUpperCase() + first.slice(1) + ".");
+          if (e.eva !== "" && e.eva != null && Number.isFinite(Number(e.eva))) parts.push("Dolor " + Number(e.eva) + "/10 (escala visual análoga).");
+          const hasTad = Number.isFinite(e.tad);
+          const hasPic = Number.isFinite(e.pic);
+          if (hasPic && hasTad) {
+            parts.push("Presión arterial diastólica " + e.tad + " mmHg, presión intracompartimental " + e.pic + " mmHg, presión de perfusión (diastólica menos compartimental) " + Math.round(e.tad - e.pic) + " mmHg.");
+          } else if (hasPic) {
+            parts.push("Presión intracompartimental " + e.pic + " mmHg.");
+          }
+          if (e.an) parts.push("Analgesia: " + String(e.an).replace(/\s+/g, " ").trim() + (/[.!?]$/.test(String(e.an).trim()) ? "" : "."));
+          const acc = (e.acc || []).map((k) => (defs.acciones.find((x) => x[0] === k) || [])[2]).filter(Boolean);
+          if (acc.length) parts.push("Acciones: " + acc.join("; ") + ".");
+          lines.push("- " + scHora(e.t, nowMs) + " h: " + parts.join(" "));
+        });
+        return lines.join("\n");
+      }
+
+      // Pura (v44): numeración consecutiva de las indicaciones «1. 2. 3.»
+      function rxRenumberItems(lines) {
+        let n = 0;
+        return lines.map((l) => (/^\d+\.\s/.test(l) ? String(++n) + ". " + l.replace(/^\d+\.\s+/, "") : l));
+      }
+
+      function scSanitizeRec(raw) {
+        const defs = scDefs();
+        const keys = (arr, list) => (Array.isArray(arr) ? arr.filter((k) => list.some((x) => x[0] === k)) : []);
+        const num = (v) => (typeof v === "number" && Number.isFinite(v) ? v : null);
+        const r = raw && typeof raw === "object" ? raw : {};
+        const ext = r.ext && typeof r.ext === "object" ? r.ext : {};
+        return {
+          ext: {
+            r: defs.regiones.some((x) => x[0] === ext.r) ? ext.r : "",
+            l: ["der", "izq", "bil"].includes(ext.l) ? ext.l : ""
+          },
+          risks: keys(r.risks, defs.risks),
+          evals: (Array.isArray(r.evals) ? r.evals : []).filter((e) => e && typeof e.t === "number").slice(-defs.maxEvals).map((e) => ({
+            t: e.t,
+            f: keys(e.f, defs.findings),
+            nv: !!e.nv,
+            eva: num(e.eva),
+            an: typeof e.an === "string" ? e.an.slice(0, 120) : "",
+            tad: num(e.tad),
+            pic: num(e.pic),
+            acc: keys(e.acc, defs.acciones),
+            lvl: ["ok", "info", "warn", "danger"].includes(e.lvl) ? e.lvl : "ok"
+          })),
+          upd: typeof r.upd === "number" ? r.upd : 0
+        };
+      }
+
+      function scRecEmpty(rec) {
+        return !rec.risks.length && !rec.evals.length && !rec.ext.r && !rec.ext.l;
+      }
+
+      // Lee el registro y quita lo de pacientes que ya no están (o lo «sin paciente» de más de 24 h).
+      function scLoad() {
+        const defs = scDefs();
+        let raw = null;
+        try { raw = JSON.parse(localStorage.getItem(defs.key) || "null"); } catch (_) { raw = null; }
+        const byId = {};
+        let removed = 0;
+        if (raw && raw.byId && typeof raw.byId === "object") {
+          let ids = [];
+          try { ids = loadFichaStore().items.map((it) => it.id); } catch (_) { ids = []; }
+          Object.keys(raw.byId).forEach((id) => {
+            const rec = scSanitizeRec(raw.byId[id]);
+            const keep = !scRecEmpty(rec) && (id === defs.sinPx ? Date.now() - rec.upd < 24 * 3600000 : ids.includes(id));
+            if (keep) byId[id] = rec; else removed++;
+          });
+        } else if (raw) {
+          removed = 1;
+        }
+        const store = { v: 1, byId };
+        if (removed) scSave(store); // lo vencido no se queda en el dispositivo
+        return store;
+      }
+
+      function scSave(store) {
+        const defs = scDefs();
+        try {
+          if (!Object.keys(store.byId).length) localStorage.removeItem(defs.key);
+          else localStorage.setItem(defs.key, JSON.stringify(store));
+        } catch (_) { /* modo privado */ }
+      }
+
+      function scActiveId() {
+        try { return loadFichaStore().activeId || scDefs().sinPx; } catch (_) { return scDefs().sinPx; }
+      }
+
+      function scGetRec(store, id) {
+        return store.byId[id] ? store.byId[id] : scSanitizeRec(null);
+      }
+
+      function scPutRec(store, id, rec) {
+        rec.upd = Date.now();
+        if (scRecEmpty(rec)) delete store.byId[id];
+        else store.byId[id] = rec;
+        scSave(store);
+      }
+
+      function scIsPed() {
+        try {
+          const f = loadFicha();
+          if (f && f.data && Number.isFinite(f.data.edad)) return f.data.edadUnidad === "m" || f.data.edad < 18;
+        } catch (_) {}
+        const e = parseFloat($("rx-edad") ? $("rx-edad").value : "");
+        return Number.isFinite(e) && e < 18;
+      }
+
+      function scFormInput() {
+        const val = (id) => ($(id) ? $(id).value.trim() : "");
+        const numOrEmpty = (id) => { const s = val(id).replace(",", "."); return s === "" ? "" : Number(s); };
+        return {
+          f: Array.from(document.querySelectorAll(".sc-find:checked")).map((c) => c.value),
+          nv: !!($("sc-nv") && $("sc-nv").checked),
+          eva: numOrEmpty("sc-eva"),
+          an: val("sc-analg"),
+          tad: numOrEmpty("sc-tad"),
+          pic: numOrEmpty("sc-pic"),
+          acc: Array.from(document.querySelectorAll(".sc-acc:checked")).map((c) => c.value)
+        };
+      }
+
+      function scFormDirty() {
+        const x = scFormInput();
+        return x.f.length > 0 || x.nv || x.eva !== "" || x.an !== "" || x.tad !== "" || x.pic !== "" || x.acc.length > 0;
+      }
+
+      function scResetForm() {
+        document.querySelectorAll(".sc-find, .sc-acc").forEach((c) => { c.checked = false; });
+        ["sc-nv"].forEach((id) => { if ($(id)) $(id).checked = false; });
+        ["sc-eva", "sc-analg", "sc-tad", "sc-pic"].forEach((id) => { if ($(id)) $(id).value = ""; });
+        if ($("sc-pres-acc")) $("sc-pres-acc").open = false;
+        if ($("sc-acc-acc")) $("sc-acc-acc").open = false;
+        scState().accAuto = false;
+        scState().presAuto = false;
+      }
+
+      function scHeadline(level) {
+        return {
+          ok: "Sin datos de síndrome compartimental",
+          info: "Vigilancia horaria",
+          warn: "Vigilancia estrecha",
+          danger: "Sospecha de síndrome compartimental: actuar ahora"
+        }[level];
+      }
+
+      // Actualiza el resultado en vivo (exploración en pantalla + riesgos del paciente).
+      function scUpdateLive() {
+        const box = $("sc-result");
+        if (!box) return;
+        const store = scLoad();
+        const rec = scGetRec(store, scActiveId());
+        const x = scFormInput();
+        const ev = scEvaluate({ f: x.f, nv: x.nv, tad: x.tad, pic: x.pic, risks: rec.risks, ped: scIsPed(), region: rec.ext.r });
+        const formDanger = ev.level === "danger";
+        let head = scHeadline(ev.level);
+        let lines = ev.lines.filter((l) => l.code !== "sinDatos");
+        const last = rec.evals[rec.evals.length - 1];
+        if (last && last.lvl === "danger" && !scFormDirty()) {
+          // Mientras no haya una exploración nueva, manda la última (sugestiva)
+          const next = scNextDue(rec.evals);
+          ev.level = "danger";
+          head = "Última exploración sugestiva (" + scHora(last.t) + " h)";
+          lines = [{ code: "reexplorar", lvl: "danger", txt: "Reexplorar a las " + scHora(next.at) + " h, 30 minutos después de abrir vendajes y elevar. Si persisten los datos: descompresión quirúrgica urgente (BOAST 7 y 9)." }]
+            .concat(lines.filter((l) => l.code === "ped" || l.code === "pie"));
+        }
+        box.className = "alert " + ev.level;
+        box.innerHTML = "<strong>" + escapeHtml(head) + "</strong>" +
+          (lines.length ? '<ul class="sc-lines">' + lines.map((l) => '<li class="sc-l-' + l.lvl + '">' + escapeHtml(l.txt) + "</li>").join("") + "</ul>" : "");
+        const badge = $("sc-badge");
+        if (badge) {
+          badge.textContent = { ok: "Sin datos", info: "En vigilancia", warn: "Vigilar", danger: "Sospecha" }[ev.level];
+          badge.className = "badge" + (ev.level === "ok" ? " ok" : ev.level === "info" ? "" : " " + ev.level);
+        }
+        if ($("sc-dp-val")) $("sc-dp-val").textContent = ev.dp === null ? "--" : ev.dp + " mmHg";
+        if ($("sc-dp-box")) $("sc-dp-box").classList.toggle("sc-dp-alert", ev.dp !== null && ev.dp < 30);
+        if (formDanger && !scState().accAuto && $("sc-acc-acc")) { $("sc-acc-acc").open = true; scState().accAuto = true; }
+        if (x.nv && !scState().presAuto && $("sc-pres-acc")) { $("sc-pres-acc").open = true; scState().presAuto = true; }
+        const nAcc = x.acc.length;
+        if ($("sc-acc-count")) $("sc-acc-count").textContent = nAcc ? nAcc + (nAcc === 1 ? " marcada" : " marcadas") : "Se guardan con la exploración";
+        return ev;
+      }
+
+      function scEvalSummary(e) {
+        const defs = scDefs();
+        const bits = [];
+        const hall = (e.f || []).map((k) => (defs.findings.find((x) => x[0] === k) || [])[3]).filter(Boolean);
+        if (e.nv) bits.push("No valorable");
+        bits.push(hall.length ? hall.join(", ") : "Sin hallazgos");
+        if (Number.isFinite(e.eva)) bits.push("EVA " + e.eva);
+        if (Number.isFinite(e.pic)) bits.push(Number.isFinite(e.tad) ? "ΔP " + Math.round(e.tad - e.pic) + " (PIC " + e.pic + ")" : "PIC " + e.pic);
+        if (e.acc && e.acc.length) bits.push(e.acc.length + (e.acc.length === 1 ? " acción" : " acciones"));
+        const txt = bits.join(" · ");
+        return txt.charAt(0).toUpperCase() + txt.slice(1);
+      }
+
+      // Pinta riesgos, extremidad, registro, próxima revisión y la tarjeta del menú.
+      function scRender() {
+        if (!$("calc-compart")) return;
+        const id = scActiveId();
+        const store = scLoad();
+        const rec = scGetRec(store, id);
+        const now = Date.now();
+        if ($("sc-region")) $("sc-region").value = rec.ext.r;
+        if ($("sc-lado")) $("sc-lado").value = rec.ext.l;
+        document.querySelectorAll(".sc-risk").forEach((c) => { c.checked = rec.risks.includes(c.value); });
+        const n = rec.risks.length;
+        if ($("sc-risk-count")) $("sc-risk-count").textContent = n ? n + (n === 1 ? " marcado" : " marcados") : "Ninguno marcado";
+        if ($("sc-pt")) {
+          let quien = "";
+          try { const f = loadFicha(); if (f) quien = fichaSummary(f.data).initials || "paciente activo"; } catch (_) {}
+          $("sc-pt").textContent = quien
+            ? "Registro ligado a la ficha de " + quien + " (vence con ella)."
+            : "Sin paciente en la lista: el registro se guarda 24 h y pasa a la ficha si la creas.";
+        }
+        const wrap = $("sc-log-wrap");
+        const list = $("sc-log");
+        if (wrap && list) {
+          wrap.classList.toggle("hidden", !rec.evals.length);
+          list.innerHTML = rec.evals.slice().reverse().map((e) => {
+            const hora = scHora(e.t, now);
+            return '<li class="sc-item sc-lvl-' + e.lvl + '"><span class="sc-time">' + escapeHtml(hora) + '</span><span class="sc-txt">' + escapeHtml(scEvalSummary(e)) +
+              '</span><button type="button" class="sc-del" data-t="' + e.t + '" aria-label="Quitar la exploración de las ' + escapeHtml(hora) + '"><svg class="ic"><use href="#i-x"/></svg></button></li>';
+          }).join("");
+        }
+        scRenderNext(rec, now);
+        scUpdateLive();
+      }
+
+      function scRenderNext(rec, now) {
+        const next = scNextDue(rec.evals);
+        const el = $("sc-next");
+        const overdue = !!next && now > next.at;
+        if (el) {
+          el.className = "sc-next" + (overdue ? " sc-overdue" : "");
+          el.textContent = !next ? "" : overdue
+            ? "Revisión vencida hace " + Math.max(1, Math.round((now - next.at) / 60000)) + " min"
+            : "Próxima revisión: " + scHora(next.at, now) + " h";
+        }
+        const tile = $("tile-sc-val");
+        if (tile) {
+          const last = rec.evals[rec.evals.length - 1];
+          tile.textContent = !last ? "--" : overdue ? "Vencida" : last.lvl === "danger" ? "Sospecha" : scHora(last.t, now);
+          tile.classList.toggle("sc-alert", !!last && (overdue || last.lvl === "danger"));
+        }
+        if ($("dot-sc")) $("dot-sc").className = "tile-dot " + (!rec.evals.length ? "ok" : overdue || (rec.evals[rec.evals.length - 1].lvl === "danger") ? "danger" : "ok");
+      }
+
+      // Factores de riesgo abiertos solo si aún no hay ninguno marcado
+      function scSyncRiskAcc() {
+        const acc = $("sc-risk-acc");
+        if (acc) acc.open = !document.querySelectorAll(".sc-risk:checked").length;
+      }
+
+      function scTick() {
+        if (document.hidden || !$("calc-compart")) return;
+        try { const rec = scGetRec(scLoad(), scActiveId()); scRenderNext(rec, Date.now()); } catch (_) {}
+      }
+
+      function scPersistMeta() {
+        const id = scActiveId();
+        const store = scLoad();
+        const rec = scGetRec(store, id);
+        rec.ext = { r: $("sc-region").value, l: $("sc-lado").value };
+        rec.risks = Array.from(document.querySelectorAll(".sc-risk:checked")).map((c) => c.value);
+        scPutRec(store, id, rec);
+      }
+
+      // Guarda la exploración en pantalla con la hora (documenta hallazgos presentes o no).
+      function scRegister(silent) {
+        const id = scActiveId();
+        const store = scLoad();
+        const rec = scGetRec(store, id);
+        const x = scFormInput();
+        const tad = x.tad === "" ? null : x.tad;
+        const pic = x.pic === "" ? null : x.pic;
+        if ((tad !== null && !(tad >= 20 && tad <= 150)) || (pic !== null && !(pic >= 0 && pic <= 150)) || (x.eva !== "" && !(x.eva >= 0 && x.eva <= 10))) {
+          showToast("Revisa las cifras: hay un valor fuera de rango.");
+          return null;
+        }
+        const ev = scEvaluate({ f: x.f, nv: x.nv, tad: x.tad, pic: x.pic, risks: rec.risks });
+        const entry = { t: Date.now(), f: x.f, nv: x.nv, eva: x.eva === "" ? null : Math.round(x.eva), an: x.an.slice(0, 120), tad, pic, acc: x.acc, lvl: ev.level };
+        rec.ext = { r: $("sc-region").value, l: $("sc-lado").value };
+        rec.risks = Array.from(document.querySelectorAll(".sc-risk:checked")).map((c) => c.value);
+        rec.evals.push(entry);
+        rec.evals = rec.evals.slice(-scDefs().maxEvals);
+        scPutRec(store, id, rec);
+        scResetForm();
+        scRender();
+        scSyncRiskAcc();
+        if (!silent) {
+          const next = scNextDue(rec.evals);
+          showToast("Exploración registrada a las " + scHora(entry.t) + " h. Próxima revisión: " + scHora(next.at) + " h.");
+        }
+        return entry;
+      }
+
+      function scCopyToNote() {
+        const store = scLoad();
+        const rec = scGetRec(store, scActiveId());
+        if (scFormDirty()) {
+          if (!scRegister(true)) return false;
+        } else if (!rec.evals.length) {
+          showToast("Primero toca «Registrar exploración» (aunque no haya hallazgos).");
+          return false;
+        }
+        const fresh = scGetRec(scLoad(), scActiveId());
+        appendToNota(scNoteText(fresh, Date.now()));
+        return true;
+      }
+
+      function scBuildPills() {
+        const defs = scDefs();
+        const pill = (cls, k, label, extra) => '<label class="check-pill' + (extra || "") + '"><input type="checkbox" class="' + cls + '" value="' + k + '" /> ' + escapeHtml(label) + "</label>";
+        if ($("sc-risks")) $("sc-risks").innerHTML = defs.risks.map((r) => pill("sc-risk", r[0], r[1])).join("");
+        if ($("sc-findings")) $("sc-findings").innerHTML = defs.findings.map((r) => pill("sc-find", r[0], r[1], " danger-pill")).join("");
+        if ($("sc-acciones")) $("sc-acciones").innerHTML = defs.acciones.map((r) => pill("sc-acc", r[0], r[1])).join("");
+        if ($("sc-region")) $("sc-region").innerHTML = '<option value="">Elegir</option>' + defs.regiones.map((r) => '<option value="' + r[0] + '">' + escapeHtml(r[1]) + "</option>").join("");
+      }
+
+      function initCompartimentalV44() {
+        const panel = $("calc-compart");
+        if (!panel) return;
+        scBuildPills();
+        panel.addEventListener("change", (e) => {
+          const t = e.target;
+          if (!t) return;
+          if (t.classList.contains("sc-risk") || t.id === "sc-region" || t.id === "sc-lado") { scPersistMeta(); scRender(); return; }
+          scUpdateLive();
+        });
+        panel.addEventListener("input", (e) => {
+          if (e.target && ["sc-eva", "sc-tad", "sc-pic"].includes(e.target.id)) scUpdateLive();
+        });
+        $("btn-sc-registrar").addEventListener("click", () => scRegister(false));
+        $("btn-sc-note").addEventListener("click", scCopyToNote);
+        $("btn-sc-borrar").addEventListener("click", () => {
+          const id = scActiveId();
+          const store = scLoad();
+          if (!store.byId[id] && !scFormDirty()) { showToast("No hay registro que borrar."); return; }
+          if (!confirm("¿Borrar el registro de vigilancia compartimental de este paciente? Se quitan los factores de riesgo y todas las exploraciones.")) return;
+          delete store.byId[id];
+          scSave(store);
+          scResetForm();
+          scRender();
+          showToast("Registro de vigilancia borrado.");
+        });
+        $("btn-sc-ta").addEventListener("click", () => {
+          const m = String($("nv-ta") ? $("nv-ta").value : "").match(/(\d{2,3})\s*\/\s*(\d{2,3})/);
+          if (!m) { showToast("No hay TA en los signos vitales de la nota (formato 120/80)."); return; }
+          $("sc-tad").value = m[2];
+          scUpdateLive();
+          showToast("TA diastólica " + m[2] + " mmHg tomada de los signos vitales.");
+        });
+        $("sc-log").addEventListener("click", (e) => {
+          const b = e.target.closest(".sc-del");
+          if (!b) return;
+          const t = Number(b.dataset.t);
+          if (!confirm("¿Quitar la exploración de las " + scHora(t) + " h del registro?")) return;
+          const id = scActiveId();
+          const store = scLoad();
+          const rec = scGetRec(store, id);
+          rec.evals = rec.evals.filter((x) => x.t !== t);
+          scPutRec(store, id, rec);
+          scRender();
+        });
+        const tile = document.querySelector('#calc-subnav [data-calc="compart"]');
+        if (tile) tile.addEventListener("click", scRender);
+
+        // El registro «sin paciente» pasa a la ficha nueva; al cambiar de paciente se descarta.
+        const origSave = saveFicha;
+        saveFicha = function (data, ttlHours) {
+          let before = null;
+          try { before = loadFichaStore().activeId; } catch (_) {}
+          const ok = origSave(data, ttlHours);
+          try {
+            const after = loadFichaStore().activeId;
+            if (!before && after) {
+              const store = scLoad();
+              const sin = store.byId[scDefs().sinPx];
+              if (sin && !store.byId[after]) { store.byId[after] = sin; delete store.byId[scDefs().sinPx]; scSave(store); }
+              scState().prev = after;
+              scRender();
+            }
+          } catch (_) {}
+          return ok;
+        };
+        const origSwitch = switchFichaPatient;
+        switchFichaPatient = function (targetId) {
+          try {
+            const sin = scLoad().byId[scDefs().sinPx];
+            if (scActiveId() === scDefs().sinPx && sin && sin.evals.length &&
+                !confirm("El registro de vigilancia compartimental en pantalla no pertenece a ningún paciente de la lista y se borrará. ¿Continuar?")) return false;
+          } catch (_) {}
+          return origSwitch(targetId);
+        };
+        document.addEventListener("tyo-patient-change", () => {
+          try {
+            if (scState().prev === scDefs().sinPx) {
+              const store = scLoad();
+              if (store.byId[scDefs().sinPx]) { delete store.byId[scDefs().sinPx]; scSave(store); }
+            }
+            scResetForm();
+            scState().prev = scActiveId();
+            scRender();
+            scSyncRiskAcc();
+          } catch (_) {}
+        });
+        scState().prev = scActiveId();
+        scRender();
+        scSyncRiskAcc();
+        if (scState().timer) clearInterval(scState().timer);
+        scState().timer = setInterval(scTick, 60000);
+        document.addEventListener("visibilitychange", scTick);
       }
 
       function renderProtocol() {
@@ -6170,7 +6858,7 @@
 
           lines.push("5. Duración: " + (grado === "3" ? "Hasta 72 horas (o 24 horas posteriores a cobertura definitiva de tejidos blandos)." : "24 horas posteriores al cierre definitivo de la herida."));
           lines.push("6. Medidas locales: Lavado quirúrgico y desbridamiento urgente; toma de cultivos solo si infección establecida.");
-          out = lines.join("\n");
+          out = rxRenumberItems(lines).join("\n");
           refs = "Referencias: GPC CENETEC Manejo Inicial de Fracturas Expuestas; AO/OTA Open Fracture Guidelines; AAOS 2022.";
         } else if (proto === "trombo") {
           const tipo = $("rx-trombo-tipo").value;
@@ -9353,6 +10041,7 @@
       function clearAllFichas() {
         localStorage.removeItem(FICHA_STORE_KEY);
         localStorage.removeItem(FICHA_STORAGE_KEY);
+        try { localStorage.removeItem("tyo_sc_v44"); } catch (_) {}
       }
 
       // Nota en progreso + laboratorios del paciente en pantalla.
@@ -9994,6 +10683,7 @@
         $("mess-age").value = "0";
         $("mess-gt6").checked = false;
         calcMess();
+        try { scResetForm(); scUpdateLive(); } catch (_) {}
 
         $("rx-peso").value = "";
         $("rx-edad").value = "";
@@ -10550,13 +11240,33 @@
 
         // 58. v43: atajos de guardia visibles de fábrica, todos con destino y de 40 px
         const acts58 = Array.from(document.querySelectorAll("#quick-strip button[data-qact]")).map((b) => b.dataset.qact);
-        const conocidos58 = ["rx-expuesta", "rx-trombo", "nota-evol", "est-lab", "nota-audio", "calc-renal", "est-vision"];
-        const todos58 = acts58.length === 7 && acts58.every((a) => conocidos58.includes(a)) && conocidos58.every((a) => acts58.includes(a));
+        const conocidos58 = ["rx-expuesta", "rx-trombo", "nota-evol", "calc-compart", "est-lab", "nota-audio", "calc-renal", "est-vision"];
+        const todos58 = acts58.length === 8 && acts58.every((a) => conocidos58.includes(a)) && conocidos58.every((a) => acts58.includes(a));
         const fabrica58 = moduleDefault("quick-strip") === true;
         const h58 = getComputedStyle(document.querySelector("#quick-strip .quick-chip")).height;
         const alto58 = h58 === "auto" || parseFloat(h58) >= 40;
-        addTest("58. v43: guardia a un pulgar (7 atajos, visibles de fábrica, 40 px)", todos58 && fabrica58 && alto58,
+        addTest("58. v43-v44: guardia a un pulgar (8 atajos, visibles de fábrica, 40 px)", todos58 && fabrica58 && alto58,
           "atajos " + acts58.join(", ") + " · de fábrica " + fabrica58 + " · alto ≥ 40 px " + alto58);
+
+        // 59. v44: síndrome compartimental (ΔP, signos, registro) y numeración de indicaciones
+        let ok59 = false, det59 = "";
+        try {
+          const a59 = scEvaluate({ f: ["dolor"], tad: 70, pic: 45 });
+          const alerta59 = a59.level === "danger" && a59.dp === 25 && ["clinica", "dp30", "pic40"].every((c) => a59.codes.includes(c));
+          const b59 = scEvaluate({ tad: 80, pic: 40 });
+          const umbral59 = b59.dp === 40 && b59.codes.includes("dpOk") && !b59.codes.includes("pic40") && scEvaluate({ tad: 60, pic: 30 }).codes.includes("dpLim");
+          const nv59 = scEvaluate({ nv: true }).level === "warn" && scEvaluate({ risks: ["tibia"] }).codes.includes("riesgo") && scEvaluate({}).level === "ok" && scEvaluate({ tad: 300, pic: 20 }).dp === null;
+          const t0 = new Date(2026, 10, 26, 14, 5).getTime();
+          const due59 = scNextDue([{ t: t0, f: ["dolor"], lvl: "danger" }]).at === t0 + 1800000 && scNextDue([{ t: t0, f: [], lvl: "info" }]).at === t0 + 3600000 && scNextDue([]) === null;
+          const nota59 = scNoteText({ ext: { r: "pierna", l: "der" }, risks: ["tibia"], evals: [{ t: t0, f: [], nv: false, eva: 4, an: "", tad: null, pic: null, acc: [], lvl: "info" }, { t: t0 + 3600000, f: ["dolor", "estiramiento"], nv: false, eva: 8, an: "", tad: 70, pic: 45, acc: ["vendaje", "adscrito"], lvl: "danger" }] }, t0 + 3700000);
+          const notaOk59 = /^VIGILANCIA DE SÍNDROME COMPARTIMENTAL\n- Extremidad: pierna derecha\.\n- Factores de riesgo: fractura de diáfisis tibial\.\n- 14:05 h: Sin datos clínicos/.test(nota59) && /15:05 h: Dolor desproporcionado a la lesión, dolor al estiramiento pasivo\./.test(nota59) &&
+            /\(diastólica menos compartimental\) 25 mmHg/.test(nota59) && /se informa al médico adscrito\./.test(nota59) && pdfSafeText(nota59) === nota59;
+          const num59 = rxRenumberItems(["ENCABEZADO", "1. a", "4. b", "5. c", "6. d"]).join("|") === "ENCABEZADO|1. a|2. b|3. c|4. d";
+          const ext59 = scExtLabel("mano", "izq") === "Mano izquierda" && scExtLabel("antebrazo", "der") === "Antebrazo derecho";
+          ok59 = alerta59 && umbral59 && nv59 && due59 && notaOk59 && num59 && ext59;
+          det59 = "ΔP < 30 y PIC > 40 alertan " + alerta59 + " · umbral 30 y lectura normal " + umbral59 + " · no valorable, en riesgo y fuera de rango " + nv59 + " · próxima revisión 30/60 min " + due59 + " · texto para la nota " + notaOk59 + " · indicaciones 1-2-3 " + num59 + " · extremidad " + ext59;
+        } catch (e) { det59 = "Error: " + e.message; }
+        addTest("59. v44: vigilancia de síndrome compartimental y numeración de indicaciones", ok59, det59);
 
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
@@ -10668,6 +11378,7 @@
           { title: "Función Renal (Cockcroft-Gault / CKD-EPI)", mod: "calc-renal", cat: "Calculadora", keys: "renal creatinina tfg crcl kdigo cockcroft ckd", run: () => { switchTab("tab-calc"); switchCalcPanel("renal"); } },
           { title: "Escala de Caprini (Riesgo ETV)", mod: "calc-caprini", cat: "Calculadora", keys: "caprini etv tvp tep trombosis", run: () => { switchTab("tab-calc"); switchCalcPanel("caprini"); } },
           { title: "Índice Punta-Ápice (TAD — Cadera)", mod: "calc-tad", cat: "Calculadora", keys: "tad cadera dhs pfn clavo cut out baumgaertner", run: () => { switchTab("tab-calc"); switchCalcPanel("tad"); } },
+          { title: "Síndrome compartimental (vigilancia · ΔP)", mod: "calc-compart", cat: "Calculadora", keys: "sindrome compartimental fasciotomia presion compartimental delta perfusion pierna antebrazo vigilancia horaria", run: () => { switchTab("tab-calc"); switchCalcPanel("compart"); scRender(); } },
           { title: "Escala MESS (Extremidad Lesionada)", mod: "calc-mess", cat: "Calculadora", keys: "mess isquemia amputacion extremidad trauma", run: () => { switchTab("tab-calc"); switchCalcPanel("mess"); } },
           { title: "Profilaxis Antibiótica Quirúrgica", mod: "tab-rx rx-profilaxis", cat: "Receta", keys: "profilaxis cefazolina cefalotina clindamicina vancomicina cerrada", run: () => { $("rx-protocol").value = "profilaxis"; renderProtocol(); switchTab("tab-rx"); } },
           { title: "Fractura Expuesta (Gustilo-Anderson)", mod: "tab-rx rx-expuesta", cat: "Receta", keys: "expuesta gustilo gentamicina ceftriaxona tetanos abierta", run: () => { $("rx-protocol").value = "expuesta"; renderProtocol(); switchTab("tab-rx"); } },
@@ -10924,6 +11635,7 @@
             else if (id === "calc-caprini") $("btn-cap-note").click();
             else if (id === "calc-tad") $("btn-tad-note").click();
             else if (id === "calc-mess") $("btn-mess-note").click();
+            else if (id === "calc-compart") $("btn-sc-note").click();
           });
         }
 
@@ -11280,6 +11992,7 @@
         ["Nota en PDF v40", initNotaPdfV40],
         ["Contador de pruebas v41", initSelftestCountV41],
         ["Guardia a un pulgar v43", initGuardiaV43],
+        ["Síndrome compartimental v44", initCompartimentalV44],
         ["Pulido v37", initPulidoV37],
         ["Módulos v26", initModulesV26] /* siempre al final */
       ].forEach(([name, fn]) => runInit(name, fn));
