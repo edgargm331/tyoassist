@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v44 · Tema "Base44" (oscuro + claro)
+       TyO Assist v45 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -1022,6 +1022,28 @@
     .sc-del .ic { width: 16px; height: 16px; }
     #tile-sc-val.sc-alert { background: var(--danger-bg); color: var(--danger-ink); }
 
+    /* ---------- v45: fractura de cadera ---------- */
+    #calc-cadera { scroll-margin-top: 84px; }
+    input[type="datetime-local"] {
+      width: 100%; min-height: 48px; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--inset);
+      color: var(--text); font-size: 16px; font-weight: 500; text-transform: none; letter-spacing: 0; font-family: inherit;
+      -webkit-appearance: none; appearance: none; outline: none; transition: border-color 0.18s, box-shadow 0.18s;
+    }
+    body.dark input[type="datetime-local"], body.dark input[type="date"] { color-scheme: dark; }
+    #calc-cadera .acc { margin-top: 12px; }
+    #calc-cadera .acc-body { padding: 0 0 16px; }
+    #calc-cadera .acc-body > .alert, #calc-cadera .acc-body > .checks { margin: 0; }
+    #btn-cx-ahora { margin-top: 6px; }
+    .cx-clock { margin-top: 14px; padding: 16px 12px; }
+    .cx-clock .metric-val { font-size: 28px; }
+    .cx-clock.cx-warn { border-color: var(--warn-line); background: var(--warn-bg); }
+    .cx-clock.cx-warn .metric-val { color: var(--warn-ink); }
+    .cx-clock.cx-danger { border-color: var(--danger-line); background: var(--danger-bg); }
+    .cx-clock.cx-danger .metric-val { color: var(--danger-ink); }
+    #cx-clock-alert { margin-top: 12px; }
+    .cx-static { color: var(--text-2); font-size: 14px; margin: 0; }
+    .cx-btns { margin-top: 16px; }
+
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
     @media print {
@@ -1225,6 +1247,11 @@
             <span class="tile-ico"><svg class="ic"><use href="#i-heart-pulse"/></svg></span>
             <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-sc"></span>Síndrome compartimental</span><span class="tile-sub">Vigilancia horaria · ΔP</span></span>
             <span class="tile-val" id="tile-sc-val">--</span>
+          </button>
+          <button type="button" class="tile" data-calc="cadera" data-mod="calc-cadera">
+            <span class="tile-ico"><svg class="ic"><use href="#i-bone"/></svg></span>
+            <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-cx"></span>Fractura de cadera</span><span class="tile-sub">Adulto mayor · reloj a cirugía</span></span>
+            <span class="tile-val" id="tile-cx-val">--</span>
           </button>
           <button type="button" class="tile extra-calc-tile hidden" data-calc="tad" data-mod="calc-tad">
             <span class="tile-ico"><svg class="ic"><use href="#i-ruler"/></svg></span>
@@ -1434,6 +1461,135 @@
               <ol class="sc-log" id="sc-log"></ol>
             </div>
             <div class="ref-text">Apoyo a la decisión: el diagnóstico es clínico y la descompresión la decide el adscrito. BOAST Síndrome compartimental de las extremidades (BOA, julio 2025); AAOS Guía de síndrome compartimental agudo (2025); Bae et al., J Pediatr Orthop 2001.</div>
+          </div>
+        </div>
+
+        <!-- 2.4 FRACTURA DE CADERA DEL ADULTO MAYOR (v45) -->
+        <div id="calc-cadera" class="calc-panel" data-mod="calc-cadera">
+          <div class="card">
+            <div class="card-head">
+              <h3><svg class="ic gold"><use href="#i-bone"/></svg>Fractura de cadera</h3>
+              <span class="badge" id="cx-badge">Sin ingreso</span>
+            </div>
+            <p class="sc-pt" id="cx-pt"></p>
+            <div class="inset">
+              <label class="field">Hora de ingreso
+                <input type="datetime-local" id="cx-ingreso" />
+              </label>
+              <button type="button" class="link-gold" id="btn-cx-ahora"><svg class="ic"><use href="#i-clock"/></svg>Ingresó ahora</button>
+            </div>
+            <div class="metric-box cx-clock" id="cx-clock">
+              <div class="metric-label">Tiempo desde el ingreso</div>
+              <div class="metric-val" id="cx-clock-val">--</div>
+              <div class="metric-sub" id="cx-clock-sub">Anota la hora de ingreso para ver el tiempo a cirugía</div>
+            </div>
+            <div id="cx-clock-alert" class="alert"></div>
+            <details class="acc" id="cx-sec-nh">
+              <summary><span>Riesgo · escala de Nottingham <small id="cx-nh-sum">Faltan datos</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="acc-body">
+                <div class="grid-2">
+                  <label class="field">Edad (años)
+                    <input type="number" id="cx-edad" placeholder="--" inputmode="numeric" min="18" max="110" step="1" />
+                  </label>
+                  <label class="field">Sexo
+                  <span class="select-wrap"><select id="cx-sexo"><option value="">--</option><option value="F">Femenino</option><option value="M">Masculino</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+                </label>
+                </div>
+                <label class="field">Hemoglobina al ingreso (g/dL)
+                  <input type="number" id="cx-hb" placeholder="--" inputmode="decimal" min="3" max="20" step="0.1" />
+                </label>
+                <div class="checks">
+                  <label class="check-pill"><input type="checkbox" id="cx-amts" /> Prueba mental abreviada de 6/10 o menos</label>
+                  <label class="check-pill"><input type="checkbox" id="cx-inst" /> Vive en asilo o institución</label>
+                  <label class="check-pill"><input type="checkbox" id="cx-comorb" /> 2 o más enfermedades crónicas</label>
+                  <label class="check-pill"><input type="checkbox" id="cx-cancer" /> Cáncer en los últimos 20 años</label>
+                </div>
+                <div id="cx-nh-res" class="alert"></div>
+              </div>
+            </details>
+            <details class="acc" id="cx-sec-4at">
+              <summary><span>Delirium · 4AT <small id="cx-4at-sum">Sin completar</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="acc-body">
+                <label class="field">1. Alerta
+                  <span class="select-wrap"><select id="cx-4a"><option value="">--</option><option value="0">Normal o somnolencia leve breve</option><option value="4">Claramente anormal</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+                </label>
+                <label class="field">2. AMT4: edad, fecha de nacimiento, lugar y año
+                  <span class="select-wrap"><select id="cx-4m"><option value="">--</option><option value="0">Sin errores</option><option value="1">1 error</option><option value="2">2 o más, o no evaluable</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+                </label>
+                <label class="field">3. Atención: meses al revés desde diciembre
+                  <span class="select-wrap"><select id="cx-4t"><option value="">--</option><option value="0">7 meses o más correctos</option><option value="1">Menos de 7 o se niega</option><option value="2">No evaluable</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+                </label>
+                <label class="field">4. Cambio agudo o fluctuante (2 semanas, presente en 24 h)
+                  <span class="select-wrap"><select id="cx-4c"><option value="">--</option><option value="0">No</option><option value="4">Sí</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+                </label>
+                <div id="cx-4at-res" class="alert"></div>
+              </div>
+            </details>
+            <details class="acc" id="cx-sec-ac">
+              <summary><span>Anticoagulantes y antiagregantes <small id="cx-ac-sum">Sin capturar</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="acc-body">
+                <label class="field">Medicamento
+                  <span class="select-wrap"><select id="cx-ac-tipo"><option value="">Elegir</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+                </label>
+                <label class="field hidden" id="cx-ac-ult-wrap">Última dosis
+                  <input type="datetime-local" id="cx-ac-ult" />
+                </label>
+                <label class="field hidden" id="cx-ac-dep-wrap">Depuración de creatinina
+                  <span class="select-wrap"><select id="cx-ac-dep"><option value="">Sin dato</option><option value="ge30">30 mL/min o más</option><option value="lt30">Menos de 30 mL/min</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+                </label>
+                <label class="field hidden" id="cx-ac-inr-wrap">INR más reciente
+                  <input type="number" id="cx-ac-inr" placeholder="--" inputmode="decimal" min="0.8" max="12" step="0.1" />
+                </label>
+                <div id="cx-ac-res" class="alert"></div>
+              </div>
+            </details>
+            <details class="acc" id="cx-sec-analg">
+              <summary><span>Analgesia <small>Sin AINE</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="acc-body">
+                <ul class="sc-lines cx-static">
+                  <li>Analgesia inmediata y valorar el dolor al llegar, 30 minutos después y cada hora hasta que esté estable (NICE).</li>
+                  <li>Paracetamol cada 6 horas salvo contraindicación (NICE).</li>
+                  <li>Bloqueo nervioso preoperatorio dentro de la analgesia multimodal (AAOS, fuerte); lo aplica personal capacitado y no sustituye a la cirugía temprana (NICE).</li>
+                  <li id="cx-analg-renal">Opioide de liberación inmediata si no basta, a dosis bajas y ajustado a la función renal.</li>
+                  <li>AINE no recomendados (NICE).</li>
+                </ul>
+              </div>
+            </details>
+            <details class="acc" id="cx-sec-pend">
+              <summary><span>Pendientes del ingreso <small id="cx-pend-sum">0 de 7</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="acc-body">
+                <div class="checks" id="cx-pends"></div>
+              </div>
+            </details>
+            <details class="acc" id="cx-sec-fx">
+              <summary><span>Tipo de fractura e implante <small id="cx-fx-sum">Sin elegir</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="acc-body">
+                <label class="field">Tipo de fractura
+                  <span class="select-wrap"><select id="cx-fx"><option value="">Elegir</option></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+                </label>
+                <div id="cx-fx-res" class="alert"></div>
+              </div>
+            </details>
+            <details class="acc" id="cx-sec-qx">
+              <summary><span>Quirófano y después <small>AAOS y NICE</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="acc-body">
+                <ul class="sc-lines cx-static">
+                  <li>Anestesia raquídea o general: ambas apropiadas (AAOS, fuerte).</li>
+                  <li>Sin tracción preoperatoria de rutina (AAOS).</li>
+                  <li>Ácido tranexámico para reducir el sangrado y la transfusión (AAOS, fuerte).</li>
+                  <li>Tromboprofilaxis en todos (AAOS, fuerte).</li>
+                  <li>En el postoperatorio sin síntomas, transfundir con un umbral no mayor de 8 g/dL de hemoglobina (AAOS).</li>
+                  <li>Movilizar al día siguiente de la cirugía con carga completa sin restricción, salvo contraindicación (NICE).</li>
+                  <li>Antes del alta: salud ósea y prevención de caídas (NICE).</li>
+                </ul>
+                <button type="button" class="link-gold" id="btn-cx-trombo" data-mod="tab-rx rx-trombo"><svg class="ic"><use href="#i-syringe"/></svg>Abrir Tromboprofilaxis (cadera)</button>
+              </div>
+            </details>
+            <div class="btn-duo cx-btns">
+              <button type="button" class="btn btn-primary btn-lg" id="btn-cx-note" data-mod="tab-notas"><svg class="ic"><use href="#i-clip"/></svg>Copiar a Nota</button>
+              <button type="button" class="btn btn-secondary btn-lg" id="btn-cx-borrar"><svg class="ic"><use href="#i-trash"/></svg>Borrar datos</button>
+            </div>
+            <div class="ref-text">Apoyo a la decisión: decide el equipo tratante. NICE CG124 Fractura de cadera (actualizada 2023); AAOS Fracturas de cadera en adultos mayores (2021); escala de Nottingham, ecuación de 2012 (Moppett, BJA); 4AT (the4AT.com). Anticoagulantes: ejemplo NHS Greater Glasgow and Clyde 2025; seguir el protocolo local.</div>
           </div>
         </div>
 
@@ -2191,7 +2347,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v44 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v45 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2223,7 +2379,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v44</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v45</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2297,9 +2453,9 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (59 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (60 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (59)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (60)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -2450,15 +2606,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v44 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v45 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "44",
-      versionLabel: "v44 Intuitiva",
+      version: "45",
+      versionLabel: "v45 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -2474,6 +2630,7 @@
         "calc-renal": true,
         "calc-caprini": true,
         "calc-compart": true,
+        "calc-cadera": true,
         "calc-tad": true,
         "calc-mess": true,
         // Protocolos de Recetas
@@ -2651,6 +2808,7 @@
         { id: "calc-renal", group: "Calculadoras", label: "Función Renal" },
         { id: "calc-caprini", group: "Calculadoras", label: "Caprini (ETV)" },
         { id: "calc-compart", group: "Calculadoras", label: "Síndrome compartimental" },
+        { id: "calc-cadera", group: "Calculadoras", label: "Fractura de cadera" },
         { id: "calc-tad", group: "Calculadoras", label: "Índice TAD" },
         { id: "calc-mess", group: "Calculadoras", label: "Escala MESS" },
         { id: "rx-profilaxis", group: "Protocolos de Recetas", label: "Profilaxis Qx" },
@@ -6699,33 +6857,7 @@
         const tile = document.querySelector('#calc-subnav [data-calc="compart"]');
         if (tile) tile.addEventListener("click", scRender);
 
-        // El registro «sin paciente» pasa a la ficha nueva; al cambiar de paciente se descarta.
-        const origSave = saveFicha;
-        saveFicha = function (data, ttlHours) {
-          let before = null;
-          try { before = loadFichaStore().activeId; } catch (_) {}
-          const ok = origSave(data, ttlHours);
-          try {
-            const after = loadFichaStore().activeId;
-            if (!before && after) {
-              const store = scLoad();
-              const sin = store.byId[scDefs().sinPx];
-              if (sin && !store.byId[after]) { store.byId[after] = sin; delete store.byId[scDefs().sinPx]; scSave(store); }
-              scState().prev = after;
-              scRender();
-            }
-          } catch (_) {}
-          return ok;
-        };
-        const origSwitch = switchFichaPatient;
-        switchFichaPatient = function (targetId) {
-          try {
-            const sin = scLoad().byId[scDefs().sinPx];
-            if (scActiveId() === scDefs().sinPx && sin && sin.evals.length &&
-                !confirm("El registro de vigilancia compartimental en pantalla no pertenece a ningún paciente de la lista y se borrará. ¿Continuar?")) return false;
-          } catch (_) {}
-          return origSwitch(targetId);
-        };
+        // v45: lo capturado «sin paciente» lo maneja initPxStoresV45 (pxStores) para todos los bloques.
         document.addEventListener("tyo-patient-change", () => {
           try {
             if (scState().prev === scDefs().sinPx) {
@@ -6744,6 +6876,518 @@
         if (scState().timer) clearInterval(scState().timer);
         scState().timer = setInterval(scTick, 60000);
         document.addEventListener("visibilitychange", scTick);
+      }
+
+      /* =======================================================
+         v45: REGISTROS POR PACIENTE (vigilancia compartimental, cadera…)
+         Cada bloque guarda { v, byId: { <id de ficha> | "_sin": … } }.
+         - Lo capturado sin paciente («_sin») pasa a la ficha si la creas.
+         - Al cambiar de paciente desde «sin paciente», se avisa una sola vez
+           y se descarta (igual que la nota en pantalla).
+      ======================================================= */
+      function pxStores() {
+        return [
+          { key: "tyo_sc_v44", label: "vigilancia compartimental", has: (r) => !!(r && Array.isArray(r.evals) && r.evals.length) },
+          { key: "tyo_cadera_v45", label: "fractura de cadera", has: (r) => !!(r && (r.ingreso || (r.pend && r.pend.length) || (r.ac && r.ac.tipo) || r.fx)) }
+        ];
+      }
+
+      // Pura: mueve lo «sin paciente» a la ficha nueva si esta aún no tiene registro.
+      function pxMoveSin(raw, id) {
+        if (!raw || !raw.byId || !raw.byId._sin || !id) return raw;
+        const byId = Object.assign({}, raw.byId);
+        if (!byId[id]) byId[id] = byId._sin;
+        delete byId._sin;
+        return Object.assign({}, raw, { byId });
+      }
+
+      function pxRawGet(key) {
+        try { return JSON.parse(localStorage.getItem(key) || "null"); } catch (_) { return null; }
+      }
+
+      function pxRawSet(key, raw) {
+        try {
+          if (!raw || !raw.byId || !Object.keys(raw.byId).length) localStorage.removeItem(key);
+          else localStorage.setItem(key, JSON.stringify(raw));
+        } catch (_) { /* modo privado */ }
+      }
+
+      function pxSinLabels() {
+        return pxStores().filter((s) => { const raw = pxRawGet(s.key); return raw && raw.byId && s.has(raw.byId._sin); }).map((s) => s.label);
+      }
+
+      function pxRenderAll() {
+        try { scRender(); } catch (_) {}
+        try { cadRender(); } catch (_) {}
+      }
+
+      function initPxStoresV45() {
+        const origSave = saveFicha;
+        saveFicha = function (data, ttlHours) {
+          let before = null;
+          try { before = loadFichaStore().activeId; } catch (_) {}
+          const ok = origSave(data, ttlHours);
+          try {
+            const after = loadFichaStore().activeId;
+            if (!before && after) {
+              pxStores().forEach((s) => { const raw = pxRawGet(s.key); if (raw && raw.byId && raw.byId._sin) pxRawSet(s.key, pxMoveSin(raw, after)); });
+              try { scState().prev = after; } catch (_) {}
+              pxRenderAll();
+            }
+          } catch (_) {}
+          return ok;
+        };
+        const origSwitch = switchFichaPatient;
+        switchFichaPatient = function (targetId) {
+          let sinPx = false;
+          try {
+            sinPx = !loadFichaStore().activeId;
+            const labels = sinPx ? pxSinLabels() : [];
+            if (labels.length && !confirm("El registro de " + labels.join(" y ") + " en pantalla no pertenece a ningún paciente de la lista y se borrará. ¿Continuar?")) return false;
+          } catch (_) {}
+          const res = origSwitch(targetId);
+          if (res !== false && sinPx) {
+            pxStores().forEach((s) => { const raw = pxRawGet(s.key); if (raw && raw.byId && raw.byId._sin) { delete raw.byId._sin; pxRawSet(s.key, raw); } });
+            pxRenderAll();
+          }
+          return res;
+        };
+      }
+
+      /* =======================================================
+         v45: FRACTURA DE CADERA DEL ADULTO MAYOR
+         Fuentes: NICE CG124 Hip fracture: management (actualizada ene 2023);
+         AAOS CPG Management of Hip Fractures in Older Adults (dic 2021);
+         Nottingham Hip Fracture Score con la ecuación de 2012 (Moppett,
+         BJA 2012): mortalidad a 30 días (%) = 100 / (1 + e^(5.012 − 0.481 × NHFS));
+         4AT (the4AT.com). Anticoagulantes: ejemplo de protocolo hospitalario
+         NHS Greater Glasgow and Clyde v5 (feb 2025); seguir el protocolo local.
+         Se guarda por paciente (tyo_cadera_v45) sin datos que identifiquen.
+      ======================================================= */
+      function cadDefs() {
+        return {
+          key: "tyo_cadera_v45",
+          pend: [
+            ["analgesia", "Analgesia inicial y paracetamol cada 6 h", "analgesia inicial y paracetamol cada 6 horas"],
+            ["bloqueo", "Bloqueo nervioso preoperatorio", "bloqueo nervioso preoperatorio"],
+            ["corregir", "Anemia, volumen, electrolitos y glucosa", "corrección de anemia, volumen, electrolitos y glucosa"],
+            ["anticoag", "Anticoagulante manejado (última dosis anotada)", "manejo del anticoagulante con última dosis anotada"],
+            ["trombo", "Tromboprofilaxis indicada", "tromboprofilaxis indicada"],
+            ["medint", "Valoración por medicina interna o geriatría", "valoración por medicina interna o geriatría"],
+            ["alta", "Plan de alta y entorno en casa platicados", "plan de alta y entorno en casa platicados con la familia"]
+          ],
+          fx: [
+            ["cuello-nd", "Cuello femoral no desplazado", "fractura de cuello femoral no desplazada",
+              "Pueden considerarse hemiartroplastia, fijación interna o manejo no quirúrgico (AAOS, evidencia limitada)."],
+            ["cuello-d", "Cuello femoral desplazado", "fractura de cuello femoral desplazada",
+              "Artroplastia mejor que fijación, con vástago cementado (AAOS, fuerte); hemiartroplastia unipolar o bipolar con beneficio similar. Considerar artroplastia total si caminaba solo en exteriores con un bastón como máximo y se espera que siga independiente más de 2 años (NICE 2023)."],
+            ["it-estable", "Intertrocantérica estable", "fractura intertrocantérica estable",
+              "Tornillo deslizante de cadera o clavo cefalomedular (AAOS, fuerte); NICE prefiere el implante extramedular (tornillo deslizante)."],
+            ["it-inestable", "Intertrocantérica inestable", "fractura intertrocantérica inestable",
+              "Clavo cefalomedular (AAOS, fuerte)."],
+            ["subtroc", "Subtrocantérica u oblicuidad invertida", "fractura subtrocantérica o de oblicuidad invertida",
+              "Clavo cefalomedular (AAOS, fuerte; NICE: clavo intramedular)."]
+          ],
+          ac: [
+            ["ninguno", "Ninguno", "sin anticoagulantes ni antiagregantes"],
+            ["aspirina", "Aspirina", "aspirina"],
+            ["antiag", "Clopidogrel u otro antiagregante", "clopidogrel u otro antiagregante plaquetario"],
+            ["avk", "Warfarina o acenocumarol", "antagonista de vitamina K (warfarina o acenocumarol)"],
+            ["xaban", "Apixabán, rivaroxabán o edoxabán", "anticoagulante oral directo (inhibidor del factor Xa)"],
+            ["dabi", "Dabigatrán", "dabigatrán"],
+            ["hbpm", "Enoxaparina a dosis terapéutica", "heparina de bajo peso molecular a dosis terapéutica"]
+          ]
+        };
+      }
+
+      function cadState() {
+        if (!cadState.s) cadState.s = { timer: 0 };
+        return cadState.s;
+      }
+
+      // Pura: Nottingham Hip Fracture Score (0–10) y mortalidad estimada a 30 días (ecuación 2012).
+      function cadNhfs(d) {
+        const x = d || {};
+        const edad = Number(x.edad);
+        const hb = Number(x.hb);
+        const hasEdad = x.edad !== "" && x.edad != null && Number.isFinite(edad);
+        const hasHb = x.hb !== "" && x.hb != null && Number.isFinite(hb);
+        const falta = [];
+        if (!hasEdad) falta.push("edad");
+        if (x.sexo !== "M" && x.sexo !== "F") falta.push("sexo");
+        if (!hasHb) falta.push("hemoglobina");
+        let pts = 0;
+        if (hasEdad) pts += edad >= 86 ? 4 : edad >= 66 ? 3 : 0;
+        if (x.sexo === "M") pts += 1;
+        if (hasHb && hb <= 10) pts += 1;
+        if (x.amts) pts += 1;
+        if (x.inst) pts += 1;
+        if (x.comorb) pts += 1;
+        if (x.cancer) pts += 1;
+        const mort = Math.round(1000 / (1 + Math.exp(5.012 - 0.481 * pts))) / 10;
+        return { pts, mort, completo: !falta.length, falta };
+      }
+
+      // Pura: 4AT (0–12). null si falta algún punto.
+      function cad4at(d) {
+        const x = d || {};
+        const vals = [x.a, x.m, x.t, x.c].map((v) => (v === "" || v == null ? null : Number(v)));
+        if (vals.some((v) => v === null || !Number.isFinite(v))) return { pts: null, level: "", txt: "Sin completar" };
+        const pts = vals.reduce((s, v) => s + v, 0);
+        if (pts >= 4) return { pts, level: "danger", txt: "posible delirium con o sin deterioro cognitivo" };
+        if (pts >= 1) return { pts, level: "warn", txt: "posible deterioro cognitivo" };
+        return { pts, level: "ok", txt: "delirium o deterioro cognitivo grave poco probables" };
+      }
+
+      function cadFmt(ms, nowMs) {
+        return scHora(ms, nowMs);
+      }
+
+      // «26/11/2026 22:10» (en la nota siempre con fecha)
+      function cadFmtFull(ms) {
+        const d = new Date(ms);
+        const p = (n) => String(n).padStart(2, "0");
+        return p(d.getDate()) + "/" + p(d.getMonth() + 1) + "/" + d.getFullYear() + " " + p(d.getHours()) + ":" + p(d.getMinutes());
+      }
+
+      // «hoy», «mañana» o «el 28/11»
+      function cadDia(ms, nowMs) {
+        const a = new Date(ms); const b = new Date(nowMs);
+        const dias = Math.round((new Date(a.getFullYear(), a.getMonth(), a.getDate()) - new Date(b.getFullYear(), b.getMonth(), b.getDate())) / 86400000);
+        if (dias === 0) return "hoy";
+        if (dias === 1) return "mañana";
+        return "el " + String(a.getDate()).padStart(2, "0") + "/" + String(a.getMonth() + 1).padStart(2, "0");
+      }
+
+      // Pura: tiempo desde el ingreso y metas (NICE: día del ingreso o el siguiente; AAOS: 24–48 h).
+      function cadClock(ingreso, nowMs) {
+        if (!Number.isFinite(ingreso)) return null;
+        const mins = Math.max(0, Math.floor((nowMs - ingreso) / 60000));
+        const d = new Date(ingreso);
+        const nice = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1, 23, 59).getTime();
+        const aaos = ingreso + 48 * 3600000;
+        const h = Math.floor(mins / 60);
+        const level = mins >= 48 * 60 || nowMs > nice ? "danger" : mins >= 24 * 60 ? "warn" : "ok";
+        return { h, m: mins % 60, level, nice, aaos, fueraNice: nowMs > nice };
+      }
+
+      // Pura: indicaciones según anticoagulante o antiagregante.
+      function cadAnticoag(d, nowMs) {
+        const x = d || {};
+        const lines = [];
+        let listo = null;
+        const ult = Number.isFinite(x.ult) ? x.ult : null;
+        const add = (lvl, txt) => lines.push({ lvl, txt });
+        if (x.tipo === "ninguno") add("ok", "Sin anticoagulantes ni antiagregantes: no hay motivo de espera por este lado.");
+        else if (x.tipo === "aspirina") add("ok", "Aspirina: no retrasar la cirugía; la anestesia raquídea es aceptable.");
+        else if (x.tipo === "antiag") add("info", "No retrasar la cirugía por antiagregantes (AAOS). Vigilar el sangrado; si conviene la raquídea lo decide anestesiología.");
+        else if (x.tipo === "avk") {
+          add("warn", "Suspender y revertir con vitamina K intravenosa (dosis según el protocolo local) y repetir el INR (AAOS). Ejemplo NHS GGC 2025: quirófano con INR de 1.8 o menos y raquídea con 1.5 o menos.");
+          const inr = Number(x.inr);
+          if (x.inr !== "" && x.inr != null && Number.isFinite(inr)) {
+            if (inr > 1.8) add("danger", "INR " + inr + ": aún no está listo; repetir tras la vitamina K.");
+            else if (inr > 1.5) add("info", "INR " + inr + ": listo para anestesia general; para raquídea, 1.5 o menos.");
+            else add("ok", "INR " + inr + ": listo, también para raquídea.");
+          }
+        } else if (x.tipo === "xaban" || x.tipo === "dabi") {
+          const baja = x.dep === "lt30";
+          const horas = baja ? 48 : 24;
+          add("warn", x.tipo === "xaban"
+            ? "Anotar la hora de la última dosis. Ejemplo NHS GGC 2025: depuración de 30 mL/min o más, considerar cirugía 24 h después con anestesia general; menos de 30, esperar 48 h. Reversión parcial con complejo protrombínico: comentar con hematología."
+            : "Anotar la hora de la última dosis y pedir tiempo de trombina. Ejemplo NHS GGC 2025: depuración de 30 mL/min o más, cirugía desde el día siguiente (24 a 36 h) si el tiempo de trombina es normal; menos de 30, esperar 48 h. Idarucizumab para reversión inmediata: comentar con hematología.");
+          if (!x.dep) add("info", "Falta la depuración de creatinina para calcular la espera.");
+          else if (ult !== null) listo = ult + horas * 3600000;
+        } else if (x.tipo === "hbpm") {
+          add("warn", "Última dosis terapéutica 12 a 24 h antes de la cirugía (ejemplo NHS GGC 2025); vigilar el sangrado.");
+          if (ult !== null) listo = ult + 12 * 3600000;
+        }
+        if (listo !== null) {
+          add(nowMs >= listo ? "ok" : "info", (nowMs >= listo ? "Ya pasó la espera: " : "Cirugía a partir de las ") + cadFmt(listo, nowMs) + " h" + (x.tipo === "hbpm" ? " (12 h; mejor 24 h)." : "."));
+        }
+        return { lines, listo };
+      }
+
+      // Pura: texto para la nota (sin abreviaturas ni símbolos que el PDF no imprime).
+      function cadNoteText(rec, ctx, nowMs) {
+        const defs = cadDefs();
+        const r = rec || {};
+        const c = ctx || {};
+        const lines = ["FRACTURA DE CADERA DEL ADULTO MAYOR"];
+        const fx = defs.fx.find((f) => f[0] === r.fx);
+        if (fx) lines.push("- Tipo de fractura: " + fx[2] + ".");
+        const clk = cadClock(r.ingreso, nowMs);
+        if (clk) lines.push("- Ingreso: " + cadFmtFull(r.ingreso) + " h; " + clk.h + " horas" + (clk.m ? " " + clk.m + " minutos" : "") + " desde el ingreso (metas de cirugía: NICE, el día del ingreso o el siguiente; AAOS, en 24 a 48 horas).");
+        if (c.nh) {
+          if (c.nh.completo) lines.push("- Escala de Nottingham: " + c.nh.pts + " puntos; mortalidad estimada a 30 días " + c.nh.mort + "%.");
+          else lines.push("- Escala de Nottingham: incompleta (falta " + c.nh.falta.join(", ") + ").");
+        }
+        if (c.at && c.at.pts !== null) lines.push("- Tamizaje de delirium (4AT): " + c.at.pts + " puntos, " + c.at.txt + ".");
+        const ac = defs.ac.find((a) => a[0] === (r.ac && r.ac.tipo));
+        if (ac) {
+          let t = "- Anticoagulación: " + ac[2];
+          if (r.ac.ult && r.ac.tipo !== "ninguno") t += ", última dosis " + cadFmtFull(r.ac.ult) + " h";
+          if (r.ac.tipo === "avk" && Number.isFinite(r.ac.inr)) t += ", INR " + r.ac.inr;
+          if ((r.ac.tipo === "xaban" || r.ac.tipo === "dabi") && r.ac.dep) t += r.ac.dep === "lt30" ? ", depuración de creatinina menor de 30 mL/min" : ", depuración de creatinina de 30 mL/min o más";
+          lines.push(t + ".");
+        }
+        const pend = r.pend || [];
+        const hechos = defs.pend.filter((p) => pend.includes(p[0])).map((p) => p[2]);
+        const faltan = defs.pend.filter((p) => !pend.includes(p[0])).map((p) => p[2]);
+        if (hechos.length) lines.push("- Pendientes cumplidos: " + hechos.join("; ") + ".");
+        if (faltan.length && (hechos.length || clk)) lines.push("- Pendientes por cumplir: " + faltan.join("; ") + ".");
+        return lines.join("\n");
+      }
+
+      function cadSanitizeRec(raw) {
+        const defs = cadDefs();
+        const r = raw && typeof raw === "object" ? raw : {};
+        const num = (v) => (typeof v === "number" && Number.isFinite(v) ? v : null);
+        const nh = r.nh && typeof r.nh === "object" ? r.nh : {};
+        const at = r.at && typeof r.at === "object" ? r.at : {};
+        const ac = r.ac && typeof r.ac === "object" ? r.ac : {};
+        const pick = (v, ok) => (ok.includes(v) ? v : null);
+        return {
+          ingreso: num(r.ingreso),
+          nh: { edad: num(nh.edad), sexo: nh.sexo === "M" || nh.sexo === "F" ? nh.sexo : "", hb: num(nh.hb), amts: !!nh.amts, inst: !!nh.inst, comorb: !!nh.comorb, cancer: !!nh.cancer },
+          at: { a: pick(at.a, [0, 4]), m: pick(at.m, [0, 1, 2]), t: pick(at.t, [0, 1, 2]), c: pick(at.c, [0, 4]) },
+          ac: { tipo: defs.ac.some((x) => x[0] === ac.tipo) ? ac.tipo : "", ult: num(ac.ult), inr: num(ac.inr), dep: ac.dep === "ge30" || ac.dep === "lt30" ? ac.dep : "" },
+          fx: defs.fx.some((x) => x[0] === r.fx) ? r.fx : "",
+          pend: Array.isArray(r.pend) ? r.pend.filter((k) => defs.pend.some((p) => p[0] === k)) : [],
+          upd: num(r.upd) || 0
+        };
+      }
+
+      function cadRecEmpty(r) {
+        return !r.ingreso && !r.fx && !r.pend.length && !r.ac.tipo && r.nh.edad === null && !r.nh.sexo && r.nh.hb === null &&
+          !r.nh.amts && !r.nh.inst && !r.nh.comorb && !r.nh.cancer && [r.at.a, r.at.m, r.at.t, r.at.c].every((v) => v === null);
+      }
+
+      function cadLoad() {
+        const defs = cadDefs();
+        const raw = pxRawGet(defs.key);
+        const byId = {};
+        let removed = 0;
+        if (raw && raw.byId && typeof raw.byId === "object") {
+          let ids = [];
+          try { ids = loadFichaStore().items.map((it) => it.id); } catch (_) { ids = []; }
+          Object.keys(raw.byId).forEach((id) => {
+            const rec = cadSanitizeRec(raw.byId[id]);
+            const keep = !cadRecEmpty(rec) && (id === "_sin" ? Date.now() - rec.upd < 24 * 3600000 : ids.includes(id));
+            if (keep) byId[id] = rec; else removed++;
+          });
+        } else if (raw) removed = 1;
+        const store = { v: 1, byId };
+        if (removed) pxRawSet(defs.key, store);
+        return store;
+      }
+
+      function cadActiveId() {
+        try { return loadFichaStore().activeId || "_sin"; } catch (_) { return "_sin"; }
+      }
+
+      function cadDt(ms) {
+        if (!Number.isFinite(ms)) return "";
+        const d = new Date(ms);
+        const p = (n) => String(n).padStart(2, "0");
+        return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate()) + "T" + p(d.getHours()) + ":" + p(d.getMinutes());
+      }
+
+      function cadParseDt(v) {
+        if (!v) return null;
+        const t = new Date(v).getTime();
+        return Number.isFinite(t) ? t : null;
+      }
+
+      // Lee el formulario como registro.
+      function cadFormRec() {
+        const v = (id) => ($(id) ? $(id).value : "");
+        const n = (id) => { const s = v(id).replace(",", ".").trim(); if (s === "") return null; const x = Number(s); return Number.isFinite(x) ? x : null; };
+        const sel = (id) => (v(id) === "" ? null : Number(v(id)));
+        return cadSanitizeRec({
+          ingreso: cadParseDt(v("cx-ingreso")),
+          nh: { edad: n("cx-edad"), sexo: v("cx-sexo"), hb: n("cx-hb"), amts: $("cx-amts").checked, inst: $("cx-inst").checked, comorb: $("cx-comorb").checked, cancer: $("cx-cancer").checked },
+          at: { a: sel("cx-4a"), m: sel("cx-4m"), t: sel("cx-4t"), c: sel("cx-4c") },
+          ac: { tipo: v("cx-ac-tipo"), ult: cadParseDt(v("cx-ac-ult")), inr: n("cx-ac-inr"), dep: v("cx-ac-dep") },
+          fx: v("cx-fx"),
+          pend: Array.from(document.querySelectorAll(".cx-pend:checked")).map((c) => c.value),
+          upd: Date.now()
+        });
+      }
+
+      function cadPersist() {
+        const store = cadLoad();
+        const id = cadActiveId();
+        const rec = cadFormRec();
+        if (cadRecEmpty(rec)) delete store.byId[id]; else store.byId[id] = rec;
+        pxRawSet(cadDefs().key, store);
+      }
+
+      function cadCrclAuto() {
+        try { if (lastRenalState && Number.isFinite(lastRenalState.crcl)) return lastRenalState.crcl; } catch (_) {}
+        const t = parseFloat($("rx-tfg") ? $("rx-tfg").value : "");
+        return Number.isFinite(t) ? t : null;
+      }
+
+      // Llena el formulario con el registro del paciente (y lo que ya sabe la app).
+      function cadRender() {
+        if (!$("calc-cadera")) return;
+        const rec = cadLoad().byId[cadActiveId()] || cadSanitizeRec(null);
+        let f = null;
+        try { const x = loadFicha(); f = x ? x.data : null; } catch (_) {}
+        const setV = (id, val) => { if ($(id)) $(id).value = val == null ? "" : String(val); };
+        setV("cx-ingreso", cadDt(rec.ingreso));
+        const edadFicha = f && Number.isFinite(f.edad) && f.edadUnidad !== "m" ? f.edad : null;
+        setV("cx-edad", rec.nh.edad !== null ? rec.nh.edad : edadFicha);
+        setV("cx-sexo", rec.nh.sexo || (f && f.sexo) || "");
+        const hbLab = parseFloat($("lab-hb") ? $("lab-hb").value : "");
+        setV("cx-hb", rec.nh.hb !== null ? rec.nh.hb : (Number.isFinite(hbLab) ? hbLab : ""));
+        ["amts", "inst", "comorb", "cancer"].forEach((k) => { if ($("cx-" + k)) $("cx-" + k).checked = !!rec.nh[k]; });
+        setV("cx-4a", rec.at.a); setV("cx-4m", rec.at.m); setV("cx-4t", rec.at.t); setV("cx-4c", rec.at.c);
+        setV("cx-ac-tipo", rec.ac.tipo);
+        setV("cx-ac-ult", cadDt(rec.ac.ult));
+        setV("cx-ac-inr", rec.ac.inr);
+        let dep = rec.ac.dep;
+        if (!dep) { const cr = cadCrclAuto(); if (cr !== null) dep = cr < 30 ? "lt30" : "ge30"; }
+        setV("cx-ac-dep", dep);
+        setV("cx-fx", rec.fx);
+        document.querySelectorAll(".cx-pend").forEach((c) => { c.checked = rec.pend.includes(c.value); });
+        if ($("cx-pt")) {
+          let quien = "";
+          try { if (f) quien = fichaSummary(f).initials || "paciente activo"; } catch (_) {}
+          $("cx-pt").textContent = quien ? "Datos ligados a la ficha de " + quien + " (vencen con ella)." : "Sin paciente en la lista: se guarda 24 h y pasa a la ficha si la creas.";
+        }
+        cadUpdateLive();
+      }
+
+      function cadLinesHtml(lines) {
+        return lines.length ? '<ul class="sc-lines">' + lines.map((l) => '<li class="sc-l-' + l.lvl + '">' + escapeHtml(l.txt) + "</li>").join("") + "</ul>" : "";
+      }
+
+      // Resultados en vivo de cada apartado.
+      function cadUpdateLive() {
+        if (!$("calc-cadera")) return;
+        const now = Date.now();
+        const r = cadFormRec();
+        const defs = cadDefs();
+        // Reloj
+        const clk = cadClock(r.ingreso, now);
+        const lvlCls = (l) => (l === "ok" ? " ok" : l === "warn" ? " warn" : l === "danger" ? " danger" : "");
+        if ($("cx-clock-val")) $("cx-clock-val").textContent = clk ? clk.h + " h " + String(clk.m).padStart(2, "0") + " min" : "--";
+        if ($("cx-clock-sub")) $("cx-clock-sub").textContent = clk
+          ? "Meta NICE: operar a más tardar " + cadDia(clk.nice, now) + " · AAOS (48 h): " + cadDia(clk.aaos, now) + " " + new Date(clk.aaos).toTimeString().slice(0, 5) + " h"
+          : "Anota la hora de ingreso para ver el tiempo a cirugía";
+        if ($("cx-clock")) $("cx-clock").className = "metric-box cx-clock" + (clk ? " cx-" + clk.level : "");
+        const badge = $("cx-badge");
+        if (badge) { badge.textContent = clk ? clk.h + " h desde el ingreso" : "Sin ingreso"; badge.className = "badge" + (clk ? lvlCls(clk.level) : ""); }
+        const tile = $("tile-cx-val");
+        if (tile) { tile.textContent = clk ? clk.h + " h" : "--"; tile.classList.toggle("sc-alert", !!clk && clk.level === "danger"); }
+        if ($("cx-clock-alert")) {
+          const l = [];
+          if (clk && clk.level === "danger") l.push({ lvl: "danger", txt: clk.fueraNice ? "Ya pasó la meta de operar el día del ingreso o el siguiente (NICE). Anotar el motivo del retraso y corregir lo corregible sin esperar más." : "Más de 48 h desde el ingreso (AAOS: 24 a 48 h)." });
+          else if (clk && clk.level === "warn") l.push({ lvl: "warn", txt: "Más de 24 h: identificar y corregir de inmediato lo que retrasa la cirugía (anemia, anticoagulación, volumen, electrolitos, glucosa, insuficiencia cardiaca, arritmia o infección respiratoria)." });
+          $("cx-clock-alert").className = "alert" + (l.length ? " " + l[0].lvl : "");
+          $("cx-clock-alert").innerHTML = l.length ? escapeHtml(l[0].txt) : "";
+        }
+        // Nottingham
+        const nh = cadNhfs(r.nh);
+        if ($("cx-nh-sum")) $("cx-nh-sum").textContent = nh.completo ? nh.pts + " pts · " + nh.mort + " % a 30 días" : "Falta " + nh.falta.join(", ");
+        if ($("cx-nh-res")) {
+          $("cx-nh-res").className = "alert " + (!nh.completo ? "warn" : nh.mort >= 10 ? "danger" : nh.mort >= 5 ? "warn" : "ok");
+          $("cx-nh-res").innerHTML = nh.completo
+            ? "<strong>" + nh.pts + " puntos: mortalidad estimada a 30 días de " + nh.mort + " %</strong>" + cadLinesHtml([{ lvl: "info", txt: "Sirve para platicar con la familia y planear el nivel de cuidado; no decide por sí sola el tratamiento." }])
+            : "<strong>Faltan datos: " + escapeHtml(nh.falta.join(", ")) + "</strong>";
+        }
+        // 4AT
+        const at = cad4at(r.at);
+        if ($("cx-4at-sum")) $("cx-4at-sum").textContent = at.pts === null ? "Sin completar" : at.pts + " pts · " + at.txt;
+        if ($("cx-4at-res")) {
+          $("cx-4at-res").className = "alert" + (at.pts === null ? "" : " " + at.level);
+          $("cx-4at-res").innerHTML = at.pts === null ? "" : "<strong>4AT: " + at.pts + " puntos, " + escapeHtml(at.txt) + "</strong>" +
+            cadLinesHtml([{ lvl: "info", txt: at.pts >= 4 ? "Es tamizaje, no diagnóstico: valorar clínicamente y buscar la causa (dolor, retención urinaria, infección, fármacos, deshidratación)." : at.pts === 0 ? "El delirium aún es posible si falta información del cambio agudo." : "Repetir si cambia el estado mental." }]);
+        }
+        // Anticoagulantes
+        const tipo = r.ac.tipo;
+        ["cx-ac-ult-wrap", "cx-ac-dep-wrap", "cx-ac-inr-wrap"].forEach((id) => { if ($(id)) $(id).classList.add("hidden"); });
+        if (["xaban", "dabi", "hbpm"].includes(tipo) && $("cx-ac-ult-wrap")) $("cx-ac-ult-wrap").classList.remove("hidden");
+        if (["xaban", "dabi"].includes(tipo) && $("cx-ac-dep-wrap")) $("cx-ac-dep-wrap").classList.remove("hidden");
+        if (tipo === "avk" && $("cx-ac-inr-wrap")) $("cx-ac-inr-wrap").classList.remove("hidden");
+        const ac = cadAnticoag(r.ac, now);
+        if ($("cx-ac-res")) {
+          const worst = ac.lines.some((l) => l.lvl === "danger") ? "danger" : ac.lines.some((l) => l.lvl === "warn") ? "warn" : ac.lines.length ? "ok" : "";
+          $("cx-ac-res").className = "alert" + (worst ? " " + worst : "");
+          $("cx-ac-res").innerHTML = cadLinesHtml(ac.lines);
+        }
+        const acDef = defs.ac.find((a) => a[0] === tipo);
+        if ($("cx-ac-sum")) $("cx-ac-sum").textContent = !acDef ? "Sin capturar" : acDef[1] + (ac.listo ? " · desde " + cadFmt(ac.listo, now) + " h" : "");
+        // Analgesia (función renal)
+        const cr = cadCrclAuto();
+        if ($("cx-analg-renal")) $("cx-analg-renal").textContent = cr === null
+          ? "Opioide de liberación inmediata si no basta, a dosis bajas y ajustado a la función renal (aún sin dato de depuración)."
+          : "Opioide de liberación inmediata si no basta, a dosis bajas y ajustado a la función renal (depuración " + Math.round(cr) + " mL/min" + (cr < 30 ? ": cuidado especial" : "") + ").";
+        // Pendientes
+        const n = r.pend.length;
+        if ($("cx-pend-sum")) $("cx-pend-sum").textContent = n + " de " + defs.pend.length;
+        // Fractura
+        const fx = defs.fx.find((x) => x[0] === r.fx);
+        if ($("cx-fx-sum")) $("cx-fx-sum").textContent = fx ? fx[1] : "Sin elegir";
+        if ($("cx-fx-res")) { $("cx-fx-res").className = "alert" + (fx ? " info" : ""); $("cx-fx-res").innerHTML = fx ? escapeHtml(fx[3]) : ""; }
+      }
+
+      function cadTick() {
+        if (document.hidden || !$("calc-cadera")) return;
+        try { cadUpdateLive(); } catch (_) {}
+      }
+
+      function cadBuild() {
+        const defs = cadDefs();
+        if ($("cx-pends")) $("cx-pends").innerHTML = defs.pend.map((p) => '<label class="check-pill"><input type="checkbox" class="cx-pend" value="' + p[0] + '" /> ' + escapeHtml(p[1]) + "</label>").join("");
+        if ($("cx-fx")) $("cx-fx").innerHTML = '<option value="">Elegir</option>' + defs.fx.map((f) => '<option value="' + f[0] + '">' + escapeHtml(f[1]) + "</option>").join("");
+        if ($("cx-ac-tipo")) $("cx-ac-tipo").innerHTML = '<option value="">Elegir</option>' + defs.ac.map((a) => '<option value="' + a[0] + '">' + escapeHtml(a[1]) + "</option>").join("");
+      }
+
+      function cadCopyToNote() {
+        const rec = cadFormRec();
+        if (cadRecEmpty(rec)) { showToast("Primero anota la hora de ingreso o algún dato del bloque."); return false; }
+        appendToNota(cadNoteText(rec, { nh: cadNhfs(rec.nh), at: cad4at(rec.at) }, Date.now()));
+        return true;
+      }
+
+      function initCaderaV45() {
+        const panel = $("calc-cadera");
+        if (!panel) return;
+        cadBuild();
+        const onChange = () => { cadPersist(); cadUpdateLive(); };
+        panel.addEventListener("change", onChange);
+        panel.addEventListener("input", (e) => { if (e.target && ["cx-edad", "cx-hb", "cx-ac-inr"].includes(e.target.id)) onChange(); });
+        $("btn-cx-ahora").addEventListener("click", () => {
+          $("cx-ingreso").value = cadDt(Date.now());
+          onChange();
+          showToast("Hora de ingreso: ahora.");
+        });
+        $("btn-cx-note").addEventListener("click", cadCopyToNote);
+        $("btn-cx-borrar").addEventListener("click", () => {
+          const store = cadLoad();
+          const id = cadActiveId();
+          if (!store.byId[id]) { showToast("No hay datos que borrar."); return; }
+          if (!confirm("¿Borrar los datos de fractura de cadera de este paciente?")) return;
+          delete store.byId[id];
+          pxRawSet(cadDefs().key, store);
+          cadRender();
+          showToast("Datos de fractura de cadera borrados.");
+        });
+        $("btn-cx-trombo").addEventListener("click", () => {
+          $("rx-protocol").value = "trombo";
+          if ($("rx-trombo-tipo")) $("rx-trombo-tipo").value = "cadera";
+          renderProtocol();
+          switchTab("tab-rx");
+        });
+        const tile = document.querySelector('#calc-subnav [data-calc="cadera"]');
+        if (tile) tile.addEventListener("click", cadRender);
+        document.addEventListener("tyo-patient-change", () => { try { cadRender(); } catch (_) {} });
+        cadRender();
+        if (cadState().timer) clearInterval(cadState().timer);
+        cadState().timer = setInterval(cadTick, 60000);
+        document.addEventListener("visibilitychange", cadTick);
       }
 
       function renderProtocol() {
@@ -10041,7 +10685,7 @@
       function clearAllFichas() {
         localStorage.removeItem(FICHA_STORE_KEY);
         localStorage.removeItem(FICHA_STORAGE_KEY);
-        try { localStorage.removeItem("tyo_sc_v44"); } catch (_) {}
+        try { localStorage.removeItem("tyo_sc_v44"); localStorage.removeItem("tyo_cadera_v45"); } catch (_) {}
       }
 
       // Nota en progreso + laboratorios del paciente en pantalla.
@@ -11268,6 +11912,37 @@
         } catch (e) { det59 = "Error: " + e.message; }
         addTest("59. v44: vigilancia de síndrome compartimental y numeración de indicaciones", ok59, det59);
 
+        // 60. v45: fractura de cadera (Nottingham, 4AT, reloj, anticoagulantes, nota) y registros sin paciente
+        let ok60 = false, det60 = "";
+        try {
+          const n1 = cadNhfs({ edad: 87, sexo: "M", hb: 9.5, amts: true, inst: false, comorb: true, cancer: false });
+          const n2 = cadNhfs({ edad: 70, sexo: "F", hb: 12 });
+          const n3 = cadNhfs({ edad: 70, sexo: "F" });
+          const nh60 = n1.pts === 8 && n1.mort === 23.8 && n2.pts === 3 && n2.mort === 2.7 && !n3.completo && n3.falta.join() === "hemoglobina" && cadNhfs({ edad: 65, sexo: "F", hb: 13 }).pts === 0 && cadNhfs({ edad: 86, sexo: "F", hb: 13 }).pts === 4;
+          const at60 = cad4at({ a: 0, m: 2, t: 2, c: 0 }).pts === 4 && cad4at({ a: 0, m: 2, t: 2, c: 0 }).level === "danger" && cad4at({ a: 0, m: 1, t: 0, c: 0 }).level === "warn" && cad4at({ a: 0, m: 0, t: 0, c: 0 }).level === "ok" && cad4at({ a: 0, m: 0, t: 0, c: null }).pts === null;
+          const ing = new Date(2026, 10, 26, 22, 10).getTime();
+          const k1 = cadClock(ing, new Date(2026, 10, 27, 12, 30).getTime());
+          const k2 = cadClock(ing, new Date(2026, 10, 27, 23, 0).getTime());
+          const k2b = cadClock(ing, new Date(2026, 10, 28, 1, 0).getTime());
+          const k3 = cadClock(ing, new Date(2026, 10, 28, 23, 0).getTime());
+          const clk60 = k1.h === 14 && k1.m === 20 && k1.level === "ok" && k2.level === "warn" && k2b.level === "danger" && k2b.fueraNice && k3.level === "danger" && k1.nice === new Date(2026, 10, 27, 23, 59).getTime() && k1.aaos === ing + 48 * 3600000;
+          const t0 = new Date(2026, 10, 26, 8, 0).getTime();
+          const x1 = cadAnticoag({ tipo: "xaban", ult: t0, dep: "ge30" }, t0);
+          const x2 = cadAnticoag({ tipo: "xaban", ult: t0, dep: "lt30" }, t0);
+          const v1 = cadAnticoag({ tipo: "avk", inr: 2.1 }, t0);
+          const ac60 = x1.listo === t0 + 24 * 3600000 && x2.listo === t0 + 48 * 3600000 && v1.lines.some((l) => l.lvl === "danger") && cadAnticoag({ tipo: "avk", inr: 1.4 }, t0).lines.some((l) => l.lvl === "ok" && /raquídea/.test(l.txt)) && cadAnticoag({ tipo: "antiag" }, t0).lines.some((l) => /No retrasar/.test(l.txt));
+          const rec60 = cadSanitizeRec({ ingreso: ing, fx: "it-inestable", ac: { tipo: "xaban", ult: t0, dep: "ge30" }, pend: ["analgesia", "bloqueo"] });
+          const nota60 = cadNoteText(rec60, { nh: n1, at: cad4at({ a: 0, m: 1, t: 0, c: 0 }) }, new Date(2026, 10, 27, 12, 30).getTime());
+          const notaOk60 = /^FRACTURA DE CADERA DEL ADULTO MAYOR\n- Tipo de fractura: fractura intertrocantérica inestable\.\n- Ingreso: 26\/11\/2026 22:10 h; 14 horas 20 minutos/.test(nota60) && /Escala de Nottingham: 8 puntos; mortalidad estimada a 30 días 23\.8%/.test(nota60) &&
+            /4AT\): 1 puntos, posible deterioro cognitivo/.test(nota60) && /última dosis 26\/11\/2026 08:00 h/.test(nota60) && /Pendientes por cumplir: .*tromboprofilaxis indicada/.test(nota60) && pdfSafeText(nota60) === nota60;
+          const mv = pxMoveSin({ v: 1, byId: { _sin: { a: 1 }, p1: { b: 2 } } }, "p2");
+          const mv2 = pxMoveSin({ v: 1, byId: { _sin: { a: 1 }, p1: { b: 2 } } }, "p1");
+          const px60 = !mv.byId._sin && mv.byId.p2.a === 1 && mv2.byId.p1.b === 2 && !mv2.byId._sin;
+          ok60 = nh60 && at60 && clk60 && ac60 && notaOk60 && px60;
+          det60 = "Nottingham y mortalidad " + nh60 + " · 4AT " + at60 + " · reloj y metas " + clk60 + " · anticoagulantes " + ac60 + " · texto para la nota " + notaOk60 + " · registro sin paciente pasa a la ficha " + px60;
+        } catch (e) { det60 = "Error: " + e.message; }
+        addTest("60. v45: fractura de cadera del adulto mayor y registros por paciente", ok60, det60);
+
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
         const rows = tests.map((t) => (t.ok ? "✅ " : "❌ ") + "<strong>" + escapeHtml(t.name) + "</strong>: " + escapeHtml(t.detail)).join("<br>");
@@ -11379,6 +12054,7 @@
           { title: "Escala de Caprini (Riesgo ETV)", mod: "calc-caprini", cat: "Calculadora", keys: "caprini etv tvp tep trombosis", run: () => { switchTab("tab-calc"); switchCalcPanel("caprini"); } },
           { title: "Índice Punta-Ápice (TAD — Cadera)", mod: "calc-tad", cat: "Calculadora", keys: "tad cadera dhs pfn clavo cut out baumgaertner", run: () => { switchTab("tab-calc"); switchCalcPanel("tad"); } },
           { title: "Síndrome compartimental (vigilancia · ΔP)", mod: "calc-compart", cat: "Calculadora", keys: "sindrome compartimental fasciotomia presion compartimental delta perfusion pierna antebrazo vigilancia horaria", run: () => { switchTab("tab-calc"); switchCalcPanel("compart"); scRender(); } },
+          { title: "Fractura de cadera del adulto mayor (reloj, Nottingham, 4AT)", mod: "calc-cadera", cat: "Calculadora", keys: "fractura cadera adulto mayor femur cuello intertrocanterica subtrocanterica nottingham 4at delirium anticoagulante apixaban warfarina acenocumarol", run: () => { switchTab("tab-calc"); switchCalcPanel("cadera"); cadRender(); } },
           { title: "Escala MESS (Extremidad Lesionada)", mod: "calc-mess", cat: "Calculadora", keys: "mess isquemia amputacion extremidad trauma", run: () => { switchTab("tab-calc"); switchCalcPanel("mess"); } },
           { title: "Profilaxis Antibiótica Quirúrgica", mod: "tab-rx rx-profilaxis", cat: "Receta", keys: "profilaxis cefazolina cefalotina clindamicina vancomicina cerrada", run: () => { $("rx-protocol").value = "profilaxis"; renderProtocol(); switchTab("tab-rx"); } },
           { title: "Fractura Expuesta (Gustilo-Anderson)", mod: "tab-rx rx-expuesta", cat: "Receta", keys: "expuesta gustilo gentamicina ceftriaxona tetanos abierta", run: () => { $("rx-protocol").value = "expuesta"; renderProtocol(); switchTab("tab-rx"); } },
@@ -11636,6 +12312,7 @@
             else if (id === "calc-tad") $("btn-tad-note").click();
             else if (id === "calc-mess") $("btn-mess-note").click();
             else if (id === "calc-compart") $("btn-sc-note").click();
+            else if (id === "calc-cadera") $("btn-cx-note").click();
           });
         }
 
@@ -11993,6 +12670,8 @@
         ["Contador de pruebas v41", initSelftestCountV41],
         ["Guardia a un pulgar v43", initGuardiaV43],
         ["Síndrome compartimental v44", initCompartimentalV44],
+        ["Fractura de cadera v45", initCaderaV45],
+        ["Registros por paciente v45", initPxStoresV45],
         ["Pulido v37", initPulidoV37],
         ["Módulos v26", initModulesV26] /* siempre al final */
       ].forEach(([name, fn]) => runInit(name, fn));
