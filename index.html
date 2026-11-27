@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v42 · Tema "Base44" (oscuro + claro)
+       TyO Assist v43 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -977,6 +977,17 @@
     .hc-mas[open] > summary::before { content: "−"; }
     .hc-mas-body { display: flex; flex-direction: column; gap: 12px; padding-bottom: 6px; }
 
+
+    /* ---------- v43: guardia a un pulgar ---------- */
+    .quick-chip { height: 40px; padding: 0 14px; font-size: 13.5px; }
+    .quick-chip:active { transform: scale(0.97); background: var(--gold-soft); }
+    #quick-strip { padding-bottom: 2px; }
+    #quick-strip:not(.at-end) { -webkit-mask-image: linear-gradient(to right, #000 86%, transparent); mask-image: linear-gradient(to right, #000 86%, transparent); }
+    .flash-target { animation: flashTarget 1.2s ease-out 1; border-radius: 14px; }
+    @keyframes flashTarget { 0% { box-shadow: 0 0 0 0 var(--gold-line); } 30% { box-shadow: 0 0 0 6px var(--gold-soft); } 100% { box-shadow: 0 0 0 0 transparent; } }
+    @media (prefers-reduced-motion: reduce) { .flash-target { animation: none; } }
+    @media (min-width: 1100px) { #quick-strip { --gutter: max(32px, calc((100% - 1180px) / 2)); } }
+
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
     @media print {
@@ -1086,12 +1097,14 @@
   </header>
 
   <!-- Atajos de guardia en 1 toque (opcional: ⚙️ Ajustes → Módulos) -->
-  <div class="quick-strip no-print" id="quick-strip" data-mod="quick-strip">
-    <button type="button" class="quick-chip" data-qact="nota-audio" data-mod="tab-notas"><svg class="ic"><use href="#i-mic"/></svg> Dictar nota</button>
-    <button type="button" class="quick-chip" data-qact="rx-expuesta" data-mod="tab-rx rx-expuesta"><svg class="ic"><use href="#i-bandage"/></svg> Fx expuesta</button>
+  <div class="quick-strip no-print" id="quick-strip" data-mod="quick-strip" role="toolbar" aria-label="Atajos de guardia">
+    <button type="button" class="quick-chip" data-qact="rx-expuesta" data-mod="tab-rx rx-expuesta"><svg class="ic"><use href="#i-bandage"/></svg> Fractura expuesta</button>
     <button type="button" class="quick-chip" data-qact="rx-trombo" data-mod="tab-rx rx-trombo"><svg class="ic"><use href="#i-syringe"/></svg> Tromboprofilaxis</button>
-    <button type="button" class="quick-chip" data-qact="est-vision" data-mod="tab-estudios ia-vision"><svg class="ic"><use href="#i-camera"/></svg> Foto Lab / Rx</button>
+    <button type="button" class="quick-chip" data-qact="nota-evol" data-mod="tab-notas"><svg class="ic"><use href="#i-file"/></svg> Evolución rápida</button>
+    <button type="button" class="quick-chip" data-qact="est-lab" data-mod="tab-estudios"><svg class="ic"><use href="#i-flask"/></svg> Labs críticos</button>
+    <button type="button" class="quick-chip" data-qact="nota-audio" data-mod="tab-notas"><svg class="ic"><use href="#i-mic"/></svg> Dictar nota</button>
     <button type="button" class="quick-chip" data-qact="calc-renal" data-mod="calc-renal"><svg class="ic"><use href="#i-activity"/></svg> Función renal</button>
+    <button type="button" class="quick-chip" data-qact="est-vision" data-mod="tab-estudios ia-vision"><svg class="ic"><use href="#i-camera"/></svg> Foto Lab / Rx</button>
   </div>
   <main>
     <div id="ux-guide-banner" class="guide-banner no-print" data-mod="guide-banner">
@@ -2061,7 +2074,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v42 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v43 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2093,7 +2106,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v42</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v43</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2167,9 +2180,9 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (57 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (58 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (57)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (58)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -2320,15 +2333,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v42 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v43 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "42",
-      versionLabel: "v42 Intuitiva",
+      version: "43",
+      versionLabel: "v43 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -2361,7 +2374,7 @@
         "home-hero": true,
         "home-quick3": true,
         "guide-banner": false,
-        "quick-strip": false
+        "quick-strip": true
       },
 
       // Ejemplos de 1 toque en Función Renal. Agrega o quita filas aquí.
@@ -5990,6 +6003,59 @@
         });
         hcSyncMas();
         hcUpdateProgress();
+      }
+
+      /* =======================================================
+         v43: GUARDIA A UN PULGAR
+         Atajos de guardia visibles de fábrica. Cada uno lleva en un toque al
+         resultado ya a la vista (indicación, nota o campo listo para escribir).
+      ======================================================= */
+      function quickGoTo(el, focusEl) {
+        if (!el) return;
+        const suave = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        // switchTab sube al inicio; esperamos a que termine y bajamos al resultado
+        setTimeout(() => {
+          el.scrollIntoView({ block: "start", behavior: suave ? "smooth" : "auto" });
+          el.classList.remove("flash-target");
+          void el.offsetWidth;
+          el.classList.add("flash-target");
+          if (focusEl) setTimeout(() => { try { focusEl.focus({ preventScroll: true }); } catch (_) {} }, suave ? 380 : 0);
+        }, 60);
+      }
+
+      function quickActionV43(act) {
+        const tel = !window.matchMedia("(min-width: 1100px)").matches;
+        if (act === "rx-expuesta" || act === "rx-trombo") {
+          if (tel) quickGoTo($("rx-step2"));
+        } else if (act === "nota-evol") {
+          $("nota-tipo").value = "Evolución";
+          updateNotaUI();
+          syncNotaTypePills();
+          switchTab("tab-notas");
+          quickGoTo($("nota-input").closest(".card") || $("nota-input"), $("nota-input"));
+        } else if (act === "est-lab") {
+          switchEstudiosMode("lab");
+          switchTab("tab-estudios");
+          quickGoTo($("est-panel-lab"), $("lab-hb"));
+        }
+      }
+
+      function syncQuickStripEnd() {
+        const el = $("quick-strip");
+        if (!el || !el.clientWidth) return;
+        el.classList.toggle("at-end", el.scrollLeft + el.clientWidth >= el.scrollWidth - 6);
+      }
+
+      function initGuardiaV43() {
+        const strip = $("quick-strip");
+        if (!strip) return;
+        strip.addEventListener("click", (e) => {
+          const b = e.target.closest("button[data-qact]");
+          if (b) quickActionV43(b.dataset.qact);
+        });
+        strip.addEventListener("scroll", syncQuickStripEnd, { passive: true });
+        window.addEventListener("resize", syncQuickStripEnd);
+        syncQuickStripEnd();
       }
 
       function renderProtocol() {
@@ -10221,9 +10287,9 @@
         if (isModuleOn("calc-" + calcBefore)) switchCalcPanel(calcBefore);
         addTest("26. v26: navegación bloquea pestaña desactivada", histBlocked && histNavHidden, "Bloqueo=" + histBlocked + " | Botón oculto=" + histNavHidden);
 
-        const imp = sanitizeModuleImport(JSON.parse('{"modules":{"calc-renal":false,"hack":true,"tab-rx":"yes","quick-strip":true,"__proto__":{"x":1}}}'));
+        const imp = sanitizeModuleImport(JSON.parse('{"modules":{"calc-renal":false,"hack":true,"tab-rx":"yes","quick-strip":false,"__proto__":{"x":1}}}'));
         const impKeys = Object.keys(imp).sort().join(",");
-        addTest("27. v26: importar ajustes ignora claves desconocidas y no booleanas", impKeys === "calc-renal,quick-strip" && imp["calc-renal"] === false && imp["quick-strip"] === true && !("x" in imp), "Claves=" + impKeys);
+        addTest("27. v26: importar ajustes ignora claves desconocidas y no booleanas", impKeys === "calc-renal,quick-strip" && imp["calc-renal"] === false && imp["quick-strip"] === false && !("x" in imp), "Claves=" + impKeys);
 
         // 28-29. v27: interfaz Base44
         const greetOk = greetingForHour(8) === "Buenos días" && greetingForHour(15) === "Buenas tardes" && greetingForHour(23) === "Buenas noches" && greetingForHour(3) === "Buenas noches";
@@ -10481,6 +10547,16 @@
           det57 = "frases visibles " + lim57 + " · «Todo negado» solo llena lo vacío " + soloVacios57 + " · regiones sin alteraciones " + efOk57 + " · resumen del apartado " + prevOk57;
         } catch (e) { det57 = "Error: " + e.message; }
         addTest("57. v42: guía de la historia clínica menos saturada", ok57, det57);
+
+        // 58. v43: atajos de guardia visibles de fábrica, todos con destino y de 40 px
+        const acts58 = Array.from(document.querySelectorAll("#quick-strip button[data-qact]")).map((b) => b.dataset.qact);
+        const conocidos58 = ["rx-expuesta", "rx-trombo", "nota-evol", "est-lab", "nota-audio", "calc-renal", "est-vision"];
+        const todos58 = acts58.length === 7 && acts58.every((a) => conocidos58.includes(a)) && conocidos58.every((a) => acts58.includes(a));
+        const fabrica58 = moduleDefault("quick-strip") === true;
+        const h58 = getComputedStyle(document.querySelector("#quick-strip .quick-chip")).height;
+        const alto58 = h58 === "auto" || parseFloat(h58) >= 40;
+        addTest("58. v43: guardia a un pulgar (7 atajos, visibles de fábrica, 40 px)", todos58 && fabrica58 && alto58,
+          "atajos " + acts58.join(", ") + " · de fábrica " + fabrica58 + " · alto ≥ 40 px " + alto58);
 
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
@@ -11203,6 +11279,7 @@
         ["Revisión IA v39", initAiReviewV39],
         ["Nota en PDF v40", initNotaPdfV40],
         ["Contador de pruebas v41", initSelftestCountV41],
+        ["Guardia a un pulgar v43", initGuardiaV43],
         ["Pulido v37", initPulidoV37],
         ["Módulos v26", initModulesV26] /* siempre al final */
       ].forEach(([name, fn]) => runInit(name, fn));
