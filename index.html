@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v50 · Tema "Base44" (oscuro + claro)
+       TyO Assist v51 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -2637,7 +2637,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v50 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v51 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2670,7 +2670,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v50</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v51</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2782,9 +2782,9 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (65 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (66 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (65)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (66)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -2959,15 +2959,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v50 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v51 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "50",
-      versionLabel: "v50 Intuitiva",
+      version: "51",
+      versionLabel: "v51 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-urg | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -5640,6 +5640,7 @@
         ];
         if (d["hc-columna"]) ef.push("Columna vertebral: " + x("hc-columna"));
         ef.push("Miembros: " + nr(x("hc-miembros")));
+        if (extra.exam) ef.push(extra.exam);
         ef.push("Genitales: " + nr(x("hc-genitales")));
         const estudios = [x("hc-estudios"), extra.aux || ""].filter((s) => String(s).trim()).join("\n");
         const trat = [x("hc-trat"), extra.plan || ""].filter((s) => String(s).trim()).join("\n");
@@ -5655,7 +5656,7 @@
 
       function buildHistoriaBlocks(exp, parsed, vitals, auxCombined, narrativeExp) {
         const rec = hcFichaRec();
-        return hcBuildBlocksFrom(hcCollect(), rec ? rec.data : null, { narrativa: narrativeExp, vitals: vitals, aux: auxCombined, plan: parsed.plan }, exp);
+        return hcBuildBlocksFrom(hcCollect(), rec ? rec.data : null, { narrativa: narrativeExp, vitals: vitals, aux: auxCombined, plan: [parsed.plan, parsed.blockPlan, parsed.alarm, parsed.suggest].filter(Boolean).join("\n"), exam: exp(parsed.exam || "") }, exp);
       }
 
       // Para la IA: solo datos clínicos. Nada de nombre, fecha de nacimiento, expediente,
@@ -9863,11 +9864,11 @@
 
       const EXAM_CHIPS_BY_TYPE = {
         base: [
-          { label: "+ NVD íntegro", text: "Neurovascular distal íntegro: pulsos presentes, llenado capilar menor a 2 segundos, sensibilidad y movilidad distal conservadas." },
-          { label: "+ Sin SCA", text: "Compartimentos blandos, depresibles, sin datos clínicos de síndrome compartimental agudo." },
-          { label: "+ Deformidad/Crep.", text: "Aumento de volumen, equimosis, deformidad evidente y crepitación ósea a la palpación." },
-          { label: "+ Fx Cerrada", text: "Piel íntegra, sin heridas penetrantes ni exposición ósea." },
-          { label: "+ Herida limpia", text: "Herida quirúrgica limpia, bordes bien afrontados, sin exudado purulento, dehiscencia ni eritema perilesional." }
+          { label: "+ NVD íntegro", text: "Neurovascular distal íntegro: pulsos presentes, llenado capilar menor a 2 segundos, sensibilidad y movilidad distal conservadas.", to: "exam" },
+          { label: "+ Sin SCA", text: "Compartimentos blandos, depresibles, sin datos clínicos de síndrome compartimental agudo.", to: "exam" },
+          { label: "+ Deformidad/Crep.", text: "Aumento de volumen, equimosis, deformidad evidente y crepitación ósea a la palpación.", to: "exam" },
+          { label: "+ Fx Cerrada", text: "Piel íntegra, sin heridas penetrantes ni exposición ósea.", to: "exam" },
+          { label: "+ Herida limpia", text: "Herida quirúrgica limpia, bordes bien afrontados, sin exudado purulento, dehiscencia ni eritema perilesional.", to: "exam" }
         ],
         "Historia clínica": [
           { label: "Caída de su altura", text: "Inicia su padecimiento tras caída de su propia altura, con apoyo sobre la región afectada." },
@@ -9886,13 +9887,13 @@
           { label: "+ Asepsia y campos", text: "Previa asepsia, antisepsia con clorhexidina/yodopovidona y colocación de campos estériles." },
           { label: "+ Control Arco en C", text: "Control fluoroscópico (arco en C) en proyecciones AP y lateral que confirma reducción anatómica y adecuada colocación de implantes." },
           { label: "+ Cierre por planos", text: "Verificación de hemostasia, lavado con solución fisiológica estéril, cierre por planos y colocación de apósito estéril." },
-          { label: "+ NVD postqx íntegro", text: "Al término del procedimiento se verifica perfusión distal adecuada, pulsos presentes y llenado capilar menor a 2 segundos." }
+          { label: "+ NVD postqx íntegro", text: "Al término del procedimiento se verifica perfusión distal adecuada, pulsos presentes y llenado capilar menor a 2 segundos.", to: "exam" }
         ],
         Interconsulta: [
           { label: "+ Valorado por TyO", text: "Paciente valorado por el servicio de Traumatología y Ortopedia a solicitud del servicio tratante." },
-          { label: "+ Sin manejo quirúrgico", text: "Por el momento sin indicación de manejo quirúrgico; se sugiere manejo conservador." },
-          { label: "+ Seguimiento por TyO", text: "El servicio de Traumatología y Ortopedia continuará en seguimiento; favor de reinterconsultar ante cualquier cambio clínico." },
-          { label: "+ Alta por TyO", text: "Se da de alta por parte del servicio de Traumatología y Ortopedia, con cita a consulta externa." }
+          { label: "+ Sin manejo quirúrgico", text: "Por el momento sin indicación de manejo quirúrgico; se sugiere manejo conservador.", to: "suggest" },
+          { label: "+ Seguimiento por TyO", text: "El servicio de Traumatología y Ortopedia continuará en seguimiento; favor de reinterconsultar ante cualquier cambio clínico.", to: "suggest" },
+          { label: "+ Alta por TyO", text: "Se da de alta por parte del servicio de Traumatología y Ortopedia, con cita a consulta externa.", to: "suggest" }
         ],
         Referencia: [
           { label: "+ Estable para traslado", text: "Paciente hemodinámicamente estable para su traslado." },
@@ -9901,8 +9902,8 @@
           { label: "+ Ambulancia", text: "Traslado en ambulancia, acompañado por personal de salud." }
         ],
         Alta: [
-          { label: "+ Datos de alarma TyO", text: "Datos de alarma para acudir a Urgencias de inmediato: fiebre mayor o igual a 38 °C, secreción purulenta o apertura de herida, dolor desproporcionado que no cede con analgésicos, dedos fríos/pálidos/morados o pérdida de sensibilidad/movilidad." },
-          { label: "+ Cuidados de herida", text: "Mantener herida limpia y seca; lavado diario con agua y jabón neutro sin frotar, cubrir con gasa estéril." }
+          { label: "+ Datos de alarma TyO", text: "Datos de alarma para acudir a Urgencias de inmediato: fiebre mayor o igual a 38 °C, secreción purulenta o apertura de herida, dolor desproporcionado que no cede con analgésicos, dedos fríos/pálidos/morados o pérdida de sensibilidad/movilidad.", to: "alarm" },
+          { label: "+ Cuidados de herida", text: "Mantener herida limpia y seca; lavado diario con agua y jabón neutro sin frotar, cubrir con gasa estéril.", to: "alarm" }
         ]
       };
 
@@ -10056,12 +10057,50 @@
         ].join(" | ");
       }
 
-      function parseCapturedBlocks(rawText) {
+      // v51: a qué apartado va cada frase rápida (texto exacto → destino)
+      function notaChipRoutes() {
+        const m = new Map();
+        Object.keys(EXAM_CHIPS_BY_TYPE).forEach((k) => (EXAM_CHIPS_BY_TYPE[k] || []).forEach((c) => { if (c.to) m.set(String(c.text).trim(), c.to); }));
+        return m;
+      }
+
+      // v51: reparte los renglones de un bloque de Urgencias (encabezado en mayúsculas + renglones «- »).
+      function notaRouteBlock(head, body, out, tipo) {
+        if (head === "VIGILANCIA DE SÍNDROME COMPARTIMENTAL") {
+          out.exam.push(head);
+          body.forEach((b) => out.exam.push(b));
+          return;
+        }
+        const keep = [];
+        const rest = (b, re) => b.replace(re, "").trim();
+        body.forEach((b) => {
+          if (head === "FRACTURA DE CADERA DEL ADULTO MAYOR") {
+            if (/^- Pendientes por cumplir:/.test(b)) out.blockPlan.push("Pendientes por cumplir (fractura de cadera): " + rest(b, /^- Pendientes por cumplir:/));
+            else if (/^- Tamizaje de delirium \(4AT\):/.test(b)) out.exam.push(b.slice(2).trim());
+            else if (tipo === "Preoperatoria" && /^- Escala de Nottingham:/.test(b)) out.risk.push(b.slice(2).trim());
+            else keep.push(b);
+          } else {
+            if (/^- Muestras y estudios:/.test(b)) out.blockPlan.push("Muestras y estudios (infección ósea o de herida): " + rest(b, /^- Muestras y estudios:/));
+            else if (/^- Antibiótico empírico propuesto:/.test(b)) out.blockPlan.push("Antibiótico empírico propuesto (infección ósea o de herida): " + rest(b, /^- Antibiótico empírico propuesto:/));
+            else keep.push(b);
+          }
+        });
+        if (keep.length) { out.narrative.push(head); keep.forEach((b) => out.narrative.push(b)); }
+      }
+
+      function parseCapturedBlocks(rawText, tipo) {
         const lines = (rawText || "").split("\n");
         const narrative = [];
         const aux = [];
         const risk = [];
         const plan = [];
+        // v51: exploración (bloques y frases), plan de los bloques, datos de alarma y sugerencias
+        const exam = [];
+        const blockPlan = [];
+        const alarm = [];
+        const suggest = [];
+        const chips = notaChipRoutes();
+        const BLOCKS = ["VIGILANCIA DE SÍNDROME COMPARTIMENTAL", "FRACTURA DE CADERA DEL ADULTO MAYOR", "INFECCIÓN ÓSEA O DE HERIDA"];
         let mode = "narrative";
 
         for (let i = 0; i < lines.length; i++) {
@@ -10088,21 +10127,27 @@
           if (mode === "plan") { plan.push(line); continue; }
           if (mode === "aux") { aux.push(line); continue; }
 
+          if (BLOCKS.includes(trimmed)) {
+            const body = [];
+            while (i + 1 < lines.length && /^\s*- /.test(lines[i + 1])) { body.push(lines[i + 1].trim()); i++; }
+            notaRouteBlock(trimmed, body, { narrative, exam, blockPlan, risk }, tipo);
+            continue;
+          }
+
           if (/^(Función renal:|Laboratorios preoperatorios:|Control radiográfico de osteosíntesis|Escala MESS:)/.test(trimmed)) {
             aux.push(trimmed);
           } else if (/^Escala de Caprini:/.test(trimmed)) {
             risk.push(trimmed);
+          } else if (chips.has(trimmed)) {
+            const to = chips.get(trimmed);
+            (to === "exam" ? exam : to === "alarm" ? alarm : to === "suggest" ? suggest : narrative).push(trimmed);
           } else if (trimmed !== "") {
             narrative.push(line);
           }
         }
 
-        return {
-          narrative: narrative.join("\n").trim(),
-          aux: aux.join("\n").trim(),
-          risk: risk.join("\n").trim(),
-          plan: plan.join("\n").trim()
-        };
+        const j = (a) => a.join("\n").trim();
+        return { narrative: j(narrative), aux: j(aux), risk: j(risk), plan: j(plan), exam: j(exam), blockPlan: j(blockPlan), alarm: j(alarm), suggest: j(suggest) };
       }
 
       function buildLocalHeader(tipo) {
@@ -10151,25 +10196,29 @@
 
       function composeNom004Local() {
         const tipo = $("nota-tipo").value;
-        const parsed = parseCapturedBlocks($("nota-input").value);
+        const parsed = parseCapturedBlocks($("nota-input").value, tipo);
         const expandedSet = new Set();
         const exp = (txt) => expandTyOJargon(txt, expandedSet);
 
         const vitals = formatVitals();
         const narrativeExp = exp(parsed.narrative);
         const auxCombined = [parsed.aux, parsed.risk].filter(Boolean).join("\n");
+        // v51: exploración de bloques y frases; plan = indicaciones de Recetas + pendientes de los bloques
+        const examTxt = exp(parsed.exam);
+        const planWith = (...extra) => [parsed.plan, parsed.blockPlan].concat(extra).filter(Boolean).join("\n");
+        const vitalsExam = examTxt ? (vitals === "[NO REFERIDO]" ? "Signos vitales: [NO REFERIDO]" : vitals) + "\n" + examTxt : vitals;
         let blocks = [];
 
         if (tipo === "Ingreso") {
           const estadoMental = exp($("ing-mental").value.trim());
-          const narrativa = [narrativeExp, estadoMental ? "Estado mental / neurológico: " + estadoMental : ""].filter(Boolean).join("\n");
+          const narrativa = [narrativeExp, examTxt, estadoMental ? "Estado mental / neurológico: " + estadoMental : ""].filter(Boolean).join("\n");
           blocks = [
             renderSection("8.1.1", "SIGNOS VITALES Y SOMATOMETRÍA", vitals),
             renderSection("7.1.3", "MOTIVO DE INGRESO / ATENCIÓN", exp($("ing-motivo").value)),
             renderSection("8.1.2", "RESUMEN DEL INTERROGATORIO, EXPLORACIÓN FÍSICA Y ESTADO MENTAL", narrativa),
             renderSection("8.1.3", "RESULTADOS DE ESTUDIOS AUXILIARES DE DIAGNÓSTICO Y TRATAMIENTO", auxCombined),
             renderSection("7.1.6", "DIAGNÓSTICO(S) O PROBLEMAS CLÍNICOS", exp($("ing-dx").value)),
-            renderSection("8.1.4a", "PLAN TERAPÉUTICO E INDICACIONES MÉDICAS", parsed.plan),
+            renderSection("8.1.4a", "PLAN TERAPÉUTICO E INDICACIONES MÉDICAS", planWith(parsed.alarm, parsed.suggest)),
             renderSection("8.1.4b", "PRONÓSTICO", exp($("ing-pron").value))
           ];
         } else if (tipo === HC_TIPO) {
@@ -10184,21 +10233,23 @@
           ].filter(Boolean).join("\n");
           blocks = [
             renderSection("6.2.1", "EVOLUCIÓN Y ACTUALIZACIÓN DEL CUADRO CLÍNICO (INCLUYE TOXICOMANÍAS)", evoBody),
-            renderSection("6.2.2", "SIGNOS VITALES Y EXPLORACIÓN FÍSICA DIRIGIDA", vitals),
+            renderSection("6.2.2", "SIGNOS VITALES Y EXPLORACIÓN FÍSICA DIRIGIDA", vitalsExam),
             renderSection("6.2.3", "RESULTADOS RELEVANTES DE ESTUDIOS AUXILIARES SOLICITADOS PREVIAMENTE", auxCombined),
             renderSection("6.2.4", "DIAGNÓSTICOS O PROBLEMAS CLÍNICOS", exp($("evo-dx").value)),
             renderSection("6.2.5", "PRONÓSTICO", exp($("evo-pron").value)),
-            renderSection("6.2.6", "TRATAMIENTO E INDICACIONES MÉDICAS (DOSIS, VÍA Y PERIODICIDAD)", parsed.plan)
+            renderSection("6.2.6", "TRATAMIENTO E INDICACIONES MÉDICAS (DOSIS, VÍA Y PERIODICIDAD)", planWith(parsed.alarm, parsed.suggest))
           ];
         } else if (tipo === "Preoperatoria") {
           const cares = Array.from(document.querySelectorAll(".pre-care:checked")).map((c) => "• " + c.value);
           const prePlanTxt = [exp($("pre-plan").value.trim()), narrativeExp].filter(Boolean).join("\n");
           const riesgoTxt = [exp($("pre-riesgo").value.trim()), parsed.risk].filter(Boolean).join("\n");
+          const planPre = planWith(parsed.alarm, parsed.suggest);
           const cuidadosTxt = [
             vitals !== "[NO REFERIDO]" ? "Signos vitales preoperatorios: " + vitals : "",
+            examTxt ? "Exploración preoperatoria:\n" + examTxt : "",
             cares.join("\n"),
             parsed.aux ? "Auxiliares preoperatorios:\n" + parsed.aux : "",
-            parsed.plan ? "Indicaciones preoperatorias:\n" + parsed.plan : ""
+            planPre ? "Indicaciones preoperatorias:\n" + planPre : ""
           ].filter(Boolean).join("\n");
           blocks = [
             renderSection("8.5.1", "FECHA DE LA CIRUGÍA", $("pre-fecha").value),
@@ -10223,8 +10274,8 @@
             renderSection("8.8.9", "CUANTIFICACIÓN DE SANGRADO Y, EN SU CASO, TRANSFUSIONES", exp($("post-sangrado").value)),
             renderSection("8.8.10", "ESTUDIOS DE AUXILIARES DE DIAGNÓSTICO Y TRATAMIENTO TRANSOPERATORIOS", auxTrans),
             renderSection("8.8.11", "AYUDANTES, INSTRUMENTISTAS, ANESTESIÓLOGO Y CIRCULANTE", $("post-equipo").value),
-            renderSection("8.8.12", "ESTADO POST-QUIRÚRGICO INMEDIATO", exp($("post-estado").value)),
-            renderSection("8.8.13", "PLAN DE MANEJO Y TRATAMIENTO POSTOPERATORIO INMEDIATO", parsed.plan),
+            renderSection("8.8.12", "ESTADO POST-QUIRÚRGICO INMEDIATO", [exp($("post-estado").value.trim()), examTxt].filter(Boolean).join("\n")),
+            renderSection("8.8.13", "PLAN DE MANEJO Y TRATAMIENTO POSTOPERATORIO INMEDIATO", planWith(parsed.alarm, parsed.suggest)),
             renderSection("8.8.14", "PRONÓSTICO", exp($("post-pron").value)),
             renderSection("8.8.15", "ENVÍO DE PIEZAS O BIOPSIAS QUIRÚRGICAS A EXAMEN MACROSCÓPICO E HISTOPATOLÓGICO", $("post-pato").value),
             renderSection("8.8.16", "OTROS HALLAZGOS DE IMPORTANCIA PARA EL PACIENTE", exp($("post-otros").value))
@@ -10237,12 +10288,12 @@
           blocks = [
             renderSection("7.1.3", "SERVICIO QUE SOLICITA Y MOTIVO DE LA INTERCONSULTA", [servicio ? "Servicio que solicita: " + servicio : "", motivo ? "Motivo: " + motivo : ""].filter(Boolean).join("\n")),
             renderSection("7.1.2", "SIGNOS VITALES", vitals),
-            renderSection("7.1.4", "RESUMEN DEL INTERROGATORIO, EXPLORACIÓN FÍSICA Y ESTADO MENTAL", [narrativeExp, mental ? "Estado mental: " + mental : ""].filter(Boolean).join("\n")),
+            renderSection("7.1.4", "RESUMEN DEL INTERROGATORIO, EXPLORACIÓN FÍSICA Y ESTADO MENTAL", [narrativeExp, examTxt, mental ? "Estado mental: " + mental : ""].filter(Boolean).join("\n")),
             renderSection("7.1.5", "RESULTADOS RELEVANTES DE ESTUDIOS AUXILIARES DE DIAGNÓSTICO Y TRATAMIENTO", auxCombined),
             renderSection("6.3.1", "CRITERIOS DIAGNÓSTICOS", exp($("ic-criterios").value)),
             renderSection("7.1.6", "DIAGNÓSTICOS O PROBLEMAS CLÍNICOS", exp($("ic-dx").value)),
             renderSection("6.3.2", "PLAN DE ESTUDIOS", exp($("ic-estudios").value)),
-            renderSection("6.3.3", "SUGERENCIAS DIAGNÓSTICAS Y DE TRATAMIENTO", [sug, parsed.plan].filter(Boolean).join("\n")),
+            renderSection("6.3.3", "SUGERENCIAS DIAGNÓSTICAS Y DE TRATAMIENTO", [sug, parsed.suggest, parsed.plan, parsed.blockPlan, parsed.alarm].filter(Boolean).join("\n")),
             renderSection("7.1.7", "PRONÓSTICO", exp($("ic-pron").value))
           ];
         } else if (tipo === "Referencia") {
@@ -10250,9 +10301,13 @@
           const estado = exp($("ref-estado").value.trim());
           const resumen = [
             narrativeExp,
+            examTxt,
             vitals !== "[NO REFERIDO]" ? "Signos vitales al envío: " + vitals : "",
             auxCombined ? "Estudios: " + auxCombined : "",
-            estado ? "Condiciones al envío: " + estado : ""
+            estado ? "Condiciones al envío: " + estado : "",
+            parsed.blockPlan,
+            parsed.alarm,
+            parsed.suggest
           ].filter(Boolean).join("\n");
           const impresion = valOrNR(exp($("ref-dx").value.trim())) + "\nAbuso y dependencia del tabaco, del alcohol y de otras sustancias psicoactivas: " + valOrNR(exp($("ref-tox").value.trim()));
           blocks = [
@@ -10267,7 +10322,7 @@
           const fing = valOrNR($("alta-fing").value);
           const fegr = valOrNR($("alta-fegr").value);
           const motivo = $("alta-motivo").value;
-          const resumenActual = [vitals !== "[NO REFERIDO]" ? "Signos vitales de egreso: " + vitals : "", narrativeExp].filter(Boolean).join("\n");
+          const resumenActual = [vitals !== "[NO REFERIDO]" ? "Signos vitales de egreso: " + vitals : "", narrativeExp, examTxt].filter(Boolean).join("\n");
           const manejoEstancia = [auxCombined].filter(Boolean).join("\n");
           const defuncionTxt = motivo === "Defunción"
             ? valOrNR($("alta-def").value)
@@ -10279,8 +10334,8 @@
             renderSection("8.9.4", "RESUMEN DE LA EVOLUCIÓN Y ESTADO ACTUAL", resumenActual),
             renderSection("8.9.5", "MANEJO DURANTE LA ESTANCIA HOSPITALARIA", manejoEstancia),
             renderSection("8.9.6", "PROBLEMAS CLÍNICOS PENDIENTES", exp($("alta-pend").value)),
-            renderSection("8.9.7", "PLAN DE MANEJO Y TRATAMIENTO (DOSIS, VÍA Y PERIODICIDAD)", parsed.plan),
-            renderSection("8.9.8", "RECOMENDACIONES PARA VIGILANCIA AMBULATORIA Y DATOS DE ALARMA", exp($("alta-vigil").value)),
+            renderSection("8.9.7", "PLAN DE MANEJO Y TRATAMIENTO (DOSIS, VÍA Y PERIODICIDAD)", planWith(parsed.suggest)),
+            renderSection("8.9.8", "RECOMENDACIONES PARA VIGILANCIA AMBULATORIA Y DATOS DE ALARMA", [exp($("alta-vigil").value.trim()), parsed.alarm].filter(Boolean).join("\n")),
             renderSection("8.9.9", "ATENCIÓN DE FACTORES DE RIESGO (INCLUYE TABACO, ALCOHOL Y OTRAS SUSTANCIAS)", exp($("alta-riesgos").value)),
             renderSection("8.9.10", "PRONÓSTICO", exp($("alta-pron").value)),
             renderSection("8.9.11", "DEFUNCIÓN: CAUSAS DE MUERTE (CERTIFICADO) Y NECROPSIA HOSPITALARIA", defuncionTxt)
@@ -11108,7 +11163,17 @@
           if (cares.length) chunks.push("Cuidados preoperatorios confirmados: " + cares.join("; "));
         }
         const raw = $("nota-input").value.trim();
-        if (raw) chunks.push("Texto dictado / datos clínicos:\n" + raw);
+        if (raw) {
+          // v51: la IA recibe el dictado ya separado por apartado
+          const cls = parseCapturedBlocks(raw, tipo);
+          if (cls.narrative) chunks.push("Texto dictado / datos clínicos:\n" + cls.narrative);
+          if (cls.exam) chunks.push("Exploración física dirigida (va en el apartado de exploración física):\n" + cls.exam);
+          const auxRisk = [cls.aux, cls.risk].filter(Boolean).join("\n");
+          if (auxRisk) chunks.push("Resultados de estudios y escalas:\n" + auxRisk);
+          const planAi = [cls.plan, cls.blockPlan, cls.suggest].filter(Boolean).join("\n");
+          if (planAi) chunks.push("Indicaciones, pendientes y sugerencias (van en el apartado de tratamiento o plan):\n" + planAi);
+          if (cls.alarm) chunks.push("Datos de alarma y recomendaciones (van en vigilancia ambulatoria o recomendaciones):\n" + cls.alarm);
+        }
         return chunks.join("\n");
       }
 
@@ -14000,6 +14065,71 @@
           det65 = "numerales " + esq65 + " · botones, campos, título, PDF, borrador y frases " + ui65 + " · diagnóstico de la ficha " + dx65 + " · interconsulta armada " + ic65 + " · referencia armada " + ref65 + " · IA sin establecimientos " + ia65;
         } catch (e) { det65 = "Error: " + e.message; }
         addTest("65. v50: notas de interconsulta y de referencia o traslado", ok65, det65);
+
+        // 66. v51: cada dato en su apartado al estructurar la nota
+        let ok66 = false, det66 = "";
+        try {
+          const NVD = "Neurovascular distal íntegro: pulsos presentes, llenado capilar menor a 2 segundos, sensibilidad y movilidad distal conservadas.";
+          const ALARMA = (EXAM_CHIPS_BY_TYPE.Alta[0] || {}).text;
+          const SUG = "Por el momento sin indicación de manejo quirúrgico; se sugiere manejo conservador.";
+          const src = [
+            "Paciente refiere menos dolor.",
+            NVD,
+            "VIGILANCIA DE SÍNDROME COMPARTIMENTAL",
+            "- Extremidad: pierna derecha.",
+            "- 10:00 h: Sin datos clínicos de síndrome compartimental.",
+            "FRACTURA DE CADERA DEL ADULTO MAYOR",
+            "- Ingreso: 27/11/2026 01:00 h; 20 horas desde el ingreso.",
+            "- Escala de Nottingham: 5 puntos; mortalidad estimada a 30 días 9.6%.",
+            "- Tamizaje de delirium (4AT): 0 puntos, delirium o deterioro cognitivo poco probable.",
+            "- Pendientes por cumplir: bloqueo nervioso preoperatorio; tromboprofilaxis indicada.",
+            "INFECCIÓN ÓSEA O DE HERIDA",
+            "- Tipo: infección relacionada con fractura u osteosíntesis.",
+            "- Interpretación: infección confirmada (consenso FRI 2018 y 2020).",
+            "- Muestras y estudios: hemocultivos.",
+            "- Antibiótico empírico propuesto: vancomicina más cefepima.",
+            "Función renal: Cr sérica 1.1 mg/dL",
+            "Toleró la vía oral.",
+            ALARMA, SUG,
+            "--- PLAN / INDICACIONES ---",
+            "Paracetamol 1 g intravenoso cada 8 horas"
+          ].join("\n");
+          const c = parseCapturedBlocks(src, "Evolución");
+          const sep66 = c.narrative === "Paciente refiere menos dolor.\nFRACTURA DE CADERA DEL ADULTO MAYOR\n- Ingreso: 27/11/2026 01:00 h; 20 horas desde el ingreso.\n- Escala de Nottingham: 5 puntos; mortalidad estimada a 30 días 9.6%.\nINFECCIÓN ÓSEA O DE HERIDA\n- Tipo: infección relacionada con fractura u osteosíntesis.\n- Interpretación: infección confirmada (consenso FRI 2018 y 2020).\nToleró la vía oral." &&
+            c.exam === NVD + "\nVIGILANCIA DE SÍNDROME COMPARTIMENTAL\n- Extremidad: pierna derecha.\n- 10:00 h: Sin datos clínicos de síndrome compartimental.\nTamizaje de delirium (4AT): 0 puntos, delirium o deterioro cognitivo poco probable." &&
+            c.blockPlan === "Pendientes por cumplir (fractura de cadera): bloqueo nervioso preoperatorio; tromboprofilaxis indicada.\nMuestras y estudios (infección ósea o de herida): hemocultivos.\nAntibiótico empírico propuesto (infección ósea o de herida): vancomicina más cefepima." &&
+            c.aux === "Función renal: Cr sérica 1.1 mg/dL" && c.plan === "Paracetamol 1 g intravenoso cada 8 horas" && c.alarm === ALARMA && c.suggest === SUG && c.risk === "";
+          const pre = parseCapturedBlocks(src, "Preoperatoria");
+          const pre66 = pre.risk === "Escala de Nottingham: 5 puntos; mortalidad estimada a 30 días 9.6%." && !/Nottingham/.test(pre.narrative);
+          const solo = parseCapturedBlocks("FRACTURA DE CADERA DEL ADULTO MAYOR\n- Pendientes por cumplir: bloqueo.\nTexto libre", "Evolución");
+          const solo66 = solo.narrative === "Texto libre" && solo.blockPlan === "Pendientes por cumplir (fractura de cadera): bloqueo." && parseCapturedBlocks("Neurovascular distal íntegro, a mano.", "Evolución").exam === "";
+          const keep = NOTA_DRAFT_FIELD_IDS.concat(["nota-tipo"]).filter((id) => $(id)).map((id) => [id, $(id).value]);
+          let evo66 = false, alta66 = false, ing66 = false, ia66 = false;
+          try {
+            NOTA_DRAFT_FIELD_IDS.forEach((id) => { if ($(id)) $(id).value = ""; });
+            $("nota-input").value = src; $("nv-fc").value = "80";
+            $("nota-tipo").value = "Evolución";
+            const e = composeNom004Local().fullNote;
+            const secOf = (n, code) => { const i = n.indexOf("[" + code + "] "); if (i < 0) return ""; const k = n.slice(i + 1).search(/\n\n\[\d/); return k < 0 ? n.slice(i) : n.slice(i, i + 1 + k); };
+            const sec = (code) => secOf(e, code);
+            evo66 = /FC: 80 lpm/.test(sec("6.2.2")) && sec("6.2.2").includes("VIGILANCIA DE SÍNDROME COMPARTIMENTAL") && sec("6.2.2").includes("Neurovascular distal íntegro") && sec("6.2.2").includes("(4AT)") &&
+              !sec("6.2.1").includes("VIGILANCIA") && sec("6.2.1").includes("Paciente refiere menos dolor.") && sec("6.2.1").includes("FRACTURA DE CADERA") &&
+              sec("6.2.6").includes("Paracetamol 1 g intravenoso cada 8 horas\nPendientes por cumplir (fractura de cadera)") && sec("6.2.6").includes("Antibiótico empírico propuesto (infección") && sec("6.2.3").includes("Función renal");
+            $("nota-tipo").value = "Alta";
+            const a = composeNom004Local().fullNote;
+            alta66 = a.includes("[8.9.8] RECOMENDACIONES PARA VIGILANCIA AMBULATORIA Y DATOS DE ALARMA:\n" + ALARMA) && secOf(a, "8.9.4").includes("VIGILANCIA DE SÍNDROME COMPARTIMENTAL") && !secOf(a, "8.9.7").includes("Datos de alarma");
+            $("nota-tipo").value = "Ingreso";
+            const g = composeNom004Local().fullNote;
+            ing66 = /Paciente refiere menos dolor\.[\s\S]*VIGILANCIA DE SÍNDROME COMPARTIMENTAL/.test(secOf(g, "8.1.2")) && secOf(g, "8.1.4a").includes("Pendientes por cumplir (fractura de cadera)");
+            const pay = collectAnonymizedClinicalPayload("Evolución");
+            ia66 = /Exploración física dirigida \(va en el apartado de exploración física\):\nNeurovascular distal íntegro[\s\S]*VIGILANCIA DE SÍNDROME COMPARTIMENTAL/.test(pay) && /Indicaciones, pendientes y sugerencias[^\n]*:\nParacetamol/.test(pay) && !/--- PLAN/.test(pay);
+          } finally {
+            keep.forEach(([id, v]) => { $(id).value = v; });
+          }
+          ok66 = sep66 && pre66 && solo66 && evo66 && alta66 && ing66 && ia66;
+          det66 = "separa bloques y frases " + sep66 + " · Nottingham a riesgo en preoperatoria " + pre66 + " · bloque sin renglones que se queden y texto a mano " + solo66 + " · evolución (exploración 6.2.2 y plan 6.2.6) " + evo66 + " · egreso (datos de alarma 8.9.8) " + alta66 + " · ingreso " + ing66 + " · IA ya acomodada " + ia66;
+        } catch (e) { det66 = "Error: " + e.message; }
+        addTest("66. v51: cada dato en su apartado al estructurar la nota", ok66, det66);
 
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
