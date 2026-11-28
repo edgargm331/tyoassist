@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v54 · Tema "Base44" (oscuro + claro)
+       TyO Assist v55 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -1157,6 +1157,11 @@
     .ot-edad { margin-top: 10px; }
     #ot-prompt { margin-top: 10px; }
 
+    /* ---------- v55: columna cervical ---------- */
+    .cv-edad, #cv-prompt { margin-top: 10px; }
+    .cv-reglas { margin-top: 12px; }
+    .cv-help { margin-top: 8px; }
+
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
     @media print {
@@ -1234,7 +1239,7 @@
     <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></symbol>
     <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></symbol>
     <symbol id="i-calc" viewBox="0 0 24 24"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8"/><path d="M16 14v4"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></symbol>
-    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></symbol>
+    <symbol id="i-spine" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4.5" rx="1.5"/><rect x="8" y="9.75" width="8" height="4.5" rx="1.5"/><rect x="8" y="17.5" width="8" height="4.5" rx="1.5"/><path d="M4.5 4.25H8M16 4.25h3.5M4.5 12H8M16 12h3.5M4.5 19.75H8M16 19.75h3.5"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></symbol>
     <symbol id="i-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol>
     <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
     <symbol id="i-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol>
@@ -1592,6 +1597,11 @@
             <span class="tile-ico"><svg class="ic"><use href="#i-scan"/></svg></span>
             <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-ot"></span>Reglas de Ottawa</span><span class="tile-sub">¿Radiografía? Tobillo · pie · rodilla</span></span>
             <span class="tile-val" id="tile-ot-val">--</span>
+          </button>
+          <button type="button" class="tile" data-calc="cervical" data-mod="calc-cervical">
+            <span class="tile-ico"><svg class="ic"><use href="#i-spine"/></svg></span>
+            <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-cv"></span>Columna cervical</span><span class="tile-sub">¿Imagen? Canadiense · NEXUS · niños</span></span>
+            <span class="tile-val" id="tile-cv-val">--</span>
           </button>
         </div>
       </div>
@@ -2018,6 +2028,61 @@
               <button type="button" class="btn btn-secondary btn-lg" id="btn-ot-borrar"><svg class="ic"><use href="#i-trash"/></svg>Borrar datos</button>
             </div>
             <div class="ref-text" data-fuente="ottawa">Apoyo a la decisión: si hay duda clínica, la radiografía la decide el médico. Stiell y cols., JAMA 1993 (tobillo y pie) y JAMA 1996 (rodilla); Bachmann y cols., BMJ 2003 y Ann Intern Med 2004; niños: Dowling y cols., Acad Emerg Med 2009 (tobillo y pie) y Bulloch y cols., Ann Emerg Med 2003 (rodilla).</div>
+          </div>
+        </div>
+
+        <!-- U.6 COLUMNA CERVICAL (v55) -->
+        <div id="calc-cervical" class="calc-panel" data-mod="calc-cervical">
+          <div class="card">
+            <div class="card-head">
+              <h3><svg class="ic gold"><use href="#i-spine"/></svg>Columna cervical</h3>
+              <span class="badge" id="cv-badge">Sin evaluar</span>
+            </div>
+            <p class="sc-pt" id="cv-pt"></p>
+            <p class="cfg-help cv-edad hidden" id="cv-edad"></p>
+            <div class="ix-radios ix-tipos ix-first" id="cv-grupo-wrap" role="radiogroup" aria-label="Edad"><label class="check-pill"><input type="radio" class="cv-in" name="cv-grupo" value="adulto" /> 16 años o más</label><label class="check-pill"><input type="radio" class="cv-in" name="cv-grupo" value="nino" /> Menor de 16 años</label></div>
+            <div data-cvgrp="adulto">
+              <div class="ix-radios ix-tipos cv-reglas" role="radiogroup" aria-label="Regla"><label class="check-pill"><input type="radio" class="cv-in" name="cv-regla" value="ccr" /> Regla canadiense</label><label class="check-pill"><input type="radio" class="cv-in" name="cv-regla" value="nexus" /> NEXUS</label></div>
+              <div data-cvregla="ccr">
+                <p class="cfg-help cv-help">Para el paciente alerta (Glasgow 15) y estable.</p>
+                <div class="mini-label ix-label">1. ¿Algún factor de alto riesgo?</div>
+                <div class="checks" id="cv-alto-list"></div>
+                <div class="hidden" id="cv-paso2"><div class="mini-label ix-label">2. ¿Algún factor de bajo riesgo? (permite explorar la movilidad)</div><div class="checks" id="cv-bajo-list"></div></div>
+                <div class="hidden" id="cv-paso3"><div class="mini-label ix-label">3. Rotación activa del cuello</div><div class="ix-radios" role="radiogroup" aria-label="Rotación activa del cuello"><label class="check-pill"><input type="radio" class="cv-in" name="cv-rot" value="si" /> Gira 45° a la izquierda y a la derecha</label><label class="check-pill"><input type="radio" class="cv-in" name="cv-rot" value="no" /> No logra girar 45°</label></div></div>
+              </div>
+              <div data-cvregla="nexus" class="hidden">
+                <div class="mini-label ix-label">Criterios presentes (basta uno para pedir imagen)</div>
+                <div class="checks" id="cv-nexus-list"></div>
+              </div>
+            </div>
+            <div data-cvgrp="nino" class="hidden">
+              <div class="mini-label ix-label">Alto riesgo (tomografía)</div>
+              <div class="checks" id="cv-palto-list"></div>
+              <div class="mini-label ix-label">Riesgo no despreciable (radiografía)</div>
+              <div class="checks" id="cv-pmedio-list"></div>
+              <div class="checks" id="cv-pno-wrap"></div>
+            </div>
+            <p class="cfg-help hidden" id="cv-prompt"></p>
+            <details class="acc" id="cv-x-acc">
+              <summary><span>Cuándo no aplica <small id="cv-x-sum">Ninguno</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="acc-body"><div class="checks" id="cv-x-list"></div></div>
+            </details>
+            <div id="cv-res" class="alert hidden" aria-live="polite"></div>
+            <details class="acc" id="cv-desp">
+              <summary><span>Después de la imagen</span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="acc-body"><ul class="sc-lines">
+                <li>Tomografía normal y el dolor persiste: deja el collarín y revalora; si sigue el dolor, repite la imagen.</li>
+                <li>Déficit neurológico o sospecha de lesión de médula o ligamentos: resonancia sin contraste.</li>
+                <li>Sospecha de lesión vascular (fractura que llega al agujero transverso, subluxación o síntomas de circulación posterior): angiotomografía de cabeza y cuello.</li>
+                <li>Estado de alerta disminuido y tomografía de buena calidad normal: la guía EAST sugiere retirar el collarín.</li>
+                <li>Sin tomógrafo: la radiografía sirve de puente, pero detecta solo cerca de un tercio de las lesiones (sensibilidad de 36 %); si hay sospecha, refiere para tomografía.</li>
+              </ul></div>
+            </details>
+            <div class="btn-duo cx-btns">
+              <button type="button" class="btn btn-primary btn-lg" id="btn-cv-note" data-mod="tab-notas"><svg class="ic"><use href="#i-clip"/></svg>Copiar a Nota</button>
+              <button type="button" class="btn btn-secondary btn-lg" id="btn-cv-borrar"><svg class="ic"><use href="#i-trash"/></svg>Borrar datos</button>
+            </div>
+            <div class="ref-text" data-fuente="cervical">Apoyo a la decisión: si hay duda clínica, la imagen la decide el médico. Stiell y cols., JAMA 2001 y NEJM 2003 (regla canadiense); Hoffman y cols., NEJM 2000 (NEXUS); Leonard y cols., Lancet Child Adolesc Health 2024 (PECARN); ACR 2024 (trauma espinal agudo); EAST 2015 (collarín).</div>
           </div>
         </div>
       </div>
@@ -2700,7 +2765,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v54 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v55 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2720,7 +2785,7 @@
   <nav class="bottom-nav no-print">
     <div class="bottom-nav-in">
       <button type="button" class="nav-btn active" data-tab="tab-calc"><span class="ico"><svg class="ic"><use href="#i-calc"/></svg></span><span>Inicio</span></button>
-      <button type="button" class="nav-btn" data-tab="tab-urg" data-mod="tab-urg" data-mod-any="calc-compart calc-cadera calc-infx calc-mess calc-ottawa rx-expuesta"><span class="ico"><svg class="ic"><use href="#i-siren"/></svg><span class="nav-dot hidden" id="urg-nav-dot"></span></span><span>Urgencias</span></button>
+      <button type="button" class="nav-btn" data-tab="tab-urg" data-mod="tab-urg" data-mod-any="calc-compart calc-cadera calc-infx calc-mess calc-ottawa calc-cervical rx-expuesta"><span class="ico"><svg class="ic"><use href="#i-siren"/></svg><span class="nav-dot hidden" id="urg-nav-dot"></span></span><span>Urgencias</span></button>
       <button type="button" class="nav-btn" data-tab="tab-rx" data-mod="tab-rx"><span class="ico"><svg class="ic"><use href="#i-pill"/></svg></span><span>Recetas</span></button>
       <button type="button" class="nav-btn" data-tab="tab-notas" data-mod="tab-notas"><span class="ico"><svg class="ic"><use href="#i-file"/></svg></span><span>Notas</span></button>
       <button type="button" class="nav-btn" data-tab="tab-estudios" data-mod="tab-estudios"><span class="ico"><svg class="ic"><use href="#i-scan"/></svg></span><span>Estudios</span></button>
@@ -2733,7 +2798,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v54</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v55</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2855,9 +2920,9 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (69 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (70 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (69)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (70)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -3032,15 +3097,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v54 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v55 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "54",
-      versionLabel: "v54 Intuitiva",
+      version: "55",
+      versionLabel: "v55 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-urg | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -3062,6 +3127,7 @@
         "calc-tad": true,
         "calc-mess": true,
         "calc-ottawa": true,
+        "calc-cervical": true,
         // Protocolos de Recetas
         "rx-profilaxis": true,
         "rx-expuesta": true,
@@ -3246,6 +3312,7 @@
         { id: "calc-tad", group: "Calculadoras", label: "Índice TAD" },
         { id: "calc-mess", group: "Urgencias", label: "Escala MESS" },
         { id: "calc-ottawa", group: "Urgencias", label: "Reglas de Ottawa" },
+        { id: "calc-cervical", group: "Urgencias", label: "Columna cervical" },
         { id: "rx-profilaxis", group: "Protocolos de Recetas", label: "Profilaxis Qx" },
         { id: "rx-expuesta", group: "Protocolos de Recetas", label: "Fx Expuesta" },
         { id: "rx-trombo", group: "Protocolos de Recetas", label: "Tromboprofilaxis" },
@@ -3292,7 +3359,7 @@
 
       function isTabOn(tabId) {
         // v48: Urgencias se oculta si no le queda ningún bloque encendido
-        if (tabId === "tab-urg") return isModuleOn("tab-urg") && (["calc-compart", "calc-cadera", "calc-infx", "calc-mess", "calc-ottawa"].some(isModuleOn) || (isModuleOn("tab-rx") && isModuleOn("rx-expuesta")));
+        if (tabId === "tab-urg") return isModuleOn("tab-urg") && (["calc-compart", "calc-cadera", "calc-infx", "calc-mess", "calc-ottawa", "calc-cervical"].some(isModuleOn) || (isModuleOn("tab-rx") && isModuleOn("rx-expuesta")));
         return tabId === "tab-calc" || isModuleOn(tabId);
       }
 
@@ -7334,6 +7401,7 @@
           { key: "tyo_cadera_v45", label: "fractura de cadera", has: (r) => !!(r && (r.ingreso || (r.pend && r.pend.length) || (r.ac && r.ac.tipo) || r.fx)) },
           { key: "tyo_infx_v47", label: "infección ósea o de herida", has: (r) => !!(r && r.v && Object.keys(r.v).length) },
           { key: "tyo_ottawa_v53", label: "reglas de Ottawa", has: (r) => !!(r && r.v && Object.keys(r.v).length) },
+          { key: "tyo_cervical_v55", label: "columna cervical", has: (r) => !!(r && r.v && Object.keys(r.v).length) },
           { key: "tyo_entrega_v49", label: "pendientes de entrega", has: (r) => !!(r && r.pend) }
         ];
       }
@@ -7367,6 +7435,7 @@
         try { cadRender(); } catch (_) {}
         try { infRender(); } catch (_) {}
         try { otRender(); } catch (_) {}
+        try { cvRender(); } catch (_) {}
         try { urgRender(); } catch (_) {}
       }
 
@@ -7933,7 +8002,7 @@
               if (!byId[it.id] || Number(it.savedAt || 0) > Number(byId[it.id].savedAt || 0)) byId[it.id] = it;
             });
             out[k] = JSON.stringify(Object.assign({}, a, { items: Object.keys(byId).map((id) => byId[id]) }));
-          } else if (k === "tyo_sc_v44" || k === "tyo_cadera_v45" || k === "tyo_infx_v47" || k === "tyo_entrega_v49" || k === "tyo_ottawa_v53") {
+          } else if (k === "tyo_sc_v44" || k === "tyo_cadera_v45" || k === "tyo_infx_v47" || k === "tyo_entrega_v49" || k === "tyo_ottawa_v53" || k === "tyo_cervical_v55") {
             const a = parse(out[k]), b = parse(inc[k]);
             if (!a || !b || !a.byId || !b.byId) return;
             const byId = Object.assign({}, a.byId);
@@ -8653,8 +8722,8 @@
       ======================================================= */
       function urgDefs() {
         return {
-          keys: ["compart", "cadera", "infx", "mess", "ottawa"],
-          notaBtn: { "calc-compart": "btn-sc-note", "calc-cadera": "btn-cx-note", "calc-infx": "btn-ix-note", "calc-mess": "btn-mess-note", "calc-ottawa": "btn-ot-note" },
+          keys: ["compart", "cadera", "infx", "mess", "ottawa", "cervical"],
+          notaBtn: { "calc-compart": "btn-sc-note", "calc-cadera": "btn-cx-note", "calc-infx": "btn-ix-note", "calc-mess": "btn-mess-note", "calc-ottawa": "btn-ot-note", "calc-cervical": "btn-cv-note" },
           tipos: { herida: "herida quirúrgica", fri: "fractura u osteosíntesis", pji: "prótesis articular", kocher: "artritis séptica en niño" },
           tickMs: 30000
         };
@@ -9286,6 +9355,9 @@
             { id: "ottawa", nombre: "Reglas de Ottawa", donde: "Urgencias", next: "2027-11-27",
               fuentes: ["Stiell y cols., JAMA 1993 (tobillo y pie, refinadas y validadas)", "Stiell y cols., Ann Emerg Med 1995 y JAMA 1996 (rodilla)", "Bachmann y cols., BMJ 2003 (tobillo y pie) y Ann Intern Med 2004 (rodilla)", "Niños: Dowling y cols., Acad Emerg Med 2009; Bulloch y cols., Ann Emerg Med 2003"],
               nota: "Sensibilidad cercana a 98 % para descartar fractura. Tobillo y pie, confiables desde los 5 años; rodilla, validada de 2 a 16 años en niños." },
+            { id: "cervical", nombre: "Columna cervical", donde: "Urgencias", rev: "2026-11-28", next: "2027-11-28",
+              fuentes: ["Regla canadiense: Stiell y cols., JAMA 2001; frente a NEXUS: Stiell y cols., NEJM 2003", "NEXUS: Hoffman y cols., NEJM 2000", "Niños: PECARN, Leonard y cols., Lancet Child Adolesc Health 2024; Lee y cols., JAMA Netw Open 2025", "Imagen: ACR Acute Spinal Trauma (revisado en 2024)", "Collarín con alerta disminuida: EAST, Patel y cols., J Trauma 2015"],
+              nota: "Regla canadiense: sensibilidad de 99.4 % frente a 90.7 % de NEXUS en adultos alerta y estables. En 16 años o más la imagen de elección es la tomografía sin contraste (la radiografía detecta cerca de un tercio). PECARN: sensibilidad de 93 a 94 % en niños, validada en hospitales pediátricos." },
             { id: "compart", nombre: "Síndrome compartimental", donde: "Urgencias", next: "2027-11-27",
               fuentes: ["BOAST de síndrome compartimental de las extremidades (BOA, julio 2025)", "AAOS, guía de síndrome compartimental agudo (2025)", "Bae y cols., J Pediatr Orthop 2001 (niños)"],
               nota: "Siguen siendo las versiones vigentes." },
@@ -9352,7 +9424,7 @@
             '<div class="fu-head"><strong>' + escapeHtml(it.nombre) + ' <small>' + escapeHtml(it.donde) + "</small></strong>" + chip[st] + "</div>" +
             '<ul class="fu-src">' + it.fuentes.map((f) => "<li>" + escapeHtml(f) + "</li>").join("") + "</ul>" +
             (it.nota ? '<p class="fu-note">' + escapeHtml(it.nota) + "</p>" : "") +
-            '<p class="fu-meta">Revisado el ' + fuentesFecha(d.revisado, true) + " · próxima revisión: " + fuentesFecha(it.next, false) + "</p></div>";
+            '<p class="fu-meta">Revisado el ' + fuentesFecha(it.rev || d.revisado, true) + " · próxima revisión: " + fuentesFecha(it.next, false) + "</p></div>";
         }).join("");
         if ($("fu-sum")) {
           $("fu-sum").textContent = fuentesResumenTexto(r) + ". Revisión: " + fuentesFecha(d.revisado, true) + ".";
@@ -9677,6 +9749,340 @@
         otRender();
       }
 
+      /* =======================================================
+         v55: COLUMNA CERVICAL (¿imagen tras trauma cerrado?)
+         Fuentes:
+         - Stiell y cols., JAMA 2001 (regla canadiense): alerta (Glasgow 15) y estable,
+           16 años o más; 3 pasos: alto riesgo (65 años o más, mecanismo peligroso,
+           parestesias) → imagen; algún factor de bajo riesgo → explorar rotación activa
+           de 45° a cada lado; no rota → imagen. No se estudió con más de 48 h, revaloración
+           de la misma lesión, embarazo, trauma penetrante, parálisis aguda o enfermedad
+           vertebral conocida.
+         - Stiell y cols., NEJM 2003: regla canadiense más sensible que NEXUS (99.4 % vs 90.7 %).
+         - Hoffman y cols., NEJM 2000 (NEXUS): sin imagen solo si no hay ninguno de 5 criterios.
+         - Leonard y cols., Lancet Child Adolesc Health 2024 (PECARN, 0 a 17 años): alto riesgo
+           → considerar TAC; riesgo no despreciable → considerar radiografía; Lee y cols.,
+           JAMA Netw Open 2025: sensibilidad 93 % (NEXUS 86 %, canadiense 91 % en niños).
+         - ACR Acute Spinal Trauma (revisado 2024): en 16 años o más, TAC sin contraste;
+           la radiografía tiene sensibilidad baja (36 %). RM si hay déficit; angioTAC si se
+           sospecha lesión vascular.
+         - EAST 2015 (Patel y cols.): alerta disminuida con TAC de buena calidad normal,
+           se sugiere retirar el collarín (recomendación condicional).
+         Datos por paciente en tyo_cervical_v55, sin datos que identifiquen.
+      ======================================================= */
+      function cvDefs() {
+        return {
+          key: "tyo_cervical_v55",
+          alto: [
+            ["cv-a-caida", "Caída de 1 m o de 5 escalones o más", "mecanismo peligroso: caída de 1 m o de 5 escalones o más"],
+            ["cv-a-axial", "Carga axial en la cabeza (clavado)", "mecanismo peligroso: carga axial en la cabeza"],
+            ["cv-a-vel", "Choque a más de 100 km/h, volcadura o salió expulsado", "mecanismo peligroso: choque a alta velocidad, volcadura o expulsión"],
+            ["cv-a-rec", "Vehículo recreativo motorizado (cuatrimoto)", "mecanismo peligroso: vehículo recreativo motorizado"],
+            ["cv-a-bici", "Choque en bicicleta", "mecanismo peligroso: choque en bicicleta"],
+            ["cv-a-par", "Parestesias en brazos o piernas", "parestesias en las extremidades"],
+            ["cv-a-65", "65 años o más", "65 años o más"]
+          ],
+          bajo: [
+            ["cv-b-alc", "Choque simple por alcance (no cuenta si lo empujaron al tráfico, lo golpeó un autobús o camión, hubo volcadura o el otro vehículo iba a alta velocidad)", "choque simple por alcance"],
+            ["cv-b-sent", "Está sentado en urgencias", "sentado en urgencias"],
+            ["cv-b-amb", "Ha caminado en algún momento desde el accidente", "ha caminado desde el accidente"],
+            ["cv-b-tard", "El dolor de cuello empezó después, no de inmediato", "dolor de cuello de inicio tardío"],
+            ["cv-b-sinm", "Sin dolor a la palpación en la línea media cervical", "sin dolor a la palpación en la línea media cervical"]
+          ],
+          nexus: [
+            ["cv-n-med", "Dolor a la palpación en la línea media posterior del cuello", "dolor a la palpación en la línea media posterior"],
+            ["cv-n-neu", "Déficit neurológico focal", "déficit neurológico focal"],
+            ["cv-n-ale", "Alteración del estado de alerta", "alteración del estado de alerta"],
+            ["cv-n-int", "Intoxicación", "intoxicación"],
+            ["cv-n-dis", "Lesión dolorosa que distrae", "lesión dolorosa que distrae"]
+          ],
+          pedAlto: [
+            ["cv-p-gcs", "Glasgow de 3 a 8 o no responde", "Glasgow de 3 a 8 o no responde"],
+            ["cv-p-abc", "Vía aérea, respiración o circulación anormales", "vía aérea, respiración o circulación anormales"],
+            ["cv-p-neu", "Déficit neurológico focal (parestesias, adormecimiento o debilidad)", "déficit neurológico focal"]
+          ],
+          pedMedio: [
+            ["cv-p-alt", "Alteración del estado mental: Glasgow de 9 a 14, solo responde a la voz o al dolor, u otros signos", "alteración del estado mental (Glasgow de 9 a 14)"],
+            ["cv-p-dol", "Dolor de cuello", "dolor de cuello"],
+            ["cv-p-med", "Dolor a la palpación en la línea media del cuello", "dolor a la palpación en la línea media del cuello"],
+            ["cv-p-cab", "Lesión importante de la cabeza (amerita hospitalizar o cirugía)", "lesión importante de la cabeza"],
+            ["cv-p-tro", "Lesión importante del tronco (amerita hospitalizar o cirugía)", "lesión importante del tronco"]
+          ],
+          excl: [
+            ["cv-x-pen", "Trauma penetrante (arma blanca o de fuego)", "trauma penetrante", ["ccr", "nexus", "pecarn"]],
+            ["cv-x-gcs", "Glasgow menor de 15", "Glasgow menor de 15", ["ccr"]],
+            ["cv-x-vit", "Signos vitales inestables (TAS menor de 90, FR menor de 10 o mayor de 24)", "signos vitales inestables", ["ccr"]],
+            ["cv-x-par", "Parálisis aguda", "parálisis aguda", ["ccr"]],
+            ["cv-x-ver", "Enfermedad vertebral conocida (espondilitis anquilosante, artritis reumatoide, estenosis del canal, cirugía cervical previa)", "enfermedad vertebral conocida", ["ccr"]],
+            ["cv-x-48", "Lesión de más de 48 horas", "lesión de más de 48 horas", ["ccr"]],
+            ["cv-x-rev", "Regresa a revaloración por la misma lesión", "revaloración de la misma lesión", ["ccr"]],
+            ["cv-x-emb", "Embarazo", "embarazo", ["ccr"]]
+          ],
+          tac: "tomografía de columna cervical sin contraste",
+          rx: "radiografía de columna cervical",
+          tacNino: "tomografía de columna cervical"
+        };
+      }
+
+      // Pura: interpreta la regla que toca. v = valores del panel; edad en años o null.
+      function cvEvaluate(v, edad) {
+        const d = cvDefs();
+        const x = v || {};
+        const on = (k) => !!x[k];
+        const nino = edad !== null ? edad < 16 : x["cv-grupo"] === "nino";
+        const regla = nino ? "pecarn" : (x["cv-regla"] === "nexus" ? "nexus" : "ccr");
+        const out = { edad: edad, nino: nino, regla: regla, noAplica: "", excl: [], alto: [], bajo: [], rot: "", nexus: [], pedAlto: [], pedMedio: [], img: "", pending: "", level: "", head: "", lines: [], tile: "--", badge: "Sin evaluar" };
+        out.excl = d.excl.filter((c) => c[3].includes(regla) && on(c[0]));
+        if (out.excl.length) {
+          const nombre = regla === "ccr" ? "La regla canadiense" : regla === "nexus" ? "NEXUS" : "La regla PECARN";
+          out.noAplica = nombre + " no aplica (" + out.excl.map((c) => c[2]).join("; ") + "): decide la imagen con tu juicio clínico.";
+          out.level = "warn"; out.head = out.noAplica; out.tile = "No aplica"; out.badge = "No aplica";
+          if (!nino && !on("cv-x-pen")) out.lines.push("Si hay sospecha de lesión, la imagen de elección es la tomografía de columna cervical sin contraste.");
+          if (on("cv-x-par") && regla === "ccr") out.lines.push("Con déficit neurológico, la resonancia valora médula y ligamentos.");
+          return out;
+        }
+        if (regla === "ccr") {
+          out.alto = d.alto.filter((c) => c[0] !== "cv-a-65" && on(c[0])).map((c) => c[2]);
+          if ((edad !== null && edad >= 65) || (edad === null && on("cv-a-65"))) out.alto.unshift("65 años o más");
+          if (out.alto.length) out.img = "tac";
+          else if (!on("cv-a-no")) out.pending = "Paso 1: marca los factores de alto riesgo o «Ninguno».";
+          else {
+            out.bajo = d.bajo.filter((c) => on(c[0])).map((c) => c[2]);
+            if (!out.bajo.length) {
+              if (on("cv-b-no")) out.img = "tac";
+              else out.pending = "Paso 2: marca los factores de bajo riesgo o «Ninguno».";
+            } else {
+              out.rot = x["cv-rot"] === "si" || x["cv-rot"] === "no" ? x["cv-rot"] : "";
+              if (out.rot === "no") out.img = "tac";
+              else if (out.rot === "si") out.img = "no";
+              else out.pending = "Paso 3: pide que gire el cuello activamente 45° a la izquierda y a la derecha (aunque le duela).";
+            }
+          }
+          if (out.img === "tac") {
+            out.head = "Indica imagen: tomografía de columna cervical sin contraste";
+            out.lines.push(out.alto.length ? "Factor de alto riesgo: " + out.alto.join("; ") + "." : out.rot === "no" ? "No logra girar el cuello 45° a ambos lados." : "Sin factor de bajo riesgo: no es seguro explorar la movilidad.");
+          } else if (out.img === "no") {
+            out.head = "No indica imagen: puedes retirar el collarín.";
+            out.lines.push("Sin alto riesgo, con " + out.bajo.join("; ") + " y gira el cuello 45° a ambos lados.");
+          }
+        } else if (regla === "nexus") {
+          out.nexus = d.nexus.filter((c) => on(c[0])).map((c) => c[2]);
+          if (out.nexus.length) {
+            out.img = "tac";
+            out.head = "Indica imagen: tomografía de columna cervical sin contraste";
+            out.lines.push("Criterio NEXUS presente: " + out.nexus.join("; ") + ".");
+          } else if (on("cv-n-no")) {
+            out.img = "no";
+            out.head = "No indica imagen: puedes retirar el collarín.";
+            out.lines.push("Ninguno de los 5 criterios NEXUS.");
+          } else out.pending = "Marca los criterios presentes o «Ninguno de los 5».";
+          if (out.img && edad !== null && edad >= 65) out.lines.push("En 65 años o más NEXUS es menos sensible: prefiere la regla canadiense.");
+        } else {
+          out.pedAlto = d.pedAlto.filter((c) => on(c[0])).map((c) => c[2]);
+          out.pedMedio = d.pedMedio.filter((c) => on(c[0])).map((c) => c[2]);
+          if (out.pedAlto.length) {
+            out.img = "tac";
+            out.head = "Alto riesgo: considera tomografía de columna cervical";
+            out.lines.push("Factor de alto riesgo: " + out.pedAlto.join("; ") + ".");
+          } else if (out.pedMedio.length) {
+            out.img = "rx";
+            out.head = "Riesgo no despreciable: considera radiografía de columna cervical";
+            out.lines.push("Factor presente: " + out.pedMedio.join("; ") + ".");
+          } else if (on("cv-p-no")) {
+            out.img = "no";
+            out.head = "Sin factores de riesgo: puedes retirar el collarín sin imagen.";
+          } else out.pending = "Marca los factores presentes o «Ninguno».";
+          if (out.img) out.lines.push("Regla PECARN 2024 (0 a 17 años, hospitales pediátricos): sensibilidad de 93 a 94 %. Si con riesgo bajo aún te preocupa, platica con la familia los riesgos y beneficios de la tomografía.");
+        }
+        if (out.img === "tac") { out.level = "warn"; out.tile = "TAC"; out.badge = nino ? "TAC: considerar" : "TAC indicada"; }
+        else if (out.img === "rx") { out.level = "warn"; out.tile = "Rx"; out.badge = "Rx: considerar"; }
+        else if (out.img === "no") { out.level = "ok"; out.tile = "Sin imagen"; out.badge = "Sin imagen"; }
+        return out;
+      }
+
+      // Pura: texto para la nota (encabezado + renglones «- »). "" si no hay nada evaluado.
+      function cvNoteText(v, edad) {
+        const ev = cvEvaluate(v, edad);
+        const x = v || {};
+        const lines = ["COLUMNA CERVICAL"];
+        if (ev.noAplica) {
+          lines.push("- " + ev.noAplica);
+          return lines.join("\n");
+        }
+        if (!ev.img) return "";
+        if (ev.regla === "ccr") {
+          lines.push("- Regla canadiense (alerta y estable): factores de alto riesgo: " + (ev.alto.length ? ev.alto.join("; ") : "ninguno") + ".");
+          if (!ev.alto.length) lines.push("- Factores de bajo riesgo: " + (ev.bajo.length ? ev.bajo.join("; ") : "ninguno") + ".");
+          if (ev.rot) lines.push("- Rotación activa del cuello: " + (ev.rot === "si" ? "gira 45° a ambos lados" : "no logra girar 45° a ambos lados") + ".");
+        } else if (ev.regla === "nexus") {
+          lines.push("- Criterios NEXUS: " + (ev.nexus.length ? ev.nexus.join("; ") : "ninguno de los 5 (sin dolor en la línea media, sin déficit focal, alerta, sin intoxicación y sin lesión que distraiga)") + ".");
+        } else {
+          lines.push("- Regla PECARN (menor de 16 años): " + (ev.pedAlto.length ? "alto riesgo: " + ev.pedAlto.join("; ") : ev.pedMedio.length ? "riesgo no despreciable: " + ev.pedMedio.join("; ") : "sin factores de riesgo") + ".");
+        }
+        const d = cvDefs();
+        if (ev.img === "tac") lines.push("- Se solicita " + (ev.nino ? d.tacNino : d.tac) + ".");
+        else if (ev.img === "rx") lines.push("- Se solicita " + d.rx + ".");
+        else lines.push("- Sin indicación de imagen de columna cervical; se retira el collarín.");
+        return lines.join("\n");
+      }
+
+      function cvFormValues() {
+        const v = {};
+        document.querySelectorAll("#calc-cervical .cv-in").forEach((el) => {
+          if (el.type === "radio") { if (el.checked) v[el.name] = el.value; }
+          else if (el.type === "checkbox") { if (el.checked) v[el.id] = true; }
+        });
+        return v;
+      }
+
+      function cvLoad() {
+        const raw = pxRawGet(cvDefs().key);
+        const byId = {};
+        let removed = 0;
+        const radios = { "cv-grupo": ["adulto", "nino"], "cv-regla": ["ccr", "nexus"], "cv-rot": ["si", "no"] };
+        if (raw && raw.byId && typeof raw.byId === "object") {
+          let ids = [];
+          try { ids = loadFichaStore().items.map((it) => it.id); } catch (_) { ids = []; }
+          Object.keys(raw.byId).forEach((id) => {
+            const r = raw.byId[id];
+            const v = r && r.v && typeof r.v === "object" ? r.v : null;
+            const clean = {};
+            if (v) Object.keys(v).forEach((k) => { if (/^cv-[a-z0-9-]+$/.test(k) && (radios[k] ? radios[k].includes(v[k]) : v[k] === true)) clean[k] = v[k]; });
+            const upd = r && typeof r.upd === "number" ? r.upd : 0;
+            const keep = Object.keys(clean).length > 0 && (id === "_sin" ? Date.now() - upd < 24 * 3600000 : ids.includes(id));
+            if (keep) byId[id] = { v: clean, upd }; else removed++;
+          });
+        } else if (raw) removed = 1;
+        const store = { v: 1, byId };
+        if (removed) pxRawSet(cvDefs().key, store);
+        return store;
+      }
+
+      function cvActiveId() {
+        try { return loadFichaStore().activeId || "_sin"; } catch (_) { return "_sin"; }
+      }
+
+      function cvCurrent() {
+        const rec = cvLoad().byId[cvActiveId()];
+        return rec ? rec.v : {};
+      }
+
+      function cvPersist() {
+        const store = cvLoad();
+        const id = cvActiveId();
+        const v = cvFormValues();
+        const datos = Object.keys(v).filter((k) => k !== "cv-grupo" && k !== "cv-regla");
+        if (datos.length || v["cv-regla"] === "nexus" || v["cv-grupo"] === "nino") store.byId[id] = { v, upd: Date.now() }; else delete store.byId[id];
+        pxRawSet(cvDefs().key, store);
+      }
+
+      function cvRender() {
+        if (!$("calc-cervical")) return;
+        const v = cvCurrent();
+        document.querySelectorAll("#calc-cervical .cv-in").forEach((el) => {
+          if (el.type === "radio") el.checked = (v[el.name] || (el.name === "cv-grupo" ? "adulto" : el.name === "cv-regla" ? "ccr" : "")) === el.value;
+          else if (el.type === "checkbox") el.checked = !!v[el.id];
+        });
+        if ($("cv-x-acc")) $("cv-x-acc").open = cvDefs().excl.some((c) => v[c[0]]);
+        if ($("cv-pt")) {
+          let quien = "";
+          try { const f = loadFicha(); if (f) quien = fichaSummary(f.data).initials || "paciente activo"; } catch (_) {}
+          $("cv-pt").textContent = quien ? "Datos ligados a la ficha de " + quien + " (vencen con ella)." : "Sin paciente en la lista: se guarda 24 h y pasa a la ficha si la creas.";
+        }
+        cvUpdateLive();
+      }
+
+      function cvUpdateLive() {
+        if (!$("calc-cervical")) return;
+        const d = cvDefs();
+        const v = cvFormValues();
+        const edad = otEdadFicha();
+        const ev = cvEvaluate(v, edad);
+        $("cv-grupo-wrap").classList.toggle("hidden", edad !== null);
+        document.querySelectorAll("#calc-cervical [data-cvgrp]").forEach((b) => b.classList.toggle("hidden", b.dataset.cvgrp !== (ev.nino ? "nino" : "adulto")));
+        document.querySelectorAll("#calc-cervical [data-cvregla]").forEach((b) => b.classList.toggle("hidden", b.dataset.cvregla !== ev.regla));
+        const a65 = $("cv-a-65");
+        if (a65) a65.closest("label").classList.toggle("hidden", edad !== null);
+        const altoOk = !ev.noAplica && ev.regla === "ccr" && !ev.alto.length && !!v["cv-a-no"];
+        $("cv-paso2").classList.toggle("hidden", !altoOk);
+        $("cv-paso3").classList.toggle("hidden", !(altoOk && ev.bajo.length));
+        if ($("cv-edad")) {
+          $("cv-edad").textContent = edad === null ? "Sin edad en la ficha: elige adulto o menor de 16 años." : edad < 16 ? "Menor de 16 años: regla PECARN para niños." : edad >= 65 ? "65 años o más (ficha): ya es factor de alto riesgo en la regla canadiense." : "";
+          $("cv-edad").classList.toggle("hidden", !$("cv-edad").textContent);
+        }
+        document.querySelectorAll("#cv-x-list label").forEach((lb) => {
+          const inp = lb.querySelector("input");
+          const c = d.excl.find((e) => e[0] === inp.id);
+          lb.classList.toggle("hidden", !c || !c[3].includes(ev.regla));
+        });
+        const nx = ev.excl.length;
+        if ($("cv-x-sum")) $("cv-x-sum").textContent = nx ? nx + (nx === 1 ? " marcado" : " marcados") : "Ninguno";
+        const box = $("cv-res");
+        const hay = !!ev.head;
+        box.className = "alert" + (ev.level ? " " + ev.level : "") + (hay ? "" : " hidden");
+        box.innerHTML = hay ? "<strong>" + escapeHtml(ev.head) + "</strong>" + (ev.lines.length ? '<ul class="sc-lines">' + ev.lines.map((l) => "<li>" + escapeHtml(l) + "</li>").join("") + "</ul>" : "") : "";
+        if ($("cv-prompt")) { $("cv-prompt").textContent = ev.pending; $("cv-prompt").classList.toggle("hidden", !ev.pending); }
+        const badge = $("cv-badge");
+        if (badge) { badge.textContent = ev.badge; badge.className = "badge" + (ev.level === "warn" ? " warn" : ev.level === "ok" ? " ok" : ""); }
+        const tile = $("tile-cv-val");
+        if (tile) tile.textContent = ev.tile;
+      }
+
+      function cvBuild() {
+        const d = cvDefs();
+        const pill = (id, label, g) => '<label class="check-pill"><input type="checkbox" class="cv-in" data-cvg="' + g + '" id="' + id + '" /> ' + escapeHtml(label) + "</label>";
+        const put = (cont, list, g, ninguno) => { if ($(cont)) $(cont).innerHTML = list.map((c) => pill(c[0], c[1], g)).join("") + (ninguno ? pill("cv-" + g + "-no", ninguno, g) : ""); };
+        put("cv-alto-list", d.alto, "a", "Ninguno");
+        put("cv-bajo-list", d.bajo, "b", "Ninguno");
+        put("cv-nexus-list", d.nexus, "n", "Ninguno de los 5");
+        put("cv-palto-list", d.pedAlto, "p", "");
+        put("cv-pmedio-list", d.pedMedio, "p", "");
+        if ($("cv-pno-wrap")) $("cv-pno-wrap").innerHTML = pill("cv-p-no", "Ninguno de los 8", "p");
+        if ($("cv-x-list")) $("cv-x-list").innerHTML = d.excl.map((c) => pill(c[0], c[1], "x")).join("");
+      }
+
+      // «Ninguno» excluye a los demás de su grupo y viceversa.
+      function cvExclusive(el) {
+        if (!el || !el.checked || !el.dataset.cvg || el.dataset.cvg === "x") return;
+        const g = el.dataset.cvg;
+        const no = "cv-" + g + "-no";
+        document.querySelectorAll('#calc-cervical .cv-in[data-cvg="' + g + '"]').forEach((o) => {
+          if (o === el) return;
+          if (el.id === no || o.id === no) o.checked = false;
+        });
+      }
+
+      function cvCopyToNote() {
+        const v = cvFormValues();
+        const txt = cvNoteText(v, otEdadFicha());
+        if (!txt) { showToast("Primero completa la regla de columna cervical."); return false; }
+        appendToNota(txt);
+        return true;
+      }
+
+      function initCervicalV55() {
+        const panel = $("calc-cervical");
+        if (!panel) return;
+        cvBuild();
+        panel.addEventListener("change", (e) => {
+          if (e.target && e.target.classList.contains("cv-in")) { cvExclusive(e.target); cvPersist(); cvUpdateLive(); }
+        });
+        $("btn-cv-note").addEventListener("click", cvCopyToNote);
+        $("btn-cv-borrar").addEventListener("click", () => {
+          const store = cvLoad();
+          const id = cvActiveId();
+          if (!store.byId[id]) { showToast("No hay datos que borrar."); return; }
+          if (!confirm("¿Borrar la evaluación de columna cervical de este paciente?")) return;
+          delete store.byId[id];
+          pxRawSet(cvDefs().key, store);
+          cvRender();
+          showToast("Columna cervical borrada.");
+        });
+        const tile = document.querySelector('#urg-subnav [data-calc="cervical"]');
+        if (tile) tile.addEventListener("click", cvRender);
+        document.addEventListener("tyo-patient-change", () => { try { cvRender(); } catch (_) {} });
+        cvRender();
+      }
       function renderProtocol() {
         const proto = $("rx-protocol").value;
         const peso = parseFloat($("rx-peso").value);
@@ -10576,6 +10982,17 @@
           });
           return;
         }
+        // v55: columna cervical → hallazgos a exploración; la imagen o el retiro del collarín, al plan
+        if (head === "COLUMNA CERVICAL") {
+          out.exam.push(head);
+          const etq = body.some((b) => /^- Regla canadiense/.test(b)) ? "regla canadiense" : body.some((b) => /^- Criterios NEXUS/.test(b)) ? "criterios NEXUS" : body.some((b) => /^- Regla PECARN/.test(b)) ? "regla PECARN" : "columna cervical";
+          body.forEach((b) => {
+            if (/^- Se solicita /.test(b)) out.blockPlan.push(b.slice(2).replace(/\.$/, "") + " (" + etq + ").");
+            else if (b === "- Sin indicación de imagen de columna cervical; se retira el collarín.") { out.exam.push("- Sin indicación de imagen de columna cervical."); out.blockPlan.push("Se retira el collarín cervical (" + etq + ")."); }
+            else out.exam.push(b);
+          });
+          return;
+        }
         const keep = [];
         const rest = (b, re) => b.replace(re, "").trim();
         body.forEach((b) => {
@@ -10605,7 +11022,7 @@
         const alarm = [];
         const suggest = [];
         const chips = notaChipRoutes();
-        const BLOCKS = ["VIGILANCIA DE SÍNDROME COMPARTIMENTAL", "FRACTURA DE CADERA DEL ADULTO MAYOR", "INFECCIÓN ÓSEA O DE HERIDA", "REGLAS DE OTTAWA"];
+        const BLOCKS = ["VIGILANCIA DE SÍNDROME COMPARTIMENTAL", "FRACTURA DE CADERA DEL ADULTO MAYOR", "INFECCIÓN ÓSEA O DE HERIDA", "REGLAS DE OTTAWA", "COLUMNA CERVICAL"];
         let mode = "narrative";
 
         for (let i = 0; i < lines.length; i++) {
@@ -13149,7 +13566,7 @@
       function clearAllFichas() {
         localStorage.removeItem(FICHA_STORE_KEY);
         localStorage.removeItem(FICHA_STORAGE_KEY);
-        try { localStorage.removeItem("tyo_sc_v44"); localStorage.removeItem("tyo_cadera_v45"); localStorage.removeItem("tyo_infx_v47"); localStorage.removeItem("tyo_entrega_v49"); localStorage.removeItem("tyo_ottawa_v53"); } catch (_) {}
+        try { localStorage.removeItem("tyo_sc_v44"); localStorage.removeItem("tyo_cadera_v45"); localStorage.removeItem("tyo_infx_v47"); localStorage.removeItem("tyo_entrega_v49"); localStorage.removeItem("tyo_ottawa_v53"); localStorage.removeItem("tyo_cervical_v55"); } catch (_) {}
       }
 
       // Nota en progreso + laboratorios del paciente en pantalla.
@@ -14734,6 +15151,33 @@
         } catch (e) { det69 = "Error: " + e.message; }
         addTest("69. v54: fuentes y dosis de Recetas revisadas", ok69, det69);
 
+        // 70. v55: columna cervical
+        let ok70 = false, det70 = "";
+        try {
+          const E = cvEvaluate;
+          const c1 = E({ "cv-a-caida": true }, 40), c2 = E({}, 70), c3 = E({ "cv-a-no": true }, 40), c4 = E({ "cv-a-no": true, "cv-b-no": true }, 40);
+          const c5 = E({ "cv-a-no": true, "cv-b-sent": true }, 40), c6 = E({ "cv-a-no": true, "cv-b-sent": true, "cv-rot": "si" }, 40), c7 = E({ "cv-a-no": true, "cv-b-sent": true, "cv-rot": "no" }, 40);
+          const c8 = E({ "cv-a-65": true }, null), c9 = E({ "cv-a-65": true, "cv-a-no": true, "cv-b-sinm": true, "cv-rot": "si" }, 40);
+          const ccr70 = c1.img === "tac" && c1.tile === "TAC" && c2.img === "tac" && c2.alto[0] === "65 años o más" && !c3.img && /Paso 2/.test(c3.pending) && c4.img === "tac" && /Paso 3/.test(c5.pending) && c6.img === "no" && c6.tile === "Sin imagen" && c7.img === "tac" && c8.img === "tac" && c9.img === "no";
+          const n1 = E({ "cv-regla": "nexus", "cv-n-int": true }, 40), n2 = E({ "cv-regla": "nexus", "cv-n-no": true }, 40), n3 = E({ "cv-regla": "nexus" }, 40), n4 = E({ "cv-regla": "nexus", "cv-n-no": true }, 70);
+          const nex70 = n1.img === "tac" && n2.img === "no" && !n3.img && !!n3.pending && n4.lines.some((l) => /menos sensible/.test(l));
+          const p1 = E({ "cv-p-neu": true, "cv-p-dol": true }, 8), p2 = E({ "cv-p-dol": true }, 8), p3 = E({ "cv-p-no": true }, 8), p4 = E({ "cv-grupo": "nino", "cv-p-dol": true }, null), p5 = E({ "cv-grupo": "nino", "cv-p-dol": true }, 30);
+          const ped70 = p1.regla === "pecarn" && p1.img === "tac" && p2.img === "rx" && p2.tile === "Rx" && p3.img === "no" && p4.regla === "pecarn" && p4.img === "rx" && p5.regla === "ccr" && !p5.img;
+          const x1 = E({ "cv-x-gcs": true, "cv-a-caida": true }, 40), x2 = E({ "cv-regla": "nexus", "cv-x-gcs": true, "cv-n-no": true }, 40), x3 = E({ "cv-x-pen": true }, 8);
+          const exc70 = /no aplica/.test(x1.noAplica) && x1.tile === "No aplica" && !x1.img && x2.img === "no" && /PECARN no aplica/.test(x3.noAplica);
+          const t1 = cvNoteText({ "cv-a-no": true, "cv-b-sent": true, "cv-b-sinm": true, "cv-rot": "si" }, 40);
+          const t2 = cvNoteText({ "cv-a-caida": true }, 70);
+          const nota70 = t1 === "COLUMNA CERVICAL\n- Regla canadiense (alerta y estable): factores de alto riesgo: ninguno.\n- Factores de bajo riesgo: sentado en urgencias; sin dolor a la palpación en la línea media cervical.\n- Rotación activa del cuello: gira 45° a ambos lados.\n- Sin indicación de imagen de columna cervical; se retira el collarín." && t2 === "COLUMNA CERVICAL\n- Regla canadiense (alerta y estable): factores de alto riesgo: 65 años o más; mecanismo peligroso: caída de 1 m o de 5 escalones o más.\n- Se solicita tomografía de columna cervical sin contraste." && cvNoteText({ "cv-a-no": true }, 40) === "";
+          const c = parseCapturedBlocks("Dolor cervical tras caída.\n" + t2, "Evolución");
+          const rep70 = c.narrative === "Dolor cervical tras caída." && /^COLUMNA CERVICAL\n- Regla canadiense/.test(c.exam) && !/Se solicita/.test(c.exam) && c.blockPlan === "Se solicita tomografía de columna cervical sin contraste (regla canadiense).";
+          const neg = parseCapturedBlocks(t1, "Evolución");
+          const neg70 = /- Sin indicación de imagen de columna cervical\.$/.test(neg.exam) && neg.blockPlan === "Se retira el collarín cervical (regla canadiense).";
+          const reg70 = pxStores().some((s) => s.key === "tyo_cervical_v55") && bkEligibleKey("tyo_cervical_v55") && fuentesDefs().items.some((it) => it.id === "cervical") && !!document.querySelector('.ref-text[data-fuente="cervical"] .ref-rev') && urgDefs().notaBtn["calc-cervical"] === "btn-cv-note" && !!document.querySelector('#urg-subnav [data-calc="cervical"]');
+          ok70 = ccr70 && nex70 && ped70 && exc70 && nota70 && rep70 && neg70 && reg70;
+          det70 = "regla canadiense " + ccr70 + " · NEXUS " + nex70 + " · niños " + ped70 + " · cuándo no aplica " + exc70 + " · nota " + nota70 + " · reparto en la nota " + rep70 + " · sin imagen " + neg70 + " · registro, respaldo, fuentes y Urgencias " + reg70;
+        } catch (e) { det70 = "Error: " + e.message; }
+        addTest("70. v55: columna cervical", ok70, det70);
+
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
         const rows = tests.map((t) => (t.ok ? "✅ " : "❌ ") + "<strong>" + escapeHtml(t.name) + "</strong>: " + escapeHtml(t.detail)).join("<br>");
@@ -14848,6 +15292,7 @@
           { title: "Entrega de guardia (todos tus pacientes)", mod: "tab-urg", cat: "Urgencias", keys: "entrega de guardia turno pendientes pacientes whatsapp relevo pase de visita", run: () => { switchTab("tab-urg"); openEntrega(); } },
           { title: "Fractura de cadera del adulto mayor (reloj, Nottingham, 4AT)", mod: "calc-cadera", cat: "Urgencias", keys: "fractura cadera adulto mayor femur cuello intertrocanterica subtrocanterica nottingham 4at delirium anticoagulante apixaban warfarina acenocumarol", run: () => { switchTab("tab-urg"); switchCalcPanel("cadera"); cadRender(); } },
           { title: "Infección ósea y de herida (NHSN, FRI, ICM 2018, Kocher)", mod: "calc-infx", cat: "Urgencias", keys: "infeccion sitio quirurgico herida osteomielitis fractura osteosintesis protesis periprotesica artritis septica kocher caird icm nhsn vancomicina cefepima piperacilina sepsis", run: () => { switchTab("tab-urg"); switchCalcPanel("infx"); infRender(); } },
+          { title: "Columna cervical (regla canadiense, NEXUS y niños)", mod: "calc-cervical", cat: "Urgencias", keys: "columna cervical cuello collarin nexus canadiense pecarn tomografia tac radiografia latigazo", run: () => { switchTab("tab-urg"); switchCalcPanel("cervical"); cvRender(); } },
           { title: "Reglas de Ottawa (tobillo, pie y rodilla)", mod: "calc-ottawa", cat: "Urgencias", keys: "ottawa tobillo pie rodilla radiografia rx esguince maleolo navicular metatarsiano rotula perone", run: () => { switchTab("tab-urg"); switchCalcPanel("ottawa"); otRender(); } },
           { title: "Escala MESS (Extremidad Lesionada)", mod: "calc-mess", cat: "Urgencias", keys: "mess isquemia amputacion extremidad trauma", run: () => { switchTab("tab-urg"); switchCalcPanel("mess"); } },
           { title: "Profilaxis Antibiótica Quirúrgica", mod: "tab-rx rx-profilaxis", cat: "Receta", keys: "profilaxis cefazolina cefalotina clindamicina vancomicina cerrada", run: () => { $("rx-protocol").value = "profilaxis"; renderProtocol(); switchTab("tab-rx"); } },
@@ -15470,6 +15915,7 @@
         ["Fractura de cadera v45", initCaderaV45],
         ["Infección ósea y de herida v47", initInfeccionV47],
         ["Reglas de Ottawa v53", initOttawaV53],
+        ["Columna cervical v55", initCervicalV55],
         ["Registros por paciente v45", initPxStoresV45],
         ["Respaldo cifrado v46", initRespaldoV46],
         ["Urgencias v48", initUrgenciasV48],
