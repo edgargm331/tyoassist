@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v49 · Tema "Base44" (oscuro + claro)
+       TyO Assist v50 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -1134,6 +1134,8 @@
     .ent-items li.lvl-warn .urg-dot { background: var(--warn-ink); }
     .ent-foot .btn:first-child { flex: 1.7; }
     #ent-pdf-ready { margin-top: 12px; }
+    /* ---------- v50: interconsulta y referencia ---------- */
+    @media (max-width: 600px) { #nf-Interconsulta .grid-2, #nf-Referencia .grid-2 { grid-template-columns: minmax(0, 1fr); } }
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
     @media print {
@@ -2227,6 +2229,8 @@
           <button type="button" class="pill" data-ntipo="Preoperatoria">Preop</button>
           <button type="button" class="pill" data-ntipo="Postquirúrgica">Postqx</button>
           <button type="button" class="pill" data-ntipo="Alta">Alta</button>
+          <button type="button" class="pill" data-ntipo="Interconsulta">Interconsulta</button>
+          <button type="button" class="pill" data-ntipo="Referencia">Referencia</button>
         </div>
         <select id="nota-tipo" class="hidden" aria-hidden="true">
           <option value="Ingreso">1. Nota de Ingreso (Num. 8.1 / 7.1)</option>
@@ -2235,6 +2239,8 @@
           <option value="Postquirúrgica">4. Nota Postquirúrgica (Num. 8.8)</option>
           <option value="Alta">5. Nota de Egreso / Alta (Num. 8.9)</option>
           <option value="Historia clínica">6. Historia clínica (Num. 6.1)</option>
+          <option value="Interconsulta">7. Nota de Interconsulta (Num. 6.3 / 7.1)</option>
+          <option value="Referencia">8. Nota de Referencia / Traslado (Num. 6.4)</option>
         </select>
         <p class="format-line" id="nota-format-line">Formato seleccionado: <strong>Ingreso</strong> · Num. 8.1 / 7.1</p>
       </div>
@@ -2433,6 +2439,37 @@
                 <label class="field">Causas de muerte y necropsia (8.9.11)<input type="text" id="alta-def" placeholder="Causas según certificado de defunción" /></label>
               </div>
             </div>
+
+            <!-- 6. INTERCONSULTA (v50 · NOM-004 6.3 y 7.1) -->
+            <div id="nf-Interconsulta" class="hidden">
+              <div class="grid-2">
+                <label class="field">Servicio que solicita<input type="text" id="ic-servicio" list="ic-servicios" placeholder="Medicina Interna" autocomplete="off" /></label>
+                <label class="field">Motivo de la interconsulta (7.1.3)<input type="text" id="ic-motivo" placeholder="Dolor e impotencia funcional de cadera derecha" /></label>
+                <label class="field">Estado mental (7.1.4)<input type="text" id="ic-mental" placeholder="Alerta, orientado, Glasgow 15/15" /></label>
+                <label class="field">Criterios diagnósticos (6.3.1)<input type="text" id="ic-criterios" placeholder="Acortamiento y rotación externa; radiografía con trazo transtrocantérico" /></label>
+                <label class="field">Diagnóstico (7.1.6)<input type="text" id="ic-dx" placeholder="Fractura transtrocantérica de cadera derecha" /></label>
+                <label class="field">Plan de estudios (6.3.2)<input type="text" id="ic-estudios" placeholder="Radiografía AP de pelvis y axial de cadera" /></label>
+                <label class="field">Sugerencias de tratamiento (6.3.3)<input type="text" id="ic-sug" placeholder="Tracción cutánea, analgesia; valorar manejo quirúrgico" /></label>
+                <label class="field">Pronóstico (7.1.7)<input type="text" id="ic-pron" placeholder="Reservado a evolución" /></label>
+              </div>
+              <p class="cfg-help">La nota de interconsulta la elabora el médico consultado (NOM-004, 6.3).</p>
+              <datalist id="ic-servicios"><option value="Urgencias"></option><option value="Medicina Interna"></option><option value="Pediatría"></option><option value="Cirugía General"></option><option value="Ginecología y Obstetricia"></option><option value="Terapia Intensiva"></option><option value="Neurocirugía"></option><option value="Geriatría"></option></datalist>
+            </div>
+
+            <!-- 7. REFERENCIA / TRASLADO (v50 · NOM-004 6.4) -->
+            <div id="nf-Referencia" class="hidden">
+              <div class="grid-2">
+                <label class="field">Establecimiento que envía (6.4.1)<input type="text" id="ref-envia" placeholder="Nombre del hospital que envía" autocomplete="off" /></label>
+                <label class="field">Establecimiento receptor (6.4.2)<input type="text" id="ref-recibe" placeholder="Hospital General · Traumatología (acepta: Dr. …)" autocomplete="off" /></label>
+                <label class="field">Motivo de envío (6.4.3.1)<input type="text" id="ref-motivo" list="ref-motivos" placeholder="Requiere manejo especializado no disponible" autocomplete="off" /></label>
+                <label class="field">Impresión diagnóstica (6.4.3.2)<input type="text" id="ref-dx" placeholder="Fractura de pelvis inestable" /></label>
+                <label class="field">Tabaco, alcohol y otras sustancias (6.4.3.2)<input type="text" id="ref-tox" placeholder="Tabaco, alcohol y otras sustancias negados" /></label>
+                <label class="field">Terapéutica empleada (6.4.3.3)<input type="text" id="ref-tera" placeholder="Analgesia intravenosa, férula, profilaxis antitetánica" /></label>
+              </div>
+              <label class="field">Condiciones al envío<input type="text" id="ref-estado" placeholder="Estable, en ambulancia, acompañado por médico y familiar" /></label>
+              <p class="cfg-help">Los establecimientos se arman en el teléfono y no se envían a la IA. Si dejas vacío el que envía, se usa la unidad de tu encabezado.</p>
+              <datalist id="ref-motivos"><option value="Requiere manejo quirúrgico especializado no disponible en esta unidad"></option><option value="Requiere atención de tercer nivel"></option><option value="Falta de material de osteosíntesis o insumos"></option><option value="Requiere valoración por una especialidad no disponible"></option><option value="Solicitud del paciente o de su familiar"></option><option value="Por derechohabiencia (IMSS, ISSSTE u otra institución)"></option></datalist>
+            </div>
           </div>
         </details>
 
@@ -2600,7 +2637,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v49 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v50 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2633,7 +2670,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v49</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v50</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2745,9 +2782,9 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (64 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (65 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (64)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (65)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -2807,7 +2844,7 @@
         <h4>Datos clínicos</h4>
         <label class="field">Diagnóstico
           <textarea id="ficha-dx" rows="2" maxlength="120" placeholder="Ej. fractura transtrocantérica de cadera derecha"></textarea>
-          <small class="cfg-help">Llena el diagnóstico de las notas, la historia clínica y la receta (si están vacíos) y la entrega de guardia.</small>
+          <small class="cfg-help">Llena el diagnóstico de las notas (también interconsulta y referencia), la historia clínica y la receta (si están vacíos) y la entrega de guardia.</small>
         </label>
         <div class="grid-2">
           <label class="field">Peso (kg)
@@ -2922,15 +2959,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v49 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v50 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "49",
-      versionLabel: "v49 Intuitiva",
+      version: "50",
+      versionLabel: "v50 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-urg | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -5275,6 +5312,7 @@
       var HC_TIPO = "Historia clínica";
 
       function notaTipoTitulo(tipo) {
+        if (tipo === "Referencia") return "Nota de referencia/traslado";
         return tipo === HC_TIPO ? "Historia clínica" : "Nota de " + tipo;
       }
 
@@ -6128,7 +6166,7 @@
       function notaPdfFileName(tipo, ficha, date) {
         const d = date || new Date();
         const ymd = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
-        const pref = ({ "Historia clínica": "Historia_clinica", "Ingreso": "Nota_ingreso", "Evolución": "Nota_evolucion", "Preoperatoria": "Nota_preoperatoria", "Postquirúrgica": "Nota_postoperatoria", "Alta": "Nota_egreso" })[tipo] || "Nota";
+        const pref = ({ "Historia clínica": "Historia_clinica", "Ingreso": "Nota_ingreso", "Evolución": "Nota_evolucion", "Preoperatoria": "Nota_preoperatoria", "Postquirúrgica": "Nota_postoperatoria", "Alta": "Nota_egreso", "Interconsulta": "Nota_interconsulta", "Referencia": "Nota_referencia" })[tipo] || "Nota";
         const ini = ficha && ficha.nombre ? fichaInitials(ficha.nombre) : "";
         return pref + "_" + (ini || "paciente") + "_" + ymd + ".pdf";
       }
@@ -6284,7 +6322,7 @@
         };
         let ced = M.cedula ? "Cédula profesional: " + M.cedula : "Cédula profesional: ________";
         if (M.especialidad) ced += " · " + M.especialidad + (M.cedulaEsp ? " (cédula " + M.cedulaEsp + ")" : "");
-        const rol = d.parsed.responsableCx || d.tipo === "Postquirúrgica" ? "Responsable de la cirugía (NOM-004 8.8.17)" : "Nombre completo y firma de quien elabora (NOM-004 5.10)";
+        const rol = d.parsed.responsableCx || d.tipo === "Postquirúrgica" ? "Responsable de la cirugía (NOM-004 8.8.17)" : d.tipo === "Interconsulta" ? "Médico consultado: nombre completo y firma (NOM-004 6.3 y 5.10)" : "Nombre completo y firma de quien elabora (NOM-004 5.10)";
         if (twoCols) {
           col(L + W * 0.27, M.nombre, ced, rol);
           col(L + W * 0.75, d.parsed.adscrito, "Médico adscrito", "Visto bueno");
@@ -9781,6 +9819,41 @@
             { code: "8.9.10", title: "PRONÓSTICO" },
             { code: "8.9.11", title: "DEFUNCIÓN: CAUSAS DE MUERTE (CERTIFICADO) Y NECROPSIA HOSPITALARIA" }
           ]
+        },
+        // v50: NOM-004-SSA3-2012 6.3 (la elabora el médico consultado; incluye lo del 7.1)
+        "Interconsulta": {
+          titulo: "NOTA DE INTERCONSULTA",
+          numeral: "Num. 6.3 y 7.1",
+          panelId: "nf-Interconsulta",
+          showVitals: true,
+          inputLabel: "Dictado libre / Interrogatorio, exploración dirigida TyO y respuesta al servicio que solicita",
+          sections: [
+            { code: "7.1.3", title: "SERVICIO QUE SOLICITA Y MOTIVO DE LA INTERCONSULTA" },
+            { code: "7.1.2", title: "SIGNOS VITALES" },
+            { code: "7.1.4", title: "RESUMEN DEL INTERROGATORIO, EXPLORACIÓN FÍSICA Y ESTADO MENTAL" },
+            { code: "7.1.5", title: "RESULTADOS RELEVANTES DE ESTUDIOS AUXILIARES DE DIAGNÓSTICO Y TRATAMIENTO" },
+            { code: "6.3.1", title: "CRITERIOS DIAGNÓSTICOS" },
+            { code: "7.1.6", title: "DIAGNÓSTICOS O PROBLEMAS CLÍNICOS" },
+            { code: "6.3.2", title: "PLAN DE ESTUDIOS" },
+            { code: "6.3.3", title: "SUGERENCIAS DIAGNÓSTICAS Y DE TRATAMIENTO" },
+            { code: "7.1.7", title: "PRONÓSTICO" }
+          ]
+        },
+        // v50: NOM-004-SSA3-2012 6.4
+        "Referencia": {
+          titulo: "NOTA DE REFERENCIA / TRASLADO",
+          numeral: "Num. 6.4",
+          panelId: "nf-Referencia",
+          showVitals: true,
+          inputLabel: "Dictado libre / Resumen clínico: padecimiento, exploración, evolución y estado al envío",
+          sections: [
+            { code: "6.4.1", title: "ESTABLECIMIENTO QUE ENVÍA" },
+            { code: "6.4.2", title: "ESTABLECIMIENTO RECEPTOR" },
+            { code: "6.4.3", title: "RESUMEN CLÍNICO" },
+            { code: "6.4.3.1", title: "MOTIVO DE ENVÍO" },
+            { code: "6.4.3.2", title: "IMPRESIÓN DIAGNÓSTICA" },
+            { code: "6.4.3.3", title: "TERAPÉUTICA EMPLEADA" }
+          ]
         }
       };
 
@@ -9814,6 +9887,18 @@
           { label: "+ Control Arco en C", text: "Control fluoroscópico (arco en C) en proyecciones AP y lateral que confirma reducción anatómica y adecuada colocación de implantes." },
           { label: "+ Cierre por planos", text: "Verificación de hemostasia, lavado con solución fisiológica estéril, cierre por planos y colocación de apósito estéril." },
           { label: "+ NVD postqx íntegro", text: "Al término del procedimiento se verifica perfusión distal adecuada, pulsos presentes y llenado capilar menor a 2 segundos." }
+        ],
+        Interconsulta: [
+          { label: "+ Valorado por TyO", text: "Paciente valorado por el servicio de Traumatología y Ortopedia a solicitud del servicio tratante." },
+          { label: "+ Sin manejo quirúrgico", text: "Por el momento sin indicación de manejo quirúrgico; se sugiere manejo conservador." },
+          { label: "+ Seguimiento por TyO", text: "El servicio de Traumatología y Ortopedia continuará en seguimiento; favor de reinterconsultar ante cualquier cambio clínico." },
+          { label: "+ Alta por TyO", text: "Se da de alta por parte del servicio de Traumatología y Ortopedia, con cita a consulta externa." }
+        ],
+        Referencia: [
+          { label: "+ Estable para traslado", text: "Paciente hemodinámicamente estable para su traslado." },
+          { label: "+ Inmovilizado", text: "Se envía con inmovilización provisional de la extremidad y neurovascular distal íntegro al momento del envío." },
+          { label: "+ Acepta receptor", text: "Se comenta el caso con el servicio receptor, que acepta al paciente." },
+          { label: "+ Ambulancia", text: "Traslado en ambulancia, acompañado por personal de salud." }
         ],
         Alta: [
           { label: "+ Datos de alarma TyO", text: "Datos de alarma para acudir a Urgencias de inmediato: fiebre mayor o igual a 38 °C, secreción purulenta o apertura de herida, dolor desproporcionado que no cede con analgésicos, dedos fríos/pálidos/morados o pérdida de sensibilidad/movilidad." },
@@ -9859,7 +9944,7 @@
         const schema = NOM004_SCHEMAS[tipo];
         if (!schema) return;
 
-        ["nf-Ingreso", "nf-Evolucion", "nf-Preoperatoria", "nf-Postquirurgica", "nf-Alta"].forEach((id) => {
+        ["nf-Ingreso", "nf-Evolucion", "nf-Preoperatoria", "nf-Postquirurgica", "nf-Alta", "nf-Interconsulta", "nf-Referencia"].forEach((id) => {
           $(id).classList.toggle("hidden", id !== schema.panelId);
         });
         // v38: la historia clínica tiene su propia guía por apartados
@@ -9873,6 +9958,7 @@
 
         if (tipo === "Preoperatoria" && !$("pre-fecha").value) $("pre-fecha").value = todayISO();
         if (tipo === "Alta" && !$("alta-fegr").value) $("alta-fegr").value = todayISO();
+        if (tipo === "Referencia" && $("ref-envia")) { const un = $("nota-unidad").value.trim(); $("ref-envia").placeholder = un ? un + " (de tu encabezado)" : "Nombre del hospital que envía"; }
 
         lastAuditMeta = { mode: "none", suspiciousNums: [], expandedTerms: [], locksApplied: [], piiFindings: [] };
         if ($("nota-hero-title")) $("nota-hero-title").textContent = notaTipoTitulo(tipo);
@@ -9907,6 +9993,8 @@
         "post-dxpre", "post-cxplan", "post-cxreal", "post-dxpost", "post-conteo", "post-incid",
         "post-sangrado", "post-aux", "post-equipo", "post-estado", "post-pato", "post-pron", "post-otros",
         "alta-fing", "alta-fegr", "alta-motivo", "alta-dx", "alta-pend", "alta-riesgos", "alta-vigil", "alta-pron", "alta-def",
+        "ic-servicio", "ic-motivo", "ic-mental", "ic-criterios", "ic-dx", "ic-estudios", "ic-sug", "ic-pron",
+        "ref-envia", "ref-recibe", "ref-motivo", "ref-dx", "ref-tox", "ref-tera", "ref-estado",
         "hc-informante", "hc-mano", "hc-ocupacion", "hc-escolaridad", "hc-civil", "hc-origen", "hc-etnia", "hc-ahf", "hc-tabaco", "hc-cig", "hc-cig-anios", "hc-alcohol", "hc-alcohol-det", "hc-sustancias", "hc-sustancias-det", "hc-tetanos", "hc-apnp", "hc-cronicos", "hc-quirurgicos", "hc-traumaticos", "hc-transfusionales", "hc-hosp", "hc-meds", "hc-menarca", "hc-fum", "hc-gpca", "hc-mpf", "hc-embarazo", "hc-trat-previos", "hc-ipas", "hc-habitus", "hc-cabeza", "hc-cuello", "hc-torax", "hc-abdomen", "hc-columna", "hc-miembros", "hc-genitales", "hc-estudios", "hc-dx", "hc-pron", "hc-trat", "hc-prefill-id",
         "nota-input", "nota-output"
       ];
@@ -10047,7 +10135,7 @@
         const adscrito = $("nota-adscrito").value.trim();
         const lines = [
           "------------------------------------------------------------",
-          (tipo === "Postquirúrgica" ? "[8.8.17] RESPONSABLE DE LA CIRUGÍA / QUIEN ELABORA [5.10]:" : "NOMBRE COMPLETO, CÉDULA Y FIRMA DE QUIEN ELABORA [5.10]:"),
+          (tipo === "Postquirúrgica" ? "[8.8.17] RESPONSABLE DE LA CIRUGÍA / QUIEN ELABORA [5.10]:" : tipo === "Interconsulta" ? "NOMBRE COMPLETO, CÉDULA Y FIRMA DEL MÉDICO CONSULTADO [6.3 · 5.10]:" : "NOMBRE COMPLETO, CÉDULA Y FIRMA DE QUIEN ELABORA [5.10]:"),
           "Médico: " + medico + " | Cédula/Matrícula: " + cedula,
           "Firma autógrafa / digital: _______________________________"
         ];
@@ -10140,6 +10228,40 @@
             renderSection("8.8.14", "PRONÓSTICO", exp($("post-pron").value)),
             renderSection("8.8.15", "ENVÍO DE PIEZAS O BIOPSIAS QUIRÚRGICAS A EXAMEN MACROSCÓPICO E HISTOPATOLÓGICO", $("post-pato").value),
             renderSection("8.8.16", "OTROS HALLAZGOS DE IMPORTANCIA PARA EL PACIENTE", exp($("post-otros").value))
+          ];
+        } else if (tipo === "Interconsulta") {
+          const servicio = exp($("ic-servicio").value.trim());
+          const motivo = exp($("ic-motivo").value.trim());
+          const mental = exp($("ic-mental").value.trim());
+          const sug = exp($("ic-sug").value.trim());
+          blocks = [
+            renderSection("7.1.3", "SERVICIO QUE SOLICITA Y MOTIVO DE LA INTERCONSULTA", [servicio ? "Servicio que solicita: " + servicio : "", motivo ? "Motivo: " + motivo : ""].filter(Boolean).join("\n")),
+            renderSection("7.1.2", "SIGNOS VITALES", vitals),
+            renderSection("7.1.4", "RESUMEN DEL INTERROGATORIO, EXPLORACIÓN FÍSICA Y ESTADO MENTAL", [narrativeExp, mental ? "Estado mental: " + mental : ""].filter(Boolean).join("\n")),
+            renderSection("7.1.5", "RESULTADOS RELEVANTES DE ESTUDIOS AUXILIARES DE DIAGNÓSTICO Y TRATAMIENTO", auxCombined),
+            renderSection("6.3.1", "CRITERIOS DIAGNÓSTICOS", exp($("ic-criterios").value)),
+            renderSection("7.1.6", "DIAGNÓSTICOS O PROBLEMAS CLÍNICOS", exp($("ic-dx").value)),
+            renderSection("6.3.2", "PLAN DE ESTUDIOS", exp($("ic-estudios").value)),
+            renderSection("6.3.3", "SUGERENCIAS DIAGNÓSTICAS Y DE TRATAMIENTO", [sug, parsed.plan].filter(Boolean).join("\n")),
+            renderSection("7.1.7", "PRONÓSTICO", exp($("ic-pron").value))
+          ];
+        } else if (tipo === "Referencia") {
+          const envia = $("ref-envia").value.trim() || $("nota-unidad").value.trim();
+          const estado = exp($("ref-estado").value.trim());
+          const resumen = [
+            narrativeExp,
+            vitals !== "[NO REFERIDO]" ? "Signos vitales al envío: " + vitals : "",
+            auxCombined ? "Estudios: " + auxCombined : "",
+            estado ? "Condiciones al envío: " + estado : ""
+          ].filter(Boolean).join("\n");
+          const impresion = valOrNR(exp($("ref-dx").value.trim())) + "\nAbuso y dependencia del tabaco, del alcohol y de otras sustancias psicoactivas: " + valOrNR(exp($("ref-tox").value.trim()));
+          blocks = [
+            renderSection("6.4.1", "ESTABLECIMIENTO QUE ENVÍA", envia),
+            renderSection("6.4.2", "ESTABLECIMIENTO RECEPTOR", $("ref-recibe").value),
+            renderSection("6.4.3", "RESUMEN CLÍNICO", resumen),
+            renderSection("6.4.3.1", "MOTIVO DE ENVÍO", exp($("ref-motivo").value)),
+            renderSection("6.4.3.2", "IMPRESIÓN DIAGNÓSTICA", impresion),
+            renderSection("6.4.3.3", "TERAPÉUTICA EMPLEADA", [exp($("ref-tera").value.trim()), parsed.plan].filter(Boolean).join("\n"))
           ];
         } else if (tipo === "Alta") {
           const fing = valOrNR($("alta-fing").value);
@@ -10963,6 +11085,16 @@
             ["Motivo egreso", "alta-motivo"], ["Diagnósticos finales", "alta-dx"],
             ["Problemas pendientes", "alta-pend"], ["Factores de riesgo/toxicomanías", "alta-riesgos"],
             ["Vigilancia ambulatoria", "alta-vigil"], ["Pronóstico", "alta-pron"], ["Defunción", "alta-def"]
+          ],
+          "Interconsulta": [
+            ["Servicio que solicita", "ic-servicio"], ["Motivo de la interconsulta", "ic-motivo"], ["Estado mental", "ic-mental"],
+            ["Criterios diagnósticos", "ic-criterios"], ["Diagnóstico", "ic-dx"], ["Plan de estudios", "ic-estudios"],
+            ["Sugerencias de tratamiento", "ic-sug"], ["Pronóstico", "ic-pron"]
+          ],
+          // v50: los establecimientos (6.4.1 y 6.4.2) no se envían; se arman en el teléfono
+          "Referencia": [
+            ["Motivo de envío", "ref-motivo"], ["Impresión diagnóstica", "ref-dx"],
+            ["Tabaco, alcohol y otras sustancias", "ref-tox"], ["Terapéutica empleada", "ref-tera"], ["Condiciones al envío", "ref-estado"]
           ]
         };
 
@@ -11065,6 +11197,14 @@
               parsed.secciones[secKey("8.9.11")] = "No aplica (egreso por " + motivo.toLowerCase() + ").";
               localOverrideCodes.add("8.9.11");
             }
+          }
+
+          if (tipo === "Referencia") {
+            parsed.secciones[secKey("6.4.1")] = $("ref-envia").value.trim() || $("nota-unidad").value.trim() || "[NO REFERIDO]";
+            parsed.secciones[secKey("6.4.2")] = $("ref-recibe").value.trim() || "[NO REFERIDO]";
+            localOverrideCodes.add("6.4.1");
+            localOverrideCodes.add("6.4.2");
+            locksApplied.push("Establecimientos [6.4.1] y [6.4.2] armados en el teléfono, sin enviarse a la IA");
           }
 
           const aiOnlyBody = sectionsForAI
@@ -12622,7 +12762,7 @@
         return parts.join(", ") || "Sí (sin especificar)";
       }
 
-      const FICHA_TARGET_IDS = ["ren-edad", "ren-peso", "ren-cr", "ren-sexo", "lab-cr", "cap-age", "mess-age", "rx-edad", "rx-peso", "rx-alergia", "rx-gastritis", "rx-hepato", "rx-obesidad", "nota-folio", "nota-edadsexo", "ing-dx", "evo-dx", "pre-dx", "post-dxpre", "alta-dx", "hc-dx"];
+      const FICHA_TARGET_IDS = ["ren-edad", "ren-peso", "ren-cr", "ren-sexo", "lab-cr", "cap-age", "mess-age", "rx-edad", "rx-peso", "rx-alergia", "rx-gastritis", "rx-hepato", "rx-obesidad", "nota-folio", "nota-edadsexo", "ing-dx", "evo-dx", "pre-dx", "post-dxpre", "alta-dx", "hc-dx", "ic-dx", "ref-dx"];
 
       // Plan puro (sin tocar la pantalla): qué valor va en cada campo.
       // cur = valores actuales {id: texto | booleano}; capItems = {valor: marcado}.
@@ -12667,7 +12807,7 @@
         const es = fichaEdadSexoText(f);
         if (es) putVal("nota-edadsexo", es);
         // v49: diagnóstico de la ficha en las notas y la historia clínica (solo si están vacíos)
-        if (f.dx) ["ing-dx", "evo-dx", "pre-dx", "post-dxpre", "alta-dx", "hc-dx"].forEach((id) => putVal(id, f.dx));
+        if (f.dx) ["ing-dx", "evo-dx", "pre-dx", "post-dxpre", "alta-dx", "hc-dx", "ic-dx", "ref-dx"].forEach((id) => putVal(id, f.dx));
         return { set, caps, adult, pediatric, age, imc, giReasons };
       }
 
@@ -12759,7 +12899,7 @@
         const { cur, capItems } = readFichaTargets();
         const plan = planFichaApply(f, cur, overwrite, capItems);
         const touched = new Set();
-        const section = (id) => id.startsWith("ren-") ? "Función renal" : id.startsWith("cap-") ? "Caprini" : id.startsWith("mess-") ? "MESS" : id.startsWith("rx-") ? "Recetas" : id.startsWith("nota-") || /^(ing|evo|pre|post|alta|hc)-/.test(id) ? "Nota" : "Laboratorio";
+        const section = (id) => id.startsWith("ren-") ? "Función renal" : id.startsWith("cap-") ? "Caprini" : id.startsWith("mess-") ? "MESS" : id.startsWith("rx-") ? "Recetas" : id.startsWith("nota-") || /^(ing|evo|pre|post|alta|hc|ic|ref)-/.test(id) ? "Nota" : "Laboratorio";
         Object.keys(plan.set).forEach((id) => {
           const el = $(id);
           if (!el) return;
@@ -12780,7 +12920,7 @@
           if ((overwrite || !$("rx-tfg").value) && $("rx-tfg").value !== tfg) { $("rx-tfg").value = tfg; touched.add("Recetas"); }
         }
         try { renderProtocol(); } catch (_) {}
-        if (plan.set["nota-folio"] !== undefined || plan.set["nota-edadsexo"] !== undefined || Object.keys(plan.set).some((id) => /^(ing|evo|pre|post|alta)-dx/.test(id))) {
+        if (plan.set["nota-folio"] !== undefined || plan.set["nota-edadsexo"] !== undefined || Object.keys(plan.set).some((id) => /^(ing|evo|pre|post|alta|ic|ref)-dx/.test(id))) {
           try { scheduleNotaDraftSave(); } catch (_) {}
           try { updateNotaPacienteSummary(); } catch (_) {}
         }
@@ -13815,6 +13955,52 @@
         } catch (e) { det64 = "Error: " + e.message; }
         addTest("64. v49: entrega de guardia", ok64, det64);
 
+        // 65. v50: notas de interconsulta (6.3 y 7.1) y de referencia o traslado (6.4)
+        let ok65 = false, det65 = "";
+        try {
+          const codes = (tp) => ((NOM004_SCHEMAS[tp] && NOM004_SCHEMAS[tp].sections) || []).map((s) => s.code).join(",");
+          const esq65 = codes("Interconsulta") === "7.1.3,7.1.2,7.1.4,7.1.5,6.3.1,7.1.6,6.3.2,6.3.3,7.1.7" && codes("Referencia") === "6.4.1,6.4.2,6.4.3,6.4.3.1,6.4.3.2,6.4.3.3" &&
+            NOM004_SCHEMAS.Interconsulta.numeral === "Num. 6.3 y 7.1" && NOM004_SCHEMAS.Referencia.numeral === "Num. 6.4";
+          const ui65 = !!document.querySelector('#nota-type-pills [data-ntipo="Interconsulta"]') && !!document.querySelector('#nota-type-pills [data-ntipo="Referencia"]') &&
+            !!$("nf-Interconsulta") && !!$("nf-Referencia") && notaTipoTitulo("Referencia") === "Nota de referencia/traslado" && notaTipoTitulo("Interconsulta") === "Nota de Interconsulta" &&
+            /^Nota_interconsulta_LM_\d{4}-\d\d-\d\d\.pdf$/.test(notaPdfFileName("Interconsulta", { nombre: "Luis Mora" })) && /^Nota_referencia_paciente_/.test(notaPdfFileName("Referencia", null)) &&
+            NOTA_DRAFT_FIELD_IDS.includes("ic-sug") && NOTA_DRAFT_FIELD_IDS.includes("ref-envia") && (EXAM_CHIPS_BY_TYPE.Interconsulta || []).length === 4 && (EXAM_CHIPS_BY_TYPE.Referencia || []).length === 4;
+          const fdx = normalizeFicha({ edad: 40, dx: "Fractura de pelvis" });
+          const plan65 = planFichaApply(fdx, {}, false, {});
+          const dx65 = plan65.set["ic-dx"] === "Fractura de pelvis" && plan65.set["ref-dx"] === "Fractura de pelvis" && planFichaApply(fdx, { "ref-dx": "Otro" }, false, {}).set["ref-dx"] === undefined;
+          // Armado local con los campos del teléfono (se guardan y se devuelven tal cual)
+          const keep = NOTA_DRAFT_FIELD_IDS.concat(["nota-tipo", "nota-unidad"]).filter((id) => $(id)).map((id) => [id, $(id).value]);
+          let ic65 = false, ref65 = false, ia65 = false;
+          try {
+            NOTA_DRAFT_FIELD_IDS.forEach((id) => { if ($(id)) $(id).value = ""; });
+            $("nota-unidad").value = "Hospital Prueba";
+            $("nota-tipo").value = "Interconsulta";
+            $("ic-servicio").value = "Medicina Interna"; $("ic-motivo").value = "Dolor de cadera"; $("ic-dx").value = "Fractura de cadera derecha";
+            $("ic-sug").value = "Valorar manejo quirúrgico"; $("nota-input").value = "Paciente con dolor.\n--- PLAN / INDICACIONES ---\nParacetamol 1 g intravenoso cada 8 horas";
+            const a = composeNom004Local();
+            ic65 = a.tipo === "Interconsulta" && /NOTA DE INTERCONSULTA \(NOM-004-SSA3-2012 · Num\. 6\.3 y 7\.1\)/.test(a.fullNote) &&
+              a.fullNote.includes("[7.1.3] SERVICIO QUE SOLICITA Y MOTIVO DE LA INTERCONSULTA:\nServicio que solicita: Medicina Interna\nMotivo: Dolor de cadera") &&
+              a.fullNote.includes("[6.3.3] SUGERENCIAS DIAGNÓSTICAS Y DE TRATAMIENTO:\nValorar manejo quirúrgico\nParacetamol 1 g intravenoso cada 8 horas") &&
+              a.fullNote.includes("[6.3.1] CRITERIOS DIAGNÓSTICOS:\n[NO REFERIDO]") && a.fullNote.includes("FIRMA DEL MÉDICO CONSULTADO [6.3 · 5.10]") && a.blocks.length === 9;
+            NOTA_DRAFT_FIELD_IDS.forEach((id) => { if ($(id)) $(id).value = ""; });
+            $("nota-tipo").value = "Referencia";
+            $("ref-recibe").value = "Hospital Receptor · Traumatología"; $("ref-motivo").value = "Requiere tercer nivel"; $("ref-dx").value = "Fractura de pelvis"; $("ref-tox").value = "Negados";
+            $("ref-estado").value = "Estable"; $("nv-fc").value = "88"; $("nota-input").value = "Caída de altura.";
+            const b = composeNom004Local();
+            ref65 = b.blocks.length === 6 && b.fullNote.includes("[6.4.1] ESTABLECIMIENTO QUE ENVÍA:\nHospital Prueba") && b.fullNote.includes("[6.4.2] ESTABLECIMIENTO RECEPTOR:\nHospital Receptor · Traumatología") &&
+              /\[6\.4\.3\] RESUMEN CLÍNICO:\nCaída de altura\.\nSignos vitales al envío: .*FC: 88 lpm.*\nCondiciones al envío: Estable/.test(b.fullNote) &&
+              b.fullNote.includes("[6.4.3.2] IMPRESIÓN DIAGNÓSTICA:\nFractura de pelvis\nAbuso y dependencia del tabaco, del alcohol y de otras sustancias psicoactivas: Negados") &&
+              b.fullNote.includes("[6.4.3.3] TERAPÉUTICA EMPLEADA:\n[NO REFERIDO]");
+            const pay = collectAnonymizedClinicalPayload("Referencia");
+            ia65 = !/Hospital Receptor|Hospital Prueba/.test(pay) && /Motivo de envío: Requiere tercer nivel/.test(pay) && /Impresión diagnóstica: Fractura de pelvis/.test(pay);
+          } finally {
+            keep.forEach(([id, v]) => { $(id).value = v; });
+          }
+          ok65 = esq65 && ui65 && dx65 && ic65 && ref65 && ia65;
+          det65 = "numerales " + esq65 + " · botones, campos, título, PDF, borrador y frases " + ui65 + " · diagnóstico de la ficha " + dx65 + " · interconsulta armada " + ic65 + " · referencia armada " + ref65 + " · IA sin establecimientos " + ia65;
+        } catch (e) { det65 = "Error: " + e.message; }
+        addTest("65. v50: notas de interconsulta y de referencia o traslado", ok65, det65);
+
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
         const rows = tests.map((t) => (t.ok ? "✅ " : "❌ ") + "<strong>" + escapeHtml(t.name) + "</strong>: " + escapeHtml(t.detail)).join("<br>");
@@ -13942,6 +14128,8 @@
           { title: "Nota Preoperatoria (NOM-004 · 8.5)", mod: "tab-notas", cat: "Nota", keys: "nota preoperatoria cirugia programada asa 8.5", run: () => { $("nota-tipo").value = "Preoperatoria"; updateNotaUI(); syncNotaTypePills(); switchTab("tab-notas"); } },
           { title: "Nota Postquirúrgica (NOM-004 · 8.8)", mod: "tab-notas", cat: "Nota", keys: "nota postquirurgica postoperatoria gasas sangrado tecnica 8.8", run: () => { $("nota-tipo").value = "Postquirúrgica"; updateNotaUI(); syncNotaTypePills(); switchTab("tab-notas"); } },
           { title: "Nota de Egreso / Alta (NOM-004 · 8.9)", mod: "tab-notas", cat: "Nota", keys: "nota alta egreso salida 8.9", run: () => { $("nota-tipo").value = "Alta"; updateNotaUI(); syncNotaTypePills(); switchTab("tab-notas"); } },
+          { title: "Nota de Interconsulta (NOM-004 · 6.3)", mod: "tab-notas", cat: "Nota", keys: "nota interconsulta consulta respuesta servicio solicitante medico consultado 6.3", run: () => { $("nota-tipo").value = "Interconsulta"; updateNotaUI(); syncNotaTypePills(); switchTab("tab-notas"); } },
+          { title: "Nota de Referencia / Traslado (NOM-004 · 6.4)", mod: "tab-notas", cat: "Nota", keys: "nota referencia traslado envio otro hospital contrarreferencia resumen clinico 6.4", run: () => { $("nota-tipo").value = "Referencia"; updateNotaUI(); syncNotaTypePills(); switchTab("tab-notas"); } },
           { title: "Laboratorios Críticos Preoperatorios", mod: "tab-estudios", cat: "Estudios", keys: "laboratorios hb plaquetas inr potasio sodio glucosa creatinina", run: () => { switchEstudiosMode("lab"); switchTab("tab-estudios"); } },
           { title: "Analizar Foto de Rx o Lab (Vision IA)", mod: "tab-estudios ia-vision", cat: "Estudios", keys: "radiografia rx vision foto camara placa imagen", run: () => { switchEstudiosMode("vision"); switchTab("tab-estudios"); } },
           { title: "Historial Local y Fin de Guardia", mod: "tab-hist", cat: "Historial", keys: "historial guardadas borrar fin de guardia purga", run: () => { switchTab("tab-hist"); } }
