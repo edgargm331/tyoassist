@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v56 · Tema "Base44" (oscuro + claro)
+       TyO Assist v57 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -1176,6 +1176,12 @@
     .sp-ev-bad { border-color: var(--danger-line); background: var(--danger-bg); }
     .sp-ev-empty { color: var(--muted); font-size: 13.5px; }
 
+    /* ---------- v57: luxaciones ---------- */
+    .lx-arts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .lx-arts .check-pill { min-width: 0; }
+    .lx-est, .lx-pulso { margin-top: 8px; }
+    #lx-prompt { margin-top: 10px; }
+
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
     @media print {
@@ -1253,7 +1259,7 @@
     <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></symbol>
     <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></symbol>
     <symbol id="i-calc" viewBox="0 0 24 24"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8"/><path d="M16 14v4"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></symbol>
-    <symbol id="i-elbow" viewBox="0 0 24 24"><path d="M5.5 3l4.6 8.6"/><path d="M13.1 13.7L20.5 11"/><circle cx="11.3" cy="13.3" r="2.1"/><path d="M5.6 8.9l3.6-1.8"/></symbol><symbol id="i-spine" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4.5" rx="1.5"/><rect x="8" y="9.75" width="8" height="4.5" rx="1.5"/><rect x="8" y="17.5" width="8" height="4.5" rx="1.5"/><path d="M4.5 4.25H8M16 4.25h3.5M4.5 12H8M16 12h3.5M4.5 19.75H8M16 19.75h3.5"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></symbol>
+    <symbol id="i-joint" viewBox="0 0 24 24"><circle cx="9" cy="9" r="3.6"/><path d="M3.6 12.6a6.8 6.8 0 0 0 9.6 1.4"/><path d="M11.8 11.8L20 20"/><path d="M15.5 4.5l1.5-1.5M19.5 8.5L21 7"/></symbol><symbol id="i-elbow" viewBox="0 0 24 24"><path d="M5.5 3l4.6 8.6"/><path d="M13.1 13.7L20.5 11"/><circle cx="11.3" cy="13.3" r="2.1"/><path d="M5.6 8.9l3.6-1.8"/></symbol><symbol id="i-spine" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4.5" rx="1.5"/><rect x="8" y="9.75" width="8" height="4.5" rx="1.5"/><rect x="8" y="17.5" width="8" height="4.5" rx="1.5"/><path d="M4.5 4.25H8M16 4.25h3.5M4.5 12H8M16 12h3.5M4.5 19.75H8M16 19.75h3.5"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></symbol>
     <symbol id="i-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol>
     <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
     <symbol id="i-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol>
@@ -1621,6 +1627,11 @@
             <span class="tile-ico"><svg class="ic"><use href="#i-elbow"/></svg></span>
             <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-sp"></span>Supracondílea en niños</span><span class="tile-sub">Gartland · pulso · nervios</span></span>
             <span class="tile-val" id="tile-sp-val">--</span>
+          </button>
+          <button type="button" class="tile" data-calc="lux" data-mod="calc-lux">
+            <span class="tile-ico"><svg class="ic"><use href="#i-joint"/></svg></span>
+            <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-lx"></span>Luxaciones</span><span class="tile-sub">Hombro · codo · cadera · rodilla · más</span></span>
+            <span class="tile-val" id="tile-lx-val">--</span>
           </button>
         </div>
       </div>
@@ -2149,6 +2160,51 @@
               <button type="button" class="btn btn-secondary btn-lg" id="btn-sp-borrar"><svg class="ic"><use href="#i-trash"/></svg>Borrar datos</button>
             </div>
             <div class="ref-text" data-fuente="supra">Apoyo a la decisión: la conducta la decide el ortopedista. BOAST (BOA y BSCOS, 2020); AAOS 2011 (guía) y 2015 (criterios de uso con lesión vascular); Babal y cols., J Pediatr Orthop 2010 (lesiones nerviosas).</div>
+          </div>
+        </div>
+
+        <!-- U.8 LUXACIONES (v57) -->
+        <div id="calc-lux" class="calc-panel" data-mod="calc-lux">
+          <div class="card">
+            <div class="card-head">
+              <h3><svg class="ic gold"><use href="#i-joint"/></svg>Luxaciones</h3>
+              <span class="badge" id="lx-badge">Sin evaluar</span>
+            </div>
+            <p class="sc-pt" id="lx-pt"></p>
+            <div id="lx-art-wrap"><div class="ix-radios lx-arts ix-first" role="radiogroup" aria-label="Articulación"><label class="check-pill"><input type="radio" class="lx-in" name="lx-art" value="hombro" /> Hombro</label><label class="check-pill"><input type="radio" class="lx-in" name="lx-art" value="codo" /> Codo</label><label class="check-pill"><input type="radio" class="lx-in" name="lx-art" value="cadera" /> Cadera</label><label class="check-pill"><input type="radio" class="lx-in" name="lx-art" value="rodilla" /> Rodilla</label><label class="check-pill"><input type="radio" class="lx-in" name="lx-art" value="rotula" /> Rótula</label><label class="check-pill"><input type="radio" class="lx-in" name="lx-art" value="tobillo" /> Tobillo</label></div></div>
+            <div id="lx-body" class="hidden">
+              <div class="ix-radios ix-tipos" role="radiogroup" aria-label="Lado"><label class="check-pill"><input type="radio" class="lx-in" name="lx-lado" value="der" /> Derecho</label><label class="check-pill"><input type="radio" class="lx-in" name="lx-lado" value="izq" /> Izquierdo</label></div>
+              <div class="ix-radios ix-tipos lx-est" role="radiogroup" aria-label="Estado"><label class="check-pill"><input type="radio" class="lx-in" name="lx-est" value="sin" /> Sin reducir</label><label class="check-pill"><input type="radio" class="lx-in" name="lx-est" value="red" /> Reducida</label></div>
+              <div id="lx-tipo-wrap" class="hidden"><div class="mini-label ix-label">Tipo</div><div class="ix-radios" role="radiogroup" aria-label="Tipo de luxación" id="lx-tipo-list"></div></div>
+              <div class="mini-label ix-label">Circulación distal</div>
+              <div class="ix-radios" role="radiogroup" aria-label="Perfusión"><label class="check-pill"><input type="radio" class="lx-in" name="lx-perf" value="buena" /> <span id="lx-perf-b-t">Mano rosada y caliente, llena en menos de 2 s</span></label><label class="check-pill"><input type="radio" class="lx-in" name="lx-perf" value="mala" /> <span id="lx-perf-m-t">Mano pálida o fría, llenado lento</span></label></div>
+              <div class="ix-radios ix-tipos lx-pulso" role="radiogroup" aria-label="Pulso distal"><label class="check-pill"><input type="radio" class="lx-in" name="lx-pulso" value="si" /> <span id="lx-pulso-si-t">Pulso radial presente</span></label><label class="check-pill"><input type="radio" class="lx-in" name="lx-pulso" value="no" /> <span id="lx-pulso-no-t">Sin pulso radial</span></label></div>
+              <div id="lx-itb-wrap" class="hidden"><div class="mini-label ix-label">Índice tobillo-brazo después de reducir</div><div class="ix-radios ix-tipos" role="radiogroup" aria-label="Índice tobillo-brazo"><label class="check-pill"><input type="radio" class="lx-in" name="lx-itb" value="ge" /> 0.9 o más</label><label class="check-pill"><input type="radio" class="lx-in" name="lx-itb" value="lt" /> Menor de 0.9</label></div></div>
+              <div id="lx-nerv-wrap"><div class="mini-label ix-label">Nervios</div><div class="checks" id="lx-nerv-list"></div></div>
+              <div id="lx-q-wrap" class="hidden"><div class="mini-label ix-label">¿Radiografía antes de reducir? Riesgo de fractura</div><div class="checks" id="lx-q-list"></div></div>
+              <div id="lx-alarma-wrap"><div class="mini-label ix-label">Signos de alarma</div><div class="checks" id="lx-alarma-list"></div></div>
+            </div>
+            <p class="cfg-help hidden" id="lx-prompt"></p>
+            <div id="lx-res" class="alert hidden" aria-live="polite"></div>
+            <div class="sp-links">
+              <button type="button" class="link-gold sp-go hidden" id="lx-go-exp">Protocolo de fractura expuesta <svg class="ic"><use href="#i-arrow"/></svg></button>
+              <button type="button" class="link-gold sp-go hidden" id="lx-go-comp">Vigilancia de síndrome compartimental <svg class="ic"><use href="#i-arrow"/></svg></button>
+            </div>
+            <details class="acc" id="lx-reg">
+              <summary><span>Exploraciones con hora <small id="lx-reg-sum">Ninguna</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="acc-body">
+                <label class="field">Momento
+                  <span class="select-wrap"><select id="lx-mom"></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+                </label>
+                <button type="button" class="btn btn-secondary btn-lg btn-block sp-save" id="btn-lx-save"><svg class="ic"><use href="#i-clock"/></svg>Guardar exploración</button>
+                <ul class="sp-evals" id="lx-evals"></ul>
+              </div>
+            </details>
+            <div class="btn-duo cx-btns">
+              <button type="button" class="btn btn-primary btn-lg" id="btn-lx-note" data-mod="tab-notas"><svg class="ic"><use href="#i-clip"/></svg>Copiar a Nota</button>
+              <button type="button" class="btn btn-secondary btn-lg" id="btn-lx-borrar"><svg class="ic"><use href="#i-trash"/></svg>Borrar datos</button>
+            </div>
+            <div class="ref-text" data-fuente="lux">Apoyo a la decisión: la técnica y la sedación las decide el médico. Émond, CJEM 2009 (regla de Quebec); ACI NSW 2025 (codo); Manual MSD 2025 (cadera); Medina, CORR 2014, y Mills, J Trauma 2004 (rodilla); BOAST 2024 (rótula) y BOAST 12, 2016 (tobillo).</div>
           </div>
         </div>
       </div>
@@ -2831,7 +2887,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v56 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v57 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2851,7 +2907,7 @@
   <nav class="bottom-nav no-print">
     <div class="bottom-nav-in">
       <button type="button" class="nav-btn active" data-tab="tab-calc"><span class="ico"><svg class="ic"><use href="#i-calc"/></svg></span><span>Inicio</span></button>
-      <button type="button" class="nav-btn" data-tab="tab-urg" data-mod="tab-urg" data-mod-any="calc-compart calc-cadera calc-infx calc-mess calc-ottawa calc-cervical calc-supra rx-expuesta"><span class="ico"><svg class="ic"><use href="#i-siren"/></svg><span class="nav-dot hidden" id="urg-nav-dot"></span></span><span>Urgencias</span></button>
+      <button type="button" class="nav-btn" data-tab="tab-urg" data-mod="tab-urg" data-mod-any="calc-compart calc-cadera calc-infx calc-mess calc-ottawa calc-cervical calc-supra calc-lux rx-expuesta"><span class="ico"><svg class="ic"><use href="#i-siren"/></svg><span class="nav-dot hidden" id="urg-nav-dot"></span></span><span>Urgencias</span></button>
       <button type="button" class="nav-btn" data-tab="tab-rx" data-mod="tab-rx"><span class="ico"><svg class="ic"><use href="#i-pill"/></svg></span><span>Recetas</span></button>
       <button type="button" class="nav-btn" data-tab="tab-notas" data-mod="tab-notas"><span class="ico"><svg class="ic"><use href="#i-file"/></svg></span><span>Notas</span></button>
       <button type="button" class="nav-btn" data-tab="tab-estudios" data-mod="tab-estudios"><span class="ico"><svg class="ic"><use href="#i-scan"/></svg></span><span>Estudios</span></button>
@@ -2864,7 +2920,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v56</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v57</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2986,9 +3042,9 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (71 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (72 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (71)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (72)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -3163,15 +3219,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v56 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v57 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "56",
-      versionLabel: "v56 Intuitiva",
+      version: "57",
+      versionLabel: "v57 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-urg | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -3195,6 +3251,7 @@
         "calc-ottawa": true,
         "calc-cervical": true,
         "calc-supra": true,
+        "calc-lux": true,
         // Protocolos de Recetas
         "rx-profilaxis": true,
         "rx-expuesta": true,
@@ -3381,6 +3438,7 @@
         { id: "calc-ottawa", group: "Urgencias", label: "Reglas de Ottawa" },
         { id: "calc-cervical", group: "Urgencias", label: "Columna cervical" },
         { id: "calc-supra", group: "Urgencias", label: "Supracondílea en niños" },
+        { id: "calc-lux", group: "Urgencias", label: "Luxaciones" },
         { id: "rx-profilaxis", group: "Protocolos de Recetas", label: "Profilaxis Qx" },
         { id: "rx-expuesta", group: "Protocolos de Recetas", label: "Fx Expuesta" },
         { id: "rx-trombo", group: "Protocolos de Recetas", label: "Tromboprofilaxis" },
@@ -3427,7 +3485,7 @@
 
       function isTabOn(tabId) {
         // v48: Urgencias se oculta si no le queda ningún bloque encendido
-        if (tabId === "tab-urg") return isModuleOn("tab-urg") && (["calc-compart", "calc-cadera", "calc-infx", "calc-mess", "calc-ottawa", "calc-cervical", "calc-supra"].some(isModuleOn) || (isModuleOn("tab-rx") && isModuleOn("rx-expuesta")));
+        if (tabId === "tab-urg") return isModuleOn("tab-urg") && (["calc-compart", "calc-cadera", "calc-infx", "calc-mess", "calc-ottawa", "calc-cervical", "calc-supra", "calc-lux"].some(isModuleOn) || (isModuleOn("tab-rx") && isModuleOn("rx-expuesta")));
         return tabId === "tab-calc" || isModuleOn(tabId);
       }
 
@@ -7471,6 +7529,7 @@
           { key: "tyo_ottawa_v53", label: "reglas de Ottawa", has: (r) => !!(r && r.v && Object.keys(r.v).length) },
           { key: "tyo_cervical_v55", label: "columna cervical", has: (r) => !!(r && r.v && Object.keys(r.v).length) },
           { key: "tyo_supra_v56", label: "fractura supracondílea", has: (r) => !!(r && ((r.v && Object.keys(r.v).length) || (Array.isArray(r.evals) && r.evals.length))) },
+          { key: "tyo_lux_v57", label: "luxación", has: (r) => !!(r && ((r.v && Object.keys(r.v).length) || (Array.isArray(r.evals) && r.evals.length))) },
           { key: "tyo_entrega_v49", label: "pendientes de entrega", has: (r) => !!(r && r.pend) }
         ];
       }
@@ -7506,6 +7565,7 @@
         try { otRender(); } catch (_) {}
         try { cvRender(); } catch (_) {}
         try { spRender(); } catch (_) {}
+        try { lxRender(); } catch (_) {}
         try { urgRender(); } catch (_) {}
       }
 
@@ -8072,7 +8132,7 @@
               if (!byId[it.id] || Number(it.savedAt || 0) > Number(byId[it.id].savedAt || 0)) byId[it.id] = it;
             });
             out[k] = JSON.stringify(Object.assign({}, a, { items: Object.keys(byId).map((id) => byId[id]) }));
-          } else if (k === "tyo_sc_v44" || k === "tyo_cadera_v45" || k === "tyo_infx_v47" || k === "tyo_entrega_v49" || k === "tyo_ottawa_v53" || k === "tyo_cervical_v55" || k === "tyo_supra_v56") {
+          } else if (k === "tyo_sc_v44" || k === "tyo_cadera_v45" || k === "tyo_infx_v47" || k === "tyo_entrega_v49" || k === "tyo_ottawa_v53" || k === "tyo_cervical_v55" || k === "tyo_supra_v56" || k === "tyo_lux_v57") {
             const a = parse(out[k]), b = parse(inc[k]);
             if (!a || !b || !a.byId || !b.byId) return;
             const byId = Object.assign({}, a.byId);
@@ -8792,8 +8852,8 @@
       ======================================================= */
       function urgDefs() {
         return {
-          keys: ["compart", "cadera", "infx", "mess", "ottawa", "cervical", "supra"],
-          notaBtn: { "calc-compart": "btn-sc-note", "calc-cadera": "btn-cx-note", "calc-infx": "btn-ix-note", "calc-mess": "btn-mess-note", "calc-ottawa": "btn-ot-note", "calc-cervical": "btn-cv-note", "calc-supra": "btn-sp-note" },
+          keys: ["compart", "cadera", "infx", "mess", "ottawa", "cervical", "supra", "lux"],
+          notaBtn: { "calc-compart": "btn-sc-note", "calc-cadera": "btn-cx-note", "calc-infx": "btn-ix-note", "calc-mess": "btn-mess-note", "calc-ottawa": "btn-ot-note", "calc-cervical": "btn-cv-note", "calc-supra": "btn-sp-note", "calc-lux": "btn-lx-note" },
           tipos: { herida: "herida quirúrgica", fri: "fractura u osteosíntesis", pji: "prótesis articular", kocher: "artritis séptica en niño" },
           tickMs: 30000
         };
@@ -8871,13 +8931,26 @@
             out.push({ key: "supra", lvl: ev.level === "danger" ? "danger" : ev.level === "info" ? "warn" : "info", title: "Fractura supracondílea" + lado, sub: ev.head + ".", alert: false });
           }
         }
+        // v57: luxación (emergencia en rojo; sin reducir en ámbar)
+        const lxv = x.lx && x.lx.v ? x.lx.v : null;
+        if (lxv && lxv["lx-art"]) {
+          const ctx = x.ctx || {};
+          const ev = lxEvaluate(lxv, Number.isFinite(ctx.edad) ? ctx.edad : null, Array.isArray(x.lx.evals) ? x.lx.evals : []);
+          if (ev.head && (ev.level === "danger" || (!ev.red && ev.level === "warn"))) {
+            const A = lxArt(lxv);
+            const fem = ["cadera", "rodilla", "rotula"].includes(A.key);
+            const lado = lxv["lx-lado"] === "der" ? (fem ? " derecha" : " derecho") : lxv["lx-lado"] === "izq" ? (fem ? " izquierda" : " izquierdo") : "";
+            out.push({ key: "lux", lvl: ev.level === "danger" ? "danger" : "warn", title: "Luxación de " + A.nombre.toLowerCase() + lado, sub: ev.head + ".", alert: false });
+          }
+        }
         return out;
       }
 
       // Lee los registros del paciente activo (o «sin paciente»).
       function urgCollect() {
-        let sc = null, cad = null, inf = null, sp = null, edad = null;
+        let sc = null, cad = null, inf = null, sp = null, lx = null, edad = null;
         try { sp = spLoad().byId[spActiveId()] || null; } catch (_) {}
+        try { lx = lxLoad().byId[lxActiveId()] || null; } catch (_) {}
         try { edad = otEdadFicha(); } catch (_) {}
         try { sc = scGetRec(scLoad(), scActiveId()); } catch (_) {}
         try { const s = cadLoad(); cad = s.byId[cadActiveId()] || null; } catch (_) {}
@@ -8885,7 +8958,7 @@
         let nino = false, crcl = null;
         try { nino = infEsNino(); } catch (_) {}
         try { crcl = cadCrclAuto(); } catch (_) {}
-        return { sc, cad, inf, sp, ctx: { nino, crcl, edad } };
+        return { sc, cad, inf, sp, lx, ctx: { nino, crcl, edad } };
       }
 
       function urgPatientLabel() {
@@ -8934,7 +9007,7 @@
         if (!isModuleOn("calc-" + key)) { showToast("Bloque desactivado. Actívalo en ⚙️ Ajustes → Módulos."); return; }
         switchTab("tab-urg");
         switchCalcPanel(key);
-        try { if (key === "compart") scRender(); else if (key === "cadera") cadRender(); else if (key === "infx") infRender(); else if (key === "supra") spRender(); } catch (_) {}
+        try { if (key === "compart") scRender(); else if (key === "cadera") cadRender(); else if (key === "infx") infRender(); else if (key === "supra") spRender(); else if (key === "lux") lxRender(); } catch (_) {}
         quickGoTo($("calc-" + key));
       }
 
@@ -9059,8 +9132,8 @@
         const rows = (pts || []).map((p, idx) => {
           const f = p.data || {};
           const age = fichaAgeYears(f);
-          const sc = byId(r.sc)[p.id], cad = byId(r.cad)[p.id], inf = byId(r.inf)[p.id], ent = byId(r.ent)[p.id], sp = byId(r.sp)[p.id];
-          const items = urgItems({ sc: sc ? scSanitizeRec(sc) : null, cad: cad ? cadSanitizeRec(cad) : null, inf: inf || null, sp: sp || null, ctx: { nino: Number.isFinite(age) && age < 18, crcl: null, edad: Number.isFinite(age) ? age : null } }, nowMs);
+          const sc = byId(r.sc)[p.id], cad = byId(r.cad)[p.id], inf = byId(r.inf)[p.id], ent = byId(r.ent)[p.id], sp = byId(r.sp)[p.id], lx = byId(r.lx)[p.id];
+          const items = urgItems({ sc: sc ? scSanitizeRec(sc) : null, cad: cad ? cadSanitizeRec(cad) : null, inf: inf || null, sp: sp || null, lx: lx || null, ctx: { nino: Number.isFinite(age) && age < 18, crcl: null, edad: Number.isFinite(age) ? age : null } }, nowMs);
           const lvl = items.some((i) => i.lvl === "danger") ? "danger" : items.some((i) => i.lvl === "warn") ? "warn" : "info";
           return {
             id: p.id, idx, active: !!p.active,
@@ -9099,13 +9172,14 @@
       function entCollect(nowMs) {
         let pts = [];
         try { pts = listFichas().map((x) => ({ id: x.id, data: x.data, active: x.active })); } catch (_) { pts = []; }
-        let sc = null, cad = null, inf = null, ent = null, sp = null;
+        let sc = null, cad = null, inf = null, ent = null, sp = null, lx = null;
         try { sp = spLoad(); } catch (_) {}
+        try { lx = lxLoad(); } catch (_) {}
         try { sc = scLoad(); } catch (_) {}
         try { cad = cadLoad(); } catch (_) {}
         try { inf = infLoad(); } catch (_) {}
         try { ent = entLoad(); } catch (_) {}
-        return entBuild(pts, { sc, cad, inf, ent, sp }, nowMs);
+        return entBuild(pts, { sc, cad, inf, ent, sp, lx }, nowMs);
       }
 
       function entCountPatients() {
@@ -9444,6 +9518,9 @@
             { id: "supra", nombre: "Supracondílea en niños", donde: "Urgencias", rev: "2026-11-28", next: "2027-11-28",
               fuentes: ["BOAST, BOA y BSCOS (octubre 2020): fracturas supracondíleas de húmero en niños", "AAOS 2011: guía de tratamiento (14 recomendaciones)", "AAOS 2015: criterios de uso con lesión vascular (Mooney y cols., JAAOS 2016)", "Lesiones nerviosas: Babal y cols., J Pediatr Orthop 2010", "Codo flotante: Blakemore y cols., J Pediatr Orthop 2000; revisión sistemática 2020"],
               nota: "Urgente: sin pulso radial, mala perfusión, herida o piel en riesgo (BOAST). Desplazadas sin compromiso: el mismo día, sin necesidad de operar de noche; la AAOS no fija un tiempo límite. Mano sin pulso pero perfundida tras reducir: vigilar más de 24 h, sin explorar la arteria." },
+            { id: "lux", nombre: "Luxaciones", donde: "Urgencias", rev: "2026-11-28", next: "2027-11-28",
+              fuentes: ["Hombro: regla de Quebec, Émond y cols., CJEM 2009; Oldrini y cols., EMJ 2023 (predictores de fractura)", "Codo: ACI NSW, Emergency Care Institute (revisado en agosto 2025); RCH Melbourne", "Cadera: Manual MSD (revisado en octubre 2025): reducir en menos de 6 h y tomografía en la cadera nativa", "Rodilla: Medina y cols., CORR 2014 (revisión sistemática); Mills y cols., J Trauma 2004; Sawyer y cols., CORR 2016 (índice tobillo-brazo)", "Rótula: BOAST primera luxación lateral de rótula (diciembre 2024)", "Tobillo: BOAST 12, fracturas de tobillo (agosto 2016)"],
+              nota: "Rodilla: lesión vascular en 18 % y del nervio peroneo en 25 %; pulsos palpables con índice tobillo-brazo de 0.9 o más descartaron lesión vascular. Regla de Quebec con validación limitada: la app recomienda radiografía previa salvo que no haya ningún factor de riesgo." },
             { id: "compart", nombre: "Síndrome compartimental", donde: "Urgencias", next: "2027-11-27",
               fuentes: ["BOAST de síndrome compartimental de las extremidades (BOA, julio 2025)", "AAOS, guía de síndrome compartimental agudo (2025)", "Bae y cols., J Pediatr Orthop 2001 (niños)"],
               nota: "Siguen siendo las versiones vigentes." },
@@ -10515,6 +10592,473 @@
         document.addEventListener("tyo-patient-change", () => { try { spRender(); } catch (_) {} });
         spRender();
       }
+      /* =======================================================
+         v57: LUXACIONES (hombro, codo, cadera, rodilla, rótula y tobillo)
+         Fuentes:
+         - Hombro: regla de Quebec (Émond, CJEM 2009): menores de 40 años con riesgo de fractura
+           solo con mecanismo de fuerza importante; de 40 o más, con primer episodio o equimosis
+           en el brazo (validación limitada). Oldrini, EMJ 2023 (revisión sistemática de
+           predictores). Nervio axilar afectado hasta en 40 % (StatPearls).
+         - Codo: ACI NSW (rev. ago 2025): explorar antes y después pulso, llenado y nervios
+           radial, mediano y cubital; Rx AP y lateral; TAC si es compleja; simple estable: férula a
+           90° de 7 a 10 días. RCH: movilidad no después de 2 semanas; epicóndilo medial atrapado.
+         - Cadera: reducción lo antes posible, de preferencia en menos de 6 h (osteonecrosis);
+           TAC después de reducir en toda cadera nativa (Manual MSD, rev. oct 2025). Prótesis:
+           3/4 de las luxaciones en las primeras 6 semanas; fractura periprotésica que se pasa por alto.
+         - Rodilla: Medina, CORR 2014 (lesión vascular 18 %, nervio 25 %); Mills, J Trauma 2004 y
+           Sawyer, CORR 2016 (pulsos palpables con ITB de 0.9 o más: 100 % sensible).
+         - Rótula: BOAST primera luxación lateral de rótula (dic 2024): reducir sin demora, no
+           aspirar la hemartrosis, Rx AP, lateral y axial, sin yeso, revisión en menos de 2 semanas.
+         - Tobillo: BOAST 12 (2016): reducir y ferulizar con urgencia; Rx antes solo si no retrasa;
+           lateral verdadera y mortaja; documentar piel, circulación y sensibilidad antes y después.
+         Datos por paciente en tyo_lux_v57, sin datos que identifiquen.
+      ======================================================= */
+      function lxDefs() {
+        const comunes = [["lx-a-exp", "Herida en la zona (luxación expuesta)", "luxación expuesta"], ["lx-a-piel", "Piel en riesgo: tensa o pálida sobre el hueso", "piel en riesgo"]];
+        const comp = ["lx-a-comp", "Pide cada vez más analgésico o le duele estirar los dedos", "datos de posible síndrome compartimental"];
+        return {
+          key: "tyo_lux_v57",
+          orden: ["hombro", "codo", "cadera", "rodilla", "rotula", "tobillo"],
+          arts: {
+            hombro: { nombre: "Hombro", head: "LUXACIÓN DE HOMBRO", sup: true, tipos: [["ant", "Anterior"], ["post", "Posterior"], ["inf", "Inferior (luxatio erecta)"]],
+              nervios: [["lx-n-axi", "Axilar: menos sensibilidad en la cara lateral del hombro", "axilar (sensibilidad de la cara lateral del hombro)"], ["lx-n-rad", "Radial: no extiende la muñeca o el pulgar", "radial (extensión de muñeca y pulgar)"], ["lx-n-mus", "Musculocutáneo: menos sensibilidad lateral del antebrazo", "musculocutáneo (sensibilidad lateral del antebrazo)"]],
+              alarma: comunes },
+            codo: { nombre: "Codo", head: "LUXACIÓN DE CODO", sup: true, tipos: [["simple", "Simple (sin fractura en la radiografía)"], ["compleja", "Compleja (con fractura)"]],
+              nervios: [["lx-n-med", "Mediano: menos sensibilidad en la punta del índice o no hace el signo de OK", "mediano"], ["lx-n-cub", "Cubital: no separa ni cruza los dedos o menos sensibilidad del meñique", "cubital"], ["lx-n-rdc", "Radial: no extiende el pulgar o menos sensibilidad en el dorso", "radial"]],
+              alarma: comunes.concat([comp]) },
+            cadera: { nombre: "Cadera", head: "LUXACIÓN DE CADERA", sup: false, tipos: [["nativa", "Nativa (trauma de alta energía)"], ["protesis", "Prótesis de cadera"]],
+              nervios: [["lx-n-cia", "Ciático: no levanta el pie o el primer ortejo, o menos sensibilidad del pie", "ciático (dorsiflexión del pie y del primer ortejo, sensibilidad del pie)"]],
+              alarma: comunes.concat([["lx-a-rod", "Lesión de la rodilla del mismo lado", "lesión de la rodilla del mismo lado"]]) },
+            rodilla: { nombre: "Rodilla", head: "LUXACIÓN DE RODILLA", sup: false, tipos: [],
+              nervios: [["lx-n-per", "Peroneo: no levanta el pie o menos sensibilidad entre el 1.º y 2.º ortejo", "peroneo común (dorsiflexión, sensibilidad de la primera comisura)"], ["lx-n-tib", "Tibial: no flexiona el pie o menos sensibilidad de la planta", "tibial (flexión plantar, sensibilidad de la planta)"]],
+              alarma: comunes.concat([["lx-a-duro", "Signo duro vascular: hematoma que crece, soplo o frémito, sangrado pulsátil", "signo duro de lesión vascular"], ["lx-a-sola", "Se redujo sola antes de llegar", "se redujo sola antes de llegar"], comp]) },
+            rotula: { nombre: "Rótula", head: "LUXACIÓN DE RÓTULA", sup: false, tipos: [], nervios: [], alarma: [] },
+            tobillo: { nombre: "Tobillo", head: "LUXACIÓN DE TOBILLO", sup: false, tipos: [],
+              nervios: [["lx-n-pie", "Menos sensibilidad o movilidad del pie", "sensibilidad o movilidad del pie"]],
+              alarma: comunes.concat([comp]) }
+          },
+          quebec: [["lx-q-40", "40 años o más"], ["lx-q-pri", "Primer episodio"], ["lx-q-ene", "Mecanismo de fuerza importante (caída de más de su altura, deporte, agresión o accidente vehicular)"], ["lx-q-equ", "Equimosis en el brazo"]],
+          momentos: [["antes", "Antes de reducir"], ["despues", "Después de reducir"], ["control", "Control"]],
+          maxEvals: 8
+        };
+      }
+
+      function lxArt(v) {
+        const d = lxDefs();
+        const k = v && d.orden.includes(v["lx-art"]) ? v["lx-art"] : "";
+        return k ? Object.assign({ key: k }, d.arts[k]) : null;
+      }
+
+      function lxNervState(v, A) {
+        const x = v || {};
+        if (!A || !A.nervios.length) return { st: "na", alt: [] };
+        if (x["lx-n-nc"]) return { st: "nc", alt: [] };
+        const alt = A.nervios.filter((n) => x[n[0]]).map((n) => n[0]);
+        if (alt.length) return { st: "alt", alt };
+        if (x["lx-n-ok"]) return { st: "ok", alt: [] };
+        return { st: "", alt: [] };
+      }
+
+      // Pura: urgencia y pasos. v = valores del panel; edad en años o null; evals = exploraciones guardadas.
+      function lxEvaluate(v, edad, evals) {
+        const d = lxDefs();
+        const x = v || {};
+        const on = (k) => !!x[k];
+        const A = lxArt(x);
+        const out = { level: "", head: "", lines: [], plan: "", pending: [], tile: "--", badge: "Sin evaluar", links: { exp: false, comp: false }, art: A ? A.key : "", tipo: "", red: x["lx-est"] === "red", nerv: lxNervState(x, A), alarma: [], quebec: [], itb: "" };
+        if (!A) { out.pending.push("Elige la articulación."); return out; }
+        const tipo = A.tipos.some((t) => t[0] === x["lx-tipo"]) ? x["lx-tipo"] : "";
+        out.tipo = tipo;
+        out.alarma = A.alarma.filter((a) => on(a[0])).map((a) => a[2]);
+        const perf = x["lx-perf"] === "buena" || x["lx-perf"] === "mala" ? x["lx-perf"] : "";
+        const pulso = x["lx-pulso"] === "si" || x["lx-pulso"] === "no" ? x["lx-pulso"] : "";
+        const vasc = perf === "mala" || pulso === "no";
+        const exp = on("lx-a-exp"), piel = on("lx-a-piel"), comp = on("lx-a-comp"), duro = on("lx-a-duro");
+        const red = out.red;
+        const k = A.key;
+        const nativa = k === "cadera" && tipo === "nativa";
+        if (A.tipos.length && !tipo) out.pending.push(k === "cadera" ? "Marca si es cadera nativa o prótesis." : k === "codo" ? "Marca si es simple o compleja (con la radiografía)." : "Marca el tipo de luxación.");
+        if (k !== "rotula" && (!perf || !pulso)) out.pending.push("Marca la perfusión y el pulso distal.");
+        if (out.nerv.st === "") out.pending.push("Marca los nervios: el que esté alterado, «Íntegros» o «No coopera».");
+        // Hombro anterior: ¿radiografía antes de reducir? (regla de Quebec)
+        const e40 = edad !== null ? edad >= 40 : on("lx-q-40");
+        if (k === "hombro") {
+          out.quebec = d.quebec.filter((q) => q[0] !== "lx-q-40" && on(q[0])).map((q) => q[1].replace(/ \(.*\)$/, "").toLowerCase());
+          if (e40) out.quebec.unshift("40 años o más");
+        }
+        // Nivel
+        let danger = false;
+        if (k === "rodilla" || nativa || vasc || exp || piel || comp || duro) danger = true;
+        let head = "";
+        const L = [];
+        if (!red) {
+          if (vasc) head = "Compromiso vascular: reduce de inmediato";
+          else if (k === "rodilla") head = "Emergencia de la extremidad: reduce de inmediato";
+          else if (nativa) head = "Emergencia: reduce lo antes posible, de preferencia en menos de 6 h";
+          else if (exp) head = "Luxación expuesta: cirugía urgente";
+          else if (piel) head = "Piel en riesgo: reduce y feruliza de inmediato";
+          else if (comp) head = "Datos de síndrome compartimental: revaloración inmediata";
+          else if (k === "rotula") head = "Reduce sin demora";
+          else if (k === "tobillo") head = "Reduce y feruliza con urgencia";
+          else if (A.tipos.length && !tipo) head = "";
+          else head = "Reducción pronta con analgesia y sedación";
+          if (k === "hombro") {
+            if (tipo === "post") L.push("Pide proyección axilar: en la AP puede verse normal. Sospéchala tras una crisis convulsiva o una descarga eléctrica.");
+            if (tipo === "inf") L.push("La lesión del nervio axilar es frecuente: reduce sin demora.");
+            if (tipo === "ant" && !vasc) {
+              const alto = (e40 && (on("lx-q-pri") || on("lx-q-equ"))) || (!e40 && on("lx-q-ene"));
+              L.push(alto ? "Radiografía antes de reducir (AP y escapular en Y o axilar): riesgo de fractura por " + out.quebec.join(", ") + "." : "Radiografía antes de reducir: AP y escapular en Y o axilar. Solo podría omitirse sin factores de riesgo de fractura (regla de Quebec, validación limitada).");
+            }
+            L.push("Documenta el nervio axilar antes y después de reducir.");
+          } else if (k === "codo") {
+            L.push(vasc ? "No retrases la reducción por la radiografía." : "Radiografía AP y lateral antes de reducir: busca fractura de cabeza de radio, coronoides o epicóndilo medial.");
+          } else if (k === "cadera") {
+            if (nativa) { L.push("Radiografía AP de pelvis antes de reducir: descarta fractura del cuello femoral."); L.push("Busca lesiones asociadas: acetábulo, rodilla del mismo lado y el resto del politrauma."); }
+            if (tipo === "protesis") { L.push("Radiografía AP de pelvis y lateral de cadera: revisa los componentes y descarta fractura periprotésica."); L.push("Si es reciente (primeras 6 semanas) o se repite, avisa al cirujano que la colocó."); }
+          } else if (k === "rodilla") {
+            L.push("No retrases la reducción por estudios. Lesión vascular en cerca de 1 de cada 5 y del nervio peroneo en 1 de cada 4.");
+            if (on("lx-a-sola")) L.push("Aunque se haya reducido sola, trátala como luxación: lesión de varios ligamentos y el mismo riesgo vascular.");
+          } else if (k === "rotula") {
+            L.push("Después: radiografía AP, lateral y axial de rótula.");
+          } else if (k === "tobillo") {
+            L.push(vasc || piel ? "No esperes la radiografía." : "Radiografía antes solo si no retrasa la reducción.");
+          }
+        } else {
+          // Reducida
+          if (vasc) head = "Sigue sin pulso o mal perfundida después de reducir: angiotomografía o cirujano vascular de inmediato";
+          else if (k === "rodilla") {
+            const itb = x["lx-itb"] === "ge" || x["lx-itb"] === "lt" ? x["lx-itb"] : "";
+            out.itb = itb;
+            if (duro) head = "Signo duro vascular: cirugía vascular inmediata";
+            else if (itb === "lt") head = "Índice tobillo-brazo menor de 0.9: angiotomografía o cirujano vascular de inmediato";
+            else if (itb === "ge" && pulso === "si") { head = "Pulsos palpables e índice tobillo-brazo de 0.9 o más: vigilancia seriada"; danger = exp || comp || piel; }
+            else head = "Reducida: mide el índice tobillo-brazo y revisa los pulsos";
+            if (itb === "ge" && pulso === "si" && !duro) L.push("Esta combinación descartó lesión vascular en los estudios; repite pulsos y vigila síndrome compartimental.");
+            if (on("lx-a-sola")) L.push("Se redujo sola: igual requiere índice tobillo-brazo y vigilancia.");
+            L.push("Férula y valoración de ligamentos diferida.");
+          } else if (exp) head = "Luxación expuesta: cirugía urgente";
+          else if (comp) head = "Datos de síndrome compartimental: revaloración inmediata";
+          else if (A.tipos.length && !tipo) head = "";
+          else { head = "Reducida: confirma con radiografía y revalora pulso y nervios"; danger = piel; }
+          if (k === "hombro") { L.push("Radiografía de control. Cabestrillo para el dolor."); if (e40) L.push("40 años o más: revalora el manguito rotador en el seguimiento."); }
+          if (k === "codo") {
+            L.push("Radiografía de control y prueba de estabilidad en flexión y extensión; en niños, descarta epicóndilo medial atrapado.");
+            if (tipo === "simple") L.push("Simple y estable: férula a 90° de 7 a 10 días y movilidad temprana (no después de 2 semanas).");
+            if (tipo === "compleja") L.push("Compleja: tomografía y manejo quirúrgico según la lesión.");
+          }
+          if (nativa) L.push("Tomografía después de reducir en toda cadera nativa: fragmentos y reducción concéntrica.");
+          if (k === "cadera" && tipo === "protesis") L.push("Radiografía de control y precauciones de cadera; si se repite, valorar revisión.");
+          if (k === "rotula") { L.push("Radiografía AP, lateral y axial de rótula."); L.push("No aspires la hemartrosis. Sin yeso: férula que permita flexionar, solo para el dolor."); L.push("Revisión en menos de 2 semanas; resonancia si sospechas fractura osteocondral."); }
+          if (k === "tobillo") L.push("Radiografía lateral verdadera y de mortaja; férula y elevación.");
+        }
+        if (exp) { L.push("Antibiótico como fractura expuesta y lavado en quirófano; si hay compromiso vascular, reduce antes."); out.links.exp = true; }
+        if (comp) out.links.comp = true;
+        const n = out.nerv;
+        if (n.st === "alt") L.push("Lesión nerviosa: " + A.nervios.filter((r) => n.alt.includes(r[0])).map((r) => r[2]).join("; ") + ". Documéntala " + (red ? "y compárala con la de antes de reducir." : "antes de reducir."));
+        else if (n.st === "nc") L.push("No coopera para explorar los nervios: documéntalo y repite la exploración.");
+        const list = lxEvalsFor(evals, k);
+        if (list.length >= 2 && spEvalDelta(list[list.length - 2], list[list.length - 1]) === "empeoro" && list[list.length - 1].mom !== "antes") { L.unshift("Empeoró después de reducir: revalora de inmediato (nervio o arteria atrapados)."); danger = true; }
+        // Conducta para la nota
+        const P = [];
+        if (!red) {
+          if (vasc) P.push("reducción inmediata por compromiso vascular");
+          if (k === "hombro" || k === "codo" || (k === "cadera" && tipo === "protesis")) P.push((vasc ? "" : "reducción cerrada con analgesia y sedación; ") + "radiografía de control");
+          if (nativa) P.push((vasc ? "" : "reducción cerrada urgente bajo sedación (menos de 6 h); ") + "tomografía después de reducir");
+          if (k === "rodilla") P.push((vasc ? "" : "reducción inmediata; ") + "pulsos e índice tobillo-brazo después de reducir");
+          if (k === "rotula") P.push("reducción sin demora y radiografía AP, lateral y axial");
+          if (k === "tobillo") P.push((vasc ? "" : "reducción y férula urgentes; ") + "radiografía lateral y de mortaja");
+        } else {
+          if (vasc) P.push("angiotomografía o valoración por cirugía vascular inmediata");
+          else if (k === "rodilla") { if (duro) P.push("cirugía vascular inmediata"); else if (out.itb === "lt") P.push("angiotomografía o valoración por cirugía vascular inmediata"); else if (out.itb === "ge") P.push("pulsos e índice tobillo-brazo seriados; férula"); }
+          if (k === "hombro") P.push("radiografía de control y cabestrillo");
+          if (k === "codo") P.push(tipo === "compleja" ? "tomografía y valoración quirúrgica" : "radiografía de control, férula a 90° de 7 a 10 días y movilidad temprana");
+          if (nativa) P.push("tomografía de cadera");
+          if (k === "cadera" && tipo === "protesis") P.push("radiografía de control y precauciones de cadera");
+          if (k === "rotula") P.push("radiografía AP, lateral y axial; férula que permita flexionar; revisión en menos de 2 semanas");
+          if (k === "tobillo") P.push("radiografía lateral y de mortaja; férula y elevación");
+        }
+        if (exp) P.push("antibiótico como fractura expuesta y lavado en quirófano");
+        if (head) out.plan = P.filter(Boolean).join("; ");
+        out.head = head;
+        out.lines = head || L.length ? L : [];
+        if (!head && L.length) { out.head = "Faltan datos para la conducta"; out.level = "info"; }
+        else if (head) {
+          out.level = danger ? "danger" : red ? "ok" : "warn";
+          out.tile = danger ? "Emergencia" : red ? "Reducida" : "Reducir";
+          out.badge = danger ? "Emergencia" : red ? "Reducida" : "Por reducir";
+        }
+        return out;
+      }
+
+      // Las exploraciones guardan su articulación: al cambiarla no se mezclan.
+      function lxEvalsFor(evals, art) {
+        return (Array.isArray(evals) ? evals : []).filter((e) => e && e.art === art);
+      }
+
+      function lxEvalSummary(e, A) {
+        const parts = [e.pulso === "si" ? "pulso presente" : "sin pulso", e.perf === "buena" ? "bien perfundida" : "mal perfundida"];
+        if (e.nerv === "ok") parts.push("nervios íntegros");
+        else if (e.nerv === "nc") parts.push("no coopera para explorar nervios");
+        else if (Array.isArray(e.nerv) && e.nerv.length && A) parts.push("alterado: " + A.nervios.filter((r) => e.nerv.includes(r[0])).map((r) => r[2].replace(/ \(.*\)$/, "")).join(", "));
+        return parts.join(", ");
+      }
+
+      // Pura: texto para la nota. "" si no hay nada que anotar.
+      function lxNoteText(v, evals, edad, nowMs) {
+        const d = lxDefs();
+        const x = v || {};
+        const A = lxArt(x);
+        if (!A) return "";
+        const ev = lxEvaluate(x, edad, evals);
+        const lines = [A.head];
+        const tipo = A.tipos.find((t) => t[0] === ev.tipo);
+        const lado = x["lx-lado"] === "der" ? "derecho" : x["lx-lado"] === "izq" ? "izquierdo" : "";
+        const ladoF = (k) => (k === "cadera" || k === "rodilla" || k === "rotula") ? (lado === "derecho" ? "derecha" : lado === "izquierdo" ? "izquierda" : "") : lado;
+        lines.push("- " + [A.nombre + (ladoF(A.key) ? " " + ladoF(A.key) : ""), tipo ? tipo[1].toLowerCase().replace(/ \(.*\)$/, "") : ""].filter(Boolean).join(", ") + "; " + (ev.red ? "reducida" : "sin reducir") + ".");
+        const perf = x["lx-perf"], pulso = x["lx-pulso"];
+        if (perf || pulso) lines.push("- Circulación: " + [perf === "buena" ? (A.sup ? "mano bien perfundida" : "pie bien perfundido") : perf === "mala" ? (A.sup ? "mano mal perfundida" : "pie mal perfundido") : "", pulso === "si" ? (A.sup ? "pulso radial presente" : "pulsos del pie presentes") : pulso === "no" ? (A.sup ? "sin pulso radial" : "sin pulsos en el pie") : ""].filter(Boolean).join("; ") + ".");
+        const n = ev.nerv;
+        if (A.key === "tobillo" && n.st === "ok") lines.push("- Sensibilidad y movilidad del pie conservadas.");
+        else if (A.key === "tobillo" && n.st === "alt") lines.push("- Sensibilidad o movilidad del pie disminuida.");
+        else if (n.st === "ok") lines.push("- Nervios: " + A.nervios.map((r) => r[2].replace(/ \(.*\)$/, "")).join(", ").replace(/, ([^,]*)$/, " y $1") + (A.nervios.length > 1 ? " íntegros." : " íntegro."));
+        else if (n.st === "nc") lines.push("- Nervios: no coopera para la exploración.");
+        else if (n.st === "alt") lines.push("- Nervios: alterado " + A.nervios.filter((r) => n.alt.includes(r[0])).map((r) => r[2]).join("; ") + ".");
+        if (ev.alarma.length) lines.push("- Signos de alarma: " + ev.alarma.join("; ") + ".");
+        if (A.key === "hombro" && ev.tipo === "ant" && ev.quebec.length) lines.push("- Riesgo de fractura: " + ev.quebec.join("; ") + ".");
+        if (A.key === "rodilla" && ev.itb) lines.push("- Índice tobillo-brazo: " + (ev.itb === "ge" ? "0.9 o más" : "menor de 0.9") + ".");
+        const list = lxEvalsFor(evals, A.key);
+        if (list.length) {
+          const momento = (k) => { const m = d.momentos.find((r) => r[0] === k); return m ? m[1].toLowerCase() : ""; };
+          lines.push("- Exploraciones: " + list.map((e, i) => { const dl = spEvalDelta(list[i - 1], e); return scHora(e.t, nowMs) + " " + momento(e.mom) + ": " + lxEvalSummary(e, A) + (dl === "empeoro" ? " (empeoró)" : dl === "cambio" ? " (cambió)" : i ? " (igual)" : ""); }).join("; ") + ".");
+        }
+        if (ev.plan) lines.push("- Conducta: " + ev.plan + ".");
+        return lines.length > 2 || ev.plan ? lines.join("\n") : "";
+      }
+
+      function lxFormValues() {
+        const v = {};
+        document.querySelectorAll("#calc-lux .lx-in").forEach((el) => {
+          if (el.type === "radio") { if (el.checked) v[el.name] = el.value; }
+          else if (el.type === "checkbox") { if (el.checked) v[el.id] = true; }
+        });
+        return v;
+      }
+
+      function lxLoad() {
+        const d = lxDefs();
+        const raw = pxRawGet(d.key);
+        const byId = {};
+        let removed = 0;
+        const tiposAll = [].concat.apply([], d.orden.map((k) => d.arts[k].tipos.map((t) => t[0])));
+        const radios = { "lx-art": d.orden, "lx-lado": ["der", "izq"], "lx-tipo": tiposAll, "lx-est": ["sin", "red"], "lx-perf": ["buena", "mala"], "lx-pulso": ["si", "no"], "lx-itb": ["ge", "lt"] };
+        const nervIds = [].concat.apply([], d.orden.map((k) => d.arts[k].nervios.map((n) => n[0])));
+        const moms = d.momentos.map((m) => m[0]);
+        if (raw && raw.byId && typeof raw.byId === "object") {
+          let ids = [];
+          try { ids = loadFichaStore().items.map((it) => it.id); } catch (_) { ids = []; }
+          Object.keys(raw.byId).forEach((id) => {
+            const r = raw.byId[id];
+            const v = r && r.v && typeof r.v === "object" ? r.v : null;
+            const clean = {};
+            if (v) Object.keys(v).forEach((k) => { if (/^lx-[a-z0-9-]+$/.test(k) && (radios[k] ? radios[k].includes(v[k]) : v[k] === true)) clean[k] = v[k]; });
+            const evals = (r && Array.isArray(r.evals) ? r.evals : []).filter((e) => e && typeof e.t === "number" && d.orden.includes(e.art) && moms.includes(e.mom) && (e.pulso === "si" || e.pulso === "no") && (e.perf === "buena" || e.perf === "mala") && (e.nerv === "ok" || e.nerv === "nc" || e.nerv === "" || e.nerv === "na" || (Array.isArray(e.nerv) && e.nerv.every((k) => nervIds.includes(k))))).slice(-d.maxEvals);
+            const upd = r && typeof r.upd === "number" ? r.upd : 0;
+            const keep = (Object.keys(clean).length > 0 || evals.length > 0) && (id === "_sin" ? Date.now() - upd < 24 * 3600000 : ids.includes(id));
+            if (keep) byId[id] = { v: clean, evals, upd }; else removed++;
+          });
+        } else if (raw) removed = 1;
+        const store = { v: 1, byId };
+        if (removed) pxRawSet(d.key, store);
+        return store;
+      }
+
+      function lxActiveId() {
+        try { return loadFichaStore().activeId || "_sin"; } catch (_) { return "_sin"; }
+      }
+
+      function lxRec() {
+        return lxLoad().byId[lxActiveId()] || { v: {}, evals: [] };
+      }
+
+      function lxPersist() {
+        const store = lxLoad();
+        const id = lxActiveId();
+        const prev = store.byId[id];
+        const v = lxFormValues();
+        const evals = prev ? prev.evals : [];
+        const datos = Object.keys(v).filter((k) => k !== "lx-est" || v[k] !== "sin");
+        if (datos.length || evals.length) store.byId[id] = { v, evals, upd: Date.now() }; else delete store.byId[id];
+        pxRawSet(lxDefs().key, store);
+      }
+
+      // Arma las listas que dependen de la articulación (tipo, nervios y signos de alarma).
+      function lxBuildArt(art, v) {
+        const d = lxDefs();
+        const A = art ? d.arts[art] : null;
+        const x = v || {};
+        const pill = (id, label, g) => '<label class="check-pill"><input type="checkbox" class="lx-in" data-lxg="' + g + '" id="' + id + '"' + (x[id] ? " checked" : "") + " /> " + escapeHtml(label) + "</label>";
+        const radio = (name, val, label) => '<label class="check-pill"><input type="radio" class="lx-in" name="' + name + '" value="' + val + '"' + (x[name] === val ? " checked" : "") + " /> " + escapeHtml(label) + "</label>";
+        $("lx-tipo-wrap").classList.toggle("hidden", !A || !A.tipos.length);
+        $("lx-tipo-list").innerHTML = A ? A.tipos.map((t) => radio("lx-tipo", t[0], t[1])).join("") : "";
+        $("lx-nerv-wrap").classList.toggle("hidden", !A || !A.nervios.length);
+        $("lx-nerv-list").innerHTML = A && A.nervios.length ? pill("lx-n-ok", A.nervios.length > 1 ? "Íntegros" : "Íntegro", "n") + A.nervios.map((r) => pill(r[0], r[1], "n")).join("") + pill("lx-n-nc", "No coopera (no se pudo explorar)", "n") : "";
+        $("lx-alarma-wrap").classList.toggle("hidden", !A || !A.alarma.length);
+        $("lx-alarma-list").innerHTML = A ? A.alarma.map((r) => pill(r[0], r[1], "a")).join("") : "";
+        $("lx-pulso-si-t").textContent = A && !A.sup ? "Pulsos del pie presentes" : "Pulso radial presente";
+        $("lx-pulso-no-t").textContent = A && !A.sup ? "Sin pulsos en el pie" : "Sin pulso radial";
+        $("lx-perf-b-t").textContent = A && !A.sup ? "Pie rosado y caliente, llena en menos de 2 s" : "Mano rosada y caliente, llena en menos de 2 s";
+        $("lx-perf-m-t").textContent = A && !A.sup ? "Pie pálido o frío, llenado lento" : "Mano pálida o fría, llenado lento";
+        $("lx-art-wrap").dataset.art = art || "";
+      }
+
+      function lxRender() {
+        if (!$("calc-lux")) return;
+        const rec = lxRec();
+        const v = rec.v || {};
+        lxBuildArt(v["lx-art"] || "", v);
+        document.querySelectorAll("#calc-lux .lx-in").forEach((el) => {
+          if (el.type === "radio") el.checked = (v[el.name] || (el.name === "lx-est" ? "sin" : "")) === el.value;
+          else if (el.type === "checkbox") el.checked = !!v[el.id];
+        });
+        if ($("lx-pt")) {
+          let quien = "";
+          try { const f = loadFicha(); if (f) quien = fichaSummary(f.data).initials || "paciente activo"; } catch (_) {}
+          $("lx-pt").textContent = quien ? "Datos ligados a la ficha de " + quien + " (vencen con ella)." : "Sin paciente en la lista: se guarda 24 h y pasa a la ficha si la creas.";
+        }
+        lxRenderEvals(lxEvalsFor(rec.evals, v["lx-art"]), lxArt(v));
+        lxUpdateLive();
+      }
+
+      function lxRenderEvals(evals, A) {
+        const box = $("lx-evals");
+        if (!box) return;
+        const d = lxDefs();
+        const sum = $("lx-reg-sum");
+        if (sum) {
+          const ult = evals.length ? spEvalDelta(evals[evals.length - 2], evals[evals.length - 1]) : "";
+          sum.textContent = !evals.length ? "Ninguna" : evals.length + (evals.length === 1 ? " guardada" : " guardadas") + " · última " + scHora(evals[evals.length - 1].t) + (ult === "empeoro" ? " · empeoró" : "");
+        }
+        if (!evals.length) { box.innerHTML = '<li class="sp-ev-empty">Aún no hay exploraciones guardadas.</li>'; return; }
+        box.innerHTML = evals.map((e, i) => {
+          const dl = spEvalDelta(evals[i - 1], e);
+          const m = d.momentos.find((r) => r[0] === e.mom);
+          const tag = dl === "empeoro" ? ' <span class="badge danger">Empeoró</span>' : dl === "cambio" ? ' <span class="badge warn">Cambió</span>' : "";
+          return '<li class="sp-ev' + (dl === "empeoro" ? " sp-ev-bad" : "") + '"><strong>' + escapeHtml(scHora(e.t)) + " · " + escapeHtml(m ? m[1] : "") + "</strong>" + tag + "<br />" + escapeHtml(lxEvalSummary(e, A)) + "</li>";
+        }).join("");
+      }
+
+      function lxUpdateLive() {
+        if (!$("calc-lux")) return;
+        const v = lxFormValues();
+        const edad = otEdadFicha();
+        const rec = lxRec();
+        const ev = lxEvaluate(v, edad, rec.evals || []);
+        const A = lxArt(v);
+        $("lx-body").classList.toggle("hidden", !A);
+        $("lx-q-wrap").classList.toggle("hidden", !(A && A.key === "hombro" && ev.tipo === "ant" && !ev.red));
+        const q40 = $("lx-q-40"); if (q40) q40.closest("label").classList.toggle("hidden", edad !== null);
+        $("lx-itb-wrap").classList.toggle("hidden", !(A && A.key === "rodilla" && ev.red));
+        const box = $("lx-res");
+        const hay = !!ev.head;
+        box.className = "alert" + (ev.level ? " " + ev.level : "") + (hay ? "" : " hidden");
+        box.innerHTML = hay ? "<strong>" + escapeHtml(ev.head) + "</strong>" + (ev.lines.length ? '<ul class="sc-lines">' + ev.lines.map((l) => "<li>" + escapeHtml(l) + "</li>").join("") + "</ul>" : "") : "";
+        if ($("lx-prompt")) { $("lx-prompt").textContent = ev.pending.join(" "); $("lx-prompt").classList.toggle("hidden", !ev.pending.length); }
+        if ($("lx-go-exp")) $("lx-go-exp").classList.toggle("hidden", !ev.links.exp);
+        if ($("lx-go-comp")) $("lx-go-comp").classList.toggle("hidden", !ev.links.comp);
+        const badge = $("lx-badge");
+        if (badge) { badge.textContent = ev.badge; badge.className = "badge" + (ev.level === "danger" ? " danger" : ev.level === "warn" ? " warn" : ev.level === "ok" ? " ok" : ""); }
+        const tile = $("tile-lx-val");
+        if (tile) tile.textContent = ev.tile;
+      }
+
+      // «Íntegros» y «No coopera» excluyen a los demás nervios, y viceversa.
+      function lxExclusive(el) {
+        if (!el || !el.checked || el.dataset.lxg !== "n") return;
+        const solo = el.id === "lx-n-ok" || el.id === "lx-n-nc";
+        document.querySelectorAll('#calc-lux .lx-in[data-lxg="n"]').forEach((o) => {
+          if (o === el) return;
+          if (solo || o.id === "lx-n-ok" || o.id === "lx-n-nc") o.checked = false;
+        });
+      }
+
+      function lxSaveEval() {
+        const v = lxFormValues();
+        const A = lxArt(v);
+        if (!A) { showToast("Primero elige la articulación."); return false; }
+        if (!v["lx-pulso"] || !v["lx-perf"]) { showToast("Marca la perfusión y el pulso antes de guardar."); return false; }
+        const n = lxNervState(v, A);
+        const store = lxLoad();
+        const id = lxActiveId();
+        const rec = store.byId[id] || { v: {}, evals: [] };
+        const d = lxDefs();
+        const mom = d.momentos.some((m) => m[0] === $("lx-mom").value) ? $("lx-mom").value : "antes";
+        rec.evals = (rec.evals || []).concat([{ t: Date.now(), art: A.key, mom, pulso: v["lx-pulso"], perf: v["lx-perf"], nerv: n.st === "alt" ? n.alt : n.st }]).slice(-d.maxEvals);
+        rec.v = v; rec.upd = Date.now();
+        store.byId[id] = rec;
+        pxRawSet(d.key, store);
+        const mine = lxEvalsFor(rec.evals, A.key);
+        lxRenderEvals(mine, A);
+        const dl = spEvalDelta(mine[mine.length - 2], mine[mine.length - 1]);
+        showToast(dl === "empeoro" ? "Exploración guardada: empeoró respecto a la anterior." : "Exploración guardada.");
+        if (mom === "antes") $("lx-mom").value = "despues"; else if (mom === "despues") $("lx-mom").value = "control";
+        lxUpdateLive();
+        return true;
+      }
+
+      function lxCopyToNote() {
+        const rec = lxRec();
+        const txt = lxNoteText(lxFormValues(), rec.evals || [], otEdadFicha());
+        if (!txt) { showToast("Primero marca los datos de la luxación."); return false; }
+        appendToNota(txt);
+        return true;
+      }
+
+      function initLuxV57() {
+        const panel = $("calc-lux");
+        if (!panel) return;
+        if ($("lx-mom")) $("lx-mom").innerHTML = lxDefs().momentos.map((m) => '<option value="' + m[0] + '">' + escapeHtml(m[1]) + "</option>").join("");
+        if ($("lx-q-list")) $("lx-q-list").innerHTML = lxDefs().quebec.map((q) => '<label class="check-pill"><input type="checkbox" class="lx-in" data-lxg="q" id="' + q[0] + '" /> ' + escapeHtml(q[1]) + "</label>").join("");
+        panel.addEventListener("change", (e) => {
+          const t = e.target;
+          if (!t || !t.classList.contains("lx-in")) return;
+          if (t.name === "lx-art") {
+            // Cambiar de articulación limpia lo que depende de ella; el lado y el estado se quedan.
+            const v = lxFormValues();
+            const keep = {};
+            ["lx-art", "lx-lado", "lx-est"].forEach((k) => { if (v[k]) keep[k] = v[k]; });
+            lxDefs().quebec.forEach((q) => { if (v[q[0]]) keep[q[0]] = true; });
+            lxBuildArt(v["lx-art"], keep);
+            ["lx-perf", "lx-pulso", "lx-itb"].forEach((n) => document.querySelectorAll('#calc-lux input[name="' + n + '"]').forEach((r) => { r.checked = false; }));
+            lxRenderEvals(lxEvalsFor(lxRec().evals, v["lx-art"]), lxArt(v));
+            if ($("lx-mom")) $("lx-mom").value = "antes";
+          }
+          lxExclusive(t);
+          lxPersist();
+          lxUpdateLive();
+        });
+        $("btn-lx-save").addEventListener("click", lxSaveEval);
+        $("btn-lx-note").addEventListener("click", lxCopyToNote);
+        $("btn-lx-borrar").addEventListener("click", () => {
+          const store = lxLoad();
+          const id = lxActiveId();
+          if (!store.byId[id]) { showToast("No hay datos que borrar."); return; }
+          if (!confirm("¿Borrar la luxación y sus exploraciones de este paciente?")) return;
+          delete store.byId[id];
+          pxRawSet(lxDefs().key, store);
+          lxRender();
+          showToast("Luxación borrada.");
+        });
+        $("lx-go-exp").addEventListener("click", urgGoExpuesta);
+        $("lx-go-comp").addEventListener("click", () => {
+          if (!isModuleOn("calc-compart")) { showToast("Bloque desactivado. Actívalo en ⚙️ Ajustes → Módulos."); return; }
+          switchCalcPanel("compart");
+          const p = $("calc-compart"); if (p) p.scrollIntoView({ block: "start" });
+        });
+        const tile = document.querySelector('#urg-subnav [data-calc="lux"]');
+        if (tile) tile.addEventListener("click", lxRender);
+        document.addEventListener("tyo-patient-change", () => { try { lxRender(); } catch (_) {} });
+        lxRender();
+      }
       function renderProtocol() {
         const proto = $("rx-protocol").value;
         const peso = parseFloat($("rx-peso").value);
@@ -11414,6 +11958,16 @@
           });
           return;
         }
+        // v57: luxaciones → exploración; la conducta, al plan
+        if (/^LUXACIÓN DE (HOMBRO|CODO|CADERA|RODILLA|RÓTULA|TOBILLO)$/.test(head)) {
+          out.exam.push(head);
+          const etq = head.charAt(0) + head.slice(1).toLowerCase();
+          body.forEach((b) => {
+            if (/^- Conducta: /.test(b)) { const c = b.slice(12).replace(/\.$/, ""); out.blockPlan.push(c.charAt(0).toUpperCase() + c.slice(1) + " (" + etq.toLowerCase() + ")."); }
+            else out.exam.push(b);
+          });
+          return;
+        }
         // v56: supracondílea → exploración; la conducta, al plan
         if (head === "FRACTURA SUPRACONDÍLEA DE HÚMERO") {
           out.exam.push(head);
@@ -11463,7 +12017,7 @@
         const alarm = [];
         const suggest = [];
         const chips = notaChipRoutes();
-        const BLOCKS = ["VIGILANCIA DE SÍNDROME COMPARTIMENTAL", "FRACTURA DE CADERA DEL ADULTO MAYOR", "INFECCIÓN ÓSEA O DE HERIDA", "REGLAS DE OTTAWA", "COLUMNA CERVICAL", "FRACTURA SUPRACONDÍLEA DE HÚMERO"];
+        const BLOCKS = ["VIGILANCIA DE SÍNDROME COMPARTIMENTAL", "FRACTURA DE CADERA DEL ADULTO MAYOR", "INFECCIÓN ÓSEA O DE HERIDA", "REGLAS DE OTTAWA", "COLUMNA CERVICAL", "FRACTURA SUPRACONDÍLEA DE HÚMERO", "LUXACIÓN DE HOMBRO", "LUXACIÓN DE CODO", "LUXACIÓN DE CADERA", "LUXACIÓN DE RODILLA", "LUXACIÓN DE RÓTULA", "LUXACIÓN DE TOBILLO"];
         let mode = "narrative";
 
         for (let i = 0; i < lines.length; i++) {
@@ -14007,7 +14561,7 @@
       function clearAllFichas() {
         localStorage.removeItem(FICHA_STORE_KEY);
         localStorage.removeItem(FICHA_STORAGE_KEY);
-        try { localStorage.removeItem("tyo_sc_v44"); localStorage.removeItem("tyo_cadera_v45"); localStorage.removeItem("tyo_infx_v47"); localStorage.removeItem("tyo_entrega_v49"); localStorage.removeItem("tyo_ottawa_v53"); localStorage.removeItem("tyo_cervical_v55"); localStorage.removeItem("tyo_supra_v56"); } catch (_) {}
+        try { localStorage.removeItem("tyo_sc_v44"); localStorage.removeItem("tyo_cadera_v45"); localStorage.removeItem("tyo_infx_v47"); localStorage.removeItem("tyo_entrega_v49"); localStorage.removeItem("tyo_ottawa_v53"); localStorage.removeItem("tyo_cervical_v55"); localStorage.removeItem("tyo_supra_v56"); localStorage.removeItem("tyo_lux_v57"); } catch (_) {}
       }
 
       // Nota en progreso + laboratorios del paciente en pantalla.
@@ -15644,6 +16198,37 @@
         } catch (e) { det71 = "Error: " + e.message; }
         addTest("71. v56: fractura supracondílea en niños", ok71, det71);
 
+        // 72. v57: luxaciones
+        let ok72 = false, det72 = "";
+        try {
+          const E = lxEvaluate;
+          const okv = { "lx-perf": "buena", "lx-pulso": "si", "lx-n-ok": true };
+          const H = (x, e) => E(Object.assign({ "lx-art": "hombro", "lx-tipo": "ant" }, okv, x), e, []);
+          const h1 = H({}, 25), h2 = H({ "lx-q-pri": true }, 50), h3 = H({ "lx-q-ene": true }, 25), h4 = H({ "lx-tipo": "post" }, 30), h5 = H({ "lx-est": "red" }, 45);
+          const hom72 = h1.level === "warn" && h1.tile === "Reducir" && h1.lines.some((l) => /Solo podría omitirse/.test(l)) && h2.lines.some((l) => /riesgo de fractura por 40 años o más, primer episodio/.test(l)) && h3.lines.some((l) => /riesgo de fractura por mecanismo de fuerza importante/.test(l)) && h4.lines.some((l) => /proyección axilar/.test(l)) && h5.level === "ok" && h5.tile === "Reducida" && h5.lines.some((l) => /manguito rotador/.test(l));
+          const R = (x) => E(Object.assign({ "lx-art": "rodilla" }, okv, x), 30, []);
+          const r1 = R({}), r2 = R({ "lx-est": "red", "lx-itb": "ge" }), r3 = R({ "lx-est": "red", "lx-itb": "lt" }), r4 = R({ "lx-est": "red" }), r5 = R({ "lx-est": "red", "lx-itb": "ge", "lx-a-duro": true });
+          const rod72 = r1.level === "danger" && /Emergencia de la extremidad/.test(r1.head) && r2.level === "ok" && /vigilancia seriada/.test(r2.head) && r3.level === "danger" && /angiotomografía/.test(r3.head) && r4.level === "danger" && /mide el índice tobillo-brazo/.test(r4.head) && /cirugía vascular inmediata/.test(r5.head);
+          const C = (x) => E(Object.assign({ "lx-art": "cadera" }, okv, x), 40, []);
+          const c1 = C({ "lx-tipo": "nativa" }), c2 = C({ "lx-tipo": "nativa", "lx-est": "red" }), c3 = C({ "lx-tipo": "protesis" }), c4 = C({});
+          const cad72 = c1.level === "danger" && /menos de 6 h/.test(c1.head) && c2.level === "ok" && c2.lines.some((l) => /Tomografía después de reducir/.test(l)) && c3.level === "warn" && c3.lines.some((l) => /periprotésica/.test(l)) && !c4.head && c4.pending.some((p) => /nativa o prótesis/.test(p));
+          const o1 = E({ "lx-art": "codo", "lx-tipo": "simple", "lx-perf": "mala", "lx-pulso": "no", "lx-n-ok": true }, 30, []), o2 = E(Object.assign({ "lx-art": "codo", "lx-tipo": "simple", "lx-est": "red" }, okv), 30, []);
+          const p1 = E({ "lx-art": "rotula" }, 16, []), p2 = E({ "lx-art": "rotula", "lx-est": "red" }, 16, []), t1 = E(Object.assign({ "lx-art": "tobillo", "lx-a-piel": true }, okv), 50, []), t2 = E(Object.assign({ "lx-art": "tobillo", "lx-a-exp": true }, okv), 50, []);
+          const ev2 = [{ t: 1, art: "hombro", mom: "antes", pulso: "si", perf: "buena", nerv: "ok" }, { t: 2, art: "hombro", mom: "despues", pulso: "si", perf: "buena", nerv: ["lx-n-axi"] }];
+          const e1 = E(Object.assign({ "lx-art": "hombro", "lx-tipo": "ant", "lx-est": "red" }, okv), 25, ev2);
+          const otros72 = o1.level === "danger" && /Compromiso vascular/.test(o1.head) && o2.lines.some((l) => /férula a 90°/.test(l)) && p1.level === "warn" && /Reduce sin demora/.test(p1.head) && !p1.pending.length && p2.lines.some((l) => /No aspires la hemartrosis/.test(l)) && t1.level === "danger" && /Piel en riesgo/.test(t1.head) && t2.links.exp && e1.lines[0] === "Empeoró después de reducir: revalora de inmediato (nervio o arteria atrapados)." && e1.level === "danger" && !E(Object.assign({ "lx-art": "rodilla", "lx-est": "red", "lx-itb": "ge" }, okv), 30, ev2).lines.some((l) => /Empeoró/.test(l));
+          const t72 = lxNoteText(Object.assign({ "lx-art": "hombro", "lx-lado": "der", "lx-tipo": "ant", "lx-est": "sin" }, okv), [], 25);
+          const nota72 = t72 === "LUXACIÓN DE HOMBRO\n- Hombro derecho, anterior; sin reducir.\n- Circulación: mano bien perfundida; pulso radial presente.\n- Nervios: axilar, radial y musculocutáneo íntegros.\n- Conducta: reducción cerrada con analgesia y sedación; radiografía de control." && lxNoteText({}, [], 25) === "" && /^LUXACIÓN DE RODILLA\n- Rodilla izquierda; reducida\.\n[\s\S]*- Índice tobillo-brazo: 0\.9 o más\./.test(lxNoteText(Object.assign({ "lx-art": "rodilla", "lx-lado": "izq", "lx-est": "red", "lx-itb": "ge" }, okv), [], 30));
+          const cp = parseCapturedBlocks("Caída en bicicleta.\n" + t72, "Evolución");
+          const rep72 = cp.narrative === "Caída en bicicleta." && /^LUXACIÓN DE HOMBRO\n- Hombro derecho/.test(cp.exam) && !/Conducta/.test(cp.exam) && cp.blockPlan === "Reducción cerrada con analgesia y sedación; radiografía de control (luxación de hombro).";
+          const u1 = urgItems({ lx: { v: Object.assign({ "lx-art": "rodilla", "lx-lado": "der" }, okv), evals: [] }, ctx: { edad: 30 } }, Date.now());
+          const urg72 = u1.length === 1 && u1[0].key === "lux" && u1[0].lvl === "danger" && u1[0].title === "Luxación de rodilla derecha" && urgItems({ lx: { v: Object.assign({ "lx-art": "hombro", "lx-tipo": "ant", "lx-est": "red" }, okv), evals: [] }, ctx: { edad: 30 } }, Date.now()).length === 0 && urgItems({ lx: { v: Object.assign({ "lx-art": "hombro", "lx-tipo": "ant" }, okv), evals: [] }, ctx: { edad: 30 } }, Date.now())[0].lvl === "warn";
+          const reg72 = pxStores().some((s) => s.key === "tyo_lux_v57") && bkEligibleKey("tyo_lux_v57") && fuentesDefs().items.some((it) => it.id === "lux") && !!document.querySelector('.ref-text[data-fuente="lux"] .ref-rev') && urgDefs().notaBtn["calc-lux"] === "btn-lx-note" && !!document.querySelector('#urg-subnav [data-calc="lux"]');
+          ok72 = hom72 && rod72 && cad72 && otros72 && nota72 && rep72 && urg72 && reg72;
+          det72 = "hombro " + hom72 + " · rodilla " + rod72 + " · cadera " + cad72 + " · codo, rótula, tobillo y cambios " + otros72 + " · nota " + nota72 + " · reparto en la nota " + rep72 + " · pendientes de Urgencias " + urg72 + " · registro, respaldo, fuentes y Urgencias " + reg72;
+        } catch (e) { det72 = "Error: " + e.message; }
+        addTest("72. v57: luxaciones", ok72, det72);
+
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
         const rows = tests.map((t) => (t.ok ? "✅ " : "❌ ") + "<strong>" + escapeHtml(t.name) + "</strong>: " + escapeHtml(t.detail)).join("<br>");
@@ -15758,6 +16343,7 @@
           { title: "Entrega de guardia (todos tus pacientes)", mod: "tab-urg", cat: "Urgencias", keys: "entrega de guardia turno pendientes pacientes whatsapp relevo pase de visita", run: () => { switchTab("tab-urg"); openEntrega(); } },
           { title: "Fractura de cadera del adulto mayor (reloj, Nottingham, 4AT)", mod: "calc-cadera", cat: "Urgencias", keys: "fractura cadera adulto mayor femur cuello intertrocanterica subtrocanterica nottingham 4at delirium anticoagulante apixaban warfarina acenocumarol", run: () => { switchTab("tab-urg"); switchCalcPanel("cadera"); cadRender(); } },
           { title: "Infección ósea y de herida (NHSN, FRI, ICM 2018, Kocher)", mod: "calc-infx", cat: "Urgencias", keys: "infeccion sitio quirurgico herida osteomielitis fractura osteosintesis protesis periprotesica artritis septica kocher caird icm nhsn vancomicina cefepima piperacilina sepsis", run: () => { switchTab("tab-urg"); switchCalcPanel("infx"); infRender(); } },
+          { title: "Luxaciones (hombro, codo, cadera, rodilla, rótula y tobillo)", mod: "calc-lux", cat: "Urgencias", keys: "luxacion luxación dislocacion hombro codo cadera rodilla rotula rótula tobillo reduccion reducción protesis prótesis", run: () => { switchTab("tab-urg"); switchCalcPanel("lux"); lxRender(); } },
           { title: "Fractura supracondílea de húmero en niños", mod: "calc-supra", cat: "Urgencias", keys: "supracondilea supracondílea codo gartland humero húmero niño pulso radial nervio interoseo mano palida", run: () => { switchTab("tab-urg"); switchCalcPanel("supra"); spRender(); } },
           { title: "Columna cervical (regla canadiense, NEXUS y niños)", mod: "calc-cervical", cat: "Urgencias", keys: "columna cervical cuello collarin nexus canadiense pecarn tomografia tac radiografia latigazo", run: () => { switchTab("tab-urg"); switchCalcPanel("cervical"); cvRender(); } },
           { title: "Reglas de Ottawa (tobillo, pie y rodilla)", mod: "calc-ottawa", cat: "Urgencias", keys: "ottawa tobillo pie rodilla radiografia rx esguince maleolo navicular metatarsiano rotula perone", run: () => { switchTab("tab-urg"); switchCalcPanel("ottawa"); otRender(); } },
@@ -16384,6 +16970,7 @@
         ["Reglas de Ottawa v53", initOttawaV53],
         ["Columna cervical v55", initCervicalV55],
         ["Supracondílea v56", initSupraV56],
+        ["Luxaciones v57", initLuxV57],
         ["Registros por paciente v45", initPxStoresV45],
         ["Respaldo cifrado v46", initRespaldoV46],
         ["Urgencias v48", initUrgenciasV48],
