@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v53 · Tema "Base44" (oscuro + claro)
+       TyO Assist v54 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -2700,7 +2700,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v53 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v54 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2733,7 +2733,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v53</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v54</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2855,9 +2855,9 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (68 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (69 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (68)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (69)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -3032,15 +3032,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v53 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v54 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "53",
-      versionLabel: "v53 Intuitiva",
+      version: "54",
+      versionLabel: "v54 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-urg | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -3984,8 +3984,8 @@
           celecoxib: { generico: "Celecoxib", pres: [cap("100 mg", 100), cap("200 mg", 200)], via: "oral", max: 400, aine: true },
           meloxicam: { generico: "Meloxicam", pres: [tab("7.5 mg", 7.5), tab("15 mg", 15)], via: "oral", max: 15, aine: true },
           ketorolaco: { generico: "Ketorolaco", pres: [tab("10 mg", 10)], via: "oral", max: 40, maxDias: 5, aine: true },
-          diclofenacogel: { generico: "Diclofenaco", pres: [{ forma: "gel al 1 %", conc: "tubo de 60 g", presTxt: "gel al 1 %, tubo de 60 g", mg: null, unidad: "aplicación", topico: true, surtir: "1 tubo de 60 g" }], via: "tópica" },
-          // Controlado desde el 14 jul 2026 (art. 245 fr. III LGS): receta individual, la farmacia la retiene.
+          diclofenacogel: { generico: "Diclofenaco", pres: [{ forma: "gel al 1 %", conc: "tubo de 60 g", presTxt: "gel al 1 %, tubo de 60 g", mg: null, unidad: "aplicación", topico: true, surtir: "1 tubo de 60 g", gAplic: 2, tuboG: 60 }], via: "tópica" },
+          // Controlado desde el 14 jul 2026 (art. 245 fr. III LGS): receta simple con cédula; la farmacia la sella y la registra (COFEPRIS).
           tramadol: { generico: "Tramadol", pres: [cap("50 mg", 50)], via: "oral", max: 400, controlado: "Grupo III" },
           tramadolparacetamol: { generico: "Tramadol con paracetamol", pres: [tab("37.5 mg/325 mg", 37.5)], via: "oral", max: 300, controlado: "Grupo III", conParacetamol: true },
           omeprazol: { generico: "Omeprazol", pres: [cap("20 mg", 20)], via: "oral" },
@@ -4042,7 +4042,9 @@
         if (pr.topico) {
           if (!diasOk) missing.push("duración");
           line = "Aplicar una capa delgada en la zona afectada " + rxFreqText(it.freq) + durTxt + (it.nota ? ", " + it.nota : "") + ".";
-          total = "Surtir: " + pr.surtir + ".";
+          // v54: tubos suficientes para todo el tratamiento (2 g por aplicación)
+          const nTubos = diasOk && pr.gAplic && pr.tuboG ? Math.max(1, Math.ceil(pr.gAplic * rxTomasPorDia(it.freq) * Number(it.dias) / pr.tuboG)) : 0;
+          total = "Surtir: " + (nTubos ? nTubos + (nTubos === 1 ? " tubo" : " tubos") + " de " + pr.tuboG + " g" : pr.surtir) + ".";
         } else {
           const cant = Number(it.cant);
           const cantOk = it.cant !== "" && Number.isFinite(cant) && cant > 0;
@@ -4934,7 +4936,6 @@
               if (c.redflags > 0) return { items: [], indic: "", blocked: true, reason: "banderas" };
               const items = rxAnalgesia(c, { dias: 5, aine: "naproxeno", ppi: true });
               items.push(rxItem("metocarbamol", 0, 1, 8, 3, true, "puede causar somnolencia: no manejar ni operar maquinaria"));
-              if (c.radiculo) items.push(rxItem("pregabalina", 0, 1, "24n", "", false, ""));
               return { items, indic: "Mantener actividad física ligera según tolere; evitar reposo absoluto en cama por más de 48 horas. Higiene de columna y calor local 15 a 20 minutos cada 8 horas.\nAcudir a Urgencias de inmediato si: pérdida de fuerza en las piernas o pie caído, adormecimiento en la zona genital o entre las piernas, dificultad para orinar o pérdida del control de la orina, o fiebre." };
             } }),
           A({ id: "cervicalgia", grupo: "Columna", nombre: "Cervicalgia mecánica o esguince cervical", diag: "Cervicalgia mecánica aguda",
@@ -4946,7 +4947,7 @@
           A({ id: "tendinopatia", grupo: "Partes blandas", nombre: "Tendinopatía o bursitis (hombro, codo, rodilla)", diag: "Tendinopatía",
             build: (c) => {
               const items = rxAnalgesia(c, { dias: 7, aine: "naproxeno", opioide: false });
-              items.push(rxItem("diclofenacogel", 0, 1, 8, 14, false, ""));
+              items.push(rxItem("diclofenacogel", 0, 1, 6, 14, false, ""));
               return { items, indic: "Reposo relativo: evitar el movimiento o la actividad que provoca el dolor, sin inmovilizar por completo. Hielo envuelto en un paño 15 a 20 minutos cada 6 a 8 horas los primeros días. Cita a control con Ortopedia en 2 a 3 semanas para iniciar ejercicios.\nAcudir a Urgencias si: la zona se pone roja, caliente y muy inflamada, o hay fiebre." };
             } }),
           A({ id: "fascitis-plantar", grupo: "Partes blandas", nombre: "Fascitis plantar", diag: "Fascitis plantar",
@@ -4954,13 +4955,13 @@
               indic: "Estiramientos de la pantorrilla y de la planta del pie 3 veces al día; rodar el pie sobre una botella con agua fría 10 minutos al final del día. Usar calzado con buen soporte y talonera acolchada; evitar caminar descalzo. Cita a control con Ortopedia en 4 a 6 semanas.\nAcudir a Urgencias si: hinchazón, enrojecimiento o calor en el pie, fiebre, o no puede apoyar el pie." }) }),
           A({ id: "osteoartrosis", grupo: "Partes blandas", nombre: "Osteoartrosis de rodilla o cadera (dolor agudizado)", diag: "Osteoartrosis con dolor agudizado",
             build: (c) => {
-              const items = [rxItem("paracetamol", 0, c.hepato || c.peso < 50 ? 1 : 2, 8, 10, false, ""), rxItem("diclofenacogel", 0, 1, 8, 14, false, "")];
+              const items = [rxItem("paracetamol", 0, c.hepato || c.peso < 50 ? 1 : 2, 8, 10, false, ""), rxItem("diclofenacogel", 0, 1, 6, 14, false, "")];
               return { items, indic: "Mantenerse activo con ejercicio de bajo impacto (caminar, bicicleta fija, alberca); bajar de peso si hay sobrepeso. Calor local 15 a 20 minutos cada 8 horas. Si lo necesita, usar bastón del lado contrario a la articulación con dolor. Cita a control con Ortopedia.\nAcudir a Urgencias si: la articulación se pone roja, caliente y muy hinchada, hay fiebre, o no puede apoyar." };
             } }),
           A({ id: "celulitis", grupo: "Infecciones", nombre: "Celulitis leve sin absceso", diag: "Celulitis leve",
             build: (c) => {
               const items = rxAnalgesia(c, { dias: 5, aine: null, opioide: false });
-              items.push(c.alergiaBL ? rxItem("clindamicina", 0, 1, 8, 5, false, "") : rxItem("cefalexina", 0, 1, 6, 5, false, ""));
+              items.push(c.alergiaBL ? rxItem("clindamicina", 0, 1, 6, 5, false, "") : rxItem("cefalexina", 0, 1, 6, 5, false, ""));
               return { items, indic: "Elevar la extremidad. Marcar con pluma el borde del enrojecimiento para vigilar si avanza. Revaloración en 48 a 72 horas.\nAcudir a Urgencias de inmediato si: el enrojecimiento avanza a pesar del antibiótico, aparecen ampollas, piel morada o negra, dolor muy intenso, fiebre o escalofríos." };
             } }),
           A({ id: "mordedura", grupo: "Infecciones", nombre: "Mordedura de perro o gato", diag: "Mordedura de animal",
@@ -9294,12 +9295,12 @@
             { id: "infx", nombre: "Infección ósea y de herida", donde: "Urgencias", next: "2027-01-31",
               fuentes: ["CDC/NHSN, capítulo 9 (enero 2026)", "Consenso FRI: definición 2018 y 2020; antibióticos 2020", "ICM 2018 para prótesis", "Kocher 1999 y 2004; Caird 2006", "Surviving Sepsis Campaign 2026", "Vancomicina: consenso ASHP/IDSA 2020", "Cefepima y piperacilina-tazobactam: etiquetas de la FDA", "Muestras: BOAST 2019 y AO Alliance 2025"],
               nota: "Surviving Sepsis 2026 reemplazó a la de 2021 y mantiene los tiempos que usa la app (1 hora con choque o sepsis probable; 3 horas con posible sepsis sin choque). Para finales de 2026 se anunció una definición unificada de infección de prótesis; cuando salga, conviene actualizar esa parte (hoy ICM 2018). El manual de NHSN se renueva cada enero." },
-            { id: "recetas", nombre: "Recetas: protocolos hospitalarios", donde: "Recetas", next: "2027-11-27", precisar: true,
-              fuentes: ["Profilaxis quirúrgica: AO Principles of Fracture Management; AAOS (infección de sitio quirúrgico); Compendio Nacional de Insumos", "Fractura expuesta: GPC de CENETEC; guías AO/OTA; AAOS 2022 (prevención de infección tras trauma mayor de extremidades)", "Tromboprofilaxis: GPC de CENETEC; AAOS y ACCP", "Analgesia: AAOS y ASA; Cuadro Básico", "Esguince de tobillo: GPC de CENETEC; PEACE & LOVE (BJSM 2020)", "Lumbalgia: GPC de CENETEC; NASS"],
-              nota: "Comprobadas: AAOS 2022 de trauma mayor de extremidades y PEACE & LOVE 2020. Las demás son citas generales sin año; no se encontró una GPC de CENETEC llamada «Manejo inicial de fracturas expuestas»." },
-            { id: "casa", nombre: "Receta para casa (afecciones)", donde: "Recetas", next: "2027-11-27", precisar: true,
-              fuentes: ["Sin fuente anotada por afección"],
-              nota: "Las afecciones ajustan por función renal, riesgo gastrointestinal, alergia y anticoagulación, pero falta documentar la fuente de cada una." },
+            { id: "recetas", nombre: "Recetas: protocolos hospitalarios", donde: "Recetas", next: "2027-11-27",
+              fuentes: ["Profilaxis quirúrgica: ASHP/IDSA/SIS/SHEA 2013; CDC 2017", "Fractura expuesta: AAOS 2022 (trauma mayor de extremidades); JAAOS 2020", "Tromboprofilaxis: ACCP 2012; fichas técnicas; ASRA 2018", "Analgesia: AAOS 2021; etiquetas de paracetamol IV, ketorolaco y tramadol", "Esguince de tobillo: Vuurberg y cols., BJSM 2018; PEACE & LOVE (BJSM 2020)", "Lumbalgia: NICE NG59 (act. 2020); ACP 2017; NEJM 2017"],
+              nota: "Revisadas dosis y citas el 27 nov 2026. Corregido: cefazolina 2 g cada 8 h en fractura expuesta (3 g con 120 kg o más) y en el postoperatorio; rivaroxabán 6 a 10 h después de la cirugía; diclofenaco máximo 150 mg/día; la radiculopatía ya no agrega pregabalina. Enoxaparina 20 mg con depuración menor de 30 según su ficha técnica (EUA: 30 mg)." },
+            { id: "casa", nombre: "Receta para casa (afecciones)", donde: "Recetas", next: "2027-11-27",
+              fuentes: ["Analgésicos y AINE: etiquetas (paracetamol, ibuprofeno, naproxeno, celecoxib, diclofenaco tópico)", "Celulitis y mordeduras: IDSA 2014 (infecciones de piel y partes blandas)", "Tramadol: grupo III (art. 245 LGS) desde el 14 jul 2026; receta simple sellada y registrada (COFEPRIS)", "Rivaroxabán: ficha técnica"],
+              nota: "Revisadas el 27 nov 2026. Corregido: clindamicina 300 mg cada 6 h en celulitis, diclofenaco en gel 4 veces al día (se surten 2 tubos de 60 g para 14 días, a 2 g por aplicación) y lumbalgia con radiculopatía sin pregabalina." },
             { id: "nom004", nombre: "Notas y expediente", donde: "Notas", next: "2027-11-27",
               fuentes: ["NOM-004-SSA3-2012, del expediente clínico (DOF 15/10/2012)"],
               nota: "Vigente según el catálogo de normas de la Secretaría de Economía." },
@@ -9725,7 +9726,7 @@
             ].join("\n");
           } else {
             const farmaco = desabasto ? "Cefalotina 2 g IV (Cuadro Básico por desabasto de Cefazolina)" : "Cefazolina " + cefaDosis + " IV";
-            const post = desabasto ? "Cefalotina 1 g IV c/6 h (máx. 4 dosis / 24 h)" : "Cefazolina 1 g IV c/8 h (máx. 3 dosis / 24 h)";
+            const post = desabasto ? "Cefalotina 1 g IV c/6 h (máx. 4 dosis / 24 h)" : "Cefazolina " + cefaDosis + " IV c/8 h (máx. 3 dosis / 24 h)";
             const redo = desabasto ? "cada 2–3 h" : "cada 4 h";
             out = [
               "INDICACIONES — PROFILAXIS ANTIBIÓTICA QUIRÚRGICA (FX CERRADA / ARTROPLASTIA)",
@@ -9733,10 +9734,10 @@
               "————————————————————————————————————",
               "1. " + farmaco + ", dosis única 30–60 min antes de la incisión quirúrgica (antes de inflar manguito de isquemia).",
               "2. Redosificación intraoperatoria: Repetir dosis " + redo + " o ante sangrado > 1,500 mL.",
-              "3. Postoperatorio: " + post + ". Suspender estrictamente a las 24 horas."
+              "3. Postoperatorio, solo si se decide continuar (CDC 2017 no recomienda dosis después del cierre): " + post + ". Suspender a más tardar a las 24 horas."
             ].join("\n");
           }
-          refs = "Referencias: AO Principles of Fracture Management; AAOS Surgical Site Infection Guidelines; Compendio Nacional de Insumos para la Salud.";
+          refs = "Referencias: ASHP/IDSA/SIS/SHEA 2013 (profilaxis antimicrobiana en cirugía); CDC 2017 (prevención de infección de sitio quirúrgico); Compendio Nacional de Insumos para la Salud.";
         } else if (proto === "expuesta") {
           const grado = $("rx-gustilo").value;
           const telurica = $("rx-telurica").checked;
@@ -9758,7 +9759,7 @@
           } else if (desabasto) {
             lines.push("1. Cobertura Gram positivos (Cuadro Básico): Cefalotina 2 g IV dosis inicial, continuar 1 g IV c/6 h.");
           } else {
-            lines.push("1. Cobertura Gram positivos: Cefazolina 2 g IV dosis inicial, continuar 1 g IV c/8 h.");
+            lines.push("1. Cobertura Gram positivos: Cefazolina " + (peso >= 120 ? "3 g" : "2 g") + " IV dosis inicial y cada 8 h" + (peso >= 120 ? " (3 g por peso de 120 kg o más)" : "") + ".");
           }
 
           if (grado === "3") {
@@ -9789,7 +9790,7 @@
           lines.push("5. Duración: " + (grado === "3" ? "Hasta 72 horas (o 24 horas posteriores a cobertura definitiva de tejidos blandos)." : "24 horas posteriores al cierre definitivo de la herida."));
           lines.push("6. Medidas locales: Lavado quirúrgico y desbridamiento urgente; toma de cultivos solo si infección establecida.");
           out = rxRenumberItems(lines).join("\n");
-          refs = "Referencias: GPC CENETEC Manejo Inicial de Fracturas Expuestas; AO/OTA Open Fracture Guidelines; AAOS 2022.";
+          refs = "Referencias: AAOS 2022 (prevención de infección tras trauma mayor de extremidades); JAAOS 2020 (profilaxis antibiótica en fracturas expuestas); CDC (profilaxis antitetánica).";
         } else if (proto === "trombo") {
           const tipo = $("rx-trombo-tipo").value;
           const obesidad = $("rx-obesidad").checked;
@@ -9804,23 +9805,23 @@
           ];
 
           if (tfg < 30) {
-            alerts.push('<div class="alert danger"><strong>Candado Renal (TFG &lt; 30 mL/min):</strong> Enoxaparina ajustada a 20 mg SC c/24 h (o Heparina no fraccionada). DOACs contraindicados.</div>');
+            alerts.push('<div class="alert danger"><strong>Candado Renal (TFG &lt; 30 mL/min):</strong> Enoxaparina 20 mg SC c/24 h según su ficha técnica (la etiqueta de EUA usa 30 mg) o heparina no fraccionada. Evitar anticoagulantes orales directos: datos limitados con depuración menor de 30.</div>');
             lines.push("1. Primera línea (ajuste renal): Enoxaparina 20 mg SC c/24 h (iniciar 12–24 h postquirúrgico tras verificar hemostasia).");
             lines.push("2. Alternativa en ERC avanzada: Heparina no fraccionada (HNF) 5,000 UI SC c/8–12 h.");
           } else if (obesidad) {
             alerts.push('<div class="alert warn"><strong>Ajuste por Obesidad (IMC &gt; 40 kg/m²):</strong> Considerar régimen intensificado de Enoxaparina 40 mg SC c/12 h.</div>');
             lines.push("1. Primera línea (IMC > 40): Enoxaparina 40 mg SC c/12 h, iniciando 12–24 h posteriores al cierre hemostático.");
-            lines.push("2. Alternativa oral al alta: Rivaroxabán 10 mg VO c/24 h o Apixabán 2.5 mg VO c/12 h (valorar eficacia en peso extremo).");
+            lines.push("2. Alternativa oral al alta: Rivaroxabán 10 mg VO c/24 h (primera dosis 6–10 h después de la cirugía, con hemostasia) o Apixabán 2.5 mg VO c/12 h (primera dosis 12–24 h después); valorar eficacia en peso extremo.");
           } else {
             lines.push("1. Primera línea (Cuadro Básico): Enoxaparina 40 mg SC c/24 h, iniciando 12 h antes de cirugía o 12–24 h posteriores al cierre hemostático.");
-            lines.push("2. Alternativa oral al alta: Rivaroxabán 10 mg VO c/24 h o Apixabán 2.5 mg VO c/12 h (iniciar 12–24 h postquirúrgico).");
+            lines.push("2. Alternativa oral al alta: Rivaroxabán 10 mg VO c/24 h (primera dosis 6–10 h después de la cirugía, con hemostasia) o Apixabán 2.5 mg VO c/12 h (primera dosis 12–24 h después).");
           }
 
           lines.push("3. Duración total recomendada: " + dur + ".");
           lines.push("4. Profilaxis mecánica coadyuvante: Compresión neumática intermitente o medias de compresión graduada + movilización temprana.");
           lines.push("5. Vigilar sangrado en sitio quirúrgico, hematomas y descenso de hemoglobina/plaquetas.");
           out = lines.join("\n");
-          refs = "Referencias: GPC CENETEC Prevención de ETV en Cirugía Ortopédica; AAOS / ACCP Clinical Practice Guidelines.";
+          refs = "Referencias: ACCP 2012 (prevención de ETV en cirugía ortopédica); fichas técnicas de enoxaparina, rivaroxabán y apixabán; ASRA 2018 (anticoagulantes y anestesia neuroaxial).";
         } else if (proto === "analgesia") {
           const bajoPeso = peso < 50;
           const adultoMayor = edad >= 65;
@@ -9861,7 +9862,7 @@
           lines.push("5. Antiemético de rescate: Metoclopramida 10 mg IV c/8 h PRN náusea o vómito.");
           lines.push("6. Medidas físicas: Elevación de extremidad operada, crioterapia local intermitente y vigilancia neurovascular.");
           out = lines.join("\n");
-          refs = "Referencias: Guías de Analgesia Multimodal Perioperatoria AAOS / ASA; Cuadro Básico ISEM/SSA.";
+          refs = "Referencias: AAOS 2021 (alivio del dolor en cirugía de extremidades y pelvis); etiquetas de paracetamol IV, ketorolaco, tramadol y metoclopramida; Cuadro Básico.";
         } else if (proto === "esguince") {
           const bajoPeso = peso < 50;
           const paracetamolVO = (hepato || bajoPeso)
@@ -9891,7 +9892,7 @@
             "4. Datos de alarma para acudir a Urgencias de inmediato:",
             "   • Dedos fríos, pálidos o morados (cianosis distal), hormigueo progresivo, dolor desproporcionado que no cede con analgésico, o incapacidad para dar 4 pasos al día 7."
           ].join("\n");
-          refs = "Referencias: GPC CENETEC Diagnóstico y Tratamiento del Esguince de Tobillo; Protocolo PEACE & LOVE (BJSM 2020).";
+          refs = "Referencias: Vuurberg y cols., BJSM 2018 (guía internacional de esguince de tobillo: AINE por pocos días, soporte funcional y ejercicio); PEACE & LOVE (BJSM 2020); GPC de CENETEC de esguince de tobillo.";
         } else if (proto === "lumbalgia") {
           const flags = Array.from(document.querySelectorAll(".rx-redflag:checked")).map((el) => el.value);
           const radiculo = $("rx-radiculo").checked;
@@ -9923,7 +9924,7 @@
               alerts.push('<div class="alert warn"><strong>Candado GI:</strong> Uso de Celecoxib + Omeprazol.</div>');
               aineLine = "2. Celecoxib 200 mg VO c/12 h por 5 días + Omeprazol 20 mg VO c/24 h en ayuno.";
             } else {
-              aineLine = "2. Naproxeno 500 mg VO c/12 h con alimentos por 5 días (alternativa: Diclofenaco 100 mg VO c/12 h) + Omeprazol 20 mg VO en ayuno.";
+              aineLine = "2. Naproxeno 500 mg VO c/12 h con alimentos por 5 días (alternativa: Diclofenaco 50 mg VO c/8 h, máx. 150 mg/día) + Omeprazol 20 mg VO en ayuno.";
             }
 
             const lines = [
@@ -9935,14 +9936,14 @@
             ];
 
             if (radiculo) {
-              lines.push("4. Coadyuvante neuropático (radiculopatía confirmada sin déficit motor): Pregabalina 75 mg VO por la noche (valorar ajustar a c/12 h según tolerancia).");
+              lines.push("4. Radiculopatía sin déficit motor: no se agrega pregabalina (no redujo el dolor de la ciática en un ensayo clínico, NEJM 2017, y NICE recomienda no usar gabapentinoides). Revalorar en 1 a 2 semanas, o antes si aparece déficit.");
             }
 
             lines.push("5. Medidas generales: Mantener actividad física ligera tolerada (evitar reposo absoluto en cama > 48 h), higiene de columna y calor local 15–20 min c/8 h.");
             lines.push("6. Datos de alarma (acudir a Urgencias): Pérdida de fuerza en piernas o pie caído, adormecimiento en región perineal/genital, dificultad para orinar o incontinencia, o fiebre.");
             out = lines.join("\n");
           }
-          refs = "Referencias: GPC CENETEC Diagnóstico, Tratamiento y Prevención de Lumbalgia Aguda y Crónica; NASS Clinical Guidelines.";
+          refs = "Referencias: NICE NG59 (2016, actualizada en 2020); ACP 2017 (dolor lumbar agudo); Mathieson y cols., NEJM 2017 (pregabalina en ciática); GPC de CENETEC de lumbalgia; etiquetas de naproxeno, diclofenaco y celecoxib.";
         }
 
         if (peso >= 100 && /Gentamicina \d/.test(out)) {
@@ -14174,7 +14175,7 @@
         const d41c = rxDefaultItems("lumbalgia", Object.assign({}, base41, { gastritis: true, radiculo: true })).items;
         const d41d = rxDefaultItems("lumbalgia", Object.assign({}, base41, { redflags: 1 }));
         const d41e = rxDefaultItems("profilaxis", base41);
-        const ok41 = d41a === "paracetamol:2,ibuprofeno:1" && d41b[1].key === "tramadol" && d41b[1].prn && d41c.map((x) => x.key).join() === "paracetamol,celecoxib,omeprazol,metocarbamol,pregabalina" && d41c[4].dias === "" && d41d.blocked && d41d.items.length === 0 && d41e.reason === "hospital";
+        const ok41 = d41a === "paracetamol:2,ibuprofeno:1" && d41b[1].key === "tramadol" && d41b[1].prn && d41c.map((x) => x.key).join() === "paracetamol,celecoxib,omeprazol,metocarbamol" && d41d.blocked && d41d.items.length === 0 && d41e.reason === "hospital";
         addTest("41. v34: la receta de alta toma una sola dosis por fármaco según el paciente", ok41, d41a + " | TFG 45: " + d41b.map((x) => x.key).join(",") + " | banderas: " + d41d.blocked);
         const fx42 = formatRxItem(rxItem("paracetamol", 0, 2, 8, 5, false, ""));
         const fx42b = formatRxItem(rxItem("enoxaparina", 0, 1, 24, 10, false, ""));
@@ -14682,6 +14683,56 @@
           det68 = "tobillo " + tob68 + " · pie " + pie68 + " · rodilla y edad " + rod68 + " · niños y exclusiones " + exc68 + " · nota " + nota68 + " · reparto en la nota " + rep68 + " · negativa " + neg68 + " · registro, respaldo, fuentes y Urgencias " + reg68;
         } catch (e) { det68 = "Error: " + e.message; }
         addTest("68. v53: reglas de Ottawa", ok68, det68);
+
+        // 69. v54: fuentes y dosis de Recetas revisadas
+        let ok69 = false, det69 = "";
+        try {
+          const ctx69 = { peso: 70, edad: 45, tfg: 100, hepato: false, gastritis: false, radiculo: true, redflags: 0, alergiaBL: true, anticoag: false };
+          const cel = rxAfeccionItems("celulitis", ctx69).items.find((x) => x.key === "clindamicina");
+          const ten = rxAfeccionItems("tendinopatia", ctx69).items.find((x) => x.key === "diclofenacogel");
+          const lum = rxAfeccionItems("lumbalgia", ctx69).items.map((x) => x.key);
+          const casa69 = !!cel && cel.freq === "6" && !!ten && ten.freq === "6" && !lum.includes("pregabalina") && formatRxItem(ten).total === "Surtir: 2 tubos de 60 g.";
+          // Protocolos: se arman con el formulario sin tocar la receta del paciente y se deja todo como estaba.
+          const ids = ["rx-protocol", "rx-peso", "rx-edad", "rx-tfg", "rx-gustilo", "rx-trombo-tipo"];
+          const chk = ["rx-alergia", "rx-gastritis", "rx-hepato", "rx-desabasto", "rx-telurica", "rx-tetanos", "rx-obesidad", "rx-radiculo"];
+          const keepV = ids.map((id) => [id, $(id).value]);
+          const keepC = chk.map((id) => [id, $(id).checked]);
+          const keepF = Array.from(document.querySelectorAll(".rx-redflag")).map((el) => el.checked);
+          const origSync = syncRecetaFromProtocol;
+          const out = {};
+          try {
+            syncRecetaFromProtocol = function () {};
+            chk.forEach((id) => { $(id).checked = false; });
+            document.querySelectorAll(".rx-redflag").forEach((el) => { el.checked = false; });
+            const arma = (proto, peso, tfg, extra) => {
+              $("rx-protocol").value = proto; $("rx-peso").value = String(peso); $("rx-edad").value = "45"; $("rx-tfg").value = String(tfg);
+              if (extra) extra();
+              renderProtocol();
+              return { o: $("rx-output").textContent, a: $("rx-alerts").textContent, r: $("rx-refs").textContent };
+            };
+            out.exp70 = arma("expuesta", 70, 100, () => { $("rx-gustilo").value = "3"; });
+            out.exp125 = arma("expuesta", 125, 100, () => { $("rx-gustilo").value = "1"; });
+            out.pro = arma("profilaxis", 70, 100);
+            out.tro = arma("trombo", 70, 100, () => { $("rx-trombo-tipo").value = "cadera"; });
+            out.tro20 = arma("trombo", 70, 20, () => { $("rx-trombo-tipo").value = "cadera"; });
+            out.lum = arma("lumbalgia", 70, 100, () => { $("rx-radiculo").checked = true; });
+          } finally {
+            keepV.forEach(([id, v]) => { $(id).value = v; });
+            keepC.forEach(([id, v]) => { $(id).checked = v; });
+            document.querySelectorAll(".rx-redflag").forEach((el, i) => { el.checked = !!keepF[i]; });
+            try { renderProtocol(); } catch (_) {}
+            syncRecetaFromProtocol = origSync;
+          }
+          const exp69 = /Cefazolina 2 g IV dosis inicial y cada 8 h/.test(out.exp70.o) && !/continuar 1 g/.test(out.exp70.o) && /Cefazolina 3 g IV dosis inicial y cada 8 h/.test(out.exp125.o) && /AAOS 2022/.test(out.exp70.r);
+          const pro69 = /Postoperatorio, solo si se decide continuar[^\n]*Cefazolina 2 g IV c\/8 h/.test(out.pro.o) && /ASHP\/IDSA\/SIS\/SHEA 2013/.test(out.pro.r);
+          const tro69 = /primera dosis 6–10 h después de la cirugía/.test(out.tro.o) && /Evitar anticoagulantes orales directos/.test(out.tro20.a) && /Enoxaparina 20 mg SC c\/24 h/.test(out.tro20.o) && /ACCP 2012/.test(out.tro.r);
+          const lum69 = /Diclofenaco 50 mg VO c\/8 h, máx\. 150 mg\/día/.test(out.lum.o) && !/Pregabalina 75 mg/.test(out.lum.o) && /no se agrega pregabalina/.test(out.lum.o) && /NICE NG59/.test(out.lum.r);
+          const fu69 = !fuentesDefs().items.find((it) => it.id === "recetas").precisar && !fuentesDefs().items.find((it) => it.id === "casa").precisar;
+          const rest69 = keepV.every(([id, v]) => $(id).value === v) && keepC.every(([id, v]) => $(id).checked === v) && syncRecetaFromProtocol === origSync;
+          ok69 = casa69 && exp69 && pro69 && tro69 && lum69 && fu69 && rest69;
+          det69 = "receta para casa " + casa69 + " · fractura expuesta " + exp69 + " · profilaxis " + pro69 + " · tromboprofilaxis " + tro69 + " · lumbalgia " + lum69 + " · fuentes al día " + fu69 + " · formulario restaurado " + rest69;
+        } catch (e) { det69 = "Error: " + e.message; }
+        addTest("69. v54: fuentes y dosis de Recetas revisadas", ok69, det69);
 
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
