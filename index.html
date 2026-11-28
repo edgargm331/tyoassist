@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v52 · Tema "Base44" (oscuro + claro)
+       TyO Assist v53 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -1152,6 +1152,11 @@
     @keyframes fuFlash { 0%, 45% { background: var(--warn-bg); } 100% { background: transparent; } }
     @media (prefers-reduced-motion: reduce) { .fu-row.fu-flash { animation: none; background: var(--warn-bg); } }
 
+    /* ---------- v53: reglas de Ottawa ---------- */
+    .ot-esguince { min-height: 40px; margin-top: 8px; }
+    .ot-edad { margin-top: 10px; }
+    #ot-prompt { margin-top: 10px; }
+
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
     @media print {
@@ -1583,6 +1588,11 @@
             <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-mess"></span>Escala MESS</span><span class="tile-sub">Salvamento de extremidad</span></span>
             <span class="tile-val" id="tile-mess-val">1 pt</span>
           </button>
+          <button type="button" class="tile" data-calc="ottawa" data-mod="calc-ottawa">
+            <span class="tile-ico"><svg class="ic"><use href="#i-scan"/></svg></span>
+            <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-ot"></span>Reglas de Ottawa</span><span class="tile-sub">¿Radiografía? Tobillo · pie · rodilla</span></span>
+            <span class="tile-val" id="tile-ot-val">--</span>
+          </button>
         </div>
       </div>
 
@@ -1971,6 +1981,43 @@
               <button type="button" class="btn btn-secondary btn-lg" id="btn-mess-note" data-mod="tab-notas"><svg class="ic"><use href="#i-clip"/></svg>Copiar a Nota</button>
             </div>
             <div class="ref-text" data-fuente="mess">Johansen K et al., J Trauma 1990; Bosse MJ et al. (LEAP), NEJM 2002.</div>
+          </div>
+        </div>
+
+        <!-- U.5 REGLAS DE OTTAWA (v53) -->
+        <div id="calc-ottawa" class="calc-panel" data-mod="calc-ottawa">
+          <div class="card">
+            <div class="card-head">
+              <h3><svg class="ic gold"><use href="#i-scan"/></svg>Reglas de Ottawa</h3>
+              <span class="badge" id="ot-badge">Sin evaluar</span>
+            </div>
+            <p class="sc-pt" id="ot-pt"></p>
+            <div class="ix-radios ix-tipos ix-first" role="radiogroup" aria-label="Región"><label class="check-pill"><input type="radio" class="ot-in" name="ot-reg" value="tobillo" /> Tobillo y pie</label><label class="check-pill"><input type="radio" class="ot-in" name="ot-reg" value="rodilla" /> Rodilla</label></div>
+            <p class="cfg-help ot-edad hidden" id="ot-edad"></p>
+            <div class="ot-block" data-otreg="tobillo">
+              <div class="mini-label ix-label">¿Dónde duele?</div>
+              <div class="checks"><label class="check-pill"><input type="checkbox" class="ot-in" id="ot-zm" /> Zona maleolar</label><label class="check-pill"><input type="checkbox" class="ot-in" id="ot-zp" /> Mediopié</label></div>
+              <p class="cfg-help" id="ot-prompt">Marca dónde duele para aplicar la regla.</p>
+              <div class="hidden" id="ot-tob-wrap"><div class="mini-label ix-label">Tobillo: dolor a la palpación</div><div class="checks" id="ot-tob-list"></div></div>
+              <div class="hidden" id="ot-pie-wrap"><div class="mini-label ix-label">Pie: dolor a la palpación</div><div class="checks" id="ot-pie-list"></div></div>
+              <div class="hidden" id="ot-peso-wrap"><div class="mini-label ix-label">Carga de peso</div><div class="checks"><label class="check-pill"><input type="checkbox" class="ot-in" id="ot-a-peso" /> No carga peso: no da 4 pasos al momento de la lesión ni en urgencias (cojear sí cuenta como cargar)</label></div></div>
+            </div>
+            <div class="ot-block hidden" data-otreg="rodilla">
+              <div class="checks" id="ot-k55-wrap"><label class="check-pill"><input type="checkbox" class="ot-in" id="ot-k-55" /> 55 años o más</label></div>
+              <div class="mini-label ix-label">Basta uno</div>
+              <div class="checks" id="ot-rod-list"></div>
+            </div>
+            <details class="acc" id="ot-x-acc">
+              <summary><span>Cuándo no aplica <small id="ot-x-sum">Ninguno</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="acc-body"><div class="checks" id="ot-x-list"></div></div>
+            </details>
+            <div id="ot-res" class="alert hidden" aria-live="polite"></div>
+            <button type="button" class="link-gold ot-esguince hidden" id="ot-esguince">Receta de esguince de tobillo <svg class="ic"><use href="#i-arrow"/></svg></button>
+            <div class="btn-duo cx-btns">
+              <button type="button" class="btn btn-primary btn-lg" id="btn-ot-note" data-mod="tab-notas"><svg class="ic"><use href="#i-clip"/></svg>Copiar a Nota</button>
+              <button type="button" class="btn btn-secondary btn-lg" id="btn-ot-borrar"><svg class="ic"><use href="#i-trash"/></svg>Borrar datos</button>
+            </div>
+            <div class="ref-text" data-fuente="ottawa">Apoyo a la decisión: si hay duda clínica, la radiografía la decide el médico. Stiell y cols., JAMA 1993 (tobillo y pie) y JAMA 1996 (rodilla); Bachmann y cols., BMJ 2003 y Ann Intern Med 2004; niños: Dowling y cols., Acad Emerg Med 2009 (tobillo y pie) y Bulloch y cols., Ann Emerg Med 2003 (rodilla).</div>
           </div>
         </div>
       </div>
@@ -2653,7 +2700,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v52 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v53 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2673,7 +2720,7 @@
   <nav class="bottom-nav no-print">
     <div class="bottom-nav-in">
       <button type="button" class="nav-btn active" data-tab="tab-calc"><span class="ico"><svg class="ic"><use href="#i-calc"/></svg></span><span>Inicio</span></button>
-      <button type="button" class="nav-btn" data-tab="tab-urg" data-mod="tab-urg" data-mod-any="calc-compart calc-cadera calc-infx calc-mess rx-expuesta"><span class="ico"><svg class="ic"><use href="#i-siren"/></svg><span class="nav-dot hidden" id="urg-nav-dot"></span></span><span>Urgencias</span></button>
+      <button type="button" class="nav-btn" data-tab="tab-urg" data-mod="tab-urg" data-mod-any="calc-compart calc-cadera calc-infx calc-mess calc-ottawa rx-expuesta"><span class="ico"><svg class="ic"><use href="#i-siren"/></svg><span class="nav-dot hidden" id="urg-nav-dot"></span></span><span>Urgencias</span></button>
       <button type="button" class="nav-btn" data-tab="tab-rx" data-mod="tab-rx"><span class="ico"><svg class="ic"><use href="#i-pill"/></svg></span><span>Recetas</span></button>
       <button type="button" class="nav-btn" data-tab="tab-notas" data-mod="tab-notas"><span class="ico"><svg class="ic"><use href="#i-file"/></svg></span><span>Notas</span></button>
       <button type="button" class="nav-btn" data-tab="tab-estudios" data-mod="tab-estudios"><span class="ico"><svg class="ic"><use href="#i-scan"/></svg></span><span>Estudios</span></button>
@@ -2686,7 +2733,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v52</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v53</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2808,9 +2855,9 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (67 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (68 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (67)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (68)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -2985,15 +3032,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v52 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v53 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "52",
-      versionLabel: "v52 Intuitiva",
+      version: "53",
+      versionLabel: "v53 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-urg | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -3014,6 +3061,7 @@
         "calc-infx": true,
         "calc-tad": true,
         "calc-mess": true,
+        "calc-ottawa": true,
         // Protocolos de Recetas
         "rx-profilaxis": true,
         "rx-expuesta": true,
@@ -3197,6 +3245,7 @@
         { id: "calc-infx", group: "Urgencias", label: "Infección ósea y de herida" },
         { id: "calc-tad", group: "Calculadoras", label: "Índice TAD" },
         { id: "calc-mess", group: "Urgencias", label: "Escala MESS" },
+        { id: "calc-ottawa", group: "Urgencias", label: "Reglas de Ottawa" },
         { id: "rx-profilaxis", group: "Protocolos de Recetas", label: "Profilaxis Qx" },
         { id: "rx-expuesta", group: "Protocolos de Recetas", label: "Fx Expuesta" },
         { id: "rx-trombo", group: "Protocolos de Recetas", label: "Tromboprofilaxis" },
@@ -3243,7 +3292,7 @@
 
       function isTabOn(tabId) {
         // v48: Urgencias se oculta si no le queda ningún bloque encendido
-        if (tabId === "tab-urg") return isModuleOn("tab-urg") && (["calc-compart", "calc-cadera", "calc-infx", "calc-mess"].some(isModuleOn) || (isModuleOn("tab-rx") && isModuleOn("rx-expuesta")));
+        if (tabId === "tab-urg") return isModuleOn("tab-urg") && (["calc-compart", "calc-cadera", "calc-infx", "calc-mess", "calc-ottawa"].some(isModuleOn) || (isModuleOn("tab-rx") && isModuleOn("rx-expuesta")));
         return tabId === "tab-calc" || isModuleOn(tabId);
       }
 
@@ -7283,6 +7332,7 @@
           { key: "tyo_sc_v44", label: "vigilancia compartimental", has: (r) => !!(r && Array.isArray(r.evals) && r.evals.length) },
           { key: "tyo_cadera_v45", label: "fractura de cadera", has: (r) => !!(r && (r.ingreso || (r.pend && r.pend.length) || (r.ac && r.ac.tipo) || r.fx)) },
           { key: "tyo_infx_v47", label: "infección ósea o de herida", has: (r) => !!(r && r.v && Object.keys(r.v).length) },
+          { key: "tyo_ottawa_v53", label: "reglas de Ottawa", has: (r) => !!(r && r.v && Object.keys(r.v).length) },
           { key: "tyo_entrega_v49", label: "pendientes de entrega", has: (r) => !!(r && r.pend) }
         ];
       }
@@ -7315,6 +7365,7 @@
         try { scRender(); } catch (_) {}
         try { cadRender(); } catch (_) {}
         try { infRender(); } catch (_) {}
+        try { otRender(); } catch (_) {}
         try { urgRender(); } catch (_) {}
       }
 
@@ -7881,7 +7932,7 @@
               if (!byId[it.id] || Number(it.savedAt || 0) > Number(byId[it.id].savedAt || 0)) byId[it.id] = it;
             });
             out[k] = JSON.stringify(Object.assign({}, a, { items: Object.keys(byId).map((id) => byId[id]) }));
-          } else if (k === "tyo_sc_v44" || k === "tyo_cadera_v45" || k === "tyo_infx_v47" || k === "tyo_entrega_v49") {
+          } else if (k === "tyo_sc_v44" || k === "tyo_cadera_v45" || k === "tyo_infx_v47" || k === "tyo_entrega_v49" || k === "tyo_ottawa_v53") {
             const a = parse(out[k]), b = parse(inc[k]);
             if (!a || !b || !a.byId || !b.byId) return;
             const byId = Object.assign({}, a.byId);
@@ -8601,8 +8652,8 @@
       ======================================================= */
       function urgDefs() {
         return {
-          keys: ["compart", "cadera", "infx", "mess"],
-          notaBtn: { "calc-compart": "btn-sc-note", "calc-cadera": "btn-cx-note", "calc-infx": "btn-ix-note", "calc-mess": "btn-mess-note" },
+          keys: ["compart", "cadera", "infx", "mess", "ottawa"],
+          notaBtn: { "calc-compart": "btn-sc-note", "calc-cadera": "btn-cx-note", "calc-infx": "btn-ix-note", "calc-mess": "btn-mess-note", "calc-ottawa": "btn-ot-note" },
           tipos: { herida: "herida quirúrgica", fri: "fractura u osteosíntesis", pji: "prótesis articular", kocher: "artritis séptica en niño" },
           tickMs: 30000
         };
@@ -9231,6 +9282,9 @@
               fuentes: ["Baumgaertner y cols., JBJS Am 1995"], nota: "" },
             { id: "mess", nombre: "Escala MESS", donde: "Urgencias", next: "2027-11-27",
               fuentes: ["Johansen y cols., J Trauma 1990", "Bosse y cols. (estudio LEAP), NEJM 2002"], nota: "" },
+            { id: "ottawa", nombre: "Reglas de Ottawa", donde: "Urgencias", next: "2027-11-27",
+              fuentes: ["Stiell y cols., JAMA 1993 (tobillo y pie, refinadas y validadas)", "Stiell y cols., Ann Emerg Med 1995 y JAMA 1996 (rodilla)", "Bachmann y cols., BMJ 2003 (tobillo y pie) y Ann Intern Med 2004 (rodilla)", "Niños: Dowling y cols., Acad Emerg Med 2009; Bulloch y cols., Ann Emerg Med 2003"],
+              nota: "Sensibilidad cercana a 98 % para descartar fractura. Tobillo y pie, confiables desde los 5 años; rodilla, validada de 2 a 16 años en niños." },
             { id: "compart", nombre: "Síndrome compartimental", donde: "Urgencias", next: "2027-11-27",
               fuentes: ["BOAST de síndrome compartimental de las extremidades (BOA, julio 2025)", "AAOS, guía de síndrome compartimental agudo (2025)", "Bae y cols., J Pediatr Orthop 2001 (niños)"],
               nota: "Siguen siendo las versiones vigentes." },
@@ -9356,6 +9410,270 @@
           fuentesOpen(b.dataset.fuente);
         });
         if ($("btn-settings")) $("btn-settings").addEventListener("click", fuentesRender);
+      }
+
+      /* =======================================================
+         v53: REGLAS DE OTTAWA (tobillo, pie y rodilla)
+         Fuentes:
+         - Stiell y cols., JAMA 1993: reglas de tobillo y pie refinadas y validadas
+           (zona maleolar: borde posterior o punta de cualquier maléolo, 6 cm distales,
+           o no cargar peso; mediopié: base del 5.º metatarsiano o navicular, o no cargar).
+         - Stiell y cols., Ann Emerg Med 1995 (derivación) y JAMA 1996 (validación) de la
+           regla de rodilla: 55 años o más, dolor aislado de rótula, cabeza del peroné,
+           no flexiona a 90° o no carga peso (4 pasos al momento y en urgencias).
+         - Bachmann y cols., BMJ 2003 (tobillo y pie) y Ann Intern Med 2004 (rodilla):
+           sensibilidad cercana a 98 %.
+         - Dowling y cols., Acad Emerg Med 2009: tobillo y pie en niños mayores de 5 años.
+         - Bulloch y cols., Ann Emerg Med 2003: rodilla en niños de 2 a 16 años.
+         Datos por paciente en tyo_ottawa_v53, sin datos que identifiquen.
+      ======================================================= */
+      function otDefs() {
+        return {
+          key: "tyo_ottawa_v53",
+          tobillo: [
+            ["ot-a-lat", "Borde posterior o punta del maléolo lateral (6 cm distales)", "dolor a la palpación en el borde posterior o la punta del maléolo lateral"],
+            ["ot-a-med", "Borde posterior o punta del maléolo medial (6 cm distales)", "dolor a la palpación en el borde posterior o la punta del maléolo medial"]
+          ],
+          pie: [
+            ["ot-f-m5", "Base del 5.º metatarsiano", "dolor a la palpación en la base del quinto metatarsiano"],
+            ["ot-f-nav", "Navicular", "dolor a la palpación en el navicular"]
+          ],
+          rodilla: [
+            ["ot-k-rot", "Dolor aislado a la palpación de la rótula (sin otro dolor óseo en la rodilla)", "dolor aislado a la palpación de la rótula"],
+            ["ot-k-per", "Dolor a la palpación de la cabeza del peroné", "dolor a la palpación de la cabeza del peroné"],
+            ["ot-k-flex", "No flexiona la rodilla a 90°", "no flexiona la rodilla a 90°"],
+            ["ot-k-peso", "No carga peso: no da 4 pasos al momento de la lesión ni en urgencias", "no carga peso (no da 4 pasos al momento de la lesión ni en urgencias)"]
+          ],
+          excl: [
+            ["ot-x-alerta", "Intoxicación, TCE o alteración del estado de alerta", "intoxicación, TCE o alteración del estado de alerta"],
+            ["ot-x-mult", "Lesiones múltiples dolorosas o una lesión que distrae", "lesiones múltiples dolorosas"],
+            ["ot-x-sens", "Sensibilidad disminuida por déficit neurológico", "sensibilidad disminuida por déficit neurológico"],
+            ["ot-x-dias", "Lesión de más de 10 días (rodilla: más de 7)", "lesión de varios días de evolución"],
+            ["ot-x-emb", "Embarazo (no se incluyó en los estudios)", "embarazo"],
+            ["ot-x-def", "Deformidad evidente o herida sobre el hueso", "deformidad evidente o herida sobre el hueso"]
+          ],
+          proy: { tobillo: "tobillo AP, lateral y mortaja", pie: "pie AP, lateral y oblicua", rodilla: "rodilla AP y lateral" }
+        };
+      }
+
+      // Edad en años desde la ficha (null si no hay).
+      function otEdadFicha() {
+        try {
+          const f = loadFicha();
+          if (f && f.data && Number.isFinite(f.data.edad)) return f.data.edadUnidad === "m" ? f.data.edad / 12 : f.data.edad;
+        } catch (_) {}
+        return null;
+      }
+
+      // Pura: interpreta las reglas. v = valores del panel; edad en años o null.
+      function otEvaluate(v, edad) {
+        const d = otDefs();
+        const x = v || {};
+        const on = (k) => !!x[k];
+        const excl = d.excl.filter((c) => on(c[0]));
+        const out = { edad: edad, nino: edad !== null && edad < 18, noAplica: "", deformidad: on("ot-x-def"), tobillo: null, pie: null, rodilla: null, rx: [], level: "", head: "", lines: [], tile: "--", badge: "Sin evaluar" };
+        if (edad !== null && edad < 5) out.noAplica = "Menores de 5 años: las reglas no están validadas; decide con tu juicio clínico.";
+        else if (out.deformidad) out.noAplica = "Deformidad evidente o herida sobre el hueso: toma radiografía sin aplicar la regla.";
+        else if (excl.length) out.noAplica = "La regla no aplica (" + excl.map((c) => c[2]).join("; ") + "): decide la radiografía con tu juicio clínico.";
+        const pesoAP = on("ot-a-peso");
+        if (on("ot-zm")) {
+          const m = d.tobillo.filter((c) => on(c[0])).map((c) => c[2]);
+          if (pesoAP) m.push("no carga peso (no da 4 pasos al momento de la lesión ni en urgencias)");
+          out.tobillo = { pos: m.length > 0, motivos: m };
+        }
+        if (on("ot-zp")) {
+          const m = d.pie.filter((c) => on(c[0])).map((c) => c[2]);
+          if (pesoAP) m.push("no carga peso (no da 4 pasos al momento de la lesión ni en urgencias)");
+          out.pie = { pos: m.length > 0, motivos: m };
+        }
+        const k55 = (edad !== null && edad >= 55) || (edad === null && on("ot-k-55"));
+        const kCrit = d.rodilla.filter((c) => on(c[0])).map((c) => c[2]);
+        if (on("ot-k-vista") || kCrit.length || on("ot-k-55")) {
+          const m = (k55 ? ["55 años o más"] : []).concat(kCrit);
+          out.rodilla = { pos: m.length > 0, motivos: m };
+        }
+        const regiones = [["tobillo", "Tobillo"], ["pie", "Pie"], ["rodilla", "Rodilla"]].filter((r) => out[r[0]]);
+        if (out.noAplica) {
+          out.level = "warn"; out.head = out.noAplica;
+          out.tile = out.deformidad ? "Rx" : "No aplica"; out.badge = out.deformidad ? "Rx directa" : "No aplica";
+          if (out.deformidad) out.rx = regiones.map((r) => d.proy[r[0]]);
+          return out;
+        }
+        if (!regiones.length) { out.head = ""; return out; }
+        regiones.forEach((r) => {
+          const ev = out[r[0]];
+          if (ev.pos) out.rx.push(d.proy[r[0]]);
+          out.lines.push(r[1] + ": " + (ev.pos ? "indica radiografía de " + d.proy[r[0]] + " (" + ev.motivos.join("; ") + ")." : "no indica radiografía."));
+        });
+        if (out.nino) {
+          if (out.tobillo || out.pie) out.lines.push("Niños: la regla de tobillo y pie es confiable de los 5 años en adelante (metaanálisis de 2009).");
+          if (out.rodilla) out.lines.push("Niños: la regla de rodilla se validó de 2 a 16 años; hay menos datos en los más pequeños.");
+        }
+        if (out.rx.length) { out.level = "warn"; out.head = "Indica radiografía"; out.tile = "Rx"; out.badge = "Rx indicada"; }
+        else { out.level = "ok"; out.head = "No indica radiografía: la regla descarta fractura con sensibilidad cercana a 98 %."; out.tile = "Sin Rx"; out.badge = "Sin Rx"; }
+        return out;
+      }
+
+      // Pura: texto para la nota (encabezado + renglones «- »).
+      function otNoteText(v, edad) {
+        const ev = otEvaluate(v, edad);
+        const lines = ["REGLAS DE OTTAWA"];
+        const reg = (nombre, r, zona) => {
+          if (!r) return;
+          lines.push("- " + nombre + ": " + zona + (r.motivos.length ? "; " + r.motivos.join("; ") : "") + "; regla " + (r.pos ? "positiva" : "negativa") + ".");
+        };
+        reg("Tobillo", ev.tobillo, "dolor en la zona maleolar");
+        reg("Pie", ev.pie, "dolor en el mediopié");
+        reg("Rodilla", ev.rodilla, "traumatismo de rodilla");
+        if (ev.noAplica) lines.push("- " + ev.noAplica);
+        if (ev.rx.length) lines.push("- Se solicita radiografía de " + ev.rx.join(" y de ") + ".");
+        else if (!ev.noAplica && (ev.tobillo || ev.pie || ev.rodilla)) lines.push("- Sin indicación de radiografía por las reglas de Ottawa.");
+        return lines.join("\n");
+      }
+
+      function otFormValues() {
+        const v = {};
+        document.querySelectorAll("#calc-ottawa .ot-in").forEach((el) => {
+          if (el.type === "radio") { if (el.checked) v[el.name] = el.value; }
+          else if (el.type === "checkbox") { if (el.checked) v[el.id] = true; }
+        });
+        return v;
+      }
+
+      function otLoad() {
+        const raw = pxRawGet(otDefs().key);
+        const byId = {};
+        let removed = 0;
+        if (raw && raw.byId && typeof raw.byId === "object") {
+          let ids = [];
+          try { ids = loadFichaStore().items.map((it) => it.id); } catch (_) { ids = []; }
+          Object.keys(raw.byId).forEach((id) => {
+            const r = raw.byId[id];
+            const v = r && r.v && typeof r.v === "object" ? r.v : null;
+            const clean = {};
+            if (v) Object.keys(v).forEach((k) => { if (/^ot-[a-z0-9-]+$/.test(k) && (v[k] === true || (k === "ot-reg" && (v[k] === "tobillo" || v[k] === "rodilla")))) clean[k] = v[k]; });
+            const upd = r && typeof r.upd === "number" ? r.upd : 0;
+            const keep = Object.keys(clean).length > 0 && (id === "_sin" ? Date.now() - upd < 24 * 3600000 : ids.includes(id));
+            if (keep) byId[id] = { v: clean, upd }; else removed++;
+          });
+        } else if (raw) removed = 1;
+        const store = { v: 1, byId };
+        if (removed) pxRawSet(otDefs().key, store);
+        return store;
+      }
+
+      function otActiveId() {
+        try { return loadFichaStore().activeId || "_sin"; } catch (_) { return "_sin"; }
+      }
+
+      function otCurrent() {
+        const rec = otLoad().byId[otActiveId()];
+        return rec ? rec.v : {};
+      }
+
+      function otPersist() {
+        const store = otLoad();
+        const id = otActiveId();
+        const prev = store.byId[id] ? store.byId[id].v : {};
+        const v = otFormValues();
+        if (prev["ot-k-vista"] || v["ot-reg"] === "rodilla") v["ot-k-vista"] = true;
+        const datos = Object.keys(v).filter((k) => k !== "ot-reg" && k !== "ot-k-vista");
+        if (datos.length || v["ot-k-vista"]) store.byId[id] = { v, upd: Date.now() }; else delete store.byId[id];
+        pxRawSet(otDefs().key, store);
+      }
+
+      function otRender() {
+        if (!$("calc-ottawa")) return;
+        const v = otCurrent();
+        document.querySelectorAll("#calc-ottawa .ot-in").forEach((el) => {
+          if (el.type === "radio") el.checked = (v[el.name] || "tobillo") === el.value;
+          else if (el.type === "checkbox") el.checked = !!v[el.id];
+        });
+        if ($("ot-x-acc")) $("ot-x-acc").open = otDefs().excl.some((c) => v[c[0]]);
+        if ($("ot-pt")) {
+          let quien = "";
+          try { const f = loadFicha(); if (f) quien = fichaSummary(f.data).initials || "paciente activo"; } catch (_) {}
+          $("ot-pt").textContent = quien ? "Datos ligados a la ficha de " + quien + " (vencen con ella)." : "Sin paciente en la lista: se guarda 24 h y pasa a la ficha si la creas.";
+        }
+        otUpdateLive();
+      }
+
+      function otUpdateLive() {
+        if (!$("calc-ottawa")) return;
+        const d = otDefs();
+        const v = otFormValues();
+        const prev = otCurrent();
+        if (prev["ot-k-vista"]) v["ot-k-vista"] = true;
+        const reg = v["ot-reg"] || "tobillo";
+        if (reg === "rodilla") v["ot-k-vista"] = true;
+        document.querySelectorAll("#calc-ottawa .ot-block").forEach((b) => b.classList.toggle("hidden", b.dataset.otreg !== reg));
+        $("ot-tob-wrap").classList.toggle("hidden", !v["ot-zm"]);
+        $("ot-pie-wrap").classList.toggle("hidden", !v["ot-zp"]);
+        $("ot-peso-wrap").classList.toggle("hidden", !v["ot-zm"] && !v["ot-zp"]);
+        const edad = otEdadFicha();
+        $("ot-k55-wrap").classList.toggle("hidden", edad !== null);
+        if ($("ot-edad")) {
+          $("ot-edad").textContent = edad === null ? "Sin edad en la ficha: márcala en rodilla si tiene 55 años o más." : edad < 5 ? "Menor de 5 años: las reglas no están validadas." : edad < 18 ? "Niño o adolescente: revisa la nota de edad en el resultado." : edad >= 55 ? "55 años o más: la rodilla ya cumple un criterio." : "";
+          $("ot-edad").classList.toggle("hidden", !$("ot-edad").textContent);
+        }
+        const nx = d.excl.filter((c) => v[c[0]]).length;
+        if ($("ot-x-sum")) $("ot-x-sum").textContent = nx ? nx + (nx === 1 ? " marcado" : " marcados") : "Ninguno";
+        const ev = otEvaluate(v, edad);
+        const box = $("ot-res");
+        const hay = !!(ev.head || ev.lines.length);
+        box.className = "alert" + (ev.level ? " " + ev.level : "") + (hay ? "" : " hidden");
+        box.innerHTML = hay ? "<strong>" + escapeHtml(ev.head) + "</strong>" + (ev.lines.length ? '<ul class="sc-lines">' + ev.lines.map((l) => "<li>" + escapeHtml(l) + "</li>").join("") + "</ul>" : "") : "";
+        if ($("ot-prompt")) $("ot-prompt").classList.toggle("hidden", hay || reg !== "tobillo");
+        const tobNeg = !ev.noAplica && ev.tobillo && !ev.tobillo.pos && !(ev.pie && ev.pie.pos);
+        if ($("ot-esguince")) $("ot-esguince").classList.toggle("hidden", !tobNeg);
+        const badge = $("ot-badge");
+        if (badge) { badge.textContent = ev.badge; badge.className = "badge" + (ev.level === "warn" ? " warn" : ev.level === "ok" ? " ok" : ""); }
+        const tile = $("tile-ot-val");
+        if (tile) tile.textContent = ev.tile;
+      }
+
+      function otBuild() {
+        const d = otDefs();
+        const pill = (id, label) => '<label class="check-pill"><input type="checkbox" class="ot-in" id="' + id + '" /> ' + escapeHtml(label) + "</label>";
+        const put = (cont, list) => { if ($(cont)) $(cont).innerHTML = list.map((c) => pill(c[0], c[1])).join(""); };
+        put("ot-tob-list", d.tobillo); put("ot-pie-list", d.pie); put("ot-rod-list", d.rodilla); put("ot-x-list", d.excl);
+      }
+
+      function otCopyToNote() {
+        const v = otFormValues();
+        const prev = otCurrent();
+        if (prev["ot-k-vista"] || v["ot-reg"] === "rodilla") v["ot-k-vista"] = true;
+        const ev = otEvaluate(v, otEdadFicha());
+        if (!ev.tobillo && !ev.pie && !ev.rodilla && !ev.noAplica) { showToast("Primero marca dónde duele o evalúa la rodilla."); return false; }
+        appendToNota(otNoteText(v, otEdadFicha()));
+        return true;
+      }
+
+      function initOttawaV53() {
+        const panel = $("calc-ottawa");
+        if (!panel) return;
+        otBuild();
+        panel.addEventListener("change", (e) => { if (e.target && e.target.classList.contains("ot-in")) { otPersist(); otUpdateLive(); } });
+        $("btn-ot-note").addEventListener("click", otCopyToNote);
+        $("btn-ot-borrar").addEventListener("click", () => {
+          const store = otLoad();
+          const id = otActiveId();
+          if (!store.byId[id]) { showToast("No hay datos que borrar."); return; }
+          if (!confirm("¿Borrar las reglas de Ottawa de este paciente?")) return;
+          delete store.byId[id];
+          pxRawSet(otDefs().key, store);
+          otRender();
+          showToast("Reglas de Ottawa borradas.");
+        });
+        $("ot-esguince").addEventListener("click", () => {
+          switchTab("tab-rx");
+          const b = document.querySelector('#rx-proto-grid button[data-proto="esguince"]');
+          if (b) { b.click(); b.scrollIntoView({ block: "center" }); }
+        });
+        const tile = document.querySelector('#urg-subnav [data-calc="ottawa"]');
+        if (tile) tile.addEventListener("click", otRender);
+        document.addEventListener("tyo-patient-change", () => { try { otRender(); } catch (_) {} });
+        otRender();
       }
 
       function renderProtocol() {
@@ -10248,6 +10566,15 @@
           body.forEach((b) => out.exam.push(b));
           return;
         }
+        // v53: Ottawa → hallazgos a exploración; la radiografía que se pide, al plan
+        if (head === "REGLAS DE OTTAWA") {
+          out.exam.push(head);
+          body.forEach((b) => {
+            if (/^- Se solicita radiografía/.test(b)) out.blockPlan.push(b.slice(2).replace(/\.$/, "") + " (reglas de Ottawa).");
+            else out.exam.push(b);
+          });
+          return;
+        }
         const keep = [];
         const rest = (b, re) => b.replace(re, "").trim();
         body.forEach((b) => {
@@ -10277,7 +10604,7 @@
         const alarm = [];
         const suggest = [];
         const chips = notaChipRoutes();
-        const BLOCKS = ["VIGILANCIA DE SÍNDROME COMPARTIMENTAL", "FRACTURA DE CADERA DEL ADULTO MAYOR", "INFECCIÓN ÓSEA O DE HERIDA"];
+        const BLOCKS = ["VIGILANCIA DE SÍNDROME COMPARTIMENTAL", "FRACTURA DE CADERA DEL ADULTO MAYOR", "INFECCIÓN ÓSEA O DE HERIDA", "REGLAS DE OTTAWA"];
         let mode = "narrative";
 
         for (let i = 0; i < lines.length; i++) {
@@ -12821,7 +13148,7 @@
       function clearAllFichas() {
         localStorage.removeItem(FICHA_STORE_KEY);
         localStorage.removeItem(FICHA_STORAGE_KEY);
-        try { localStorage.removeItem("tyo_sc_v44"); localStorage.removeItem("tyo_cadera_v45"); localStorage.removeItem("tyo_infx_v47"); localStorage.removeItem("tyo_entrega_v49"); } catch (_) {}
+        try { localStorage.removeItem("tyo_sc_v44"); localStorage.removeItem("tyo_cadera_v45"); localStorage.removeItem("tyo_infx_v47"); localStorage.removeItem("tyo_entrega_v49"); localStorage.removeItem("tyo_ottawa_v53"); } catch (_) {}
       }
 
       // Nota en progreso + laboratorios del paciente en pantalla.
@@ -14332,6 +14659,30 @@
         } catch (e) { det67 = "Error: " + e.message; }
         addTest("67. v52: fuentes clínicas con fecha de revisión", ok67, det67);
 
+        // 68. v53: reglas de Ottawa
+        let ok68 = false, det68 = "";
+        try {
+          const E = otEvaluate;
+          const t1 = E({ "ot-zm": true, "ot-a-lat": true }, 30), t2 = E({ "ot-zm": true }, 30), t3 = E({ "ot-zm": true, "ot-a-peso": true }, 30);
+          const tob68 = t1.tobillo.pos && t1.rx.join() === "tobillo AP, lateral y mortaja" && !t2.tobillo.pos && t2.rx.length === 0 && t2.level === "ok" && t3.tobillo.pos;
+          const p1 = E({ "ot-zp": true, "ot-f-nav": true }, 40), p2 = E({ "ot-zm": true, "ot-zp": true, "ot-a-peso": true }, 40);
+          const pie68 = p1.pie.pos && p1.tobillo === null && p1.rx.join() === "pie AP, lateral y oblicua" && p2.rx.length === 2;
+          const k1 = E({ "ot-k-vista": true }, 60), k2 = E({ "ot-k-vista": true }, 30), k3 = E({ "ot-k-rot": true }, 30), k4 = E({ "ot-k-vista": true, "ot-k-55": true }, null), k5 = E({ "ot-k-vista": true, "ot-k-55": true }, 40);
+          const rod68 = k1.rodilla.pos && k1.rodilla.motivos[0] === "55 años o más" && !k2.rodilla.pos && k3.rodilla.pos && k3.rx.join() === "rodilla AP y lateral" && k4.rodilla.pos && !k5.rodilla.pos;
+          const n4 = E({ "ot-zm": true, "ot-a-lat": true }, 4), n10 = E({ "ot-zm": true }, 10), x1 = E({ "ot-zm": true, "ot-x-alerta": true }, 30), x2 = E({ "ot-zm": true, "ot-x-def": true }, 30);
+          const exc68 = !!n4.noAplica && n4.rx.length === 0 && !n10.noAplica && n10.lines.some((l) => /5 años/.test(l)) && /no aplica/.test(x1.noAplica) && x1.rx.length === 0 && x2.deformidad && x2.rx.length === 1 && x2.tile === "Rx";
+          const txt = otNoteText({ "ot-zm": true, "ot-a-lat": true, "ot-k-vista": true }, 60);
+          const nota68 = txt === "REGLAS DE OTTAWA\n- Tobillo: dolor en la zona maleolar; dolor a la palpación en el borde posterior o la punta del maléolo lateral; regla positiva.\n- Rodilla: traumatismo de rodilla; 55 años o más; regla positiva.\n- Se solicita radiografía de tobillo AP, lateral y mortaja y de rodilla AP y lateral.";
+          const c = parseCapturedBlocks("Dolor tras torcedura.\n" + txt, "Evolución");
+          const rep68 = c.narrative === "Dolor tras torcedura." && /^REGLAS DE OTTAWA\n- Tobillo:/.test(c.exam) && !/Se solicita/.test(c.exam) && c.blockPlan === "Se solicita radiografía de tobillo AP, lateral y mortaja y de rodilla AP y lateral (reglas de Ottawa).";
+          const neg = parseCapturedBlocks(otNoteText({ "ot-zm": true }, 30), "Evolución");
+          const neg68 = /Sin indicación de radiografía por las reglas de Ottawa/.test(neg.exam) && neg.blockPlan === "";
+          const reg68 = pxStores().some((s) => s.key === "tyo_ottawa_v53") && bkEligibleKey("tyo_ottawa_v53") && fuentesDefs().items.some((it) => it.id === "ottawa") && !!document.querySelector('.ref-text[data-fuente="ottawa"] .ref-rev') && urgDefs().notaBtn["calc-ottawa"] === "btn-ot-note" && !!document.querySelector('#urg-subnav [data-calc="ottawa"]');
+          ok68 = tob68 && pie68 && rod68 && exc68 && nota68 && rep68 && neg68 && reg68;
+          det68 = "tobillo " + tob68 + " · pie " + pie68 + " · rodilla y edad " + rod68 + " · niños y exclusiones " + exc68 + " · nota " + nota68 + " · reparto en la nota " + rep68 + " · negativa " + neg68 + " · registro, respaldo, fuentes y Urgencias " + reg68;
+        } catch (e) { det68 = "Error: " + e.message; }
+        addTest("68. v53: reglas de Ottawa", ok68, det68);
+
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
         const rows = tests.map((t) => (t.ok ? "✅ " : "❌ ") + "<strong>" + escapeHtml(t.name) + "</strong>: " + escapeHtml(t.detail)).join("<br>");
@@ -14446,6 +14797,7 @@
           { title: "Entrega de guardia (todos tus pacientes)", mod: "tab-urg", cat: "Urgencias", keys: "entrega de guardia turno pendientes pacientes whatsapp relevo pase de visita", run: () => { switchTab("tab-urg"); openEntrega(); } },
           { title: "Fractura de cadera del adulto mayor (reloj, Nottingham, 4AT)", mod: "calc-cadera", cat: "Urgencias", keys: "fractura cadera adulto mayor femur cuello intertrocanterica subtrocanterica nottingham 4at delirium anticoagulante apixaban warfarina acenocumarol", run: () => { switchTab("tab-urg"); switchCalcPanel("cadera"); cadRender(); } },
           { title: "Infección ósea y de herida (NHSN, FRI, ICM 2018, Kocher)", mod: "calc-infx", cat: "Urgencias", keys: "infeccion sitio quirurgico herida osteomielitis fractura osteosintesis protesis periprotesica artritis septica kocher caird icm nhsn vancomicina cefepima piperacilina sepsis", run: () => { switchTab("tab-urg"); switchCalcPanel("infx"); infRender(); } },
+          { title: "Reglas de Ottawa (tobillo, pie y rodilla)", mod: "calc-ottawa", cat: "Urgencias", keys: "ottawa tobillo pie rodilla radiografia rx esguince maleolo navicular metatarsiano rotula perone", run: () => { switchTab("tab-urg"); switchCalcPanel("ottawa"); otRender(); } },
           { title: "Escala MESS (Extremidad Lesionada)", mod: "calc-mess", cat: "Urgencias", keys: "mess isquemia amputacion extremidad trauma", run: () => { switchTab("tab-urg"); switchCalcPanel("mess"); } },
           { title: "Profilaxis Antibiótica Quirúrgica", mod: "tab-rx rx-profilaxis", cat: "Receta", keys: "profilaxis cefazolina cefalotina clindamicina vancomicina cerrada", run: () => { $("rx-protocol").value = "profilaxis"; renderProtocol(); switchTab("tab-rx"); } },
           { title: "Fractura Expuesta (Gustilo-Anderson)", mod: "tab-rx rx-expuesta", cat: "Receta", keys: "expuesta gustilo gentamicina ceftriaxona tetanos abierta", run: () => { $("rx-protocol").value = "expuesta"; renderProtocol(); switchTab("tab-rx"); } },
@@ -15066,6 +15418,7 @@
         ["Síndrome compartimental v44", initCompartimentalV44],
         ["Fractura de cadera v45", initCaderaV45],
         ["Infección ósea y de herida v47", initInfeccionV47],
+        ["Reglas de Ottawa v53", initOttawaV53],
         ["Registros por paciente v45", initPxStoresV45],
         ["Respaldo cifrado v46", initRespaldoV46],
         ["Urgencias v48", initUrgenciasV48],
