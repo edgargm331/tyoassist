@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v51 · Tema "Base44" (oscuro + claro)
+       TyO Assist v52 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -1136,6 +1136,22 @@
     #ent-pdf-ready { margin-top: 12px; }
     /* ---------- v50: interconsulta y referencia ---------- */
     @media (max-width: 600px) { #nf-Interconsulta .grid-2, #nf-Referencia .grid-2 { grid-template-columns: minmax(0, 1fr); } }
+    /* ---------- v52: fuentes clínicas ---------- */
+    .ref-rev { display: inline-flex; align-items: center; min-height: 40px; padding: 0 2px; margin: 0; background: none; border: 0; color: var(--gold-text); font: inherit; font-size: 12px; font-weight: 650; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+    .ref-rev.fu-old { color: var(--warn-ink); }
+    #fu-sum.fu-old { color: var(--warn-ink); }
+    .fu-row { padding: 12px 8px; margin: 0 -8px; border-top: 1px solid var(--line); }
+    .fu-row:first-child { border-top: 0; }
+    .fu-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .fu-head strong { font-size: 14.5px; }
+    .fu-head small { font-weight: 400; color: var(--muted); font-size: 12.5px; margin-left: 4px; }
+    .fu-src { margin: 6px 0 0; padding-left: 18px; font-size: 13px; color: var(--text-2); line-height: 1.45; }
+    .fu-note { margin: 6px 0 0; font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+    .fu-meta { margin: 6px 0 0; font-size: 12px; color: var(--muted); }
+    .fu-row.fu-flash { animation: fuFlash 1.8s ease-out; border-radius: 10px; }
+    @keyframes fuFlash { 0%, 45% { background: var(--warn-bg); } 100% { background: transparent; } }
+    @media (prefers-reduced-motion: reduce) { .fu-row.fu-flash { animation: none; background: var(--warn-bg); } }
+
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
     @media print {
@@ -1392,7 +1408,7 @@
               <button type="button" class="btn btn-secondary btn-lg" id="btn-ren-note" data-mod="tab-notas"><svg class="ic"><use href="#i-clip"/></svg>Copiar a Nota</button>
             </div>
             <div class="hint-box" data-mod="tab-rx"><svg class="ic gold"><use href="#i-bulb"/></svg><span>Al tocar <strong>Aplicar a Recetas</strong>, la edad, peso y TFG ajustan automáticamente todos tus antibióticos, analgésicos y anticoagulantes.</span></div>
-            <div class="ref-text">Cockcroft-Gault (1976) y CKD-EPI 2021 libre de factor racial (NEJM 2021).</div>
+            <div class="ref-text" data-fuente="renal">Cockcroft-Gault (1976) y CKD-EPI 2021 libre de factor racial (NEJM 2021).</div>
           </div>
         </div>
 
@@ -1461,7 +1477,7 @@
                 <button type="button" class="btn btn-secondary btn-lg" id="btn-cap-reset"><svg class="ic"><use href="#i-eraser"/></svg>Limpiar</button>
               </div>
             </div>
-            <div class="ref-text">Modelo de Caprini modificado (ACCP / AAOS / GPC CENETEC).</div>
+            <div class="ref-text" data-fuente="caprini">Modelo de Caprini modificado (ACCP / AAOS / GPC CENETEC).</div>
           </div>
         </div>
 
@@ -1510,7 +1526,7 @@
             <div class="btn-stack">
               <button type="button" class="btn btn-secondary btn-lg" id="btn-tad-note" data-mod="tab-notas"><svg class="ic"><use href="#i-clip"/></svg>Copiar a Nota</button>
             </div>
-            <div class="ref-text">Baumgaertner MR et al., JBJS Am 1995.</div>
+            <div class="ref-text" data-fuente="tad">Baumgaertner MR et al., JBJS Am 1995.</div>
           </div>
         </div>
 
@@ -1644,7 +1660,7 @@
               <div class="sc-log-head"><span class="mini-label">Registro de vigilancia</span><span class="sc-next" id="sc-next"></span></div>
               <ol class="sc-log" id="sc-log"></ol>
             </div>
-            <div class="ref-text">Apoyo a la decisión: el diagnóstico es clínico y la descompresión la decide el adscrito. BOAST Síndrome compartimental de las extremidades (BOA, julio 2025); AAOS Guía de síndrome compartimental agudo (2025); Bae et al., J Pediatr Orthop 2001.</div>
+            <div class="ref-text" data-fuente="compart">Apoyo a la decisión: el diagnóstico es clínico y la descompresión la decide el adscrito. BOAST Síndrome compartimental de las extremidades (BOA, julio 2025); AAOS Guía de síndrome compartimental agudo (2025); Bae et al., J Pediatr Orthop 2001.</div>
           </div>
         </div>
 
@@ -1773,7 +1789,7 @@
               <button type="button" class="btn btn-primary btn-lg" id="btn-cx-note" data-mod="tab-notas"><svg class="ic"><use href="#i-clip"/></svg>Copiar a Nota</button>
               <button type="button" class="btn btn-secondary btn-lg" id="btn-cx-borrar"><svg class="ic"><use href="#i-trash"/></svg>Borrar datos</button>
             </div>
-            <div class="ref-text">Apoyo a la decisión: decide el equipo tratante. NICE CG124 Fractura de cadera (actualizada 2023); AAOS Fracturas de cadera en adultos mayores (2021); escala de Nottingham, ecuación de 2012 (Moppett, BJA); 4AT (the4AT.com). Anticoagulantes: ejemplo NHS Greater Glasgow and Clyde 2025; seguir el protocolo local.</div>
+            <div class="ref-text" data-fuente="cadera">Apoyo a la decisión: decide el equipo tratante. NICE CG124 Fractura de cadera (actualizada 2023); AAOS Fracturas de cadera en adultos mayores (2021); escala de Nottingham, ecuación de 2012 (Moppett, BJA); 4AT (the4AT.com). Anticoagulantes: ejemplo NHS Greater Glasgow and Clyde 2025; seguir el protocolo local.</div>
           </div>
         </div>
 
@@ -1903,7 +1919,7 @@
               <button type="button" class="btn btn-primary btn-lg" id="btn-ix-note" data-mod="tab-notas"><svg class="ic"><use href="#i-clip"/></svg>Copiar a Nota</button>
               <button type="button" class="btn btn-secondary btn-lg" id="btn-ix-borrar"><svg class="ic"><use href="#i-trash"/></svg>Borrar datos</button>
             </div>
-            <div class="ref-text">Apoyo a la decisión: decide el equipo tratante con infectología. CDC/NHSN cap. 9 (2026); consenso FRI de definición (2018, 2020) y de antibióticos (2020); ICM 2018; Kocher 1999 y 2004, Caird 2006; Surviving Sepsis Campaign 2021; vancomicina: consenso ASHP/IDSA 2020; cefepima y piperacilina-tazobactam: ajuste renal de sus etiquetas (FDA); BOAST de infección de fractura (2019) y AO Alliance (2025) para las muestras.</div>
+            <div class="ref-text" data-fuente="infx">Apoyo a la decisión: decide el equipo tratante con infectología. CDC/NHSN cap. 9 (2026); consenso FRI de definición (2018, 2020) y de antibióticos (2020); ICM 2018; Kocher 1999 y 2004, Caird 2006; Surviving Sepsis Campaign 2026; vancomicina: consenso ASHP/IDSA 2020; cefepima y piperacilina-tazobactam: ajuste renal de sus etiquetas (FDA); BOAST de infección de fractura (2019) y AO Alliance (2025) para las muestras.</div>
           </div>
         </div>
 
@@ -1954,7 +1970,7 @@
             <div class="btn-stack">
               <button type="button" class="btn btn-secondary btn-lg" id="btn-mess-note" data-mod="tab-notas"><svg class="ic"><use href="#i-clip"/></svg>Copiar a Nota</button>
             </div>
-            <div class="ref-text">Johansen K et al., J Trauma 1990; Bosse MJ et al. (LEAP), NEJM 2002.</div>
+            <div class="ref-text" data-fuente="mess">Johansen K et al., J Trauma 1990; Bosse MJ et al. (LEAP), NEJM 2002.</div>
           </div>
         </div>
       </div>
@@ -2094,7 +2110,7 @@
             <button type="button" class="btn btn-secondary btn-lg" id="btn-rx-save" data-mod="tab-hist"><svg class="ic gold"><use href="#i-save"/></svg>Guardar</button>
             <button type="button" class="btn btn-secondary btn-lg" onclick="window.print()"><svg class="ic gold"><use href="#i-printer"/></svg>Imprimir</button>
           </div>
-          <div class="ref-text" id="rx-refs"></div>
+          <div class="ref-text" id="rx-refs" data-fuente="recetas"></div>
         </div>
       </div>
 
@@ -2637,7 +2653,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v51 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v52 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2670,7 +2686,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v51</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v52</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2781,10 +2797,20 @@
         </div>
       </div>
 
+      <div class="modal-section" id="cfg-fuentes-section">
+        <h4>Fuentes clínicas</h4>
+        <p class="cfg-help">De dónde sale cada cálculo y protocolo, y cuándo se revisó contra la versión vigente. «Por precisar»: citas generales sin año.</p>
+        <p class="bk-status" id="fu-sum"></p>
+        <details class="acc" id="cfg-fuentes">
+          <summary><span>Ver fuentes y fechas</span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+          <div id="fu-list"></div>
+        </details>
+      </div>
+
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (66 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (67 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (66)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (67)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -2959,15 +2985,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v51 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v52 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "51",
-      versionLabel: "v51 Intuitiva",
+      version: "52",
+      versionLabel: "v52 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-urg | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -8124,7 +8150,7 @@
            12 semanas con implante retenido, 6 semanas tras retirarlo.
          - ICM 2018 (Parvizi, J Arthroplasty 2018) para prótesis.
          - Kocher 1999 / 2004 y Caird 2006 (artritis séptica de cadera, niños).
-         - Surviving Sepsis Campaign 2021 (momento del antibiótico).
+         - Surviving Sepsis Campaign 2026 (momento del antibiótico; mismos tiempos que la de 2021).
          - Vancomicina: consenso ASHP/IDSA/PIDS/SIDP 2020; cefepima y
            piperacilina-tazobactam: ajuste renal de sus etiquetas (FDA).
          Datos por paciente en tyo_infx_v47, sin datos que identifiquen.
@@ -9182,6 +9208,156 @@
         $("btn-entrega").addEventListener("click", () => { try { prepareRecetaPdf().catch(() => {}); } catch (_) {} }, { once: true });
       }
 
+      /* =======================================================
+         v52: FUENTES CLÍNICAS CON FECHA DE REVISIÓN
+         Cada bloque dice de dónde sale y cuándo se revisó. A la fecha de
+         «próxima revisión» (12 meses; infección en enero por el manual de
+         NHSN) se marca «Toca revisar». «Por precisar» = citas generales sin
+         año que faltan documentar. Revisión hecha el 27 nov 2026 contra las
+         versiones vigentes (NICE, AAOS, BOA, CDC/NHSN, SSC 2026, KDIGO 2024,
+         ICM 2025, NOM-004 y RIS).
+         ======================================================= */
+      function fuentesDefs() {
+        return {
+          revisado: "2026-11-27",
+          items: [
+            { id: "renal", nombre: "Función renal", donde: "Inicio", next: "2027-11-27",
+              fuentes: ["Cockcroft-Gault, Nephron 1976", "CKD-EPI 2021 sin factor racial (Inker, NEJM 2021)", "Categorías de filtrado de la guía KDIGO 2024 de enfermedad renal crónica"],
+              nota: "KDIGO 2024 sigue recomendando CKD-EPI con creatinina. En 2026, la Fundación Nacional del Riñón y farmacéuticos de EUA propusieron dosificar con CKD-EPI 2021 en lugar de Cockcroft-Gault; la app muestra las dos y las etiquetas de los fármacos siguen usando Cockcroft-Gault." },
+            { id: "caprini", nombre: "Escala de Caprini", donde: "Inicio", next: "2027-11-27", precisar: true,
+              fuentes: ["Modelo de Caprini modificado", "ACCP, AAOS y GPC de CENETEC (citas sin año)"],
+              nota: "Falta anotar la versión exacta de Caprini y de las guías citadas." },
+            { id: "tad", nombre: "TAD (distancia punta-ápex)", donde: "Inicio", next: "2027-11-27",
+              fuentes: ["Baumgaertner y cols., JBJS Am 1995"], nota: "" },
+            { id: "mess", nombre: "Escala MESS", donde: "Urgencias", next: "2027-11-27",
+              fuentes: ["Johansen y cols., J Trauma 1990", "Bosse y cols. (estudio LEAP), NEJM 2002"], nota: "" },
+            { id: "compart", nombre: "Síndrome compartimental", donde: "Urgencias", next: "2027-11-27",
+              fuentes: ["BOAST de síndrome compartimental de las extremidades (BOA, julio 2025)", "AAOS, guía de síndrome compartimental agudo (2025)", "Bae y cols., J Pediatr Orthop 2001 (niños)"],
+              nota: "Siguen siendo las versiones vigentes." },
+            { id: "cadera", nombre: "Fractura de cadera", donde: "Urgencias", next: "2027-11-27",
+              fuentes: ["NICE CG124 (actualizada en enero 2023)", "AAOS, fracturas de cadera en adultos mayores (diciembre 2021)", "Escala de Nottingham, ecuación de 2012 (Moppett, BJA)", "4AT (the4AT.com)", "Anticoagulantes: ejemplo de NHS Greater Glasgow and Clyde (2025)"],
+              nota: "Siguen siendo las versiones vigentes." },
+            { id: "infx", nombre: "Infección ósea y de herida", donde: "Urgencias", next: "2027-01-31",
+              fuentes: ["CDC/NHSN, capítulo 9 (enero 2026)", "Consenso FRI: definición 2018 y 2020; antibióticos 2020", "ICM 2018 para prótesis", "Kocher 1999 y 2004; Caird 2006", "Surviving Sepsis Campaign 2026", "Vancomicina: consenso ASHP/IDSA 2020", "Cefepima y piperacilina-tazobactam: etiquetas de la FDA", "Muestras: BOAST 2019 y AO Alliance 2025"],
+              nota: "Surviving Sepsis 2026 reemplazó a la de 2021 y mantiene los tiempos que usa la app (1 hora con choque o sepsis probable; 3 horas con posible sepsis sin choque). Para finales de 2026 se anunció una definición unificada de infección de prótesis; cuando salga, conviene actualizar esa parte (hoy ICM 2018). El manual de NHSN se renueva cada enero." },
+            { id: "recetas", nombre: "Recetas: protocolos hospitalarios", donde: "Recetas", next: "2027-11-27", precisar: true,
+              fuentes: ["Profilaxis quirúrgica: AO Principles of Fracture Management; AAOS (infección de sitio quirúrgico); Compendio Nacional de Insumos", "Fractura expuesta: GPC de CENETEC; guías AO/OTA; AAOS 2022 (prevención de infección tras trauma mayor de extremidades)", "Tromboprofilaxis: GPC de CENETEC; AAOS y ACCP", "Analgesia: AAOS y ASA; Cuadro Básico", "Esguince de tobillo: GPC de CENETEC; PEACE & LOVE (BJSM 2020)", "Lumbalgia: GPC de CENETEC; NASS"],
+              nota: "Comprobadas: AAOS 2022 de trauma mayor de extremidades y PEACE & LOVE 2020. Las demás son citas generales sin año; no se encontró una GPC de CENETEC llamada «Manejo inicial de fracturas expuestas»." },
+            { id: "casa", nombre: "Receta para casa (afecciones)", donde: "Recetas", next: "2027-11-27", precisar: true,
+              fuentes: ["Sin fuente anotada por afección"],
+              nota: "Las afecciones ajustan por función renal, riesgo gastrointestinal, alergia y anticoagulación, pero falta documentar la fuente de cada una." },
+            { id: "nom004", nombre: "Notas y expediente", donde: "Notas", next: "2027-11-27",
+              fuentes: ["NOM-004-SSA3-2012, del expediente clínico (DOF 15/10/2012)"],
+              nota: "Vigente según el catálogo de normas de la Secretaría de Economía." },
+            { id: "ris", nombre: "Receta: requisitos legales", donde: "Recetas", next: "2027-11-27",
+              fuentes: ["Reglamento de Insumos para la Salud, artículos 29 y 30"],
+              nota: "Nombre, domicilio y cédula impresos, fecha y firma autógrafa (art. 29); dosis, vía, frecuencia y duración (art. 30)." }
+          ]
+        };
+      }
+
+      // Pura: «ok», «precisar» o «vencida» según la fecha de próxima revisión.
+      function fuentesEstado(it, nowMs) {
+        const next = Date.parse(it.next + "T00:00:00");
+        if (Number.isFinite(next) && nowMs >= next) return "vencida";
+        return it.precisar ? "precisar" : "ok";
+      }
+
+      function fuentesResumen(nowMs) {
+        const out = { total: 0, ok: 0, precisar: 0, vencida: 0 };
+        fuentesDefs().items.forEach((it) => { out.total++; out[fuentesEstado(it, nowMs)]++; });
+        return out;
+      }
+
+      function fuentesFecha(iso, conDia) {
+        const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
+        if (!m) return iso || "";
+        const mes = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"][parseInt(m[2], 10) - 1];
+        return (conDia ? parseInt(m[3], 10) + " " : "") + mes + " " + m[1];
+      }
+
+      function fuentesResumenTexto(r) {
+        const p = [r.total + " apartados"];
+        if (r.vencida) p.push(r.vencida + (r.vencida === 1 ? " toca revisar" : " tocan revisar"));
+        if (r.ok) p.push(r.ok + " al día");
+        if (r.precisar) p.push(r.precisar + " por precisar");
+        return p.join(" · ");
+      }
+
+      function fuentesRender() {
+        const list = $("fu-list");
+        if (!list) return;
+        const now = Date.now();
+        const d = fuentesDefs();
+        const r = fuentesResumen(now);
+        const chip = { ok: '<span class="badge ok">Al día</span>', precisar: '<span class="badge">Por precisar</span>', vencida: '<span class="badge warn">Toca revisar</span>' };
+        list.innerHTML = d.items.map((it) => {
+          const st = fuentesEstado(it, now);
+          return '<div class="fu-row" id="fu-row-' + it.id + '" data-estado="' + st + '">' +
+            '<div class="fu-head"><strong>' + escapeHtml(it.nombre) + ' <small>' + escapeHtml(it.donde) + "</small></strong>" + chip[st] + "</div>" +
+            '<ul class="fu-src">' + it.fuentes.map((f) => "<li>" + escapeHtml(f) + "</li>").join("") + "</ul>" +
+            (it.nota ? '<p class="fu-note">' + escapeHtml(it.nota) + "</p>" : "") +
+            '<p class="fu-meta">Revisado el ' + fuentesFecha(d.revisado, true) + " · próxima revisión: " + fuentesFecha(it.next, false) + "</p></div>";
+        }).join("");
+        if ($("fu-sum")) {
+          $("fu-sum").textContent = fuentesResumenTexto(r) + ". Revisión: " + fuentesFecha(d.revisado, true) + ".";
+          $("fu-sum").classList.toggle("fu-old", r.vencida > 0);
+        }
+        document.querySelectorAll(".ref-rev").forEach((b) => fuentesPaintLink(b, now));
+      }
+
+      function fuentesPaintLink(b, now) {
+        const it = fuentesDefs().items.find((x) => x.id === b.dataset.fuente);
+        if (!it) return;
+        const vencida = fuentesEstado(it, now || Date.now()) === "vencida";
+        b.textContent = vencida ? "Fuentes: toca revisar ›" : "Fuentes · revisado " + fuentesFecha(fuentesDefs().revisado, false) + " ›";
+        b.classList.toggle("fu-old", vencida);
+        b.setAttribute("aria-label", "Ver las fuentes de " + it.nombre + " en Ajustes");
+      }
+
+      // Agrega «Fuentes · revisado …» al final de una línea de referencias.
+      function fuentesRefLink(el) {
+        if (!el || !el.dataset.fuente || !String(el.textContent).trim()) return;
+        let b = el.querySelector(".ref-rev");
+        if (!b) {
+          b = document.createElement("button");
+          b.type = "button";
+          b.className = "ref-rev no-print";
+          b.dataset.fuente = el.dataset.fuente;
+          el.appendChild(document.createTextNode(" "));
+          el.appendChild(b);
+        }
+        fuentesPaintLink(b);
+      }
+
+      function fuentesOpen(id) {
+        if ($("btn-settings")) $("btn-settings").click();
+        fuentesRender();
+        const acc = $("cfg-fuentes");
+        if (acc) acc.open = true;
+        const row = $("fu-row-" + id) || acc;
+        if (!row) return;
+        setTimeout(() => {
+          row.scrollIntoView({ block: "center" });
+          row.classList.remove("fu-flash");
+          void row.offsetWidth;
+          row.classList.add("fu-flash");
+          setTimeout(() => row.classList.remove("fu-flash"), 1800);
+        }, 60);
+      }
+
+      function initFuentesV52() {
+        fuentesRender();
+        document.querySelectorAll(".ref-text[data-fuente]").forEach(fuentesRefLink);
+        document.addEventListener("click", (e) => {
+          const b = e.target.closest(".ref-rev");
+          if (!b) return;
+          e.preventDefault();
+          fuentesOpen(b.dataset.fuente);
+        });
+        if ($("btn-settings")) $("btn-settings").addEventListener("click", fuentesRender);
+      }
+
       function renderProtocol() {
         const proto = $("rx-protocol").value;
         const peso = parseFloat($("rx-peso").value);
@@ -9476,6 +9652,7 @@
         $("rx-alerts").innerHTML = alerts.join("");
         $("rx-output").textContent = out;
         $("rx-refs").textContent = refs ? refs + " Dosis sujetas a verificación del médico tratante según la guía institucional vigente." : refs;
+        fuentesRefLink($("rx-refs"));
         if (typeof syncRxFracturiumUI === "function") syncRxFracturiumUI(proto, peso, edad, tfg, alergia, gastritis, hepato, desabasto);
         try {
           syncRecetaFromProtocol(proto, {
@@ -14131,6 +14308,30 @@
         } catch (e) { det66 = "Error: " + e.message; }
         addTest("66. v51: cada dato en su apartado al estructurar la nota", ok66, det66);
 
+        // 67. v52: fuentes clínicas con fecha de revisión
+        let ok67 = false, det67 = "";
+        try {
+          const d = fuentesDefs();
+          const rev = Date.parse(d.revisado + "T00:00:00");
+          const ids = d.items.map((it) => it.id);
+          const bien67 = d.items.length >= 10 && new Set(ids).size === ids.length && d.items.every((it) => it.nombre && it.donde && it.fuentes.length && Date.parse(it.next + "T00:00:00") > rev);
+          const est67 = fuentesEstado({ next: "2027-11-27" }, rev) === "ok" && fuentesEstado({ next: "2027-11-27", precisar: true }, rev) === "precisar" &&
+            fuentesEstado({ next: "2027-01-31", precisar: true }, Date.parse("2027-01-31T00:00:00")) === "vencida";
+          const r0 = fuentesResumen(rev), r1 = fuentesResumen(Date.parse("2028-01-01T00:00:00"));
+          const res67 = r0.total === d.items.length && r0.ok + r0.precisar + r0.vencida === r0.total && r0.vencida === 0 && r1.vencida === r1.total;
+          const refs = Array.from(document.querySelectorAll(".ref-text[data-fuente]"));
+          const liga67 = refs.every((el) => ids.includes(el.dataset.fuente)) && ["renal", "caprini", "tad", "compart", "cadera", "infx", "mess", "recetas"].every((k) => refs.some((el) => el.dataset.fuente === k));
+          const links = Array.from(document.querySelectorAll(".ref-text[data-fuente] .ref-rev"));
+          const btn67 = links.length >= 7 && links.every((b) => /revisado|toca revisar/.test(b.textContent) && ids.includes(b.dataset.fuente));
+          fuentesRender();
+          const filas67 = document.querySelectorAll("#fu-list .fu-row").length === d.items.length && /apartados/.test(($("fu-sum") || {}).textContent || "");
+          const ssc67 = /Surviving Sepsis Campaign 2026/.test((document.querySelector('.ref-text[data-fuente="infx"]') || {}).textContent || "");
+          const txt67 = fuentesResumenTexto({ total: 11, ok: 8, precisar: 3, vencida: 0 }) === "11 apartados · 8 al día · 3 por precisar" && fuentesFecha("2026-11-27", true) === "27 nov 2026" && fuentesFecha("2027-01-31", false) === "ene 2027";
+          ok67 = bien67 && est67 && res67 && liga67 && btn67 && filas67 && ssc67 && txt67;
+          det67 = d.items.length + " apartados (" + r0.ok + " al día, " + r0.precisar + " por precisar) · fechas " + bien67 + " · estados " + est67 + " · resumen " + res67 + " · bloques ligados " + liga67 + " (" + links.length + " ligas) · lista " + filas67 + " · SSC 2026 " + ssc67 + " · textos " + txt67;
+        } catch (e) { det67 = "Error: " + e.message; }
+        addTest("67. v52: fuentes clínicas con fecha de revisión", ok67, det67);
+
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
         const rows = tests.map((t) => (t.ok ? "✅ " : "❌ ") + "<strong>" + escapeHtml(t.name) + "</strong>: " + escapeHtml(t.detail)).join("<br>");
@@ -14869,6 +15070,7 @@
         ["Respaldo cifrado v46", initRespaldoV46],
         ["Urgencias v48", initUrgenciasV48],
         ["Entrega de guardia v49", initEntregaV49],
+        ["Fuentes v52", initFuentesV52],
         ["Pulido v37", initPulidoV37],
         ["Módulos v26", initModulesV26] /* siempre al final */
       ].forEach(([name, fn]) => runInit(name, fn));
