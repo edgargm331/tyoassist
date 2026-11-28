@@ -16,7 +16,7 @@
   <title>TyO Assist — Atlas &amp; Guardia Clínica</title>
   <style>
     /* =======================================================
-       TyO Assist v55 · Tema "Base44" (oscuro + claro)
+       TyO Assist v56 · Tema "Base44" (oscuro + claro)
        Tokens → base → estructura. Componentes en 02-componentes-base44.css
     ======================================================= */
     body {
@@ -1162,6 +1162,20 @@
     .cv-reglas { margin-top: 12px; }
     .cv-help { margin-top: 8px; }
 
+    /* ---------- v56: supracondílea en niños ---------- */
+    .sp-help { margin-top: 6px; }
+    .sp-tipo, .sp-pulso { margin-top: 8px; }
+    #sp-prompt, #sp-edad { margin-top: 10px; }
+    .sp-links { display: flex; flex-wrap: wrap; gap: 0 18px; }
+    .sp-go { min-height: 40px; margin-top: 6px; }
+    .sp-save { margin-top: 10px; }
+    .sp-evals { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; }
+    .sp-ev { padding: 9px 11px; border: 1px solid var(--line); border-radius: 12px; font-size: 13.5px; line-height: 1.45; color: var(--text-2); }
+    .sp-ev strong { color: var(--text); }
+    .sp-ev .badge { margin-left: 6px; }
+    .sp-ev-bad { border-color: var(--danger-line); background: var(--danger-bg); }
+    .sp-ev-empty { color: var(--muted); font-size: 13.5px; }
+
     /* ---------- Impresión ---------- */
     #print-sheet { display: none; }
     @media print {
@@ -1239,7 +1253,7 @@
     <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></symbol>
     <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></symbol>
     <symbol id="i-calc" viewBox="0 0 24 24"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8"/><path d="M16 14v4"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></symbol>
-    <symbol id="i-spine" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4.5" rx="1.5"/><rect x="8" y="9.75" width="8" height="4.5" rx="1.5"/><rect x="8" y="17.5" width="8" height="4.5" rx="1.5"/><path d="M4.5 4.25H8M16 4.25h3.5M4.5 12H8M16 12h3.5M4.5 19.75H8M16 19.75h3.5"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></symbol>
+    <symbol id="i-elbow" viewBox="0 0 24 24"><path d="M5.5 3l4.6 8.6"/><path d="M13.1 13.7L20.5 11"/><circle cx="11.3" cy="13.3" r="2.1"/><path d="M5.6 8.9l3.6-1.8"/></symbol><symbol id="i-spine" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4.5" rx="1.5"/><rect x="8" y="9.75" width="8" height="4.5" rx="1.5"/><rect x="8" y="17.5" width="8" height="4.5" rx="1.5"/><path d="M4.5 4.25H8M16 4.25h3.5M4.5 12H8M16 12h3.5M4.5 19.75H8M16 19.75h3.5"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></symbol>
     <symbol id="i-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol>
     <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
     <symbol id="i-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol>
@@ -1602,6 +1616,11 @@
             <span class="tile-ico"><svg class="ic"><use href="#i-spine"/></svg></span>
             <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-cv"></span>Columna cervical</span><span class="tile-sub">¿Imagen? Canadiense · NEXUS · niños</span></span>
             <span class="tile-val" id="tile-cv-val">--</span>
+          </button>
+          <button type="button" class="tile" data-calc="supra" data-mod="calc-supra">
+            <span class="tile-ico"><svg class="ic"><use href="#i-elbow"/></svg></span>
+            <span class="tile-body"><span class="tile-title"><span class="tile-dot ok" id="dot-sp"></span>Supracondílea en niños</span><span class="tile-sub">Gartland · pulso · nervios</span></span>
+            <span class="tile-val" id="tile-sp-val">--</span>
           </button>
         </div>
       </div>
@@ -2083,6 +2102,53 @@
               <button type="button" class="btn btn-secondary btn-lg" id="btn-cv-borrar"><svg class="ic"><use href="#i-trash"/></svg>Borrar datos</button>
             </div>
             <div class="ref-text" data-fuente="cervical">Apoyo a la decisión: si hay duda clínica, la imagen la decide el médico. Stiell y cols., JAMA 2001 y NEJM 2003 (regla canadiense); Hoffman y cols., NEJM 2000 (NEXUS); Leonard y cols., Lancet Child Adolesc Health 2024 (PECARN); ACR 2024 (trauma espinal agudo); EAST 2015 (collarín).</div>
+          </div>
+        </div>
+
+        <!-- U.7 FRACTURA SUPRACONDÍLEA EN NIÑOS (v56) -->
+        <div id="calc-supra" class="calc-panel" data-mod="calc-supra">
+          <div class="card">
+            <div class="card-head">
+              <h3><svg class="ic gold"><use href="#i-elbow"/></svg>Supracondílea en niños</h3>
+              <span class="badge" id="sp-badge">Sin evaluar</span>
+            </div>
+            <p class="sc-pt" id="sp-pt"></p>
+            <p class="cfg-help hidden" id="sp-edad"></p>
+            <div id="sp-body">
+              <p class="cfg-help sp-help">Explora y documenta pulso, llenado capilar y los nervios al llegar e inmediatamente antes de la cirugía.</p>
+              <div class="ix-radios ix-tipos ix-first" role="radiogroup" aria-label="Lado"><label class="check-pill"><input type="radio" class="sp-in" name="sp-lado" value="der" /> Derecho</label><label class="check-pill"><input type="radio" class="sp-in" name="sp-lado" value="izq" /> Izquierdo</label></div>
+              <div class="ix-radios ix-tipos sp-tipo" role="radiogroup" aria-label="Tipo de fractura"><label class="check-pill"><input type="radio" class="sp-in" name="sp-tipo" value="ext" /> Extensión</label><label class="check-pill"><input type="radio" class="sp-in" name="sp-tipo" value="flex" /> Flexión</label></div>
+              <div class="mini-label ix-label">Desplazamiento (Gartland)</div>
+              <div class="checks sp-gart" id="sp-gart-list" role="radiogroup" aria-label="Desplazamiento (Gartland)"></div>
+              <div class="mini-label ix-label">Circulación de la mano</div>
+              <div class="ix-radios" role="radiogroup" aria-label="Perfusión de la mano"><label class="check-pill"><input type="radio" class="sp-in" name="sp-perf" value="buena" /> Rosada y caliente, llena en menos de 2 s</label><label class="check-pill"><input type="radio" class="sp-in" name="sp-perf" value="mala" /> Pálida o fría, llenado lento</label></div>
+              <div class="ix-radios ix-tipos sp-pulso" role="radiogroup" aria-label="Pulso radial"><label class="check-pill"><input type="radio" class="sp-in" name="sp-pulso" value="si" /> Pulso radial presente</label><label class="check-pill"><input type="radio" class="sp-in" name="sp-pulso" value="no" /> Sin pulso radial</label></div>
+              <div class="mini-label ix-label">Nervios</div>
+              <div class="checks" id="sp-nerv-list"></div>
+              <div class="mini-label ix-label">Signos de alarma</div>
+              <div class="checks" id="sp-alarma-list"></div>
+            </div>
+            <p class="cfg-help hidden" id="sp-prompt"></p>
+            <div id="sp-res" class="alert hidden" aria-live="polite"></div>
+            <div class="sp-links">
+              <button type="button" class="link-gold sp-go hidden" id="sp-go-exp">Protocolo de fractura expuesta <svg class="ic"><use href="#i-arrow"/></svg></button>
+              <button type="button" class="link-gold sp-go hidden" id="sp-go-comp">Vigilancia de síndrome compartimental <svg class="ic"><use href="#i-arrow"/></svg></button>
+            </div>
+            <details class="acc" id="sp-reg">
+              <summary><span>Exploraciones con hora <small id="sp-reg-sum">Ninguna</small></span><svg class="ic chev"><use href="#i-chevron"/></svg></summary>
+              <div class="acc-body">
+                <label class="field">Momento
+                  <span class="select-wrap"><select id="sp-mom"></select><svg class="ic"><use href="#i-chevron"/></svg></span>
+                </label>
+                <button type="button" class="btn btn-secondary btn-lg btn-block sp-save" id="btn-sp-save"><svg class="ic"><use href="#i-clock"/></svg>Guardar exploración</button>
+                <ul class="sp-evals" id="sp-evals"></ul>
+              </div>
+            </details>
+            <div class="btn-duo cx-btns">
+              <button type="button" class="btn btn-primary btn-lg" id="btn-sp-note" data-mod="tab-notas"><svg class="ic"><use href="#i-clip"/></svg>Copiar a Nota</button>
+              <button type="button" class="btn btn-secondary btn-lg" id="btn-sp-borrar"><svg class="ic"><use href="#i-trash"/></svg>Borrar datos</button>
+            </div>
+            <div class="ref-text" data-fuente="supra">Apoyo a la decisión: la conducta la decide el ortopedista. BOAST (BOA y BSCOS, 2020); AAOS 2011 (guía) y 2015 (criterios de uso con lesión vascular); Babal y cols., J Pediatr Orthop 2010 (lesiones nerviosas).</div>
           </div>
         </div>
       </div>
@@ -2765,7 +2831,7 @@
     <footer class="app-foot no-print">
       <div class="foot-card">
         <div class="foot-badges"><span><svg class="ic gold"><use href="#i-shield"/></svg>LFPDPPP · NOM-004</span><span><svg class="ic gold"><use href="#i-wifi-off"/></svg>100% offline</span></div>
-        <div class="foot-name">TyO Assist · <span id="foot-version">v55 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
+        <div class="foot-name">TyO Assist · <span id="foot-version">v56 Intuitiva</span> · Guardia Traumatología y Ortopedia</div>
         <div class="foot-note">Herramienta de apoyo clínico. No sustituye el juicio médico.</div>
       </div>
     </footer>
@@ -2785,7 +2851,7 @@
   <nav class="bottom-nav no-print">
     <div class="bottom-nav-in">
       <button type="button" class="nav-btn active" data-tab="tab-calc"><span class="ico"><svg class="ic"><use href="#i-calc"/></svg></span><span>Inicio</span></button>
-      <button type="button" class="nav-btn" data-tab="tab-urg" data-mod="tab-urg" data-mod-any="calc-compart calc-cadera calc-infx calc-mess calc-ottawa calc-cervical rx-expuesta"><span class="ico"><svg class="ic"><use href="#i-siren"/></svg><span class="nav-dot hidden" id="urg-nav-dot"></span></span><span>Urgencias</span></button>
+      <button type="button" class="nav-btn" data-tab="tab-urg" data-mod="tab-urg" data-mod-any="calc-compart calc-cadera calc-infx calc-mess calc-ottawa calc-cervical calc-supra rx-expuesta"><span class="ico"><svg class="ic"><use href="#i-siren"/></svg><span class="nav-dot hidden" id="urg-nav-dot"></span></span><span>Urgencias</span></button>
       <button type="button" class="nav-btn" data-tab="tab-rx" data-mod="tab-rx"><span class="ico"><svg class="ic"><use href="#i-pill"/></svg></span><span>Recetas</span></button>
       <button type="button" class="nav-btn" data-tab="tab-notas" data-mod="tab-notas"><span class="ico"><svg class="ic"><use href="#i-file"/></svg></span><span>Notas</span></button>
       <button type="button" class="nav-btn" data-tab="tab-estudios" data-mod="tab-estudios"><span class="ico"><svg class="ic"><use href="#i-scan"/></svg></span><span>Estudios</span></button>
@@ -2798,7 +2864,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cfg-title">
       <div class="modal-grab" aria-hidden="true"></div>
       <div class="modal-head">
-        <h3 id="cfg-title">Ajustes <span class="ver-chip">v55</span></h3>
+        <h3 id="cfg-title">Ajustes <span class="ver-chip">v56</span></h3>
         <button type="button" class="icon-round" id="btn-close-settings" aria-label="Cerrar ajustes"><svg class="ic"><use href="#i-x"/></svg></button>
       </div>
       <p class="modal-intro">Calculadoras, recetas, alertas críticas, NOM-004 local y filtro LFPDPPP funcionan <strong>100% offline</strong>. Para IA, Vision y Audio usa tu <strong>Puente Backend (Cloudflare/Vercel)</strong> para mantener la API Key oculta en el servidor.</p>
@@ -2920,9 +2986,9 @@
       </div>
 
       <div class="modal-section">
-        <h4>Autodiagnóstico determinístico (70 pruebas)</h4>
+        <h4>Autodiagnóstico determinístico (71 pruebas)</h4>
         <div class="btn-row">
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (70)</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-run-selftest"><svg class="ic gold"><use href="#i-check"/></svg>Ejecutar pruebas (71)</button>
         </div>
         <div id="selftest-output"></div>
       </div>
@@ -3097,15 +3163,15 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     /* =======================================================
-       TyO Assist — CONFIGURACIÓN CENTRAL (v55 · Interfaz Base44)
+       TyO Assist — CONFIGURACIÓN CENTRAL (v56 · Interfaz Base44)
        Edita este archivo para personalizar la app sin tocar la lógica clínica.
        Después de editar: python3 build.py  →  publica la carpeta dist/.
        Lo que el usuario cambie en ⚙️ Ajustes → Módulos tiene prioridad sobre
        estos valores predeterminados (se guarda solo en su dispositivo).
     ======================================================= */
     window.TYO_CONFIG = {
-      version: "55",
-      versionLabel: "v55 Intuitiva",
+      version: "56",
+      versionLabel: "v56 Intuitiva",
 
       // Pestaña que se abre al iniciar: tab-calc | tab-urg | tab-rx | tab-notas | tab-estudios | tab-hist
       defaultTab: "tab-calc",
@@ -3128,6 +3194,7 @@
         "calc-mess": true,
         "calc-ottawa": true,
         "calc-cervical": true,
+        "calc-supra": true,
         // Protocolos de Recetas
         "rx-profilaxis": true,
         "rx-expuesta": true,
@@ -3313,6 +3380,7 @@
         { id: "calc-mess", group: "Urgencias", label: "Escala MESS" },
         { id: "calc-ottawa", group: "Urgencias", label: "Reglas de Ottawa" },
         { id: "calc-cervical", group: "Urgencias", label: "Columna cervical" },
+        { id: "calc-supra", group: "Urgencias", label: "Supracondílea en niños" },
         { id: "rx-profilaxis", group: "Protocolos de Recetas", label: "Profilaxis Qx" },
         { id: "rx-expuesta", group: "Protocolos de Recetas", label: "Fx Expuesta" },
         { id: "rx-trombo", group: "Protocolos de Recetas", label: "Tromboprofilaxis" },
@@ -3359,7 +3427,7 @@
 
       function isTabOn(tabId) {
         // v48: Urgencias se oculta si no le queda ningún bloque encendido
-        if (tabId === "tab-urg") return isModuleOn("tab-urg") && (["calc-compart", "calc-cadera", "calc-infx", "calc-mess", "calc-ottawa", "calc-cervical"].some(isModuleOn) || (isModuleOn("tab-rx") && isModuleOn("rx-expuesta")));
+        if (tabId === "tab-urg") return isModuleOn("tab-urg") && (["calc-compart", "calc-cadera", "calc-infx", "calc-mess", "calc-ottawa", "calc-cervical", "calc-supra"].some(isModuleOn) || (isModuleOn("tab-rx") && isModuleOn("rx-expuesta")));
         return tabId === "tab-calc" || isModuleOn(tabId);
       }
 
@@ -7402,6 +7470,7 @@
           { key: "tyo_infx_v47", label: "infección ósea o de herida", has: (r) => !!(r && r.v && Object.keys(r.v).length) },
           { key: "tyo_ottawa_v53", label: "reglas de Ottawa", has: (r) => !!(r && r.v && Object.keys(r.v).length) },
           { key: "tyo_cervical_v55", label: "columna cervical", has: (r) => !!(r && r.v && Object.keys(r.v).length) },
+          { key: "tyo_supra_v56", label: "fractura supracondílea", has: (r) => !!(r && ((r.v && Object.keys(r.v).length) || (Array.isArray(r.evals) && r.evals.length))) },
           { key: "tyo_entrega_v49", label: "pendientes de entrega", has: (r) => !!(r && r.pend) }
         ];
       }
@@ -7436,6 +7505,7 @@
         try { infRender(); } catch (_) {}
         try { otRender(); } catch (_) {}
         try { cvRender(); } catch (_) {}
+        try { spRender(); } catch (_) {}
         try { urgRender(); } catch (_) {}
       }
 
@@ -8002,7 +8072,7 @@
               if (!byId[it.id] || Number(it.savedAt || 0) > Number(byId[it.id].savedAt || 0)) byId[it.id] = it;
             });
             out[k] = JSON.stringify(Object.assign({}, a, { items: Object.keys(byId).map((id) => byId[id]) }));
-          } else if (k === "tyo_sc_v44" || k === "tyo_cadera_v45" || k === "tyo_infx_v47" || k === "tyo_entrega_v49" || k === "tyo_ottawa_v53" || k === "tyo_cervical_v55") {
+          } else if (k === "tyo_sc_v44" || k === "tyo_cadera_v45" || k === "tyo_infx_v47" || k === "tyo_entrega_v49" || k === "tyo_ottawa_v53" || k === "tyo_cervical_v55" || k === "tyo_supra_v56") {
             const a = parse(out[k]), b = parse(inc[k]);
             if (!a || !b || !a.byId || !b.byId) return;
             const byId = Object.assign({}, a.byId);
@@ -8722,8 +8792,8 @@
       ======================================================= */
       function urgDefs() {
         return {
-          keys: ["compart", "cadera", "infx", "mess", "ottawa", "cervical"],
-          notaBtn: { "calc-compart": "btn-sc-note", "calc-cadera": "btn-cx-note", "calc-infx": "btn-ix-note", "calc-mess": "btn-mess-note", "calc-ottawa": "btn-ot-note", "calc-cervical": "btn-cv-note" },
+          keys: ["compart", "cadera", "infx", "mess", "ottawa", "cervical", "supra"],
+          notaBtn: { "calc-compart": "btn-sc-note", "calc-cadera": "btn-cx-note", "calc-infx": "btn-ix-note", "calc-mess": "btn-mess-note", "calc-ottawa": "btn-ot-note", "calc-cervical": "btn-cv-note", "calc-supra": "btn-sp-note" },
           tipos: { herida: "herida quirúrgica", fri: "fractura u osteosíntesis", pji: "prótesis articular", kocher: "artritis séptica en niño" },
           tickMs: 30000
         };
@@ -8791,19 +8861,31 @@
           if (v["ix-sepsis"] === "shock") { it.lvl = "danger"; it.sub += " Choque o alta probabilidad de sepsis: antibiótico en la primera hora."; }
           out.push(it);
         }
+        // v56: fractura supracondílea (conducta según pulso, perfusión y desplazamiento)
+        const spv = x.sp && x.sp.v ? x.sp.v : null;
+        if (spv && Object.keys(spv).length) {
+          const ctx = x.ctx || {};
+          const ev = spEvaluate(spv, Number.isFinite(ctx.edad) ? ctx.edad : null);
+          if (!ev.noAplica && ev.head) {
+            const lado = spv["sp-lado"] === "der" ? " · húmero derecho" : spv["sp-lado"] === "izq" ? " · húmero izquierdo" : "";
+            out.push({ key: "supra", lvl: ev.level === "danger" ? "danger" : ev.level === "info" ? "warn" : "info", title: "Fractura supracondílea" + lado, sub: ev.head + ".", alert: false });
+          }
+        }
         return out;
       }
 
       // Lee los registros del paciente activo (o «sin paciente»).
       function urgCollect() {
-        let sc = null, cad = null, inf = null;
+        let sc = null, cad = null, inf = null, sp = null, edad = null;
+        try { sp = spLoad().byId[spActiveId()] || null; } catch (_) {}
+        try { edad = otEdadFicha(); } catch (_) {}
         try { sc = scGetRec(scLoad(), scActiveId()); } catch (_) {}
         try { const s = cadLoad(); cad = s.byId[cadActiveId()] || null; } catch (_) {}
         try { inf = infLoad().byId[infActiveId()] || null; } catch (_) {}
         let nino = false, crcl = null;
         try { nino = infEsNino(); } catch (_) {}
         try { crcl = cadCrclAuto(); } catch (_) {}
-        return { sc, cad, inf, ctx: { nino, crcl } };
+        return { sc, cad, inf, sp, ctx: { nino, crcl, edad } };
       }
 
       function urgPatientLabel() {
@@ -8852,7 +8934,7 @@
         if (!isModuleOn("calc-" + key)) { showToast("Bloque desactivado. Actívalo en ⚙️ Ajustes → Módulos."); return; }
         switchTab("tab-urg");
         switchCalcPanel(key);
-        try { if (key === "compart") scRender(); else if (key === "cadera") cadRender(); else if (key === "infx") infRender(); } catch (_) {}
+        try { if (key === "compart") scRender(); else if (key === "cadera") cadRender(); else if (key === "infx") infRender(); else if (key === "supra") spRender(); } catch (_) {}
         quickGoTo($("calc-" + key));
       }
 
@@ -8977,8 +9059,8 @@
         const rows = (pts || []).map((p, idx) => {
           const f = p.data || {};
           const age = fichaAgeYears(f);
-          const sc = byId(r.sc)[p.id], cad = byId(r.cad)[p.id], inf = byId(r.inf)[p.id], ent = byId(r.ent)[p.id];
-          const items = urgItems({ sc: sc ? scSanitizeRec(sc) : null, cad: cad ? cadSanitizeRec(cad) : null, inf: inf || null, ctx: { nino: Number.isFinite(age) && age < 18, crcl: null } }, nowMs);
+          const sc = byId(r.sc)[p.id], cad = byId(r.cad)[p.id], inf = byId(r.inf)[p.id], ent = byId(r.ent)[p.id], sp = byId(r.sp)[p.id];
+          const items = urgItems({ sc: sc ? scSanitizeRec(sc) : null, cad: cad ? cadSanitizeRec(cad) : null, inf: inf || null, sp: sp || null, ctx: { nino: Number.isFinite(age) && age < 18, crcl: null, edad: Number.isFinite(age) ? age : null } }, nowMs);
           const lvl = items.some((i) => i.lvl === "danger") ? "danger" : items.some((i) => i.lvl === "warn") ? "warn" : "info";
           return {
             id: p.id, idx, active: !!p.active,
@@ -9017,12 +9099,13 @@
       function entCollect(nowMs) {
         let pts = [];
         try { pts = listFichas().map((x) => ({ id: x.id, data: x.data, active: x.active })); } catch (_) { pts = []; }
-        let sc = null, cad = null, inf = null, ent = null;
+        let sc = null, cad = null, inf = null, ent = null, sp = null;
+        try { sp = spLoad(); } catch (_) {}
         try { sc = scLoad(); } catch (_) {}
         try { cad = cadLoad(); } catch (_) {}
         try { inf = infLoad(); } catch (_) {}
         try { ent = entLoad(); } catch (_) {}
-        return entBuild(pts, { sc, cad, inf, ent }, nowMs);
+        return entBuild(pts, { sc, cad, inf, ent, sp }, nowMs);
       }
 
       function entCountPatients() {
@@ -9358,6 +9441,9 @@
             { id: "cervical", nombre: "Columna cervical", donde: "Urgencias", rev: "2026-11-28", next: "2027-11-28",
               fuentes: ["Regla canadiense: Stiell y cols., JAMA 2001; frente a NEXUS: Stiell y cols., NEJM 2003", "NEXUS: Hoffman y cols., NEJM 2000", "Niños: PECARN, Leonard y cols., Lancet Child Adolesc Health 2024; Lee y cols., JAMA Netw Open 2025", "Imagen: ACR Acute Spinal Trauma (revisado en 2024)", "Collarín con alerta disminuida: EAST, Patel y cols., J Trauma 2015"],
               nota: "Regla canadiense: sensibilidad de 99.4 % frente a 90.7 % de NEXUS en adultos alerta y estables. En 16 años o más la imagen de elección es la tomografía sin contraste (la radiografía detecta cerca de un tercio). PECARN: sensibilidad de 93 a 94 % en niños, validada en hospitales pediátricos." },
+            { id: "supra", nombre: "Supracondílea en niños", donde: "Urgencias", rev: "2026-11-28", next: "2027-11-28",
+              fuentes: ["BOAST, BOA y BSCOS (octubre 2020): fracturas supracondíleas de húmero en niños", "AAOS 2011: guía de tratamiento (14 recomendaciones)", "AAOS 2015: criterios de uso con lesión vascular (Mooney y cols., JAAOS 2016)", "Lesiones nerviosas: Babal y cols., J Pediatr Orthop 2010", "Codo flotante: Blakemore y cols., J Pediatr Orthop 2000; revisión sistemática 2020"],
+              nota: "Urgente: sin pulso radial, mala perfusión, herida o piel en riesgo (BOAST). Desplazadas sin compromiso: el mismo día, sin necesidad de operar de noche; la AAOS no fija un tiempo límite. Mano sin pulso pero perfundida tras reducir: vigilar más de 24 h, sin explorar la arteria." },
             { id: "compart", nombre: "Síndrome compartimental", donde: "Urgencias", next: "2027-11-27",
               fuentes: ["BOAST de síndrome compartimental de las extremidades (BOA, julio 2025)", "AAOS, guía de síndrome compartimental agudo (2025)", "Bae y cols., J Pediatr Orthop 2001 (niños)"],
               nota: "Siguen siendo las versiones vigentes." },
@@ -10082,6 +10168,352 @@
         if (tile) tile.addEventListener("click", cvRender);
         document.addEventListener("tyo-patient-change", () => { try { cvRender(); } catch (_) {} });
         cvRender();
+      }
+      /* =======================================================
+         v56: FRACTURA SUPRACONDÍLEA DE HÚMERO EN NIÑOS
+         Fuentes:
+         - BOAST, BOA y BSCOS (octubre 2020): explorar pulso radial, llenado capilar y los
+           nervios radial, mediano (con interóseo anterior) y cubital al llegar e inmediatamente
+           antes de la cirugía; cirugía el día de la lesión; de noche solo si hay indicación
+           urgente documentada; urgente si falta el pulso radial, hay mala perfusión, herida
+           o piel en riesgo; sin isquemia no hace falta explorar la arteria; si sigue isquémica
+           tras reducir, explorar la arteria braquial; síndrome compartimental o perfusión que
+           empeora: revaloración vascular inmediata.
+         - AAOS 2011 (guía, 14 recomendaciones): inmovilizar las no desplazadas o con almohadilla
+           grasa posterior (moderada); reducción cerrada y clavillos en II, III y flexión
+           desplazadas (moderada); mano sin pulso o mal perfundida: reducción urgente (consenso);
+           sin tiempo límite en las desplazadas sin lesión neurovascular (no concluyente).
+         - AAOS 2015 (criterios de uso, lesión vascular): sin pulso pero perfundida tras reducir,
+           hospitalizar y vigilar más de 24 h, valoración por cirujano vascular.
+         - Babal 2010 (metanálisis): interóseo anterior, el nervio más afectado en extensión;
+           cubital en flexión. Blakemore 2000 y revisión 2020: codo flotante y síndrome
+           compartimental (más con ambas desplazadas o tratamiento tardío).
+         Datos por paciente en tyo_supra_v56, sin datos que identifiquen.
+      ======================================================= */
+      function spDefs() {
+        return {
+          key: "tyo_supra_v56",
+          gart: [["1", "I", "sin desplazamiento"], ["2a", "IIA", "angulada con una cortical íntegra, sin rotación"], ["2b", "IIB", "angulada con rotación o traslación"], ["3", "III", "desplazamiento completo"]],
+          nervios: [
+            ["sp-n-ain", "Interóseo anterior: no hace el signo de OK", "interóseo anterior (no hace el signo de OK)"],
+            ["sp-n-med", "Mediano: menos sensibilidad en la punta del índice", "mediano (sensibilidad del índice)"],
+            ["sp-n-rad", "Radial: no extiende el pulgar o menos sensibilidad en el dorso", "radial (extensión del pulgar o sensibilidad del dorso)"],
+            ["sp-n-cub", "Cubital: no separa ni cruza los dedos o menos sensibilidad del meñique", "cubital (separar o cruzar los dedos, sensibilidad del meñique)"]
+          ],
+          alarma: [
+            ["sp-a-exp", "Herida en la zona (fractura expuesta)", "fractura expuesta"],
+            ["sp-a-piel", "Piel en riesgo: arruga o piel tensa en el pliegue del codo", "piel en riesgo en el pliegue del codo"],
+            ["sp-a-flot", "Fractura del antebrazo del mismo lado (codo flotante)", "fractura del antebrazo del mismo lado (codo flotante)"],
+            ["sp-a-comp", "Pide cada vez más analgésico, está agitado o le duele estirar los dedos", "datos de posible síndrome compartimental"]
+          ],
+          momentos: [["llegada", "Al llegar"], ["ferula", "Después de la férula o reducción"], ["precx", "Antes de la cirugía"], ["postcx", "Después de la cirugía"]],
+          maxEvals: 8
+        };
+      }
+
+      function spNervState(v) {
+        const x = v || {};
+        if (x["sp-n-nc"]) return { st: "nc", alt: [] };
+        const alt = spDefs().nervios.filter((n) => x[n[0]]).map((n) => n[0]);
+        if (alt.length) return { st: "alt", alt };
+        if (x["sp-n-ok"]) return { st: "ok", alt: [] };
+        return { st: "", alt: [] };
+      }
+
+      // Pura: prioridad y conducta. v = valores del panel; edad en años o null.
+      function spEvaluate(v, edad) {
+        const d = spDefs();
+        const x = v || {};
+        const on = (k) => !!x[k];
+        const out = { level: "", head: "", lines: [], plan: "", pending: [], tile: "--", badge: "Sin evaluar", links: { exp: false, comp: false }, noAplica: false, nerv: spNervState(x), alarma: d.alarma.filter((a) => on(a[0])).map((a) => a[2]) };
+        if (edad !== null && edad >= 18) {
+          out.noAplica = true; out.level = "warn"; out.tile = "No aplica"; out.badge = "No aplica";
+          out.head = "En adultos es fractura distal de húmero: este bloque es para niños.";
+          return out;
+        }
+        const perf = x["sp-perf"] === "buena" || x["sp-perf"] === "mala" ? x["sp-perf"] : "";
+        const pulso = x["sp-pulso"] === "si" || x["sp-pulso"] === "no" ? x["sp-pulso"] : "";
+        const g = d.gart.find((r) => r[0] === x["sp-gart"]);
+        const exp = on("sp-a-exp"), piel = on("sp-a-piel"), comp = on("sp-a-comp");
+        if (perf === "mala") {
+          out.level = "danger"; out.tile = "Emergencia"; out.badge = "Emergencia";
+          out.head = "Emergencia: reducción cerrada inmediata en quirófano";
+          out.lines.push("Mano mal perfundida (pálida o fría, llenado lento)" + (pulso === "no" ? " y sin pulso radial" : "") + ".");
+          out.lines.push("Si sigue isquémica después de reducir: explorar la arteria braquial con un cirujano de vasos pequeños; si no lo hay, traslado inmediato.");
+          out.plan = "reducción cerrada inmediata en quirófano; si persiste la isquemia, exploración de la arteria braquial";
+        } else if (pulso === "no" || exp || piel || comp) {
+          out.level = "danger"; out.tile = "Urgente"; out.badge = "Cirugía urgente";
+          out.head = "Cirugía urgente: no esperar al día siguiente";
+          if (pulso === "no") {
+            out.lines.push(perf === "buena" ? "Sin pulso radial con la mano bien perfundida. Si después de reducir sigue sin pulso pero perfundida, no hace falta explorar la arteria: hospitaliza, vigila más de 24 h y pide valoración por cirujano vascular." : "Sin pulso radial. Marca la perfusión: si la mano está pálida o fría es emergencia.");
+          }
+          if (exp) { out.lines.push("Fractura expuesta: cirugía urgente y antibiótico."); out.links.exp = true; }
+          if (piel) out.lines.push("Piel en riesgo: la punta del hueso puede romperla; cirugía urgente.");
+          if (comp) { out.lines.push("Datos de síndrome compartimental: revaloración vascular inmediata."); out.links.comp = true; }
+          out.plan = "cirugía urgente (reducción y fijación)" + (exp ? "; protocolo de fractura expuesta" : "") + "; vigilancia neurovascular y compartimental";
+        } else if (!g || !perf || !pulso) {
+          if (!perf || !pulso) out.pending.push("Marca la perfusión de la mano y el pulso radial.");
+          if (!g) out.pending.push("Marca el desplazamiento (Gartland).");
+        } else if (g[0] === "1") {
+          out.level = "ok"; out.tile = "Gartland I"; out.badge = "Inmovilizar";
+          out.head = "Sin desplazamiento: inmovilización sin cirugía";
+          out.lines.push("También si solo se ve el signo de la almohadilla grasa posterior.");
+          out.plan = "inmovilización sin cirugía";
+        } else {
+          out.level = "info"; out.tile = "Gartland " + g[1]; out.badge = "Cirugía hoy";
+          out.head = "Desplazada (Gartland " + g[1] + "): reducción cerrada y clavillos el mismo día de la lesión";
+          out.lines.push("Sin compromiso vascular no hace falta operar de noche; la AAOS no fija un tiempo límite.");
+          if (g[0] === "3") out.lines.push("En quirófano puede resultar Gartland IV (inestable en flexión y en extensión).");
+          out.plan = "reducción cerrada y fijación con clavillos el mismo día de la lesión";
+        }
+        const n = out.nerv;
+        if (n.st === "alt") out.lines.push("Lesión nerviosa: " + d.nervios.filter((r) => n.alt.includes(r[0])).map((r) => r[2]).join("; ") + ". Documéntala antes de la cirugía; por sí sola no obliga a operar de noche y la mayoría se recupera sin cirugía.");
+        else if (n.st === "nc") out.lines.push("No coopera para explorar los nervios: documéntalo y repite la exploración antes de la cirugía.");
+        else if (!n.st) out.pending.push("Marca los nervios: el que esté alterado, «Íntegros los 4» o «No coopera».");
+        if (on("sp-a-flot")) { out.lines.push("Codo flotante: más riesgo de síndrome compartimental, sobre todo si las dos fracturas están desplazadas o se retrasa el tratamiento."); out.links.comp = true; }
+        if (x["sp-tipo"] === "flex") out.lines.push("Tipo flexión: poco frecuente y más difícil de reducir; el nervio cubital es el que más se lesiona.");
+        if (edad !== null && edad < 1.5) out.lines.push("Menor de 18 meses: considera lesión no accidental.");
+        if (edad !== null && edad >= 12) out.lines.push("Adolescente: puede requerir manejo como adulto.");
+        if (!out.head && out.lines.length) { out.head = "Faltan datos para la conducta"; out.level = "info"; }
+        return out;
+      }
+
+      function spEvalSummary(e) {
+        const d = spDefs();
+        const parts = [];
+        parts.push(e.pulso === "si" ? "pulso presente" : "sin pulso");
+        parts.push(e.perf === "buena" ? "bien perfundida" : "mal perfundida");
+        if (e.nerv === "ok") parts.push("nervios íntegros");
+        else if (e.nerv === "nc") parts.push("no coopera para explorar nervios");
+        else if (Array.isArray(e.nerv) && e.nerv.length) parts.push("alterado: " + d.nervios.filter((r) => e.nerv.includes(r[0])).map((r) => r[2].replace(/ \(.*\)$/, "")).join(", "));
+        return parts.join(", ");
+      }
+
+      // Pura: compara con la exploración anterior ("" igual, "cambio", "empeoro").
+      function spEvalDelta(prev, cur) {
+        if (!prev) return "";
+        const nervs = (e) => (Array.isArray(e.nerv) ? e.nerv : []);
+        const peor = (prev.pulso === "si" && cur.pulso === "no") || (prev.perf === "buena" && cur.perf === "mala") || nervs(cur).some((k) => !nervs(prev).includes(k));
+        if (peor) return "empeoro";
+        const igual = prev.pulso === cur.pulso && prev.perf === cur.perf && JSON.stringify(nervs(prev).slice().sort()) === JSON.stringify(nervs(cur).slice().sort()) && (typeof prev.nerv === "string" ? prev.nerv : "alt") === (typeof cur.nerv === "string" ? cur.nerv : "alt");
+        return igual ? "" : "cambio";
+      }
+
+      // Pura: texto para la nota. "" si no hay nada que anotar.
+      function spNoteText(v, evals, edad, nowMs) {
+        const d = spDefs();
+        const x = v || {};
+        const ev = spEvaluate(x, edad);
+        const lines = ["FRACTURA SUPRACONDÍLEA DE HÚMERO"];
+        if (ev.noAplica) return "";
+        const g = d.gart.find((r) => r[0] === x["sp-gart"]);
+        const id = [x["sp-lado"] === "der" ? "húmero derecho" : x["sp-lado"] === "izq" ? "húmero izquierdo" : "", x["sp-tipo"] === "ext" ? "tipo extensión" : x["sp-tipo"] === "flex" ? "tipo flexión" : "", g ? "Gartland " + g[1] + " (" + g[2] + ")" : ""].filter(Boolean).join(", ");
+        if (id) lines.push("- " + id.charAt(0).toUpperCase() + id.slice(1) + ".");
+        const perf = x["sp-perf"], pulso = x["sp-pulso"];
+        if (perf || pulso) lines.push("- Circulación: " + [perf === "buena" ? "mano bien perfundida (rosada y caliente, llenado capilar menor de 2 segundos)" : perf === "mala" ? "mano mal perfundida (pálida o fría, llenado lento)" : "", pulso === "si" ? "pulso radial presente" : pulso === "no" ? "sin pulso radial" : ""].filter(Boolean).join("; ") + ".");
+        const n = ev.nerv;
+        if (n.st === "ok") lines.push("- Nervios: interóseo anterior, mediano, radial y cubital íntegros.");
+        else if (n.st === "nc") lines.push("- Nervios: no coopera para la exploración.");
+        else if (n.st === "alt") lines.push("- Nervios: alterado " + d.nervios.filter((r) => n.alt.includes(r[0])).map((r) => r[2]).join("; ") + ".");
+        if (ev.alarma.length) lines.push("- Signos de alarma: " + ev.alarma.join("; ") + ".");
+        const list = Array.isArray(evals) ? evals : [];
+        if (list.length) {
+          const momento = (k) => { const m = d.momentos.find((r) => r[0] === k); return m ? m[1].toLowerCase() : ""; };
+          lines.push("- Exploraciones: " + list.map((e, i) => { const dl = spEvalDelta(list[i - 1], e); return scHora(e.t, nowMs) + " " + momento(e.mom) + ": " + spEvalSummary(e) + (dl === "empeoro" ? " (empeoró)" : dl === "cambio" ? " (cambió)" : i ? " (igual)" : ""); }).join("; ") + ".");
+        }
+        if (ev.plan) lines.push("- Conducta: " + ev.plan + ".");
+        return lines.length > 1 ? lines.join("\n") : "";
+      }
+
+      function spFormValues() {
+        const v = {};
+        document.querySelectorAll("#calc-supra .sp-in").forEach((el) => {
+          if (el.type === "radio") { if (el.checked) v[el.name] = el.value; }
+          else if (el.type === "checkbox") { if (el.checked) v[el.id] = true; }
+        });
+        return v;
+      }
+
+      function spLoad() {
+        const raw = pxRawGet(spDefs().key);
+        const byId = {};
+        let removed = 0;
+        const radios = { "sp-lado": ["der", "izq"], "sp-tipo": ["ext", "flex"], "sp-gart": ["1", "2a", "2b", "3"], "sp-perf": ["buena", "mala"], "sp-pulso": ["si", "no"] };
+        const moms = spDefs().momentos.map((m) => m[0]);
+        const nervIds = spDefs().nervios.map((n) => n[0]);
+        if (raw && raw.byId && typeof raw.byId === "object") {
+          let ids = [];
+          try { ids = loadFichaStore().items.map((it) => it.id); } catch (_) { ids = []; }
+          Object.keys(raw.byId).forEach((id) => {
+            const r = raw.byId[id];
+            const v = r && r.v && typeof r.v === "object" ? r.v : null;
+            const clean = {};
+            if (v) Object.keys(v).forEach((k) => { if (/^sp-[a-z0-9-]+$/.test(k) && (radios[k] ? radios[k].includes(v[k]) : v[k] === true)) clean[k] = v[k]; });
+            const evals = (r && Array.isArray(r.evals) ? r.evals : []).filter((e) => e && typeof e.t === "number" && moms.includes(e.mom) && (e.pulso === "si" || e.pulso === "no") && (e.perf === "buena" || e.perf === "mala") && (e.nerv === "ok" || e.nerv === "nc" || e.nerv === "" || (Array.isArray(e.nerv) && e.nerv.every((k) => nervIds.includes(k))))).slice(-spDefs().maxEvals);
+            const upd = r && typeof r.upd === "number" ? r.upd : 0;
+            const keep = (Object.keys(clean).length > 0 || evals.length > 0) && (id === "_sin" ? Date.now() - upd < 24 * 3600000 : ids.includes(id));
+            if (keep) byId[id] = { v: clean, evals, upd }; else removed++;
+          });
+        } else if (raw) removed = 1;
+        const store = { v: 1, byId };
+        if (removed) pxRawSet(spDefs().key, store);
+        return store;
+      }
+
+      function spActiveId() {
+        try { return loadFichaStore().activeId || "_sin"; } catch (_) { return "_sin"; }
+      }
+
+      function spRec() {
+        return spLoad().byId[spActiveId()] || { v: {}, evals: [] };
+      }
+
+      function spPersist() {
+        const store = spLoad();
+        const id = spActiveId();
+        const prev = store.byId[id];
+        const v = spFormValues();
+        const evals = prev ? prev.evals : [];
+        if (Object.keys(v).length || evals.length) store.byId[id] = { v, evals, upd: Date.now() }; else delete store.byId[id];
+        pxRawSet(spDefs().key, store);
+      }
+
+      function spRender() {
+        if (!$("calc-supra")) return;
+        const rec = spRec();
+        const v = rec.v || {};
+        document.querySelectorAll("#calc-supra .sp-in").forEach((el) => {
+          if (el.type === "radio") el.checked = v[el.name] === el.value;
+          else if (el.type === "checkbox") el.checked = !!v[el.id];
+        });
+        if ($("sp-pt")) {
+          let quien = "";
+          try { const f = loadFicha(); if (f) quien = fichaSummary(f.data).initials || "paciente activo"; } catch (_) {}
+          $("sp-pt").textContent = quien ? "Datos ligados a la ficha de " + quien + " (vencen con ella)." : "Sin paciente en la lista: se guarda 24 h y pasa a la ficha si la creas.";
+        }
+        spRenderEvals(rec.evals || []);
+        spUpdateLive();
+      }
+
+      function spRenderEvals(evals) {
+        const box = $("sp-evals");
+        if (!box) return;
+        const d = spDefs();
+        const sum = $("sp-reg-sum");
+        if (sum) {
+          const ult = evals.length ? spEvalDelta(evals[evals.length - 2], evals[evals.length - 1]) : "";
+          sum.textContent = !evals.length ? "Ninguna" : evals.length + (evals.length === 1 ? " guardada" : " guardadas") + " · última " + scHora(evals[evals.length - 1].t) + (ult === "empeoro" ? " · empeoró" : "");
+        }
+        if (!evals.length) { box.innerHTML = '<li class="sp-ev-empty">Aún no hay exploraciones guardadas.</li>'; return; }
+        box.innerHTML = evals.map((e, i) => {
+          const dl = spEvalDelta(evals[i - 1], e);
+          const m = d.momentos.find((r) => r[0] === e.mom);
+          const tag = dl === "empeoro" ? ' <span class="badge danger">Empeoró</span>' : dl === "cambio" ? ' <span class="badge warn">Cambió</span>' : "";
+          return '<li class="sp-ev' + (dl === "empeoro" ? " sp-ev-bad" : "") + '"><strong>' + escapeHtml(scHora(e.t)) + " · " + escapeHtml(m ? m[1] : "") + "</strong>" + tag + "<br />" + escapeHtml(spEvalSummary(e)) + "</li>";
+        }).join("");
+      }
+
+      function spUpdateLive() {
+        if (!$("calc-supra")) return;
+        const v = spFormValues();
+        const edad = otEdadFicha();
+        const ev = spEvaluate(v, edad);
+        if ($("sp-edad")) {
+          const t = edad === null ? "" : edad >= 18 ? "Ficha de adulto: este bloque es para niños." : "";
+          $("sp-edad").textContent = t; $("sp-edad").classList.toggle("hidden", !t);
+        }
+        $("sp-body").classList.toggle("hidden", ev.noAplica);
+        const box = $("sp-res");
+        const hay = !!ev.head;
+        box.className = "alert" + (ev.level ? " " + ev.level : "") + (hay ? "" : " hidden");
+        box.innerHTML = hay ? "<strong>" + escapeHtml(ev.head) + "</strong>" + (ev.lines.length ? '<ul class="sc-lines">' + ev.lines.map((l) => "<li>" + escapeHtml(l) + "</li>").join("") + "</ul>" : "") : "";
+        if ($("sp-prompt")) { $("sp-prompt").textContent = ev.pending.join(" "); $("sp-prompt").classList.toggle("hidden", !ev.pending.length || ev.noAplica); }
+        if ($("sp-go-exp")) $("sp-go-exp").classList.toggle("hidden", !ev.links.exp);
+        if ($("sp-go-comp")) $("sp-go-comp").classList.toggle("hidden", !ev.links.comp);
+        const badge = $("sp-badge");
+        if (badge) { badge.textContent = ev.badge; badge.className = "badge" + (ev.level === "danger" ? " danger" : ev.level === "warn" ? " warn" : ev.level === "ok" ? " ok" : ""); }
+        const tile = $("tile-sp-val");
+        if (tile) tile.textContent = ev.tile;
+        const dot = $("dot-sp");
+        if (dot) dot.className = "tile-dot " + (ev.level === "danger" ? "danger" : ev.level === "warn" || ev.level === "info" ? "warn" : "ok");
+      }
+
+      function spBuild() {
+        const d = spDefs();
+        const pill = (id, label, g) => '<label class="check-pill"><input type="checkbox" class="sp-in" data-spg="' + g + '" id="' + id + '" /> ' + escapeHtml(label) + "</label>";
+        if ($("sp-nerv-list")) $("sp-nerv-list").innerHTML = pill("sp-n-ok", "Íntegros los 4", "n") + d.nervios.map((r) => pill(r[0], r[1], "n")).join("") + pill("sp-n-nc", "No coopera (no se pudo explorar)", "n");
+        if ($("sp-alarma-list")) $("sp-alarma-list").innerHTML = d.alarma.map((r) => pill(r[0], r[1], "a")).join("");
+        if ($("sp-gart-list")) $("sp-gart-list").innerHTML = d.gart.map((r) => '<label class="check-pill"><input type="radio" class="sp-in" name="sp-gart" value="' + r[0] + '" /> <span><strong>' + r[1] + "</strong> · " + escapeHtml(r[2]) + "</span></label>").join("");
+        if ($("sp-mom")) $("sp-mom").innerHTML = d.momentos.map((m) => '<option value="' + m[0] + '">' + escapeHtml(m[1]) + "</option>").join("");
+      }
+
+      // «Íntegros los 4» y «No coopera» excluyen a los demás nervios, y viceversa.
+      function spExclusive(el) {
+        if (!el || !el.checked || el.dataset.spg !== "n") return;
+        const solo = el.id === "sp-n-ok" || el.id === "sp-n-nc";
+        document.querySelectorAll('#calc-supra .sp-in[data-spg="n"]').forEach((o) => {
+          if (o === el) return;
+          if (solo || o.id === "sp-n-ok" || o.id === "sp-n-nc") o.checked = false;
+        });
+      }
+
+      function spSaveEval() {
+        const v = spFormValues();
+        if (!v["sp-pulso"] || !v["sp-perf"]) { showToast("Marca el pulso radial y la perfusión antes de guardar."); return false; }
+        const n = spNervState(v);
+        const store = spLoad();
+        const id = spActiveId();
+        const rec = store.byId[id] || { v: {}, evals: [] };
+        const mom = spDefs().momentos.some((m) => m[0] === $("sp-mom").value) ? $("sp-mom").value : "llegada";
+        rec.evals = (rec.evals || []).concat([{ t: Date.now(), mom, pulso: v["sp-pulso"], perf: v["sp-perf"], nerv: n.st === "alt" ? n.alt : n.st }]).slice(-spDefs().maxEvals);
+        rec.v = v; rec.upd = Date.now();
+        store.byId[id] = rec;
+        pxRawSet(spDefs().key, store);
+        spRenderEvals(rec.evals);
+        const dl = spEvalDelta(rec.evals[rec.evals.length - 2], rec.evals[rec.evals.length - 1]);
+        showToast(dl === "empeoro" ? "Exploración guardada: empeoró respecto a la anterior." : "Exploración guardada.");
+        const i = spDefs().momentos.findIndex((m) => m[0] === mom);
+        if (i >= 0 && i < spDefs().momentos.length - 1) $("sp-mom").value = spDefs().momentos[i + 1][0];
+        return true;
+      }
+
+      function spCopyToNote() {
+        const rec = spRec();
+        const txt = spNoteText(spFormValues(), rec.evals || [], otEdadFicha());
+        if (!txt) { showToast("Primero marca los datos de la fractura supracondílea."); return false; }
+        appendToNota(txt);
+        return true;
+      }
+
+      function initSupraV56() {
+        const panel = $("calc-supra");
+        if (!panel) return;
+        spBuild();
+        panel.addEventListener("change", (e) => {
+          if (e.target && e.target.classList.contains("sp-in")) { spExclusive(e.target); spPersist(); spUpdateLive(); }
+        });
+        $("btn-sp-save").addEventListener("click", spSaveEval);
+        $("btn-sp-note").addEventListener("click", spCopyToNote);
+        $("btn-sp-borrar").addEventListener("click", () => {
+          const store = spLoad();
+          const id = spActiveId();
+          if (!store.byId[id]) { showToast("No hay datos que borrar."); return; }
+          if (!confirm("¿Borrar la fractura supracondílea y sus exploraciones de este paciente?")) return;
+          delete store.byId[id];
+          pxRawSet(spDefs().key, store);
+          spRender();
+          showToast("Fractura supracondílea borrada.");
+        });
+        $("sp-go-exp").addEventListener("click", urgGoExpuesta);
+        $("sp-go-comp").addEventListener("click", () => {
+          if (!isModuleOn("calc-compart")) { showToast("Bloque desactivado. Actívalo en ⚙️ Ajustes → Módulos."); return; }
+          switchCalcPanel("compart");
+          const p = $("calc-compart"); if (p) p.scrollIntoView({ block: "start" });
+        });
+        const tile = document.querySelector('#urg-subnav [data-calc="supra"]');
+        if (tile) tile.addEventListener("click", spRender);
+        document.addEventListener("tyo-patient-change", () => { try { spRender(); } catch (_) {} });
+        spRender();
       }
       function renderProtocol() {
         const proto = $("rx-protocol").value;
@@ -10982,6 +11414,15 @@
           });
           return;
         }
+        // v56: supracondílea → exploración; la conducta, al plan
+        if (head === "FRACTURA SUPRACONDÍLEA DE HÚMERO") {
+          out.exam.push(head);
+          body.forEach((b) => {
+            if (/^- Conducta: /.test(b)) { const c = b.slice(12).replace(/\.$/, ""); out.blockPlan.push(c.charAt(0).toUpperCase() + c.slice(1) + " (fractura supracondílea)."); }
+            else out.exam.push(b);
+          });
+          return;
+        }
         // v55: columna cervical → hallazgos a exploración; la imagen o el retiro del collarín, al plan
         if (head === "COLUMNA CERVICAL") {
           out.exam.push(head);
@@ -11022,7 +11463,7 @@
         const alarm = [];
         const suggest = [];
         const chips = notaChipRoutes();
-        const BLOCKS = ["VIGILANCIA DE SÍNDROME COMPARTIMENTAL", "FRACTURA DE CADERA DEL ADULTO MAYOR", "INFECCIÓN ÓSEA O DE HERIDA", "REGLAS DE OTTAWA", "COLUMNA CERVICAL"];
+        const BLOCKS = ["VIGILANCIA DE SÍNDROME COMPARTIMENTAL", "FRACTURA DE CADERA DEL ADULTO MAYOR", "INFECCIÓN ÓSEA O DE HERIDA", "REGLAS DE OTTAWA", "COLUMNA CERVICAL", "FRACTURA SUPRACONDÍLEA DE HÚMERO"];
         let mode = "narrative";
 
         for (let i = 0; i < lines.length; i++) {
@@ -13566,7 +14007,7 @@
       function clearAllFichas() {
         localStorage.removeItem(FICHA_STORE_KEY);
         localStorage.removeItem(FICHA_STORAGE_KEY);
-        try { localStorage.removeItem("tyo_sc_v44"); localStorage.removeItem("tyo_cadera_v45"); localStorage.removeItem("tyo_infx_v47"); localStorage.removeItem("tyo_entrega_v49"); localStorage.removeItem("tyo_ottawa_v53"); localStorage.removeItem("tyo_cervical_v55"); } catch (_) {}
+        try { localStorage.removeItem("tyo_sc_v44"); localStorage.removeItem("tyo_cadera_v45"); localStorage.removeItem("tyo_infx_v47"); localStorage.removeItem("tyo_entrega_v49"); localStorage.removeItem("tyo_ottawa_v53"); localStorage.removeItem("tyo_cervical_v55"); localStorage.removeItem("tyo_supra_v56"); } catch (_) {}
       }
 
       // Nota en progreso + laboratorios del paciente en pantalla.
@@ -15178,6 +15619,31 @@
         } catch (e) { det70 = "Error: " + e.message; }
         addTest("70. v55: columna cervical", ok70, det70);
 
+        // 71. v56: fractura supracondílea en niños
+        let ok71 = false, det71 = "";
+        try {
+          const E = spEvaluate;
+          const ok = { "sp-perf": "buena", "sp-pulso": "si", "sp-n-ok": true };
+          const e1 = E(Object.assign({ "sp-gart": "3" }, ok), 7), e2 = E(Object.assign({ "sp-gart": "1" }, ok), 7), e3 = E({ "sp-perf": "mala", "sp-pulso": "no" }, 7);
+          const e4 = E({ "sp-perf": "buena", "sp-pulso": "no", "sp-gart": "3", "sp-n-ok": true }, 7), e5 = E(Object.assign({ "sp-gart": "2a", "sp-a-exp": true }, ok), 7), e6 = E({ "sp-gart": "3" }, 7);
+          const e7 = E(Object.assign({ "sp-gart": "2b" }, ok), 20), e8 = E(Object.assign({ "sp-gart": "3", "sp-a-flot": true }, ok), 1), e9 = E({ "sp-perf": "buena", "sp-pulso": "si", "sp-gart": "3", "sp-n-ain": true }, 7);
+          const prio71 = e1.level === "info" && e1.tile === "Gartland III" && /mismo día/.test(e1.head) && e1.lines.some((l) => /Gartland IV/.test(l)) && e2.level === "ok" && /inmovilización/.test(e2.head) &&
+            e3.level === "danger" && e3.tile === "Emergencia" && /arteria braquial/.test(e3.lines.join(" ")) && e4.tile === "Urgente" && /más de 24 h/.test(e4.lines.join(" ")) && e5.tile === "Urgente" && e5.links.exp &&
+            !e6.head && e6.pending.length === 2 && e7.noAplica && e7.tile === "No aplica" && e8.links.comp && e8.lines.some((l) => /18 meses/.test(l)) && e9.lines.some((l) => /Lesión nerviosa: interóseo anterior/.test(l)) && !e9.pending.length;
+          const a = { t: 1000, mom: "llegada", pulso: "si", perf: "buena", nerv: "ok" }, b = { t: 2000, mom: "ferula", pulso: "si", perf: "buena", nerv: ["sp-n-ain"] }, c = { t: 3000, mom: "precx", pulso: "si", perf: "buena", nerv: ["sp-n-ain"] };
+          const delta71 = spEvalDelta(null, a) === "" && spEvalDelta(a, b) === "empeoro" && spEvalDelta(b, c) === "" && spEvalDelta(c, Object.assign({}, c, { nerv: "ok" })) === "cambio" && spEvalDelta(a, Object.assign({}, a, { pulso: "no" })) === "empeoro";
+          const t1 = spNoteText(Object.assign({ "sp-lado": "izq", "sp-tipo": "ext", "sp-gart": "3" }, ok), [], 6);
+          const nota71 = t1 === "FRACTURA SUPRACONDÍLEA DE HÚMERO\n- Húmero izquierdo, tipo extensión, Gartland III (desplazamiento completo).\n- Circulación: mano bien perfundida (rosada y caliente, llenado capilar menor de 2 segundos); pulso radial presente.\n- Nervios: interóseo anterior, mediano, radial y cubital íntegros.\n- Conducta: reducción cerrada y fijación con clavillos el mismo día de la lesión." && spNoteText({}, [], 6) === "" && spNoteText(ok, [], 30) === "";
+          const cp = parseCapturedBlocks("Caída de columpio.\n" + t1, "Evolución");
+          const rep71 = cp.narrative === "Caída de columpio." && /^FRACTURA SUPRACONDÍLEA DE HÚMERO\n- Húmero izquierdo/.test(cp.exam) && !/Conducta/.test(cp.exam) && cp.blockPlan === "Reducción cerrada y fijación con clavillos el mismo día de la lesión (fractura supracondílea).";
+          const ui = urgItems({ sp: { v: { "sp-perf": "buena", "sp-pulso": "no", "sp-lado": "der" } }, ctx: { edad: 7 } }, Date.now());
+          const urg71 = ui.length === 1 && ui[0].key === "supra" && ui[0].lvl === "danger" && /húmero derecho/.test(ui[0].title) && urgItems({ sp: { v: ok }, ctx: { edad: 7 } }, Date.now()).length === 0 && urgItems({ sp: { v: { "sp-gart": "3", "sp-perf": "buena", "sp-pulso": "si" } }, ctx: { edad: 30 } }, Date.now()).length === 0;
+          const reg71 = pxStores().some((s) => s.key === "tyo_supra_v56") && bkEligibleKey("tyo_supra_v56") && fuentesDefs().items.some((it) => it.id === "supra") && !!document.querySelector('.ref-text[data-fuente="supra"] .ref-rev') && urgDefs().notaBtn["calc-supra"] === "btn-sp-note" && !!document.querySelector('#urg-subnav [data-calc="supra"]');
+          ok71 = prio71 && delta71 && nota71 && rep71 && urg71 && reg71;
+          det71 = "prioridad " + prio71 + " · cambios entre exploraciones " + delta71 + " · nota " + nota71 + " · reparto en la nota " + rep71 + " · pendientes de Urgencias " + urg71 + " · registro, respaldo, fuentes y Urgencias " + reg71;
+        } catch (e) { det71 = "Error: " + e.message; }
+        addTest("71. v56: fractura supracondílea en niños", ok71, det71);
+
         const passed = tests.filter((t) => t.ok).length;
         const allOk = passed === tests.length;
         const rows = tests.map((t) => (t.ok ? "✅ " : "❌ ") + "<strong>" + escapeHtml(t.name) + "</strong>: " + escapeHtml(t.detail)).join("<br>");
@@ -15292,6 +15758,7 @@
           { title: "Entrega de guardia (todos tus pacientes)", mod: "tab-urg", cat: "Urgencias", keys: "entrega de guardia turno pendientes pacientes whatsapp relevo pase de visita", run: () => { switchTab("tab-urg"); openEntrega(); } },
           { title: "Fractura de cadera del adulto mayor (reloj, Nottingham, 4AT)", mod: "calc-cadera", cat: "Urgencias", keys: "fractura cadera adulto mayor femur cuello intertrocanterica subtrocanterica nottingham 4at delirium anticoagulante apixaban warfarina acenocumarol", run: () => { switchTab("tab-urg"); switchCalcPanel("cadera"); cadRender(); } },
           { title: "Infección ósea y de herida (NHSN, FRI, ICM 2018, Kocher)", mod: "calc-infx", cat: "Urgencias", keys: "infeccion sitio quirurgico herida osteomielitis fractura osteosintesis protesis periprotesica artritis septica kocher caird icm nhsn vancomicina cefepima piperacilina sepsis", run: () => { switchTab("tab-urg"); switchCalcPanel("infx"); infRender(); } },
+          { title: "Fractura supracondílea de húmero en niños", mod: "calc-supra", cat: "Urgencias", keys: "supracondilea supracondílea codo gartland humero húmero niño pulso radial nervio interoseo mano palida", run: () => { switchTab("tab-urg"); switchCalcPanel("supra"); spRender(); } },
           { title: "Columna cervical (regla canadiense, NEXUS y niños)", mod: "calc-cervical", cat: "Urgencias", keys: "columna cervical cuello collarin nexus canadiense pecarn tomografia tac radiografia latigazo", run: () => { switchTab("tab-urg"); switchCalcPanel("cervical"); cvRender(); } },
           { title: "Reglas de Ottawa (tobillo, pie y rodilla)", mod: "calc-ottawa", cat: "Urgencias", keys: "ottawa tobillo pie rodilla radiografia rx esguince maleolo navicular metatarsiano rotula perone", run: () => { switchTab("tab-urg"); switchCalcPanel("ottawa"); otRender(); } },
           { title: "Escala MESS (Extremidad Lesionada)", mod: "calc-mess", cat: "Urgencias", keys: "mess isquemia amputacion extremidad trauma", run: () => { switchTab("tab-urg"); switchCalcPanel("mess"); } },
@@ -15916,6 +16383,7 @@
         ["Infección ósea y de herida v47", initInfeccionV47],
         ["Reglas de Ottawa v53", initOttawaV53],
         ["Columna cervical v55", initCervicalV55],
+        ["Supracondílea v56", initSupraV56],
         ["Registros por paciente v45", initPxStoresV45],
         ["Respaldo cifrado v46", initRespaldoV46],
         ["Urgencias v48", initUrgenciasV48],
